@@ -12,7 +12,7 @@ export async function readGame():Promise<Snapshot>{
   if(demo)return readDemo();
   if(!supabase)throw new Error('Не настроено подключение. См. README → Supabase.');
   const {data,error}=await supabase.from('quiz_game').select('id,state,revision').eq('id','main').single();
-  if(error)throw new Error(`Не удалось загрузить игру (${error.code}). Выполните supabase/setup.sql в SQL Editor и проверьте интернет.`);
+  if(error)throw Object.assign(new Error(error.code==='PGRST205'?'База ещё не настроена. Выполните supabase/setup.sql в SQL Editor.':`Не удалось загрузить игру (${error.code}). Проверьте соединение и настройку Supabase.`),{code:error.code});
   return data as Snapshot;
 }
 export async function saveGame(previous:Snapshot,state:Game):Promise<Snapshot>{

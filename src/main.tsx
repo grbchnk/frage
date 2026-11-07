@@ -34,7 +34,7 @@ function App(){
   const accept=useCallback((incoming:Snapshot)=>{
     if(incoming.revision>=current.current.revision){current.current=incoming;setSnapshot(incoming);}
   },[]);
-  const refresh=useCallback(async()=>{try{accept(await readGame());setConnection(demo?'Демо · один браузер':'В эфире');}catch(e){setConnection('Нет связи');throw e;}},[accept]);
+  const refresh=useCallback(async()=>{try{accept(await readGame());setConnection(demo?'Демо · один браузер':'В эфире');}catch(e){setConnection((e as {code?:string}).code==='PGRST205'?'Нужна настройка':'Нет связи');throw e;}},[accept]);
   useEffect(()=>{
     let alive=true;
     fetch(`${import.meta.env.BASE_URL}content/questions.json`).then(r=>{if(!r.ok)throw new Error('Не найден пакет. Запустите npm run prepare:content.');return r.json();}).then(p=>{if(alive)setPack(p);}).catch(e=>setError(e.message));

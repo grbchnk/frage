@@ -238,3 +238,45 @@
   .rebus-operation { top: -30px; font-size: 20px; }
   .rebus-trim { top: -43px; font-size: 52px; }
 }
+
+/* The question copy is measured against its own available rectangle. */
+.question-category { padding: 10px 16px; border: 1px solid #c3f68a70; border-radius: 9px; background: #c3f68a12; color: var(--lime); font-size: 20px; font-weight: 750; line-height: 1.15; }
+.question-value { padding: 8px 18px; border-radius: 9px; background: var(--lime); color: var(--bg); font-weight: 800; }
+.question-value small { color: #25351e; }
+.question-text, .answer-copy { text-align: center; }
+.question-copy { min-width: 0; overflow-wrap: anywhere; }
+.host-answer h2 { font-size: clamp(32px, 5vw, 56px); text-align: center; }
+.host-answer > .eyebrow { display: block; text-align: center; }
+@media(min-width:761px){
+  .display .question-meta { gap: 1vw; padding-bottom: 1.4vh; align-items: center; }
+  .display .question-category { max-width: 72%; padding: 1vh 1.2vw; font-size: clamp(20px, 3.2vh, 78px); }
+  .display .question-value { font-size: clamp(32px, 5.5vh, 130px); padding: .6vh 1.4vw; }
+  .display .question-value small { font-size: clamp(10px, 1.5vh, 34px); }
+  .display .question-content, .display .question-main:not(.with-media) .question-content { align-items: stretch; padding: 1.5vh 0; }
+  .display .question-text { display: flex; align-items: center; justify-content: center; align-self: stretch; min-height: 0; min-width: 0; }
+  .display .question-copy { width: 100%; min-width: 0; font-size: 6vh; text-align: center; overflow-wrap: anywhere; }
+  .display .question-copy h1 { font-size: 1em; line-height: 1.12; font-weight: 600; letter-spacing: -.035em; margin: 0; }
+  .display .revealed .question-copy h1 { font-size: .3em; line-height: 1.2; color: var(--muted); margin: 0 0 .45em; }
+  .display .question-copy .answer-copy { padding: 0; }
+  .display .question-copy .answer-copy h2 { font-size: 1em; line-height: 1.04; font-weight: 750; letter-spacing: -.04em; margin: 0; }
+  .display .question-copy .answer-copy p { font-size: .3em; line-height: 1.35; margin: .65em 0 0; max-width: none; }
+  .display .question-copy .award-label { font-size: .22em; line-height: 1.2; margin-top: .7em; padding: .35em .7em; }
+  .display .question-main.with-media:has(.photo-rebus) .question-content { justify-content: flex-start; }
+  .display .question-content:has(.photo-rebus) .question-text { flex: 0 0 16%; align-self: stretch; }
+  .display .question-content:has(.photo-rebus) .question-copy h1 { font-size: 1em; }
+  .display .question-content:has(.photo-rebus) .photo-rebus { flex: 1; min-height: 0; }
+  .display .question-main.with-media.revealed:has(.photo-rebus) .question-content { flex-direction: row; align-items: stretch; }
+  .display .revealed .question-content:has(.photo-rebus) .question-text { flex: 1; align-self: stretch; }
+  .display .revealed .question-content:has(.photo-rebus) .question-copy h1 { font-size: .3em; }
+  .display .revealed .question-image.photo-rebus { flex: 0 0 46%; }
+}
+@media(max-width:760px){
+  .question-category { max-width: 65%; font-size: 17px; padding: 9px 12px; }
+  .question-value { font-size: 34px; padding: 7px 12px; }
+  .question-value small { font-size: 8px; }
+  .question-text h1 { font-size: 30px; line-height: 1.22; }
+  .answer-copy h2 { font-size: 42px; }
+  .answer-copy p, .host-answer p { font-size: 15px; }
+  .host-answer h3 { font-size: 17px; }
+  .award-buttons button { font-size: 15px; }
+}

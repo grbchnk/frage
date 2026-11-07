@@ -6,7 +6,7 @@ const pack:Pack=JSON.parse(readFileSync('quiz-pack.json','utf8'));
 const answer:Answer={answer:'Верно',explanation:'Почему верно',accepted_answers:['вариант'],host_note:'Секретная заметка'};
 const start=(limit=5)=>transition(initialGame(),{type:'start',names:['Антон','Игорь','Серёжа','Дима','Стас','Оля','Ася'],limit},pack,0);
 describe('Полный вечер',()=>{
-  it('100 вопросов, два раунда, перерыв, очередь выбирающих и итоговый счёт',()=>{
+  it('100 вопросов, два раунда, перерыв, выбор последним ответившим и итоговый счёт',()=>{
     let state=start();let played=0;
     for(let round=0;round<2;round++){
       const cats=roundCategories(pack,state);
@@ -17,7 +17,7 @@ describe('Полный вечер',()=>{
         state=transition(state,{type:'award',playerId:'p2',answer},pack);
         expect(state.turnIndex).toBe(chooser);expect(state.revealed?.host_note).toBe('');
         state=transition(state,{type:'continue'},pack,2000);played++;
-        expect(state.turnIndex).toBe(played%7);
+        expect(state.turnIndex).toBe(1);
       }
       if(round===0){expect(state.phase).toBe('break');expect(state.breakEndsAt).toBe(602000);state=transition(state,{type:'resume'},pack);}
     }
@@ -44,7 +44,7 @@ describe('Полный вечер',()=>{
       }
       expect(available(pack,state,cat.questions[1].id)).toBe(false);
     }
-    expect(state.phase).toBe('break');expect(state.completed).toHaveLength(30);expect(state.players.every(p=>p.score===0)).toBe(true);
+    expect(state.phase).toBe('break');expect(state.completed).toHaveLength(30);expect(state.players.every(p=>p.score===0)).toBe(true);expect(state.turnIndex).toBe(0);
   });
   it('отмена открытия не тратит вопрос или очередь; сброс убирает игру',()=>{
     const state=start(),q=roundCategories(pack,state)[0].questions[0];

@@ -32,7 +32,12 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
     }
     case 'continue': {
       if(state.phase!=='answer'||!state.activeQuestionId) return fail();
-      next.completed.push(state.activeQuestionId);next.turnIndex=(state.turnIndex+1)%state.players.length;
+      next.completed.push(state.activeQuestionId);
+      // The last correct respondent chooses next. With no winner, keep the chooser.
+      if(state.winnerId!==null){
+        const winnerIndex=state.players.findIndex(p=>p.id===state.winnerId);
+        if(winnerIndex>=0)next.turnIndex=winnerIndex;
+      }
       next.activeQuestionId=null;next.revealed=null;next.winnerId=null;next.questionEndsAt=null;
       const done=roundCategories(pack,next).every(c=>c.questions.filter(q=>next.completed.includes(q.id)).length>=next.questionsPerCategory);
       next.phase=done?(state.roundIndex===0?'break':'finished'):'board';

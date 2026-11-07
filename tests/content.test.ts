@@ -19,8 +19,22 @@ it('публичный пакет не содержит правильных о�
 it('все фото существуют; плашки находятся в пределах изображения',()=>{
   let count=0;
   for(const q of pack.categories.flatMap(c=>c.questions))if(q.media){
-    count++;expect(existsSync(`public/${q.media.path}`)).toBe(true);
+    count++;
+    if(q.media.kind==='photo_rebus'){
+      expect(q.media.panels?.length).toBeGreaterThan(0);
+      for(const p of q.media.panels||[])expect(existsSync(`public/${p.path}`)).toBe(true);
+    }else expect(existsSync(`public/${q.media.path}`)).toBe(true);
     for(const [x,y,w,h] of q.media.question_masks_normalized||[]){expect(x).toBeGreaterThanOrEqual(0);expect(y).toBeGreaterThanOrEqual(0);expect(w).toBeGreaterThan(0);expect(h).toBeGreaterThan(0);expect(x+w).toBeLessThanOrEqual(1.00001);expect(y+h).toBeLessThanOrEqual(1.00001);}
   }
-  expect(count).toBe(36);
+  expect(count).toBe(41);
+});
+it('новые рубрики, отсутствие вариантов и фоторебусы соответствуют правкам ведущего',()=>{
+  const original=JSON.parse(readFileSync('quiz-pack.json','utf8'));
+  const qs=original.categories.flatMap((c:any)=>c.questions);
+  expect(original.categories.find((c:any)=>c.id===3).title).toBe('Съедобное / несъедобное');
+  expect(qs.filter((q:any)=>q.options?.length)).toHaveLength(0);
+  expect(qs.filter((q:any)=>!q.id.startsWith('q03-')&&q.prompt.includes(' или '))).toHaveLength(0);
+  expect(qs.find((q:any)=>q.id==='q11-200').accepted_answers).toContain('Боровик');
+  expect(qs.filter((q:any)=>q.media?.kind==='photo_rebus')).toHaveLength(7);
+  expect(pack.revision).toMatch(/^[a-f0-9]{16}$/);
 });

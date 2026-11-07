@@ -12,6 +12,9 @@ it('SQL запускается повторно; зритель, посторо�
     const sql=readFileSync('supabase/setup.sql','utf8');
     await db.exec(sql);await db.exec(sql);
     expect((await db.query('select * from public.quiz_answers')).rows).toHaveLength(100);
+    const revision=JSON.parse(readFileSync('public/content/questions.json','utf8')).revision;
+    const revisions=await db.query<{revision:string}>("select distinct data->>'pack_revision' as revision from public.quiz_answers");
+    expect(revisions.rows).toEqual([{revision}]);
     await db.exec(`insert into public.quiz_hosts values('00000000-0000-0000-0000-000000000001');set role anon;`);
     expect((await db.query('select * from public.quiz_game')).rows).toHaveLength(1);
     await expect(db.query('select * from public.quiz_answers')).rejects.toThrow();

@@ -36,9 +36,10 @@ export function subscribeGame(receive:(s:Snapshot)=>void,status:(s:string)=>void
   const sub=supabase.channel('svoya-main').on('postgres_changes',{event:'UPDATE',schema:'public',table:'quiz_game',filter:'id=eq.main'},payload=>receive(payload.new as Snapshot)).subscribe(s=>status(s==='SUBSCRIBED'?'В эфире':s==='CHANNEL_ERROR'||s==='TIMED_OUT'?'Переподключение…':'Соединяем…'));
   return ()=>{void supabase.removeChannel(sub);};
 }
-export async function loadAnswers():Promise<Record<string,Answer>>{
+export async function loadAnswers(revision:string):Promise<Record<string,Answer>>{
   if(demo){const response=await fetch(`${import.meta.env.BASE_URL}__demo_answers`);if(!response.ok)throw new Error('Демо работает через npm run dev.');return response.json();}
   const {data,error}=await supabase!.from('quiz_answers').select('question_id,data');
   if(error||data?.length!==100)throw new Error('Нет доступа к 100 ответам. Добавьте аккаунт в quiz_hosts и выполните setup.sql.');
+  if(data.some(row=>row.data?.pack_revision!==revision))throw new Error('Вопросы обновлены. Выполните новый supabase/setup.sql, чтобы обновить ответы в базе, затем перезагрузите пульт.');
   return Object.fromEntries(data.map(row=>[row.question_id,row.data]));
 }

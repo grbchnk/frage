@@ -46,20 +46,22 @@ function App(){
   },[accept,refresh]);
   useEffect(()=>{
     if(!host){setAuthorized(false);setAnswers({});setAuthLoading(false);return;}
+    if(!pack)return;
+    const expectedRevision=pack.revision;
     let alive=true;
     const verify=async()=>{
       if(!demo&&!supabase){setAuthLoading(false);return;}
       setAuthLoading(true);
       try{
         if(!demo){const {data}=await supabase!.auth.getSession();if(!data.session){if(alive){setAuthorized(false);setAnswers({});}return;}}
-        const result=await loadAnswers();if(alive){setAnswers(result);setAuthorized(true);}
+        const result=await loadAnswers(expectedRevision);if(alive){setAnswers(result);setAuthorized(true);}
       }catch(e){if(alive){setAuthorized(false);setAnswers({});setError((e as Error).message);}}
       finally{if(alive)setAuthLoading(false);}
     };
     void verify();
     const authSub=!demo?supabase?.auth.onAuthStateChange(()=>{setTimeout(()=>{if(alive)void verify();},0);}):null;
     return ()=>{alive=false;authSub?.data.subscription.unsubscribe();};
-  },[host]);
+  },[host,pack?.revision]);
   useEffect(()=>{
     audio.current?.setPhase(state.phase);
     if(lastEvent.current!==null&&state.event!==lastEvent.current)audio.current?.effect(state.phase);
@@ -96,7 +98,7 @@ function App(){
       <div className="top-actions"><span className={`connection ${connection.includes('эфире')||demo?'live':''}`} role="status" aria-label={demo?'Соединение установлено':connection} title={demo?'Соединение установлено':connection}><i/>{!demo&&!connection.includes('эфире')&&<span>{connection}</span>}</span><button className="icon-button" onClick={()=>setHelp(true)} aria-label="Как играть">?</button>{!host&&<><button className={`icon-button ${audioOn?'selected':''}`} onClick={()=>void sound()} title="Музыка и звуки" aria-label={audioOn?'Выключить звук':'Включить звук'}>{audioOn?'♫':'♪'}</button><button className="icon-button fullscreen" onClick={()=>void fullscreen()} aria-label="Полный экран">⛶</button></>}<button className="mode-button" onClick={switchRole}>{host?'Экран ↗':'Пульт ↗'}</button></div>
     </header>
     {error&&<div className="error" role="alert"><span>{error}</span><button onClick={()=>setError('')} aria-label="Закрыть сообщение">×</button></div>}
-    {host&&(!authorized||authLoading)?<Login loading={authLoading} onError={setError}/>:snapshot.revision<0||!pack?<main className="waiting"><span className="eyebrow">СВОЯ КОМПАНИЯ</span><h1>Собираем игру<span className="accent">.</span></h1><p>Подключаем экран к общему столу.</p><button onClick={()=>void refresh().then(()=>setError('')).catch(e=>setError(e.message))}>Повторить подключение</button>{import.meta.env.DEV&&!demo&&<a className="text-link" href="?mode=host&demo=1">Локальная репетиция без базы ↗</a>}</main>:<>
+    {host&&(!authorized||authLoading)?<Login loading={authLoading} onError={setError}/>:snapshot.revision<0||!pack?<main className="waiting"><span className="eyebrow">ВИКТОРИНА У АЛИНЫ ДОМА</span><h1>Собираем игру<span className="accent">.</span></h1><p>Подключаем экран к общему столу.</p><button onClick={()=>void refresh().then(()=>setError('')).catch(e=>setError(e.message))}>Повторить подключение</button>{import.meta.env.DEV&&!demo&&<a className="text-link" href="?mode=host&demo=1">Локальная репетиция без базы ↗</a>}</main>:<>
       {inGame&&<section className="scoreboard" aria-label="Очки игроков" style={{'--player-count':state.players.length,'--mobile-columns':state.players.length<=4?2:state.players.length<=6?3:4} as React.CSSProperties}>{state.players.map((p,i)=><div className={`player ${state.phase==='board'&&i===state.turnIndex?'choosing':''} ${state.winnerId===p.id?'scored':''}`} key={p.id} style={{'--player-color':colors[i]} as React.CSSProperties}><div className="player-name"><span>{p.name}</span></div><strong>{p.score.toLocaleString('ru-RU')}</strong></div>)}</section>}
       {state.phase==='lobby'&&(host?<Setup busy={busy} start={(names,limit)=>void act({type:'start',names,limit})}/>:<main className="lobby"><div className="lobby-copy"><h1>ВИКТОРИНА<br/><em>У АЛИНЫ ДОМА</em></h1><div className="lobby-pills"><span>20 тем</span><span>2 раунда</span><span>100 вопросов</span></div></div><div className="lobby-art" aria-hidden="true"><div className="orbit"/><div className="art-tile a">100</div><div className="art-tile b">?</div><div className="art-tile c">500</div><span className="spark">✳</span></div><div className="waiting-host"><span className="pulse"/> Ожидаем ведущего</div>{!audioOn&&<button className="sound-start" onClick={()=>void sound()}>♫ Включить звук</button>}</main>)}
       {state.phase==='board'&&<main className="board-main"><div className="board-heading"><h1>Раунд {state.roundIndex+1}<span className="round-total"> / 2</span></h1><div className="turn"><span>Выбирает</span><strong>{state.players[state.turnIndex]?.name}</strong></div></div><div className="board" aria-label="Категории и вопросы">{roundCategories(pack,state).map(c=>{const used=c.questions.filter(item=>state.completed.includes(item.id)).length;return <div className={`board-row ${used>=state.questionsPerCategory?'complete':''}`} key={c.id}><div className="category-title"><strong>{c.title}</strong>{state.questionsPerCategory===3&&<small>{used}/3</small>}</div>{c.questions.map(item=><button className={`price ${state.completed.includes(item.id)?'played':''}`} key={item.id} disabled={!host||busy||!available(pack,state,item.id)} onClick={()=>void act({type:'open',id:item.id})} aria-label={`${c.title}, ${item.value}${state.completed.includes(item.id)?', сыграно':''}`}>{state.completed.includes(item.id)?<span className="played-mark">—</span>:item.value}</button>)}</div>;})}</div><div className="board-bottom"><span>{roundCategories(pack,state).flatMap(c=>c.questions).filter(item=>state.completed.includes(item.id)).length} / {state.questionsPerCategory*10} сыграно</span></div></main>}
@@ -125,6 +127,7 @@ function Setup({busy,start}:{busy:boolean;start:(names:string[],limit:number)=>v
 }
 function QuestionImage({question,reveal}:{question:NonNullable<ReturnType<typeof findQuestion>>;reveal:boolean}){
   const [ratio,setRatio]=useState<number|null>(null);const [broken,setBroken]=useState(false);const media=question.media!;
+  if(media.kind==='photo_rebus')return <div className="question-image photo-rebus" role="img" aria-label="Фоторебус"><div className="rebus-stage">{media.tokens?.map((token,i)=><span className="rebus-token" key={`t${i}`}>{token}</span>)}{media.panels?.map((panel,i)=><React.Fragment key={panel.path}>{i>0&&<span className="rebus-plus">{media.joiner||'+'}</span>}<div className="rebus-panel">{panel.replace_letters&&<span className="rebus-operation">{panel.replace_letters}</span>}{panel.trim_end&&<span className="rebus-trim" aria-label="Уберите последнюю букву">{"’".repeat(panel.trim_end)}</span>}<img src={`${import.meta.env.BASE_URL}${panel.path}`} alt={`Фотография ${i+1} для ребуса`} onError={()=>setBroken(true)}/></div></React.Fragment>)}</div>{broken&&<p role="alert">Фото не загрузилось. Проверьте соединение.</p>}</div>;
   return <div className="question-image"><div className="image-stage" style={ratio?{'--image-ratio':ratio} as React.CSSProperties:undefined}>{broken?<p role="alert">Фото не загрузилось. Проверьте соединение.</p>:<><img src={`${import.meta.env.BASE_URL}${media.path}`} alt={media.question_alt||'Изображение к вопросу'} onLoad={e=>setRatio(e.currentTarget.naturalWidth/e.currentTarget.naturalHeight)} onError={()=>setBroken(true)}/>{!reveal&&media.question_masks_normalized?.map((mask,i)=><span className="photo-mask" key={i} style={{left:`${mask[0]*100}%`,top:`${mask[1]*100}%`,width:`${mask[2]*100}%`,height:`${mask[3]*100}%`}}><b>?</b></span>)}</>}</div></div>;
 }
 function Credits({close}:{close:()=>void}){

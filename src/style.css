@@ -211,3 +211,30 @@
   .lobby h1 { font-size: clamp(32px, 8vw, 54px); }
   .connection { margin: 0 3px 0 0; }
 }
+
+/* Real photographs remain separate assets; rebus operators are UI elements. */
+.photo-rebus { width: 100%; }
+.rebus-stage { display: flex; align-items: center; justify-content: center; gap: clamp(8px, 1vw, 30px); width: 100%; padding: 50px 18px 18px; border-radius: 10px; background: #f4f1e8; color: #172b3a; }
+.rebus-panel { flex: 1; min-width: 0; position: relative; display: grid; place-items: center; }
+.rebus-panel img { display: block; width: 100%; height: 34vh; object-fit: contain; }
+.rebus-plus, .rebus-token { flex-shrink: 0; font-size: clamp(35px, 5vw, 100px); font-weight: 700; line-height: 1; }
+.rebus-operation { position: absolute; top: -42px; left: 0; right: 0; text-align: center; font-weight: 700; font-size: clamp(20px, 2.4vw, 48px); }
+.rebus-trim { position: absolute; top: -56px; right: -7px; font: 700 70px Georgia,serif; line-height: 1; }
+.display .question-main.with-media:has(.photo-rebus) .question-content { flex-direction: column; justify-content: center; gap: 2vh; }
+.display .question-content:has(.photo-rebus) .question-text { flex: 0; align-self: flex-start; }
+.display .question-content:has(.photo-rebus) .question-text h1 { font-size: clamp(20px, 3vh, 64px); }
+.display .question-image.photo-rebus { width: 100%; }
+.display .photo-rebus .rebus-stage { padding: 5vh 2vw 1.5vh; }
+.display .photo-rebus .rebus-panel img { height: 33vh; }
+.display .photo-rebus .rebus-operation { top: -4.5vh; font-size: 3.8vh; }
+.display .photo-rebus .rebus-trim { top: -5.5vh; font-size: 7vh; }
+.display .revealed:has(.photo-rebus) .question-content { flex-direction: row; }
+.display .revealed .question-image.photo-rebus { width: 58%; }
+.display .revealed .question-content:has(.photo-rebus) .question-text { flex: 1; align-self: center; }
+@media(max-width:760px){
+  .rebus-stage { gap: 7px; padding: 43px 9px 10px; }
+  .rebus-panel img { height: 23vh; }
+  .rebus-plus, .rebus-token { font-size: 34px; }
+  .rebus-operation { top: -30px; font-size: 20px; }
+  .rebus-trim { top: -43px; font-size: 52px; }
+}

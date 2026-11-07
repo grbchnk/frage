@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Викторина — экран телевизора</title>
+  <link rel="stylesheet" href="./tv.css">
+  <script>/* TV_PUBLIC_CONFIG */</script>
+</head>
+<body>
+  <div id="tv-header"><b>ВИКТОРИНА У АЛИНЫ ДОМА</b><span id="tv-status">Подключаемся…</span></div>
+  <div id="tv-error" role="alert"></div>
+  <div id="tv-players"></div>
+  <div id="tv-content"><h1>Загружаем игру…</h1><p>Экран для старого телевизора. Ведущий управляет игрой с телефона.</p></div>
+  <div id="tv-footer"><button id="tv-retry" type="button">Обновить подключение</button><span>Звук выключен · управление с телефона</span></div>
+  <noscript><p>Для игры включите JavaScript в настройках телевизора.</p></noscript>
+  <script src="./tv.js"></script>
+</body>
+</html>

@@ -19,6 +19,8 @@ async function webImage(source){
   if(optimized.has(source))return optimized.get(source);
   const name=`${createHash('sha256').update(await readFile(source)).digest('hex').slice(0,18)}.webp`;
   await sharp(source).rotate().resize({width:1600,height:1200,fit:'inside',withoutEnlargement:true}).webp({quality:88}).toFile(path.join('public/media',name));
+  // Old TV browsers may not decode WebP. Keep identical dimensions for masks.
+  await sharp(source).rotate().resize({width:1600,height:1200,fit:'inside',withoutEnlargement:true}).flatten({background:'#ffffff'}).jpeg({quality:88}).toFile(path.join('public/media',name.replace(/\.webp$/,'.jpg')));
   const target=`media/${name}`;optimized.set(source,target);return target;
 }
 for(const c of pack.categories){

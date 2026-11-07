@@ -30,7 +30,7 @@ function App(){
   const [help,setHelp]=useState(false);const [credits,setCredits]=useState(false);
   const [audioOn,setAudioOn]=useState(false);const [volume,setVolume]=useState(.35);const audio=useRef<QuizAudio|null>(null);const lastEvent=useRef<number|null>(null);
   const state=snapshot.state;
-  useEffect(()=>{window.scrollTo({top:0,behavior:'instant'});},[state.phase,state.activeQuestionId]);
+  useEffect(()=>{window.scrollTo(0,0);},[state.phase,state.activeQuestionId]);
   const accept=useCallback((incoming:Snapshot)=>{
     if(incoming.revision>=current.current.revision){current.current=incoming;setSnapshot(incoming);}
   },[]);
@@ -137,10 +137,10 @@ function FittedCopy({contentKey,children}:{contentKey:string;children:React.Reac
       text.style.fontSize=`${Math.floor(low)}px`;
     };
     const schedule=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(fit);};
-    const observer=new ResizeObserver(schedule);observer.observe(box);
+    const observer=typeof ResizeObserver!=='undefined'?new ResizeObserver(schedule):null;observer?.observe(box);
     window.addEventListener('resize',schedule);
-    void document.fonts.ready.then(schedule);fit();
-    return ()=>{alive=false;observer.disconnect();cancelAnimationFrame(raf);window.removeEventListener('resize',schedule);};
+    if(document.fonts)void document.fonts.ready.then(schedule);fit();
+    return ()=>{alive=false;observer?.disconnect();cancelAnimationFrame(raf);window.removeEventListener('resize',schedule);};
   },[contentKey]);
   return <div className="question-text" ref={frame}><div className="question-copy" ref={copy}>{children}</div></div>;
 }
@@ -163,6 +163,11 @@ function Credits({close}:{close:()=>void}){
   const plain=(html:string)=>{return new DOMParser().parseFromString(html,'text/html').body.textContent||'';};
   return <div className="modal-backdrop"><section className="modal credits" role="dialog" aria-modal="true" aria-labelledby="credits-title"><button className="close" onClick={close} aria-label="Закрыть">×</button><h2 id="credits-title">Фото и авторы</h2><p>Фотографии Wikimedia Commons. Веб-копии уменьшены и перекодированы; в некоторых заданиях поверх стоят временные плашки. Авторские карточки и музыка созданы для игры.</p>{sources.map((s:any)=><article key={s.id}><a href={s.source_url||s.download_url} target="_blank" rel="noreferrer">{s.id} · {s.title||'Карточка'}</a><p>{plain(s.author_html||s.author||'')} · <a href={s.license_url||s.source_url} target="_blank" rel="noreferrer">{s.license||'Авторская карточка'}</a></p></article>)}</section></div>;
 }
+class ScreenBoundary extends React.Component<{children:React.ReactNode},{failed:boolean}>{
+  state={failed:false};
+  static getDerivedStateFromError(){return {failed:true};}
+  render(){return this.state.failed?<main style={{padding:'8%',fontFamily:'Arial,sans-serif',fontSize:24,lineHeight:1.5}}><h1>Этот браузер не смог открыть обычный экран</h1><p><a href="./tv.html" style={{color:'#c3f68a'}}>Открыть экран для старого телевизора →</a></p><p>Ведущий продолжает управлять игрой с телефона.</p></main>:this.props.children;}
+}
 const root=import.meta.hot?.data.root??createRoot(document.getElementById('root')!);
 if(import.meta.hot)import.meta.hot.data.root=root;
-root.render(<App/>);
+root.render(<ScreenBoundary><App/></ScreenBoundary>);

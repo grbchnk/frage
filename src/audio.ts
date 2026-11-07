@@ -6,9 +6,11 @@ export class QuizAudio {
   private step=0;
   private phase='lobby';
   async enable(){
-    this.context??=new AudioContext();
+    const Audio=window.AudioContext||(window as unknown as {webkitAudioContext?:typeof AudioContext}).webkitAudioContext;
+    if(!Audio)throw new Error('Звук не поддерживается этим браузером.');
+    this.context??=new Audio();
     if(!this.master){this.master=this.context.createGain();this.master.gain.value=.35;this.master.connect(this.context.destination);}
-    await this.context.resume();this.start();
+    if(this.context.resume)await this.context.resume();this.start();
   }
   volume(value:number){if(this.master&&this.context)this.master.gain.setTargetAtTime(value,this.context.currentTime,.05);}
   private note(freq:number,offset=0,duration=.35,volume=.12,type:OscillatorType='sine'){

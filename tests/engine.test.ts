@@ -6,6 +6,52 @@ const pack:Pack=JSON.parse(readFileSync('quiz-pack.json','utf8'));
 const answer:Answer={answer:'Верно',explanation:'Почему верно',accepted_answers:['вариант'],host_note:'Секретная заметка'};
 const start=(limit=5)=>transition(initialGame(),{type:'start',names:['Антон','Игорь','Серёжа','Дима','Стас','Оля','Ася'],limit},pack,0);
 describe('Полный вечер',()=>{
+  it('бонусы и штрафы: ±50, своя сумма, отрицательный счёт и сохранение остальной игры',()=>{
+    const original=start();
+    const plus=transition(original,{type:'adjustScore',playerId:'p1',delta:50},pack);
+    expect(plus.players[0].score).toBe(50);expect(original.players[0].score).toBe(0);
+    const minus=transition(plus,{type:'adjustScore',playerId:'p2',delta:-50},pack);
+    expect(minus.players[1].score).toBe(-50);
+    const custom=transition(minus,{type:'adjustScore',playerId:'p1',delta:137},pack);
+    expect(custom.players[0].score).toBe(187);
+    const result=transition(custom,{type:'adjustScore',playerId:'p1',delta:-289},pack);
+    expect(result.players[0].score).toBe(-102);
+    const {players,event,...unchanged}=result;
+    expect(unchanged).toEqual((({players,event,...rest})=>rest)(original));
+    expect(event).toBe(original.event+4);
+    expect(players.slice(2)).toEqual(original.players.slice(2));
+  });
+  it('ручные баллы доступны во время вопроса, ответа, перерыва и после финала',()=>{
+    const original=start();
+    const q=roundCategories(pack,original)[0].questions[0];
+    const opened=transition(original,{type:'open',id:q.id},pack,1000);
+    const bonus=transition(opened,{type:'adjustScore',playerId:'p2',delta:50},pack);
+    expect(bonus.questionEndsAt).toBe(opened.questionEndsAt);expect(bonus.revealed).toBeNull();
+    const awarded=transition(bonus,{type:'award',playerId:'p1',answer},pack);
+    expect(awarded.players[0].score).toBe(q.value);expect(awarded.players[1].score).toBe(50);
+    for(const phase of ['answer','break','finished'] as const){
+      const state={...awarded,phase};
+      const adjusted=transition(state,{type:'adjustScore',playerId:'p2',delta:-125},pack);
+      expect(adjusted.players[1].score).toBe(-75);expect(adjusted.phase).toBe(phase);
+      expect(adjusted.revealed).toEqual(state.revealed);expect(adjusted.winnerId).toBe(state.winnerId);
+    }
+    const continued=transition(awarded,{type:'continue'},pack);
+    expect(continued.turnIndex).toBe(0);expect(continued.completed).toContain(q.id);
+  });
+  it('отклоняет неверного игрока, нецелые суммы и переполнение без изменения игры',()=>{
+    const state=start();
+    for(const delta of [0,.5,NaN,Infinity,-Infinity,Number.MAX_SAFE_INTEGER+1]){
+      expect(()=>transition(state,{type:'adjustScore',playerId:'p1',delta},pack)).toThrow();
+    }
+    expect(()=>transition(state,{type:'adjustScore',playerId:'missing',delta:50},pack)).toThrow();
+    expect(()=>transition(initialGame(),{type:'adjustScore',playerId:'p1',delta:50},pack)).toThrow();
+    const high=transition(state,{type:'adjustScore',playerId:'p1',delta:Number.MAX_SAFE_INTEGER},pack);
+    expect(()=>transition(high,{type:'adjustScore',playerId:'p1',delta:1},pack)).toThrow();
+    const q=roundCategories(pack,high)[0].questions[0];
+    const opened=transition(high,{type:'open',id:q.id},pack);
+    expect(()=>transition(opened,{type:'award',playerId:'p1',answer},pack)).toThrow();
+    expect(state.players.every(p=>p.score===0)).toBe(true);
+  });
   it('100 вопросов, два раунда, перерыв, выбор последним ответившим и итоговый счёт',()=>{
     let state=start();let played=0;
     for(let round=0;round<2;round++){

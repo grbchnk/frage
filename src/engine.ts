@@ -7,7 +7,7 @@ export function available(pack: Pack, state: Game, id: string) {
   const cat=roundCategories(pack,state).find(c=>c.questions.some(q=>q.id===id));
   return !!cat && !state.completed.includes(id) && cat.questions.filter(q=>state.completed.includes(q.id)).length<state.questionsPerCategory;
 }
-export type Action = {type:'start'; names:string[]; limit:number}|{type:'open'; id:string}|{type:'award'; playerId:string|null; answer:Answer}|{type:'penalize'; playerId:string; questionId:string}|{type:'adjustScore'; playerId:string; delta:number}|{type:'continue'}|{type:'cancel'}|{type:'resume'}|{type:'endRound'}|{type:'reset'};
+export type Action = {type:'start'; names:string[]; limit:number}|{type:'open'; id:string}|{type:'award'; playerId:string}|{type:'reveal'; answer:Answer}|{type:'penalize'; playerId:string; questionId:string}|{type:'adjustScore'; playerId:string; delta:number}|{type:'continue'}|{type:'cancel'}|{type:'resume'}|{type:'endRound'}|{type:'reset'};
 export function transition(state:Game, action:Action, pack:Pack, now=Date.now()):Game {
   const next=structuredClone(state);
   const fail=()=>{throw new Error('Действие уже выполнено или сейчас недоступно.');};
@@ -25,13 +25,22 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
       next.phase='question';next.activeQuestionId=q.id;next.questionEndsAt=now+q.time_seconds*1000;next.revealed=null;next.winnerId=null;break;
     }
     case 'award': {
-      if(state.phase!=='question') return fail();
-      const q=findQuestion(pack,state.activeQuestionId); if(!q||!action.answer?.answer) return fail();
-      if(action.playerId!==null){const player=next.players.find(p=>p.id===action.playerId);if(!player)return fail();if(!Number.isSafeInteger(player.score+q.value))throw new Error('Слишком большой счёт. Сначала скорректируйте баллы.');player.score+=q.value;}
-      next.winnerId=action.playerId;next.revealed={answer:action.answer.answer,explanation:action.answer.explanation,accepted_answers:[],host_note:''};next.phase='answer';break;
+      if(state.phase!=='question'||state.winnerId!==null) return fail();
+      const q=findQuestion(pack,state.activeQuestionId);
+      const player=next.players.find(p=>p.id===action.playerId);
+      if(!q||!player)return fail();
+      if(!Number.isSafeInteger(player.score+q.value))throw new Error('Слишком большой счёт. Сначала скорректируйте баллы.');
+      player.score+=q.value;next.winnerId=action.playerId;
+      // Scoring must never publish the private answer or change the screen phase.
+      break;
+    }
+    case 'reveal': {
+      if(state.phase!=='question'||!state.activeQuestionId||!action.answer?.answer)return fail();
+      next.revealed={answer:action.answer.answer,explanation:action.answer.explanation,accepted_answers:[],host_note:''};
+      next.phase='answer';break;
     }
     case 'penalize': {
-      if(state.phase!=='question'||state.activeQuestionId!==action.questionId)return fail();
+      if(state.phase!=='question'||state.winnerId!==null||state.activeQuestionId!==action.questionId)return fail();
       const q=findQuestion(pack,state.activeQuestionId);
       const player=next.players.find(p=>p.id===action.playerId);
       if(!q||!player)return fail();
@@ -61,7 +70,7 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
       next.phase=done?(state.roundIndex===0?'break':'finished'):'board';
       if(next.phase==='break')next.breakEndsAt=now+600000;break;
     }
-    case 'cancel': if(state.phase!=='question')return fail();next.phase='board';next.activeQuestionId=null;next.questionEndsAt=null;break;
+    case 'cancel': if(state.phase!=='question'||state.winnerId!==null)return fail();next.phase='board';next.activeQuestionId=null;next.questionEndsAt=null;break;
     case 'resume': if(state.phase!=='break')return fail();next.roundIndex=1;next.phase='board';next.breakEndsAt=null;break;
     case 'endRound': if(state.phase!=='board')return fail();next.phase=state.roundIndex===0?'break':'finished';if(next.phase==='break')next.breakEndsAt=now+600000;break;
     case 'reset': return {...initialGame(),event:state.event+1};

@@ -6,6 +6,30 @@ const pack:Pack=JSON.parse(readFileSync('quiz-pack.json','utf8'));
 const answer:Answer={answer:'Верно',explanation:'Почему верно',accepted_answers:['вариант'],host_note:'Секретная заметка'};
 const start=(limit=5)=>transition(initialGame(),{type:'start',names:['Антон','Игорь','Серёжа','Дима','Стас','Оля','Ася'],limit},pack,0);
 describe('Полный вечер',()=>{
+  it('любое изменение баллов оставляет правильный ответ скрытым до отдельного показа',()=>{
+    let state=start();
+    const q=roundCategories(pack,state)[0].questions[0];
+    state=transition(state,{type:'open',id:q.id},pack,1000);
+    const deadline=state.questionEndsAt;
+    state=transition(state,{type:'adjustScore',playerId:'p1',delta:50},pack);
+    state=transition(state,{type:'adjustScore',playerId:'p1',delta:-70},pack);
+    state=transition(state,{type:'penalize',playerId:'p2',questionId:q.id},pack);
+    state=transition(state,{type:'award',playerId:'p1'},pack);
+    expect(state.phase).toBe('question');expect(state.revealed).toBeNull();
+    expect(state.questionEndsAt).toBe(deadline);expect(state.activeQuestionId).toBe(q.id);
+    expect(JSON.stringify(state)).not.toContain(answer.explanation);
+    expect(JSON.stringify(state)).not.toContain(answer.host_note);
+    expect(state.players[0].score).toBe(q.value-20);expect(state.players[1].score).toBe(-q.value);
+    expect(()=>transition(state,{type:'continue'},pack)).toThrow();
+    expect(()=>transition(state,{type:'award',playerId:'p2'},pack)).toThrow();
+    expect(()=>transition(state,{type:'cancel'},pack)).toThrow();
+    const scores=state.players.map(p=>p.score);
+    state=transition(state,{type:'reveal',answer},pack);
+    expect(state.phase).toBe('answer');expect(state.revealed?.answer).toBe(answer.answer);
+    expect(state.revealed?.host_note).toBe('');expect(state.revealed?.accepted_answers).toEqual([]);
+    expect(state.players.map(p=>p.score)).toEqual(scores);expect(state.winnerId).toBe('p1');
+    expect(()=>transition(state,{type:'reveal',answer},pack)).toThrow();
+  });
   it('неверный ответ снимает стоимость вопроса, оставляет его открытым и даёт ответить другому',()=>{
     const original=start();
     for(const q of roundCategories(pack,original)[0].questions){
@@ -15,10 +39,12 @@ describe('Полный вечер',()=>{
       expect(wrong.players.slice(1)).toEqual(opened.players.slice(1));
       expect({...wrong,players:opened.players,event:opened.event}).toEqual(opened);
       expect(opened.players[0].score).toBe(0);
-      const correct=transition(wrong,{type:'award',playerId:'p2',answer},pack);
+      const correct=transition(wrong,{type:'award',playerId:'p2'},pack);
       expect(correct.players[0].score).toBe(-q.value);expect(correct.players[1].score).toBe(q.value);
-      expect(correct.phase).toBe('answer');expect(correct.revealed?.answer).toBe(answer.answer);
-      const continued=transition(correct,{type:'continue'},pack);
+      expect(correct.phase).toBe('question');expect(correct.revealed).toBeNull();
+      const revealed=transition(correct,{type:'reveal',answer},pack);
+      expect(revealed.revealed?.answer).toBe(answer.answer);
+      const continued=transition(revealed,{type:'continue'},pack);
       expect(continued.turnIndex).toBe(1);expect(continued.completed).toContain(q.id);
     }
   });
@@ -29,7 +55,7 @@ describe('Полный вечер',()=>{
     const opened=transition(state,{type:'open',id:q.id},pack);
     expect(()=>transition(opened,{type:'penalize',playerId:'missing',questionId:q.id},pack)).toThrow();
     expect(()=>transition(opened,{type:'penalize',playerId:'p1',questionId:other.id},pack)).toThrow();
-    const revealed=transition(opened,{type:'award',playerId:null,answer},pack);
+    const revealed=transition(opened,{type:'reveal',answer},pack);
     expect(()=>transition(revealed,{type:'penalize',playerId:'p1',questionId:q.id},pack)).toThrow();
   });
   it('бонусы и штрафы: ±50, своя сумма, отрицательный счёт и сохранение остальной игры',()=>{
@@ -53,7 +79,7 @@ describe('Полный вечер',()=>{
     const opened=transition(original,{type:'open',id:q.id},pack,1000);
     const bonus=transition(opened,{type:'adjustScore',playerId:'p2',delta:50},pack);
     expect(bonus.questionEndsAt).toBe(opened.questionEndsAt);expect(bonus.revealed).toBeNull();
-    const awarded=transition(bonus,{type:'award',playerId:'p1',answer},pack);
+    const awarded=transition(transition(bonus,{type:'award',playerId:'p1'},pack),{type:'reveal',answer},pack);
     expect(awarded.players[0].score).toBe(q.value);expect(awarded.players[1].score).toBe(50);
     for(const phase of ['answer','break','finished'] as const){
       const state={...awarded,phase};
@@ -75,7 +101,7 @@ describe('Полный вечер',()=>{
     expect(()=>transition(high,{type:'adjustScore',playerId:'p1',delta:1},pack)).toThrow();
     const q=roundCategories(pack,high)[0].questions[0];
     const opened=transition(high,{type:'open',id:q.id},pack);
-    expect(()=>transition(opened,{type:'award',playerId:'p1',answer},pack)).toThrow();
+    expect(()=>transition(opened,{type:'award',playerId:'p1'},pack)).toThrow();
     expect(state.players.every(p=>p.score===0)).toBe(true);
   });
   it('100 вопросов, два раунда, перерыв, выбор последним ответившим и итоговый счёт',()=>{
@@ -86,8 +112,9 @@ describe('Полный вечер',()=>{
         const chooser=state.turnIndex;
         state=transition(state,{type:'open',id:q.id},pack,1000);
         expect(state.revealed).toBeNull();expect(state.questionEndsAt).toBe(1000+q.time_seconds*1000);
-        state=transition(state,{type:'award',playerId:'p2',answer},pack);
-        expect(state.turnIndex).toBe(chooser);expect(state.revealed?.host_note).toBe('');
+        state=transition(state,{type:'award',playerId:'p2'},pack);
+        expect(state.turnIndex).toBe(chooser);expect(state.revealed).toBeNull();
+        state=transition(state,{type:'reveal',answer},pack);expect(state.revealed?.host_note).toBe('');
         state=transition(state,{type:'continue'},pack,2000);played++;
         expect(state.turnIndex).toBe(1);
       }
@@ -101,8 +128,9 @@ describe('Полный вечер',()=>{
     const nextRound=pack.categories.find(c=>c.id===pack.rounds[1].category_ids[0])!.questions[0];
     expect(()=>transition(state,{type:'open',id:nextRound.id},pack)).toThrow();
     state=transition(state,{type:'open',id:q.id},pack);
-    state=transition(state,{type:'award',playerId:'p1',answer},pack);
-    expect(()=>transition(state,{type:'award',playerId:'p1',answer},pack)).toThrow();
+    state=transition(state,{type:'award',playerId:'p1'},pack);
+    expect(()=>transition(state,{type:'award',playerId:'p1'},pack)).toThrow();
+    state=transition(state,{type:'reveal',answer},pack);
     state=transition(state,{type:'continue'},pack);expect(available(pack,state,q.id)).toBe(false);
     expect(()=>transition(state,{type:'open',id:q.id},pack)).toThrow();
   });
@@ -111,7 +139,7 @@ describe('Полный вечер',()=>{
     for(const cat of roundCategories(pack,state)){
       for(const q of [cat.questions[0],cat.questions[2],cat.questions[4]]){
         state=transition(state,{type:'open',id:q.id},pack);
-        state=transition(state,{type:'award',playerId:null,answer},pack);
+        state=transition(state,{type:'reveal',answer},pack);
         state=transition(state,{type:'continue'},pack);
       }
       expect(available(pack,state,cat.questions[1].id)).toBe(false);
@@ -130,6 +158,6 @@ describe('Полный вечер',()=>{
     expect(()=>transition(initialGame(),{type:'start',names:['Антон',' антон '],limit:5},pack)).toThrow();
     expect(()=>transition(initialGame(),{type:'start',names:['Один'],limit:5},pack)).toThrow();
     const state=start(),q=roundCategories(pack,state)[0].questions[0];
-    expect(()=>transition(transition(state,{type:'open',id:q.id},pack),{type:'award',playerId:'x',answer},pack)).toThrow();
+    expect(()=>transition(transition(state,{type:'open',id:q.id},pack),{type:'award',playerId:'x'},pack)).toThrow();
   });
 });

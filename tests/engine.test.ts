@@ -6,6 +6,32 @@ const pack:Pack=JSON.parse(readFileSync('quiz-pack.json','utf8'));
 const answer:Answer={answer:'Верно',explanation:'Почему верно',accepted_answers:['вариант'],host_note:'Секретная заметка'};
 const start=(limit=5)=>transition(initialGame(),{type:'start',names:['Антон','Игорь','Серёжа','Дима','Стас','Оля','Ася'],limit},pack,0);
 describe('Полный вечер',()=>{
+  it('неверный ответ снимает стоимость вопроса, оставляет его открытым и даёт ответить другому',()=>{
+    const original=start();
+    for(const q of roundCategories(pack,original)[0].questions){
+      const opened=transition(original,{type:'open',id:q.id},pack,1000);
+      const wrong=transition(opened,{type:'penalize',playerId:'p1',questionId:q.id},pack);
+      expect(wrong.players[0].score).toBe(-q.value);
+      expect(wrong.players.slice(1)).toEqual(opened.players.slice(1));
+      expect({...wrong,players:opened.players,event:opened.event}).toEqual(opened);
+      expect(opened.players[0].score).toBe(0);
+      const correct=transition(wrong,{type:'award',playerId:'p2',answer},pack);
+      expect(correct.players[0].score).toBe(-q.value);expect(correct.players[1].score).toBe(q.value);
+      expect(correct.phase).toBe('answer');expect(correct.revealed?.answer).toBe(answer.answer);
+      const continued=transition(correct,{type:'continue'},pack);
+      expect(continued.turnIndex).toBe(1);expect(continued.completed).toContain(q.id);
+    }
+  });
+  it('штраф за вопрос отклоняется вне вопроса, для другого вопроса и неизвестного игрока',()=>{
+    const state=start();
+    const [q,other]=roundCategories(pack,state)[0].questions;
+    expect(()=>transition(state,{type:'penalize',playerId:'p1',questionId:q.id},pack)).toThrow();
+    const opened=transition(state,{type:'open',id:q.id},pack);
+    expect(()=>transition(opened,{type:'penalize',playerId:'missing',questionId:q.id},pack)).toThrow();
+    expect(()=>transition(opened,{type:'penalize',playerId:'p1',questionId:other.id},pack)).toThrow();
+    const revealed=transition(opened,{type:'award',playerId:null,answer},pack);
+    expect(()=>transition(revealed,{type:'penalize',playerId:'p1',questionId:q.id},pack)).toThrow();
+  });
   it('бонусы и штрафы: ±50, своя сумма, отрицательный счёт и сохранение остальной игры',()=>{
     const original=start();
     const plus=transition(original,{type:'adjustScore',playerId:'p1',delta:50},pack);

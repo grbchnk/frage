@@ -7,7 +7,7 @@ export function available(pack: Pack, state: Game, id: string) {
   const cat=roundCategories(pack,state).find(c=>c.questions.some(q=>q.id===id));
   return !!cat && !state.completed.includes(id) && cat.questions.filter(q=>state.completed.includes(q.id)).length<state.questionsPerCategory;
 }
-export type Action = {type:'start'; names:string[]; limit:number}|{type:'open'; id:string}|{type:'award'; playerId:string|null; answer:Answer}|{type:'adjustScore'; playerId:string; delta:number}|{type:'continue'}|{type:'cancel'}|{type:'resume'}|{type:'endRound'}|{type:'reset'};
+export type Action = {type:'start'; names:string[]; limit:number}|{type:'open'; id:string}|{type:'award'; playerId:string|null; answer:Answer}|{type:'penalize'; playerId:string; questionId:string}|{type:'adjustScore'; playerId:string; delta:number}|{type:'continue'}|{type:'cancel'}|{type:'resume'}|{type:'endRound'}|{type:'reset'};
 export function transition(state:Game, action:Action, pack:Pack, now=Date.now()):Game {
   const next=structuredClone(state);
   const fail=()=>{throw new Error('Действие уже выполнено или сейчас недоступно.');};
@@ -29,6 +29,15 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
       const q=findQuestion(pack,state.activeQuestionId); if(!q||!action.answer?.answer) return fail();
       if(action.playerId!==null){const player=next.players.find(p=>p.id===action.playerId);if(!player)return fail();if(!Number.isSafeInteger(player.score+q.value))throw new Error('Слишком большой счёт. Сначала скорректируйте баллы.');player.score+=q.value;}
       next.winnerId=action.playerId;next.revealed={answer:action.answer.answer,explanation:action.answer.explanation,accepted_answers:[],host_note:''};next.phase='answer';break;
+    }
+    case 'penalize': {
+      if(state.phase!=='question'||state.activeQuestionId!==action.questionId)return fail();
+      const q=findQuestion(pack,state.activeQuestionId);
+      const player=next.players.find(p=>p.id===action.playerId);
+      if(!q||!player)return fail();
+      if(!Number.isSafeInteger(player.score-q.value))throw new Error('Слишком большой отрицательный счёт. Сначала скорректируйте баллы.');
+      player.score-=q.value;
+      break;
     }
     case 'adjustScore': {
       if(state.phase==='lobby')return fail();

@@ -1,0 +1,3046 @@
+{
+  "title": "Своя компания — пакет 01",
+  "version": "2.0-editorial",
+  "prepared_at": "2026-11-07",
+  "language": "ru",
+  "players": {
+    "min": 6,
+    "max": 7,
+    "mode": "individual"
+  },
+  "target_minutes": [
+    60,
+    90
+  ],
+  "format": "category_board_100_500",
+  "categories": [
+    {
+      "id": 1,
+      "title": "Мемы по ГОСТу",
+      "description": "Опознать интернет-мем по казённому пересказу. Игорь и Серёжа вынесены в отдельную рубрику.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q01-100",
+          "value": 100,
+          "prompt": "Переведите с чиновничьего на мемный: «Техническая возможность имеется. Целесообразность мероприятия вызывает вопросы».",
+          "answer": "Можно. А зачем?",
+          "accepted_answers": [
+            "Можно, а зачем?",
+            "Можно. А зачем?"
+          ],
+          "explanation": "Фраза из интервью представителя АвтоВАЗа стала мемом.",
+          "source_ids": [
+            "memes"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q01-200",
+          "value": 200,
+          "prompt": "В акте зафиксированы два последовательных целых числа, следующие сразу за пятёркой. Их произносят по-английски и почему-то считают шуткой. Назовите мем.",
+          "answer": "Сикс-севен — 6–7",
+          "accepted_answers": [
+            "Сикс-севен",
+            "Six seven",
+            "6-7",
+            "Шесть-семь"
+          ],
+          "explanation": "Один из заметных мемов 2026 года; объяснять его смысл не требуется.",
+          "source_ids": [
+            "memes"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q01-300",
+          "value": 300,
+          "prompt": "«Гражданин производит значительный объём разговорного воздуха при отсутствии подтверждённых результатов». Как называется этот тип человека в мемах?",
+          "answer": "Воздухан",
+          "accepted_answers": [
+            "Воздухан"
+          ],
+          "explanation": "Образ человека, чьи обещания и рассказы заметно превосходят дела.",
+          "source_ids": [
+            "memes"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q01-400",
+          "value": 400,
+          "prompt": "Назовите исполнителя, чья фраза «Фа ватафа пепе шнейне» звучит как аварийное сообщение кофемашины.",
+          "answer": "Ганвест",
+          "accepted_answers": [
+            "Ганвест",
+            "Ганвэст",
+            "Ganvest"
+          ],
+          "explanation": "Фраза связана с рэпером Ганвестом.",
+          "source_ids": [
+            "ganvest"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q01-500",
+          "value": 500,
+          "prompt": "Вместо меча и брони игрок прокачивает челюсть, кожу, причёску и прочие характеристики лица. Как называется этот интернет-подход к улучшению внешности?",
+          "answer": "Луксмаксинг",
+          "accepted_answers": [
+            "Луксмаксинг",
+            "Looksmaxxing",
+            "Луксмакссинг"
+          ],
+          "explanation": "Термин попал и в русскоязычную мемную повестку.",
+          "source_ids": [
+            "memes"
+          ],
+          "time_seconds": 30,
+          "host_note": "Близкое произношение засчитывать. «Мьюинг» — только отдельная практика, не весь подход.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Глобус Осиповичей",
+      "description": "Местные факты с шансом догадаться и у тех, кто приехал в гости.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q02-100",
+          "value": 100,
+          "prompt": "На гербе Осиповичей не зубр, не рыцарь и не картошка. Какой транспорт туда попал?",
+          "answer": "Паровоз",
+          "accepted_answers": [
+            "Паровоз",
+            "Локомотив",
+            "Поезд"
+          ],
+          "explanation": "Железная дорога — один из ключевых сюжетов истории города.",
+          "source_ids": [
+            "rail"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q02-200",
+          "value": 200,
+          "prompt": "После вечеринки слово может звучать как диагноз, но здесь это география. Как называется «цветная» речка, у которой стоят Осиповичи?",
+          "answer": "Синяя",
+          "accepted_answers": [
+            "Синяя",
+            "Река Синяя"
+          ],
+          "explanation": "Не путать с более крупной Свислочью в районе.",
+          "source_ids": [
+            "osip"
+          ],
+          "time_seconds": 20,
+          "host_note": "Все три варианта читать сразу: они входят в вопрос.",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Белая",
+            "Чёрная",
+            "Синяя"
+          ],
+          "media": null
+        },
+        {
+          "id": "q02-300",
+          "value": 300,
+          "prompt": "В Осиповичи из Зборска в 1946 году перевезли не просто имущество, а целое деревянное здание 1826 года постройки. Что именно переехало?",
+          "answer": "Церковь",
+          "accepted_answers": [
+            "Церковь",
+            "Храм",
+            "Крестовоздвиженская церковь"
+          ],
+          "explanation": "Речь о Крестовоздвиженской церкви, перенесённой из Зборска.",
+          "source_ids": [
+            "osip"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Церковь",
+            "Вокзал",
+            "Здание цирка"
+          ],
+          "media": null
+        },
+        {
+          "id": "q02-400",
+          "value": 400,
+          "prompt": "Два брата из Елизово Осиповичского района взяли олимпийское золото в Пекине: буквально гребли в одну сторону. Назовите их фамилию.",
+          "answer": "Богдановичи",
+          "accepted_answers": [
+            "Богдановичи",
+            "Богданович"
+          ],
+          "explanation": "Александр и Андрей — олимпийские чемпионы 2008 года в каноэ-двойке.",
+          "source_ids": [
+            "brothers"
+          ],
+          "time_seconds": 30,
+          "host_note": "Имена и дистанцию требовать не нужно.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q02-500",
+          "value": 500,
+          "prompt": "Осиповичская ГЭС работает на сбросе местного водохранилища. Какую реку здесь заставили оплачивать электричество своим течением?",
+          "answer": "Свислочь",
+          "accepted_answers": [
+            "Свислочь"
+          ],
+          "explanation": "ГЭС и водохранилище расположены на Свислочи.",
+          "source_ids": [
+            "dam"
+          ],
+          "time_seconds": 30,
+          "host_note": "Подкол ведущего — образная формулировка; река, конечно, никому не платит.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Обнимашки с последствиями",
+      "description": "Самбо, дзюдо и названия, похожие на заказ в ресторане.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q03-100",
+          "value": 100,
+          "prompt": "САМБО — это не имя тренера и не японская деревня. Расшифруйте сокращение.",
+          "answer": "Самозащита без оружия",
+          "accepted_answers": [
+            "Самозащита без оружия"
+          ],
+          "explanation": "Так название объясняет Международная федерация самбо.",
+          "source_ids": [
+            "sambo"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q03-200",
+          "value": 200,
+          "prompt": "На турнире дзюдо один спортсмен в белом, другой в синем. Это не уровни редкости персонажей. Зачем нужны разные цвета?",
+          "answer": "Чтобы различать соперников",
+          "accepted_answers": [
+            "Чтобы судья и зрители различали спортсменов",
+            "Чтобы различать соперников"
+          ],
+          "explanation": "Цвет помогает идентифицировать участников; он не обозначает мастерство.",
+          "source_ids": [
+            "judogi"
+          ],
+          "time_seconds": 20,
+          "host_note": "Засчитать любой ответ про удобство различения спортсменов.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q03-300",
+          "value": 300,
+          "prompt": "Рефери сказал дзюдоисту «шидо». Это не комплимент его броску. Что он только что получил?",
+          "answer": "Замечание / штрафное наказание",
+          "accepted_answers": [
+            "Штраф",
+            "Замечание",
+            "Предупреждение",
+            "Наказание"
+          ],
+          "explanation": "Шидо — наказание за нарушение правил.",
+          "source_ids": [
+            "shido"
+          ],
+          "time_seconds": 20,
+          "host_note": "Не спрашивать число замечаний до дисквалификации: это другой вопрос.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q03-400",
+          "value": 400,
+          "prompt": "Хадака-дзимэ называют «голым удушением». Что здесь не используют: одежду соперника, руки или здравый смысл?",
+          "answer": "Одежду соперника",
+          "accepted_answers": [
+            "Одежду",
+            "Куртку",
+            "Захват дзюдоги",
+            "Отвороты"
+          ],
+          "explanation": "Техническое описание IJF прямо указывает на отсутствие захвата дзюдоги.",
+          "source_ids": [
+            "hadaka"
+          ],
+          "time_seconds": 30,
+          "host_note": "Только словесный ответ, показывать приём не нужно.",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Одежду соперника",
+            "Руки",
+            "Здравый смысл"
+          ],
+          "media": null
+        },
+        {
+          "id": "q03-500",
+          "value": 500,
+          "prompt": "«Кани-басами»: суши, покемон или бросок в дзюдо? Назовите правильную категорию.",
+          "answer": "Бросок в дзюдо",
+          "accepted_answers": [
+            "Бросок",
+            "Приём дзюдо",
+            "Дзюдо"
+          ],
+          "explanation": "Приём есть в классификации Кодокана, но запрещён в соревновательных правилах IJF.",
+          "source_ids": [
+            "kani",
+            "kani_rule"
+          ],
+          "time_seconds": 30,
+          "host_note": "Знание перевода и техники исполнения не требуется.",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Суши",
+            "Покемон",
+            "Бросок в дзюдо"
+          ],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Антон, это по работе?",
+      "description": "Пожарные истории, музейные странности и один популярный миф.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q04-100",
+          "value": 100,
+          "prompt": "Американская пожарная каска XIX века могла быть сделана из материала куртки байкера. Что это за материал?",
+          "answer": "Кожа",
+          "accepted_answers": [
+            "Кожа",
+            "Кожа животного"
+          ],
+          "explanation": "В Smithsonian хранится именно кожаная пожарная каска.",
+          "source_ids": [
+            "helmet"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Кожа",
+            "Резина",
+            "Войлок"
+          ],
+          "media": null
+        },
+        {
+          "id": "q04-200",
+          "value": 200,
+          "prompt": "Далматины работали с пожарными ещё до моторных машин. Каких животных они сопровождали и охраняли?",
+          "answer": "Лошадей",
+          "accepted_answers": [
+            "Лошадей",
+            "Коней"
+          ],
+          "explanation": "Пожарные повозки тянули лошади; с ними и была связана работа собак.",
+          "source_ids": [
+            "dog"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q04-300",
+          "value": 300,
+          "prompt": "Перед вами старинная стеклянная «граната». Её бросали, чтобы стало меньше чего?",
+          "answer": "Огня — это средство пожаротушения",
+          "accepted_answers": [
+            "Огня",
+            "Пожара",
+            "Пламени",
+            "Это огнетушитель"
+          ],
+          "explanation": "Стеклянный сосуд разбивался и выпускал жидкость для тушения.",
+          "source_ids": [
+            "grenade"
+          ],
+          "time_seconds": 20,
+          "host_note": "Показывать сосуд целиком; точный химический состав не спрашивать.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q04-300.jpg",
+            "source_id": "q04-300",
+            "question_alt": "Изображение к вопросу q04-300",
+            "answer_alt": "Огня — это средство пожаротушения",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q04-400",
+          "value": 400,
+          "prompt": "Пожарный инструмент Halligan звучит почти как «хулиган». Его назвали в честь поведения спасателей или фамилии человека?",
+          "answer": "Фамилии изобретателя",
+          "accepted_answers": [
+            "Фамилии",
+            "Хью Халлигана",
+            "Фамилии пожарного"
+          ],
+          "explanation": "Инструмент разработал пожарный Хью Халлиган.",
+          "source_ids": [
+            "halligan"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Поведения спасателей",
+            "Фамилии человека"
+          ],
+          "media": null
+        },
+        {
+          "id": "q04-500",
+          "value": 500,
+          "prompt": "Правда или байка: «В старом Лондоне страховые пожарные команды обязательно оставляли незастрахованный дом гореть». Что отвечает на это музей London Fire Brigade?",
+          "answer": "Байка: правило было не таким",
+          "accepted_answers": [
+            "Байка",
+            "Миф",
+            "Неправда"
+          ],
+          "explanation": "Музей сообщает о правилах тушить встреченные пожары независимо от страхования: иначе огонь распространялся дальше.",
+          "source_ids": [
+            "marks"
+          ],
+          "time_seconds": 30,
+          "host_note": "Не обобщать на все страны и века. Вопрос именно о популярной истории про лондонские страховые команды.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Любовь, кровь и управляющая компания",
+      "description": "Знакомые сериалы в пересказе нетрезвого управляющего домом. Формулировки авторские.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q05-100",
+          "value": 100,
+          "prompt": "Два брата ведут семейный бизнес: ездят по стране, ночуют в мотелях и решают вопросы с покойниками, которые плохо поняли условия увольнения. Назовите сериал.",
+          "answer": "Сверхъестественное",
+          "accepted_answers": [
+            "Сверхъестественное",
+            "Supernatural"
+          ],
+          "explanation": "Это авторский шуточный пересказ приключений братьев Винчестеров.",
+          "source_ids": [
+            "supernatural"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q05-200",
+          "value": 200,
+          "prompt": "Отчёт по благоустройству: газоны идеальны, фасады ухожены, у каждого соседа есть основание вызывать следственную группу. Адрес — Вистерия-Лейн. Что за сериал?",
+          "answer": "Отчаянные домохозяйки",
+          "accepted_answers": [
+            "Отчаянные домохозяйки",
+            "Desperate Housewives"
+          ],
+          "explanation": "Название улицы делает ответ однозначным.",
+          "source_ids": [
+            "housewives"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q05-300",
+          "value": 300,
+          "prompt": "Девушка выбирает между двумя братьями. Главная проблема анкеты женихов — обоих давно следовало бы снять с учёта живых. Город — Мистик-Фоллс. Назовите сериал.",
+          "answer": "Дневники вампира",
+          "accepted_answers": [
+            "Дневники вампира",
+            "The Vampire Diaries"
+          ],
+          "explanation": "Елена и братья Сальваторе; это шуточное описание, не цитата.",
+          "source_ids": [
+            "vampires"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q05-400",
+          "value": 400,
+          "prompt": "Журналистка регулярно встречается с мужчинами, обсуждает результаты с тремя подругами и превращает личные неудачи в газетный контент. В каком сериале свидания поставлены на самоокупаемость?",
+          "answer": "Секс в большом городе",
+          "accepted_answers": [
+            "Секс в большом городе",
+            "Sex and the City"
+          ],
+          "explanation": "Кэрри Брэдшоу пишет колонку о личной жизни и отношениях.",
+          "source_ids": [
+            "satc"
+          ],
+          "time_seconds": 30,
+          "host_note": "«Самоокупаемость» — шутка, реальный доход героини считать не надо.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q05-500",
+          "value": 500,
+          "prompt": "Отец начал рассказывать детям, как познакомился с их матерью. Разговор растянулся на девять сезонов и подозрительно часто уходил в истории про другую женщину. Что за сериал?",
+          "answer": "Как я встретил вашу маму",
+          "accepted_answers": [
+            "Как я встретил вашу маму",
+            "How I Met Your Mother",
+            "HIMYM"
+          ],
+          "explanation": "Это авторский шуточный пересказ рамочной истории сериала.",
+          "source_ids": [
+            "himym"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Грант дали — тормоза сняли",
+      "description": "Реальные исследования из архива Шнобелевской премии. Серьёзный вид ведущего обязателен.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q06-100",
+          "value": 100,
+          "prompt": "Физик исследовал, может ли это домашнее животное быть одновременно твёрдым телом и жидкостью. Кого он изучал?",
+          "answer": "Кота",
+          "accepted_answers": [
+            "Кота",
+            "Кошку",
+            "Кошек"
+          ],
+          "explanation": "Шнобелевская премия по физике 2017 года: работа о реологии кошек.",
+          "source_ids": [
+            "ig"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q06-200",
+          "value": 200,
+          "prompt": "Кого Б. Ф. Скиннер пытался привлечь к наведению ракет: голубей, хомяков или очень мотивированных пчёл?",
+          "answer": "Голубей",
+          "accepted_answers": [
+            "Голубей",
+            "Голубь"
+          ],
+          "explanation": "Исследование отмечено Шнобелевской премией мира 2024 года.",
+          "source_ids": [
+            "ig"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Голубей",
+            "Хомяков",
+            "Очень мотивированных пчёл"
+          ],
+          "media": null
+        },
+        {
+          "id": "q06-300",
+          "value": 300,
+          "prompt": "Физическая работа о форели показала движение рыбы в вихревом потоке. Что особенно удивляло в участнице опыта?",
+          "answer": "Она была мёртвой",
+          "accepted_answers": [
+            "Была мёртвой",
+            "Рыба мертва",
+            "Неживая"
+          ],
+          "explanation": "Поток способен пассивно двигать тело; премия по физике 2024 года.",
+          "source_ids": [
+            "ig"
+          ],
+          "time_seconds": 20,
+          "host_note": "Не говорить, что рыба ожила или сознательно плыла.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q06-400",
+          "value": 400,
+          "prompt": "Учёный получил премию за объяснение того, почему геологи любят лизать свои рабочие материалы. Что они облизывают?",
+          "answer": "Камни",
+          "accepted_answers": [
+            "Камни",
+            "Горные породы",
+            "Минералы"
+          ],
+          "explanation": "Ян Заласевич, Шнобелевская премия по химии и геологии 2023 года.",
+          "source_ids": [
+            "ig"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q06-500",
+          "value": 500,
+          "prompt": "Норвежские исследователи наряжались белыми медведями и наблюдали реакцию кого: северных оленей, пингвинов или коллег по университету?",
+          "answer": "Северных оленей",
+          "accepted_answers": [
+            "Оленей",
+            "Северных оленей"
+          ],
+          "explanation": "Исследование реакции оленей отмечено Шнобелевской премией 2014 года.",
+          "source_ids": [
+            "ig"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Северных оленей",
+            "Пингвинов",
+            "Коллег по университету"
+          ],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "У них это считается выходным",
+      "description": "Зарубежные традиции, которые выглядят как последствия очень странного спора.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q07-100",
+          "value": 100,
+          "prompt": "В испанском Буньоле люди массово забрасывают друг друга этим овощем. Какое оружие выдаёт праздник Томатина?",
+          "answer": "Помидоры",
+          "accepted_answers": [
+            "Помидоры",
+            "Томаты"
+          ],
+          "explanation": "Это настоящая массовая томатная битва.",
+          "source_ids": [
+            "tomato"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q07-200",
+          "value": 200,
+          "prompt": "На английском Куперс-Хилл люди бегут и падают с крутого склона вслед за продуктом. Ради чего весь этот травмоопасный движ?",
+          "answer": "Головки сыра",
+          "accepted_answers": [
+            "Сыра",
+            "Сырной головы",
+            "Головки сыра"
+          ],
+          "explanation": "Cheese Rolling: вниз пускают головку Double Gloucester.",
+          "source_ids": [
+            "cheese"
+          ],
+          "time_seconds": 20,
+          "host_note": "Марку сыра требовать не нужно.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q07-300",
+          "value": 300,
+          "prompt": "На Эль-Колачо в Испании человек в костюме дьявола перепрыгивает через очень необычное препятствие на матрасах. Через кого?",
+          "answer": "Младенцев",
+          "accepted_answers": [
+            "Младенцев",
+            "Малышей",
+            "Маленьких детей"
+          ],
+          "explanation": "Это документированная местная традиция в Кастрильо-де-Мурсия.",
+          "source_ids": [
+            "colacho"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q07-400",
+          "value": 400,
+          "prompt": "В испанском Аро белую одежду надевают, чтобы вскоре она стала фиолетовой. Чем друг друга обливают на местной «битве»?",
+          "answer": "Вином",
+          "accepted_answers": [
+            "Вином",
+            "Красным вином"
+          ],
+          "explanation": "Винная битва — реальный праздник в Риохе.",
+          "source_ids": [
+            "wine"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q07-500",
+          "value": 500,
+          "prompt": "Финский чемпионат по переноске жён. Своей жены нет, зато есть согласная подруга соседа. Откажут из-за отсутствия брака или разрешат старт?",
+          "answer": "Разрешат: быть супругами не обязательно",
+          "accepted_answers": [
+            "Разрешат",
+            "Можно не свою жену",
+            "Брак не обязателен"
+          ],
+          "explanation": "Правила допускают переноску другого человека, не только собственной супруги.",
+          "source_ids": [
+            "wife"
+          ],
+          "time_seconds": 30,
+          "host_note": "В условии считать возраст, вес и прочие требования выполненными. Вопрос только о браке, это нужно сказать при споре.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Бабушка, закрой ящик",
+      "description": "Пять настоящих предметов. Нужно назвать бытовое назначение; грубые версии приветствуются до официального ответа.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q08-100",
+          "value": 100,
+          "prompt": "Зачем у этой чашки внутри специальная керамическая полочка? Какую часть лица она должна спасать от чая?",
+          "answer": "Усы",
+          "accepted_answers": [
+            "Усы",
+            "Чтобы не намочить усы"
+          ],
+          "explanation": "Полочка защищает усы, пока человек пьёт.",
+          "source_ids": [
+            "cup"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q08-100.jpg",
+            "source_id": "q08-100",
+            "question_alt": "Изображение к вопросу q08-100",
+            "answer_alt": "Усы",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q08-200",
+          "value": 200,
+          "prompt": "Грибок нашёлся у бабушки. Его не едят и никуда в тело не вставляют. Какую дырявую вещь на нём удобно чинить?",
+          "answer": "Носок / чулок",
+          "accepted_answers": [
+            "Носки",
+            "Носок",
+            "Чулки",
+            "Чулок",
+            "Ткань при штопке"
+          ],
+          "explanation": "Это грибок для штопки: ткань натягивают на шляпку.",
+          "source_ids": [
+            "mushroom"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q08-200.jpg",
+            "source_id": "q08-200",
+            "question_alt": "Изображение к вопросу q08-200",
+            "answer_alt": "Носок / чулок",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q08-300",
+          "value": 300,
+          "prompt": "Этими щипцами когда-то разделывали продукт, который сегодня спокойно кладут ложкой в чай. Что ими раскалывали?",
+          "answer": "Сахар",
+          "accepted_answers": [
+            "Сахар",
+            "Сахарную голову",
+            "Кусковой сахар"
+          ],
+          "explanation": "Сахар продавали твёрдыми головами, от которых откусывали куски.",
+          "source_ids": [
+            "nips"
+          ],
+          "time_seconds": 20,
+          "host_note": "«Щипцы для сахара» засчитывать; это не современные щипцы для перекладывания кубиков.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q08-300.jpg",
+            "source_id": "q08-300",
+            "question_alt": "Изображение к вопросу q08-300",
+            "answer_alt": "Сахар",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q08-400",
+          "value": 400,
+          "prompt": "Эта штука раздвигается, но к гинекологу отношения не имеет. Какой тесный предмет одежды ею растягивали после стирки?",
+          "answer": "Перчатки",
+          "accepted_answers": [
+            "Перчатки",
+            "Пальцы перчаток"
+          ],
+          "explanation": "Растяжка возвращала форму пальцам тесных перчаток.",
+          "source_ids": [
+            "glove"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q08-400.jpg",
+            "source_id": "q08-400",
+            "question_alt": "Изображение к вопросу q08-400",
+            "answer_alt": "Перчатки",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q08-500",
+          "value": 500,
+          "prompt": "Серебряные щипцы созданы для подачи конкретного овоща. Для какого: спаржи, редиски или репчатого лука?",
+          "answer": "Спаржи",
+          "accepted_answers": [
+            "Спаржи",
+            "Спаржа"
+          ],
+          "explanation": "Музейная атрибуция предмета — asparagus tongs.",
+          "source_ids": [
+            "asparagus"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Спаржи",
+            "Редиски",
+            "Репчатого лука"
+          ],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q08-500.jpg",
+            "source_id": "q08-500",
+            "question_alt": "Изображение к вопросу q08-500",
+            "answer_alt": "Спаржи",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Цензор перестарался",
+      "description": "В полном снимке часть закрыта плашкой. Нужно угадать скрытое; затем ведущий убирает плашку.",
+      "default_mode": "occluded_photo",
+      "questions": [
+        {
+          "id": "q09-100",
+          "value": 100,
+          "prompt": "У этого мужчины необычный мотоцикл. Что вместо привычных двух колёс скрыто под плашкой?",
+          "answer": "Одно огромное колесо вокруг водителя",
+          "accepted_answers": [
+            "Одно колесо",
+            "Моноколесо",
+            "Моноколёсный мотоцикл"
+          ],
+          "explanation": "Архивный снимок одноколёсного мотоцикла Goventosa.",
+          "source_ids": [
+            "q09new-100"
+          ],
+          "time_seconds": 20,
+          "host_note": "Ответ должен упоминать одно колесо; назвать изобретателя не нужно.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q09new-100.jpg",
+            "source_id": "q09new-100",
+            "question_alt": "Изображение к вопросу q09-100",
+            "answer_alt": "Одно огромное колесо вокруг водителя",
+            "question_crop_normalized": null,
+            "reveal": "remove_overlays",
+            "crop_implementation": "display-only viewport; original file retained",
+            "question_masks_normalized": [
+              [
+                0,
+                0,
+                0.57,
+                1
+              ],
+              [
+                0.57,
+                0.59,
+                0.43,
+                0.41
+              ],
+              [
+                0.57,
+                0,
+                0.43,
+                0.18
+              ]
+            ]
+          }
+        },
+        {
+          "id": "q09-200",
+          "value": 200,
+          "prompt": "Кого запрягли в эту повозку вместо лошадей?",
+          "answer": "Зебр",
+          "accepted_answers": [
+            "Зебр",
+            "Зебры"
+          ],
+          "explanation": "Уолтер Ротшильд действительно ездил в повозке, запряжённой зебрами.",
+          "source_ids": [
+            "q09new-200"
+          ],
+          "time_seconds": 20,
+          "host_note": "Закрыть животных целиком, включая полосатые ноги.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q09new-200.jpg",
+            "source_id": "q09new-200",
+            "question_alt": "Изображение к вопросу q09-200",
+            "answer_alt": "Зебр",
+            "question_crop_normalized": null,
+            "reveal": "remove_overlays",
+            "crop_implementation": "display-only viewport; original file retained",
+            "question_masks_normalized": [
+              [
+                0.25,
+                0.23,
+                0.75,
+                0.7
+              ]
+            ]
+          }
+        },
+        {
+          "id": "q09-300",
+          "value": 300,
+          "prompt": "Портрет выглядит прилично, но реквизит в нижней части странноват. Голова какого животного скрыта плашкой?",
+          "answer": "Медведя",
+          "accepted_answers": [
+            "Медведя",
+            "Белого медведя",
+            "Медвежья голова"
+          ],
+          "explanation": "В студийном портрете Эвелин Несбит видна голова медведя на шкуре.",
+          "source_ids": [
+            "q09new-300"
+          ],
+          "time_seconds": 20,
+          "host_note": "Достаточно «медведь». Не требовать вид животного и не утверждать, что медведь живой.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q09new-300.jpg",
+            "source_id": "q09new-300",
+            "question_alt": "Изображение к вопросу q09-300",
+            "answer_alt": "Медведя",
+            "question_crop_normalized": null,
+            "reveal": "remove_overlays",
+            "crop_implementation": "display-only viewport; original file retained",
+            "question_masks_normalized": [
+              [
+                0,
+                0.46,
+                1,
+                0.54
+              ]
+            ]
+          }
+        },
+        {
+          "id": "q09-400",
+          "value": 400,
+          "prompt": "Дали в воздухе, вода тоже. Какие животные летят в скрытой части кадра?",
+          "answer": "Кошки",
+          "accepted_answers": [
+            "Кошки",
+            "Коты",
+            "Котята"
+          ],
+          "explanation": "На снимке Филиппа Халсмана Dalí Atomicus летят три кошки.",
+          "source_ids": [
+            "q09new-400",
+            "dali_photo"
+          ],
+          "time_seconds": 30,
+          "host_note": "Название работы и количество животных не нужны. Художник виден, но узнавать его для ответа не обязательно.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q09new-400.jpg",
+            "source_id": "q09new-400",
+            "question_alt": "Изображение к вопросу q09-400",
+            "answer_alt": "Кошки",
+            "question_crop_normalized": null,
+            "reveal": "remove_overlays",
+            "crop_implementation": "display-only viewport; original file retained",
+            "question_masks_normalized": [
+              [
+                0.54,
+                0.18,
+                0.46,
+                0.45
+              ]
+            ]
+          }
+        },
+        {
+          "id": "q09-500",
+          "value": 500,
+          "prompt": "Какое громоздкое приспособление подвесили над кроватью, чтобы человек мог заниматься своим хобби лёжа?",
+          "answer": "Клавиатуру фортепиано",
+          "accepted_answers": [
+            "Фортепиано",
+            "Пианино",
+            "Клавиатуру пианино",
+            "Пианино для лежачих"
+          ],
+          "explanation": "Британское фортепиано для прикованных к постели людей, архивный снимок 1935 года.",
+          "source_ids": [
+            "q09new-500"
+          ],
+          "time_seconds": 30,
+          "host_note": "Засчитать «пианино», «фортепиано» и «клавиши музыкального инструмента». Верхняя музейная подпись тоже должна быть закрыта.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q09new-500.jpg",
+            "source_id": "q09new-500",
+            "question_alt": "Изображение к вопросу q09-500",
+            "answer_alt": "Клавиатуру фортепиано",
+            "question_crop_normalized": null,
+            "reveal": "remove_overlays",
+            "crop_implementation": "display-only viewport; original file retained",
+            "question_masks_normalized": [
+              [
+                0,
+                0,
+                0.78,
+                0.58
+              ],
+              [
+                0,
+                0.58,
+                0.22,
+                0.42
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Ду ю спик кринж?",
+      "description": "Испанские, немецкие и итальянские слова, которые опасно понимать по созвучию.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q10-100",
+          "value": 100,
+          "prompt": "На английской упаковке написано NO PRESERVATIVES. Презервативов там, надеемся, и так нет. Чего на самом деле нет по этой надписи?",
+          "answer": "Консервантов",
+          "accepted_answers": [
+            "Консервантов",
+            "Пищевых консервантов"
+          ],
+          "explanation": "Preservatives — вещества, замедляющие порчу продукта.",
+          "source_ids": [
+            "preservative"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q10-200",
+          "value": 200,
+          "prompt": "Испанка говорит «estoy embarazada». Это не английское embarrassed. Она смущена, беременна или потеряла багаж?",
+          "answer": "Беременна",
+          "accepted_answers": [
+            "Беременна",
+            "Беременная"
+          ],
+          "explanation": "Испанское embarazada означает «беременная».",
+          "source_ids": [
+            "pregnant"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Смущена",
+            "Беременна",
+            "Потеряла багаж"
+          ],
+          "media": null
+        },
+        {
+          "id": "q10-300",
+          "value": 300,
+          "prompt": "Немецкое слово GIFT выглядит как английский «подарок». Но если на бутылке именно немецкая надпись, что за неприятный сюрприз там обозначен?",
+          "answer": "Яд",
+          "accepted_answers": [
+            "Яд",
+            "Отрава",
+            "Токсин"
+          ],
+          "explanation": "Немецкое das Gift — яд.",
+          "source_ids": [
+            "gift"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q10-400",
+          "value": 400,
+          "prompt": "Испанец сказал, что он constipado. Не спешите искать слабительное: о каком обычном недомогании он говорит?",
+          "answer": "Простуда",
+          "accepted_answers": [
+            "Простуда",
+            "Простужен",
+            "Насморк"
+          ],
+          "explanation": "В испанском constipado — простуда; английское constipation ведёт к другой ассоциации.",
+          "source_ids": [
+            "cold"
+          ],
+          "time_seconds": 30,
+          "host_note": "Засчитать «простужен» и «насморк», не требовать медицинского диагноза.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q10-500",
+          "value": 500,
+          "prompt": "В Испании burro — осёл. В Италии burro можно попросить к хлебу без ветеринарных последствий. Что подадут?",
+          "answer": "Сливочное масло",
+          "accepted_answers": [
+            "Сливочное масло",
+            "Масло"
+          ],
+          "explanation": "Итальянское burro — сливочное масло.",
+          "source_ids": [
+            "burro"
+          ],
+          "time_seconds": 30,
+          "host_note": "Растительное масло не засчитывать.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Закуски из леса",
+      "description": "Назвать гриб или растение по фотографии. Съедобность не является частью ответа.",
+      "default_mode": "photo_identification",
+      "questions": [
+        {
+          "id": "q11-100",
+          "value": 100,
+          "prompt": "Назовите гриб. Красный берет явно был куплен не для маскировки.",
+          "answer": "Мухомор красный",
+          "accepted_answers": [
+            "Мухомор",
+            "Красный мухомор",
+            "Amanita muscaria"
+          ],
+          "explanation": "Подписанный автором снимок Amanita muscaria.",
+          "source_ids": [
+            "q11-100"
+          ],
+          "time_seconds": 20,
+          "host_note": "Это распознавание выбранного архивного фото, не инструкция для сбора или еды. Латинское название знать не нужно.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q11-100.jpg",
+            "source_id": "q11-100",
+            "question_alt": "Изображение к вопросу q11-100",
+            "answer_alt": "Мухомор красный",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q11-200",
+          "value": 200,
+          "prompt": "Назовите гриб. В грибном чате за такую находку обычно ставят лайк, а не бан.",
+          "answer": "Белый гриб",
+          "accepted_answers": [
+            "Белый гриб",
+            "Боровик",
+            "Boletus edulis"
+          ],
+          "explanation": "На фото Boletus edulis, белый гриб.",
+          "source_ids": [
+            "q11-200"
+          ],
+          "time_seconds": 20,
+          "host_note": "Это распознавание выбранного архивного фото, не инструкция для сбора или еды. Латинское название знать не нужно.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q11-200.jpg",
+            "source_id": "q11-200",
+            "question_alt": "Изображение к вопросу q11-200",
+            "answer_alt": "Белый гриб",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q11-300",
+          "value": 300,
+          "prompt": "Что за растение устроило этот гигантский белый зонтик?",
+          "answer": "Борщевик",
+          "accepted_answers": [
+            "Борщевик",
+            "Борщевик Сосновского",
+            "Heracleum sosnowskyi"
+          ],
+          "explanation": "В карточке исходного фото указан борщевик Сосновского. Родового названия достаточно.",
+          "source_ids": [
+            "q11-300"
+          ],
+          "time_seconds": 20,
+          "host_note": "Это распознавание выбранного архивного фото, не инструкция для сбора или еды. Латинское название знать не нужно.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q11-300.jpg",
+            "source_id": "q11-300",
+            "question_alt": "Изображение к вопросу q11-300",
+            "answer_alt": "Борщевик",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q11-400",
+          "value": 400,
+          "prompt": "Лист похож на веер. Назовите дерево, которое его выпустило.",
+          "answer": "Гинкго",
+          "accepted_answers": [
+            "Гинкго",
+            "Гинкго двулопастный",
+            "Ginkgo biloba"
+          ],
+          "explanation": "У гинкго характерные веерообразные листья.",
+          "source_ids": [
+            "q11-400"
+          ],
+          "time_seconds": 30,
+          "host_note": "Это распознавание выбранного архивного фото, не инструкция для сбора или еды. Латинское название знать не нужно.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q11-400.jpg",
+            "source_id": "q11-400",
+            "question_alt": "Изображение к вопросу q11-400",
+            "answer_alt": "Гинкго",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q11-500",
+          "value": 500,
+          "prompt": "Лес решил вырастить на стволе жёлтую монтажную пену. Назовите этот гриб.",
+          "answer": "Трутовик серно-жёлтый",
+          "accepted_answers": [
+            "Трутовик серно-жёлтый",
+            "Серно-жёлтый трутовик",
+            "Laetiporus sulphureus",
+            "Куриный гриб"
+          ],
+          "explanation": "Снимок Laetiporus sulphureus. Принимать распространённое разговорное название «куриный гриб».",
+          "source_ids": [
+            "q11-500"
+          ],
+          "time_seconds": 30,
+          "host_note": "Это распознавание выбранного архивного фото, не инструкция для сбора или еды. Латинское название знать не нужно.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q11-500.jpg",
+            "source_id": "q11-500",
+            "question_alt": "Изображение к вопросу q11-500",
+            "answer_alt": "Трутовик серно-жёлтый",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Ты кто по жизни, зверь?",
+      "description": "Назвать животное или птицу по фотографии.",
+      "default_mode": "photo_identification",
+      "questions": [
+        {
+          "id": "q12-100",
+          "value": 100,
+          "prompt": "Кто это? На вид — самый спокойный участник вашей вечеринки.",
+          "answer": "Капибара",
+          "accepted_answers": [
+            "Капибара",
+            "Водосвинка"
+          ],
+          "explanation": "Капибара, Hydrochoerus hydrochaeris.",
+          "source_ids": [
+            "q12-100"
+          ],
+          "time_seconds": 20,
+          "host_note": "Отвечаем названием животного, не описанием внешности. Подвиды не нужны.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q12-100.jpg",
+            "source_id": "q12-100",
+            "question_alt": "Изображение к вопросу q12-100",
+            "answer_alt": "Капибара",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q12-200",
+          "value": 200,
+          "prompt": "Что за птица вышла с панк-причёской?",
+          "answer": "Удод",
+          "accepted_answers": [
+            "Удод",
+            "Upupa epops"
+          ],
+          "explanation": "Удод, Upupa epops.",
+          "source_ids": [
+            "q12-200"
+          ],
+          "time_seconds": 20,
+          "host_note": "Отвечаем названием животного, не описанием внешности. Подвиды не нужны.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q12-200.jpg",
+            "source_id": "q12-200",
+            "question_alt": "Изображение к вопросу q12-200",
+            "answer_alt": "Удод",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q12-300",
+          "value": 300,
+          "prompt": "Назовите эту небольшую птицу. Здесь без шуточной подсказки — просто узнаём лесного соседа.",
+          "answer": "Поползень",
+          "accepted_answers": [
+            "Поползень",
+            "Обыкновенный поползень",
+            "Sitta europaea"
+          ],
+          "explanation": "Обыкновенный поползень.",
+          "source_ids": [
+            "q12-300"
+          ],
+          "time_seconds": 20,
+          "host_note": "Отвечаем названием животного, не описанием внешности. Подвиды не нужны.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q12-300.jpg",
+            "source_id": "q12-300",
+            "question_alt": "Изображение к вопросу q12-300",
+            "answer_alt": "Поползень",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q12-400",
+          "value": 400,
+          "prompt": "Кто это? Нос будто проектировали отдельно от остального животного.",
+          "answer": "Сайгак",
+          "accepted_answers": [
+            "Сайгак",
+            "Сайга",
+            "Saiga tatarica"
+          ],
+          "explanation": "Сайгак с характерным увеличенным носом.",
+          "source_ids": [
+            "q12-400"
+          ],
+          "time_seconds": 30,
+          "host_note": "Отвечаем названием животного, не описанием внешности. Подвиды не нужны.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q12-400.jpg",
+            "source_id": "q12-400",
+            "question_alt": "Изображение к вопросу q12-400",
+            "answer_alt": "Сайгак",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q12-500",
+          "value": 500,
+          "prompt": "Как называется птица, у которой на лице будто припаркован деревянный башмак?",
+          "answer": "Китоглав",
+          "accepted_answers": [
+            "Китоглав",
+            "Королевская цапля",
+            "Balaeniceps rex"
+          ],
+          "explanation": "Китоглав, он же shoebill.",
+          "source_ids": [
+            "q12-500"
+          ],
+          "time_seconds": 30,
+          "host_note": "Отвечаем названием животного, не описанием внешности. Подвиды не нужны.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/q12-500.jpg",
+            "source_id": "q12-500",
+            "question_alt": "Изображение к вопросу q12-500",
+            "answer_alt": "Китоглав",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Спортзал вызвал участкового",
+      "description": "Реальные виды спорта и состязания, которые похожи на дружеский спор.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q13-100",
+          "value": 100,
+          "prompt": "Участники прыгают через барьеры, зажав между ног палку с игрушечной лошадиной головой. Как называется это занятие?",
+          "answer": "Хоббихорсинг",
+          "accepted_answers": [
+            "Хоббихорсинг",
+            "Hobby horsing"
+          ],
+          "explanation": "У этого занятия есть федерации и соревнования.",
+          "source_ids": [
+            "hobbyhorse"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q13-200",
+          "value": 200,
+          "prompt": "Здесь можно проиграть и от мата, и от удара в челюсть. Какие два вида спорта соединяет шахбокс?",
+          "answer": "Шахматы и бокс",
+          "accepted_answers": [
+            "Шахматы и бокс",
+            "Бокс и шахматы"
+          ],
+          "explanation": "Раунды шахмат и бокса чередуются.",
+          "source_ids": [
+            "chessboxing"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q13-300",
+          "value": 300,
+          "prompt": "Хоккей без коньков: шайба скользит по дну, игрокам нужно периодически всплывать. Где проходит матч?",
+          "answer": "Под водой, в бассейне",
+          "accepted_answers": [
+            "Под водой",
+            "В бассейне",
+            "На дне бассейна"
+          ],
+          "explanation": "Подводный хоккей — дисциплина CMAS.",
+          "source_ids": [
+            "underhockey"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q13-400",
+          "value": 400,
+          "prompt": "В английском shin-kicking участники пихают в штанины солому. Что они пытаются защитить: голени, карманы или репутацию?",
+          "answer": "Голени",
+          "accepted_answers": [
+            "Голени",
+            "Ноги",
+            "Голень"
+          ],
+          "explanation": "Солома служит подкладкой в состязании по ударам по голеням.",
+          "source_ids": [
+            "shinkick"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Голени",
+            "Карманы",
+            "Репутацию"
+          ],
+          "media": null
+        },
+        {
+          "id": "q13-500",
+          "value": 500,
+          "prompt": "Занятие настолько бытовое, что его придумали делать на горных вершинах и под водой ради экстрима. Какой домашней работой заняты участники extreme ironing?",
+          "answer": "Гладят бельё",
+          "accepted_answers": [
+            "Гладят",
+            "Гладят бельё",
+            "Глажка одежды"
+          ],
+          "explanation": "Зафиксированы в том числе групповые подводные сеансы глажки.",
+          "source_ids": [
+            "ironing"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Кино объясняет нетрезвый свидетель",
+      "description": "Узнать известный фильм по короткому авторскому пересказу. Эти вопросы должны проходить быстро.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q14-100",
+          "value": 100,
+          "prompt": "Курортный роман на дорогом корабле закончился незапланированным знакомством с айсбергом. Назовите фильм.",
+          "answer": "Титаник",
+          "accepted_answers": [
+            "Титаник",
+            "Titanic"
+          ],
+          "explanation": "Авторский пересказ; название корабля не произносится.",
+          "source_ids": [
+            "titanic"
+          ],
+          "time_seconds": 10,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null,
+          "difficulty": "easy_speed"
+        },
+        {
+          "id": "q14-200",
+          "value": 200,
+          "prompt": "Хозяин болота хочет, чтобы сказочные соседи съехали. Ради тишины соглашается выполнить квест местного коротышки. Назовите мультфильм.",
+          "answer": "Шрек",
+          "accepted_answers": [
+            "Шрек",
+            "Shrek"
+          ],
+          "explanation": "Это завязка первого «Шрека».",
+          "source_ids": [
+            "shrek"
+          ],
+          "time_seconds": 10,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null,
+          "difficulty": "easy_speed"
+        },
+        {
+          "id": "q14-300",
+          "value": 300,
+          "prompt": "Машина приехала из будущего, чтобы сорвать женщине планы на материнство. В ответ ей отправили мужчину, который эти планы как раз обеспечил. Назовите фильм.",
+          "answer": "Терминатор",
+          "accepted_answers": [
+            "Терминатор",
+            "The Terminator"
+          ],
+          "explanation": "Пересказ фильма 1984 года.",
+          "source_ids": [
+            "terminator"
+          ],
+          "time_seconds": 10,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null,
+          "difficulty": "easy_speed"
+        },
+        {
+          "id": "q14-400",
+          "value": 400,
+          "prompt": "Мужчины нашли способ перестать обсуждать чувства: бьют друг друга, варят мыло и очень просят не рассказывать о кружке по интересам. Назовите фильм.",
+          "answer": "Бойцовский клуб",
+          "accepted_answers": [
+            "Бойцовский клуб",
+            "Fight Club"
+          ],
+          "explanation": "Прямой ответ не требует раскрывать финальный сюжетный поворот.",
+          "source_ids": [
+            "fightclub"
+          ],
+          "time_seconds": 10,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null,
+          "difficulty": "easy_speed"
+        },
+        {
+          "id": "q14-500",
+          "value": 500,
+          "prompt": "После мальчишника друзьям требуется инвентаризация: жениха нет, зато есть младенец и тигр. Что за фильм?",
+          "answer": "Мальчишник в Вегасе",
+          "accepted_answers": [
+            "Мальчишник в Вегасе",
+            "The Hangover"
+          ],
+          "explanation": "Речь о первом фильме серии.",
+          "source_ids": [
+            "hangover"
+          ],
+          "time_seconds": 10,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null,
+          "difficulty": "easy_speed"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Вообще-то, душнила прав",
+      "description": "В утверждении испорчена одна деталь. Нужно исправить её, а не просто сказать «неправда».",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q15-100",
+          "value": 100,
+          "prompt": "«У осьминога одно сердце, зато рук восемь». Исправьте число сердец.",
+          "answer": "Три",
+          "accepted_answers": [
+            "Три",
+            "3"
+          ],
+          "explanation": "Одно сердце обслуживает тело, два — жабры.",
+          "source_ids": [
+            "octopus"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q15-200",
+          "value": 200,
+          "prompt": "«Бабочка проверяет, подходит ли лист для кладки яиц, клювом». Какой частью тела нужно заменить выдуманный клюв?",
+          "answer": "Лапками",
+          "accepted_answers": [
+            "Лапками",
+            "Лапами",
+            "Ножками",
+            "Ногами"
+          ],
+          "explanation": "На лапках есть вкусовые рецепторы.",
+          "source_ids": [
+            "butterfly"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q15-300",
+          "value": 300,
+          "prompt": "«В жару металлическая конструкция Эйфелевой башни сжимается». Замените последнее слово, чтобы стало верно.",
+          "answer": "Расширяется",
+          "accepted_answers": [
+            "Расширяется",
+            "Нагревается и расширяется"
+          ],
+          "explanation": "Металл испытывает тепловое расширение. Размеры в сантиметрах не спрашиваем.",
+          "source_ids": [
+            "tower"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q15-400",
+          "value": 400,
+          "prompt": "«Бананы растут на дереве». Как ботанически назвать само растение вместо дерева?",
+          "answer": "Травянистое растение",
+          "accepted_answers": [
+            "Трава",
+            "Гигантская трава",
+            "Травянистое растение"
+          ],
+          "explanation": "Банан — крупное травянистое растение.",
+          "source_ids": [
+            "banana"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q15-500",
+          "value": 500,
+          "prompt": "«У вомбата помёт в форме шариков». Какая геометрическая форма исправит утверждение?",
+          "answer": "Кубики",
+          "accepted_answers": [
+            "Кубики",
+            "Кубы",
+            "Кубическая форма"
+          ],
+          "explanation": "Кубическую форму изучали исследователи Университета Тасмании.",
+          "source_ids": [
+            "wombat"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "title": "Игорь и Серёжа",
+      "description": "Отдельная рубрика о публичных видео и проектах Игоря Синяка и Сергея Grey Wiese.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q16-100",
+          "value": 100,
+          "prompt": "Закончите реплику Игоря Синяка: «Ой, Серёж, ну, честно, …».",
+          "answer": "Дурка",
+          "accepted_answers": [
+            "Дурка"
+          ],
+          "explanation": "Короткая публичная реплика стала мемом.",
+          "source_ids": [
+            "durka"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q16-200",
+          "value": 200,
+          "prompt": "Как называется реалити на канале Grey Wiese, в котором Игорю Синяку ищут пару?",
+          "answer": "Сердце Ангела",
+          "accepted_answers": [
+            "Сердце Ангела",
+            "Сердце ангела"
+          ],
+          "explanation": "Вопрос перенесён сюда из общей сериальной темы.",
+          "source_ids": [
+            "angel",
+            "angel2"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q16-300",
+          "value": 300,
+          "prompt": "Какой город стал главным фоном европейского видеоблога Серёжи: Париж, Берлин или Лондон?",
+          "answer": "Париж",
+          "accepted_answers": [
+            "Париж",
+            "Paris"
+          ],
+          "explanation": "Парижский контекст блога и выступлений подтверждается интервью и публикациями.",
+          "source_ids": [
+            "paris"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Париж",
+            "Берлин",
+            "Лондон"
+          ],
+          "media": null
+        },
+        {
+          "id": "q16-400",
+          "value": 400,
+          "prompt": "У какого артиста Игорь Синяк снялся в клипе «Love Is» вместе с Кристиной Асмус?",
+          "answer": "Егор Крид",
+          "accepted_answers": [
+            "Егор Крид",
+            "Крид"
+          ],
+          "explanation": "Камео в клипе 2019 года указано среди участников видео.",
+          "source_ids": [
+            "kreed"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q16-500",
+          "value": 500,
+          "prompt": "Какая Наталья выступает в роли психолога в лоре «Сердца Ангела»? Назовите фамилию.",
+          "answer": "Холоденко",
+          "accepted_answers": [
+            "Холоденко",
+            "Наталья Холоденко"
+          ],
+          "explanation": "Участие Натальи Холоденко отражено в описаниях и разборах проекта.",
+          "source_ids": [
+            "psychologist"
+          ],
+          "time_seconds": 30,
+          "host_note": "Ответ — только фамилия. Не обсуждаем профессиональные качества и не требуем имён участников свиданий.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "title": "Шеф, оно шевелится?",
+      "description": "Знакомимся с необычной едой других стран. Готовить и пробовать для ответа не нужно.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q17-100",
+          "value": 100,
+          "prompt": "Чёрная паста не обязательно сгорела. Какое вещество морского животного традиционно используют для такого цвета?",
+          "answer": "Чернила каракатицы",
+          "accepted_answers": [
+            "Чернила каракатицы",
+            "Чернила кальмара",
+            "Чернила"
+          ],
+          "explanation": "Нужна идея чернил головоногих; конкретный вид не принципиален.",
+          "source_ids": [
+            "cuttlefish"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q17-200",
+          "value": 200,
+          "prompt": "Мексиканский уитлакоче кладут в тако, хотя на кукурузе он выглядит как заболевание. Что это: гриб, водоросль или насекомое?",
+          "answer": "Гриб",
+          "accepted_answers": [
+            "Гриб",
+            "Паразитический гриб"
+          ],
+          "explanation": "Уитлакоче — гриб Ustilago maydis, связанный с кукурузой.",
+          "source_ids": [
+            "huitlacoche"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Гриб",
+            "Водоросль",
+            "Насекомое"
+          ],
+          "media": null
+        },
+        {
+          "id": "q17-300",
+          "value": 300,
+          "prompt": "Исландский хаукарль славится запахом и выдержкой. Из какого морского хищника его делают?",
+          "answer": "Акулы",
+          "accepted_answers": [
+            "Акулы",
+            "Акула",
+            "Гренландская акула"
+          ],
+          "explanation": "Музей Bjarnarhöfn описывает его как ферментированную акулу.",
+          "source_ids": [
+            "hakarl"
+          ],
+          "time_seconds": 20,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q17-400",
+          "value": 400,
+          "prompt": "Японское сирако выглядит как нежный белый деликатес. Это рыбная печень, молоки или рисовая пена?",
+          "answer": "Молоки",
+          "accepted_answers": [
+            "Молоки",
+            "Семенные железы рыб",
+            "Рыбные молоки"
+          ],
+          "explanation": "JNTO описывает сирако как milt — семенные железы рыб.",
+          "source_ids": [
+            "shirako"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [
+            "Рыбная печень",
+            "Молоки",
+            "Рисовая пена"
+          ],
+          "media": null
+        },
+        {
+          "id": "q17-500",
+          "value": 500,
+          "prompt": "Филиппинский балют — яйцо, внутри которого уже начался очень конкретный сюжет. Что отличает его от обычного варёного яйца?",
+          "answer": "Развивающийся эмбрион птицы",
+          "accepted_answers": [
+            "Эмбрион",
+            "Зародыш утёнка",
+            "Развивающийся птенец",
+            "Утиный эмбрион"
+          ],
+          "explanation": "В источнике речь об оплодотворённом утином яйце с развивающимся эмбрионом.",
+          "source_ids": [
+            "balut"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "title": "Очки за глаза",
+      "description": "Специально очень простые задания на зрение. На ответ 5–7 секунд. Руки здесь нарисованы, это не фотографии травм.",
+      "default_mode": "visual_speed",
+      "questions": [
+        {
+          "id": "q18-100",
+          "value": 100,
+          "prompt": "Каким цветом написано слово? Не читайте его — назовите цвет букв.",
+          "answer": "Синим",
+          "accepted_answers": [
+            "Синим",
+            "Синий",
+            "Голубым"
+          ],
+          "explanation": "Слово «КРАСНЫЙ» нарисовано синим.",
+          "source_ids": [
+            "own"
+          ],
+          "time_seconds": 7,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q18-100.png",
+            "source_id": "q18-100",
+            "question_alt": "Изображение к вопросу q18-100",
+            "answer_alt": "Синим",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          },
+          "difficulty": "very_easy_speed"
+        },
+        {
+          "id": "q18-200",
+          "value": 200,
+          "prompt": "Какого пальца нет на схеме руки?",
+          "answer": "Большого",
+          "accepted_answers": [
+            "Большого",
+            "Большой палец"
+          ],
+          "explanation": "Слева от указательного отсутствует большой палец.",
+          "source_ids": [
+            "own"
+          ],
+          "time_seconds": 7,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q18-200.png",
+            "source_id": "q18-200",
+            "question_alt": "Изображение к вопросу q18-200",
+            "answer_alt": "Большого",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          },
+          "difficulty": "very_easy_speed"
+        },
+        {
+          "id": "q18-300",
+          "value": 300,
+          "prompt": "Сколько синих кружков?",
+          "answer": "Пять",
+          "accepted_answers": [
+            "Пять",
+            "5"
+          ],
+          "explanation": "Синие кружки стоят в четырёх углах и в центре.",
+          "source_ids": [
+            "own"
+          ],
+          "time_seconds": 7,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q18-300.png",
+            "source_id": "q18-300",
+            "question_alt": "Изображение к вопросу q18-300",
+            "answer_alt": "Пять",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          },
+          "difficulty": "very_easy_speed"
+        },
+        {
+          "id": "q18-400",
+          "value": 400,
+          "prompt": "Куда показывает сама стрелка? Надпись не слушаем.",
+          "answer": "Вправо",
+          "accepted_answers": [
+            "Вправо",
+            "Направо"
+          ],
+          "explanation": "Стрелка указывает вправо, хотя на ней написано «НАЛЕВО».",
+          "source_ids": [
+            "own"
+          ],
+          "time_seconds": 7,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q18-400.png",
+            "source_id": "q18-400",
+            "question_alt": "Изображение к вопросу q18-400",
+            "answer_alt": "Вправо",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          },
+          "difficulty": "very_easy_speed"
+        },
+        {
+          "id": "q18-500",
+          "value": 500,
+          "prompt": "Какого пальца нет на этой схеме руки?",
+          "answer": "Безымянного",
+          "accepted_answers": [
+            "Безымянного",
+            "Безымянный палец"
+          ],
+          "explanation": "Между средним и мизинцем оставлено место безымянного.",
+          "source_ids": [
+            "own"
+          ],
+          "time_seconds": 7,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q18-500.png",
+            "source_id": "q18-500",
+            "question_alt": "Изображение к вопросу q18-500",
+            "answer_alt": "Безымянного",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          },
+          "difficulty": "very_easy_speed"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "title": "Собери мне слово, кожаный",
+      "description": "Ребусы на русские слова. Числа читаем словами, зачёркнутую букву убираем, замену применяем к соседнему слову.",
+      "default_mode": "rebus",
+      "questions": [
+        {
+          "id": "q19-100",
+          "value": 100,
+          "prompt": "Прочитайте ребус. Нужно одно русское слово.",
+          "answer": "Стол",
+          "accepted_answers": [
+            "Стол"
+          ],
+          "explanation": "СТО + Л = СТОЛ.",
+          "source_ids": [
+            "own",
+            "rebus_reddit"
+          ],
+          "time_seconds": 40,
+          "host_note": "Картинка создана для этого пакета. Reddit использован для исследования фонетических и пространственных механик, а не как источник готового русского задания.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q19-100.png",
+            "source_id": "q19-100",
+            "question_alt": "Изображение к вопросу q19-100",
+            "answer_alt": "Стол",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q19-200",
+          "value": 200,
+          "prompt": "Прочитайте две картинки как части одного слова.",
+          "answer": "Парус",
+          "accepted_answers": [
+            "Парус"
+          ],
+          "explanation": "ПАР + УС = ПАРУС. На первой картинке нужен пар над чашкой.",
+          "source_ids": [
+            "own",
+            "rebus_reddit"
+          ],
+          "time_seconds": 40,
+          "host_note": "Картинка создана для этого пакета. Reddit использован для исследования фонетических и пространственных механик, а не как источник готового русского задания.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q19-200.png",
+            "source_id": "q19-200",
+            "question_alt": "Изображение к вопросу q19-200",
+            "answer_alt": "Парус",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q19-300",
+          "value": 300,
+          "prompt": "Здесь важно, где стоят буквы. Какое слово получилось?",
+          "answer": "Подушка",
+          "accepted_answers": [
+            "Подушка"
+          ],
+          "explanation": "ШКА находится ПОД буквой У: ПОД + У + ШКА.",
+          "source_ids": [
+            "own",
+            "rebus_reddit"
+          ],
+          "time_seconds": 40,
+          "host_note": "Картинка создана для этого пакета. Reddit использован для исследования фонетических и пространственных механик, а не как источник готового русского задания.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q19-300.png",
+            "source_id": "q19-300",
+            "question_alt": "Изображение к вопросу q19-300",
+            "answer_alt": "Подушка",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q19-400",
+          "value": 400,
+          "prompt": "Сложите названия картинок. Первую назовите словом из трёх букв, вторую — из четырёх. Зачёркнутую букву уберите.",
+          "answer": "Балкон",
+          "accepted_answers": [
+            "Балкон"
+          ],
+          "explanation": "БАЛ + КОНЬ без Ь = БАЛКОН.",
+          "source_ids": [
+            "own",
+            "rebus_reddit"
+          ],
+          "time_seconds": 40,
+          "host_note": "Картинка создана для этого пакета. Reddit использован для исследования фонетических и пространственных механик, а не как источник готового русского задания.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q19-400.png",
+            "source_id": "q19-400",
+            "question_alt": "Изображение к вопросу q19-400",
+            "answer_alt": "Балкон",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q19-500",
+          "value": 500,
+          "prompt": "Сложите названия, но сначала выполните замену буквы.",
+          "answer": "Котлета",
+          "accepted_answers": [
+            "Котлета"
+          ],
+          "explanation": "КОТ + ЛЕТО, где О заменено на А: КОТ + ЛЕТА.",
+          "source_ids": [
+            "own",
+            "rebus_reddit"
+          ],
+          "time_seconds": 40,
+          "host_note": "Картинка создана для этого пакета. Reddit использован для исследования фонетических и пространственных механик, а не как источник готового русского задания.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q19-500.png",
+            "source_id": "q19-500",
+            "question_alt": "Изображение к вопросу q19-500",
+            "answer_alt": "Котлета",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "title": "Прокатчик потерял буквы",
+      "description": "Название фильма зашифровано картинками. Нужен привычный русский прокатный вариант.",
+      "default_mode": "rebus",
+      "questions": [
+        {
+          "id": "q20-100",
+          "value": 100,
+          "prompt": "Какой фильм зашифрован?",
+          "answer": "Один дома",
+          "accepted_answers": [
+            "Один дома",
+            "Home Alone"
+          ],
+          "explanation": "Один человек + дом.",
+          "source_ids": [
+            "own",
+            "rebus_reddit2"
+          ],
+          "time_seconds": 30,
+          "host_note": "Авторская иллюстрация. Угадываем название, а не конкретную часть франшизы.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q20-100.png",
+            "source_id": "q20-100",
+            "question_alt": "Изображение к вопросу q20-100",
+            "answer_alt": "Один дома",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q20-200",
+          "value": 200,
+          "prompt": "Какой фильм зашифрован?",
+          "answer": "Человек-паук",
+          "accepted_answers": [
+            "Человек-паук",
+            "Спайдермен",
+            "Spider-Man"
+          ],
+          "explanation": "Человек + паук.",
+          "source_ids": [
+            "own",
+            "rebus_reddit2"
+          ],
+          "time_seconds": 30,
+          "host_note": "Авторская иллюстрация. Угадываем название, а не конкретную часть франшизы.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q20-200.png",
+            "source_id": "q20-200",
+            "question_alt": "Изображение к вопросу q20-200",
+            "answer_alt": "Человек-паук",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q20-300",
+          "value": 300,
+          "prompt": "Какой фильм зашифрован?",
+          "answer": "Молчание ягнят",
+          "accepted_answers": [
+            "Молчание ягнят",
+            "The Silence of the Lambs"
+          ],
+          "explanation": "Отключённый звук + ягнята.",
+          "source_ids": [
+            "own",
+            "rebus_reddit2"
+          ],
+          "time_seconds": 30,
+          "host_note": "Авторская иллюстрация. Угадываем название, а не конкретную часть франшизы.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q20-300.png",
+            "source_id": "q20-300",
+            "question_alt": "Изображение к вопросу q20-300",
+            "answer_alt": "Молчание ягнят",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q20-400",
+          "value": 400,
+          "prompt": "Какой фильм зашифрован?",
+          "answer": "Назад в будущее",
+          "accepted_answers": [
+            "Назад в будущее",
+            "Back to the Future"
+          ],
+          "explanation": "Стрелка назад + футуристический город.",
+          "source_ids": [
+            "own",
+            "rebus_reddit2"
+          ],
+          "time_seconds": 30,
+          "host_note": "Авторская иллюстрация. Угадываем название, а не конкретную часть франшизы.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q20-400.png",
+            "source_id": "q20-400",
+            "question_alt": "Изображение к вопросу q20-400",
+            "answer_alt": "Назад в будущее",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        },
+        {
+          "id": "q20-500",
+          "value": 500,
+          "prompt": "Какой фильм зашифрован?",
+          "answer": "Человек дождя",
+          "accepted_answers": [
+            "Человек дождя",
+            "Rain Man"
+          ],
+          "explanation": "Человек + дождь.",
+          "source_ids": [
+            "own",
+            "rebus_reddit2"
+          ],
+          "time_seconds": 30,
+          "host_note": "Авторская иллюстрация. Угадываем название, а не конкретную часть франшизы.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/cards/q20-500.png",
+            "source_id": "q20-500",
+            "question_alt": "Изображение к вопросу q20-500",
+            "answer_alt": "Человек дождя",
+            "question_crop_normalized": null,
+            "reveal": "full_original",
+            "crop_implementation": "display-only viewport; original file retained"
+          }
+        }
+      ]
+    }
+  ],
+  "sources": {
+    "memes": {
+      "title": "Медиалогия: мемы первого полугодия 2026",
+      "url": "https://www-cdn.mlg.ru/blog/viral_smm/medialogiya-opredelila-samye-populyarnye-memy-pervoy-poloviny-2026-goda/",
+      "checked_at": "2026-11-07"
+    },
+    "durka": {
+      "title": "BES.media: контекст фразы Синяка",
+      "url": "https://bes.media/amp/razvod-kotoryy-obsuzhdaet-ves-russkoyazychnyy-internet-kto-takie-sergey-i-andrey-grigorevy-appolonovy-pri-chem-zdes-igor-sinyak/",
+      "checked_at": "2026-11-07"
+    },
+    "osip": {
+      "title": "Спадчына Беларуси: Осиповичи",
+      "url": "https://spadchyna.info/ru/belarus/mahilou-region/asipavicy-district/asipavicy/",
+      "checked_at": "2026-11-07"
+    },
+    "rail": {
+      "title": "Официальный канал Белорусской железной дороги",
+      "url": "https://t.me/s/belrw_official/27447",
+      "checked_at": "2026-11-07"
+    },
+    "brothers": {
+      "title": "Интервью братьев Богдановичей: место рождения и олимпийское золото",
+      "url": "https://bobruisk.org/pressvb/visit/?idnews=1221",
+      "checked_at": "2026-11-07"
+    },
+    "dam": {
+      "title": "Осиповичская ГЭС: расположение",
+      "url": "https://strada.by/story/osipovicskaa-ges",
+      "checked_at": "2026-11-07"
+    },
+    "sambo": {
+      "title": "Международная федерация самбо: о самбо",
+      "url": "https://sambo.sport/ru/fias/about/",
+      "checked_at": "2026-11-07"
+    },
+    "shido": {
+      "title": "IJF: новые правила дзюдо",
+      "url": "https://www.ijf.org/news/show/judo-presents-the-new-rules",
+      "checked_at": "2026-11-07"
+    },
+    "judogi": {
+      "title": "IJF: история дзюдоги",
+      "url": "https://www.ijf.org/news/show/judogi-much-more-than-armour",
+      "checked_at": "2026-11-07"
+    },
+    "hadaka": {
+      "title": "IJF: Hadaka-jime",
+      "url": "https://judo.ijf.org/techniques/Hadaka-jime",
+      "checked_at": "2026-11-07"
+    },
+    "kani": {
+      "title": "IJF: Kani-basami",
+      "url": "https://judo.ijf.org/techniques/Kani-basami",
+      "checked_at": "2026-11-07"
+    },
+    "kani_rule": {
+      "title": "IJF: запрещённые приёмы",
+      "url": "https://rules.ijf.org/page-17",
+      "checked_at": "2026-11-07"
+    },
+    "helmet": {
+      "title": "Smithsonian: кожаная пожарная каска",
+      "url": "https://americanhistory.si.edu/collections/object/nmah_1331112",
+      "checked_at": "2026-11-07"
+    },
+    "dog": {
+      "title": "Пожарная служба Merrimack: история далматинов",
+      "url": "https://www.merrimacknh.gov/396/The-Dalmatian",
+      "checked_at": "2026-11-07"
+    },
+    "grenade": {
+      "title": "The Henry Ford: стеклянная пожарная граната",
+      "url": "https://www.thehenryford.org/collections/explore/artifact/237258",
+      "checked_at": "2026-11-07"
+    },
+    "halligan": {
+      "title": "Официальный музей FDNY: инструменты",
+      "url": "https://www.nycfiremuseum.org/tools-and-uniforms",
+      "checked_at": "2026-11-07"
+    },
+    "marks": {
+      "title": "London Fire Brigade: страховые пожарные команды",
+      "url": "https://www.london-fire.gov.uk/museum/london-fire-brigade-history-and-stories/early-insurance-brigades",
+      "checked_at": "2026-11-07"
+    },
+    "supernatural": {
+      "title": "The CW: Supernatural",
+      "url": "https://www.cwtvpr.com/the-cw/shows/supernatural/about",
+      "checked_at": "2026-11-07"
+    },
+    "housewives": {
+      "title": "Disney+: Desperate Housewives",
+      "url": "https://www.disneyplus.com/browse/entity-38846006-4365-4005-9ec2-64b910b5d683",
+      "checked_at": "2026-11-07"
+    },
+    "vampires": {
+      "title": "The Vampire Diaries: сюжет и персонажи",
+      "url": "https://en.wikipedia.org/wiki/The_Vampire_Diaries",
+      "checked_at": "2026-11-07"
+    },
+    "satc": {
+      "title": "HBO Max Press: Sex and the City",
+      "url": "https://www.hbomaxlapress.com/programming/series/437",
+      "checked_at": "2026-11-07"
+    },
+    "angel": {
+      "title": "Метаданные выпусков канала Grey Wiese",
+      "url": "https://vidiq.com/youtube-stats/channel/%40greywiese/videos/",
+      "checked_at": "2026-11-07"
+    },
+    "angel2": {
+      "title": "Обзор первого выпуска «Сердца Ангела»",
+      "url": "https://salda.ws/video.php?id=6646FEXGlvM",
+      "checked_at": "2026-11-07"
+    },
+    "ig": {
+      "title": "Организаторы Шнобелевской премии: лауреаты",
+      "url": "https://improbable.com/ig/winners/",
+      "checked_at": "2026-11-07"
+    },
+    "tomato": {
+      "title": "Национальный туристический портал Испании: Tomatina",
+      "url": "https://www.spain.info/en/calendar/la-tomatina/",
+      "checked_at": "2026-11-07"
+    },
+    "cheese": {
+      "title": "Туристический портал Gloucestershire: Cheese Rolling",
+      "url": "https://www.exploregloucestershire.co.uk/coopers-hill-cheese-rolling/",
+      "checked_at": "2026-11-07"
+    },
+    "colacho": {
+      "title": "Испанское общественное телевидение RTVE: El Colacho",
+      "url": "https://www.rtve.es/play/noticias/20251026/fiesta-colacho-pueblo-burgos-saltan-bebes/16781145.shtml",
+      "checked_at": "2026-11-07"
+    },
+    "wine": {
+      "title": "Национальный туристический портал Испании: Wine Battle",
+      "url": "https://www.spain.info/en/calendar/battle-wine/",
+      "checked_at": "2026-11-07"
+    },
+    "wife": {
+      "title": "Организаторы чемпионата по переноске жён: правила",
+      "url": "https://eukonkanto.fi/en/competition-track-and-rules/",
+      "checked_at": "2026-11-07"
+    },
+    "cup": {
+      "title": "Канадский музей истории: чашка для усов",
+      "url": "https://www.historymuseum.ca/harbinson/artefacts/moustache-cup/",
+      "checked_at": "2026-11-07"
+    },
+    "mushroom": {
+      "title": "National Trust: грибок для штопки",
+      "url": "https://www.nationaltrustcollections.org.uk/object/23046",
+      "checked_at": "2026-11-07"
+    },
+    "nips": {
+      "title": "Mountain Gateway Museum: сахарные щипцы",
+      "url": "https://www.mgmnc.org/blog/2026/04/20/sugar-nips",
+      "checked_at": "2026-11-07"
+    },
+    "glove": {
+      "title": "National Gallery of Victoria: растяжка для перчаток",
+      "url": "https://www.ngv.vic.gov.au/explore/collection/work/47144/",
+      "checked_at": "2026-11-07"
+    },
+    "asparagus": {
+      "title": "The Met: щипцы для спаржи",
+      "url": "https://www.metmuseum.org/art/collection/search/204482",
+      "checked_at": "2026-11-07"
+    },
+    "preservative": {
+      "title": "Cambridge Dictionary: preservative",
+      "url": "https://dictionary.cambridge.org/dictionary/english/preservative",
+      "checked_at": "2026-11-07"
+    },
+    "pregnant": {
+      "title": "Cambridge Dictionary: embarazada",
+      "url": "https://dictionary.cambridge.org/us/dictionary/spanish-english/embarazada",
+      "checked_at": "2026-11-07"
+    },
+    "gift": {
+      "title": "Cambridge Dictionary: немецкое Gift",
+      "url": "https://dictionary.cambridge.org/us/dictionary/german-english/gift",
+      "checked_at": "2026-11-07"
+    },
+    "cold": {
+      "title": "Cambridge Dictionary: constipado",
+      "url": "https://dictionary.cambridge.org/dictionary/spanish-english/constipado",
+      "checked_at": "2026-11-07"
+    },
+    "burro": {
+      "title": "Treccani: итальянское burro",
+      "url": "https://www.treccani.it/vocabolario/burro/",
+      "checked_at": "2026-11-07"
+    },
+    "ganvest": {
+      "title": "Медиалогия: мемы первого полугодия 2026",
+      "url": "https://www-cdn.mlg.ru/blog/viral_smm/medialogiya-opredelila-samye-populyarnye-memy-pervoy-poloviny-2026-goda/",
+      "checked_at": "2026-11-07"
+    },
+    "himym": {
+      "title": "How I Met Your Mother: premise",
+      "url": "https://en.wikipedia.org/wiki/How_I_Met_Your_Mother",
+      "checked_at": "2026-11-07"
+    },
+    "chessboxing": {
+      "title": "Швейцарская федерация шахбокса",
+      "url": "https://swisschessboxing.ch/en",
+      "checked_at": "2026-11-07"
+    },
+    "hobbyhorse": {
+      "title": "Федерация хоббихорсинга NRW",
+      "url": "https://hhlvnrw.de/hobby-horsing/",
+      "checked_at": "2026-11-07"
+    },
+    "underhockey": {
+      "title": "CMAS: подводный хоккей",
+      "url": "https://www.cmas.org/hockey",
+      "checked_at": "2026-11-07"
+    },
+    "shinkick": {
+      "title": "Организаторы Cotswold Olimpick Games: shin kicking",
+      "url": "https://www.olimpickgames.com/shin-kicking/",
+      "checked_at": "2026-11-07"
+    },
+    "ironing": {
+      "title": "Государственная энциклопедия Новой Зеландии: подводная глажка",
+      "url": "https://teara.govt.nz/en/photograph/9008/underwater-ironing",
+      "checked_at": "2026-11-07"
+    },
+    "octopus": {
+      "title": "Natural History Museum: три сердца осьминога",
+      "url": "https://www.nhm.ac.uk/discover/octopuses-keep-surprising-us-here-are-eight-examples-how.html",
+      "checked_at": "2026-11-07"
+    },
+    "butterfly": {
+      "title": "Washington State University: вкусовые рецепторы на лапках бабочек",
+      "url": "https://askdruniverse.wsu.edu/2026/07/16/butterflies-taste-feet/",
+      "checked_at": "2026-11-07"
+    },
+    "tower": {
+      "title": "Официальный сайт Эйфелевой башни: тепловое расширение",
+      "url": "https://www.toureiffel.paris/en/news/history-and-culture/why-does-eiffel-tower-change-size",
+      "checked_at": "2026-11-07"
+    },
+    "banana": {
+      "title": "Королевские ботанические сады Kew: банан — трава",
+      "url": "https://www.kew.org/plants/cavendish-banana",
+      "checked_at": "2026-11-07"
+    },
+    "wombat": {
+      "title": "University of Tasmania: кубический помёт вомбата",
+      "url": "https://www.utas.edu.au/about/news-and-stories/articles/2021/scientists-get-to-the-bottom-of-wombat-cubed-poo-mystery2",
+      "checked_at": "2026-11-07"
+    },
+    "paris": {
+      "title": "The Blueprint: Сергей Grey Wiese и Париж",
+      "url": "https://theblueprint.ru/fashion/lichnost/grigorev-apollonov-concert",
+      "checked_at": "2026-11-07"
+    },
+    "kreed": {
+      "title": "Клип «Love Is»: участники в описании видео",
+      "url": "https://vimeo.com/384509383",
+      "checked_at": "2026-11-07"
+    },
+    "psychologist": {
+      "title": "Разбор участия Натальи Холоденко в «Сердце Ангела»",
+      "url": "https://www.youtube.com/watch?v=3_QvRQNnQJg",
+      "checked_at": "2026-11-07"
+    },
+    "cuttlefish": {
+      "title": "Pastificio Temporin: паста с чернилами головоногих",
+      "url": "https://www.pastificiotemporin.it/en/products/specialita-dautore/spaghetti-al-nero-di-seppia",
+      "checked_at": "2026-11-07"
+    },
+    "huitlacoche": {
+      "title": "Мексиканское министерство сельского хозяйства: уитлакоче",
+      "url": "https://www.gob.mx/agricultura/articulos/huitlacoche-delicioso-y-nutritivo",
+      "checked_at": "2026-11-07"
+    },
+    "hakarl": {
+      "title": "Исландский музей акулы: хаукарль",
+      "url": "https://bjarnarhofn.is/",
+      "checked_at": "2026-11-07"
+    },
+    "shirako": {
+      "title": "Национальная туристическая организация Японии: сирако",
+      "url": "https://www.japan.travel/en/au/experience/cuisine/six-japanese-foods-try-adventurous/",
+      "checked_at": "2026-11-07"
+    },
+    "balut": {
+      "title": "Министерство науки Филиппин: балют",
+      "url": "https://www.dost.gov.ph/knowledge-resources/news/34-2014-news/527-when-balut-worries-go-kaput",
+      "checked_at": "2026-11-07"
+    },
+    "rebus_reddit": {
+      "title": "Reddit: r/rebus, проверенные ответы и обсуждение механик",
+      "url": "https://www.reddit.com/r/rebus/comments/1n10r54/12_new_rebus_puzzles/",
+      "checked_at": "2026-11-07"
+    },
+    "rebus_reddit2": {
+      "title": "Reddit: r/rebus, предметные и пространственные ребусы",
+      "url": "https://www.reddit.com/r/rebus/comments/1vso09r/11_new_rebus_picture_puzzles/",
+      "checked_at": "2026-11-07"
+    },
+    "own": {
+      "title": "Авторская задача, составленная для этой викторины",
+      "url": "",
+      "checked_at": null
+    },
+    "titanic": {
+      "title": "Titanic: сюжет",
+      "url": "https://www.imdb.com/title/tt0120338/",
+      "checked_at": "2026-11-07"
+    },
+    "shrek": {
+      "title": "Shrek: сюжет",
+      "url": "https://www.dreamworks.com/movies/shrek",
+      "checked_at": "2026-11-07"
+    },
+    "terminator": {
+      "title": "The Terminator: сюжет",
+      "url": "https://www.imdb.com/title/tt0088247/",
+      "checked_at": "2026-11-07"
+    },
+    "fightclub": {
+      "title": "Fight Club: сюжет",
+      "url": "https://www.imdb.com/title/tt0137523/",
+      "checked_at": "2026-11-07"
+    },
+    "hangover": {
+      "title": "The Hangover: сюжет",
+      "url": "https://www.warnerbros.com/movies/hangover",
+      "checked_at": "2026-11-07"
+    },
+    "dali_photo": {
+      "title": "High Museum of Art: Dalí Atomicus",
+      "url": "https://high.org/collection/dali-atomicus/",
+      "checked_at": "2026-11-07"
+    },
+    "q09new-100": {
+      "title": "One wheel motorcycle Goventosa.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:One_wheel_motorcycle_Goventosa.jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q09new-200": {
+      "title": "WalterRothschildWithZebras.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:WalterRothschildWithZebras.jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q09new-300": {
+      "title": "Evelyn Nesbit.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Evelyn_Nesbit.jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q09new-400": {
+      "title": "Salvador Dali A (Dali Atomicus) 09633u.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Salvador_Dali_A_(Dali_Atomicus)_09633u.jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q09new-500": {
+      "title": "Piano voor aan bed gebonden zieken - Piano for the bedridden (4192748677).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Piano_voor_aan_bed_gebonden_zieken_-_Piano_for_the_bedridden_(4192748677).jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q11-100": {
+      "title": "Amanita muscaria tyndrum.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Amanita_muscaria_tyndrum.jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q11-200": {
+      "title": "(Gemeine Steinpilz) Boletus edulis.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:(Gemeine_Steinpilz)_Boletus_edulis.jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q11-300": {
+      "title": "Heracleum sosnowskyi Inflorescences.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Heracleum_sosnowskyi_Inflorescences.jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q11-400": {
+      "title": "Ginkgo biloba Leaf.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Ginkgo_biloba_Leaf.jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q11-500": {
+      "title": "Laetiporus sulphureus 2010 G1.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Laetiporus_sulphureus_2010_G1.jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q12-100": {
+      "title": "Capivara(Hydrochoerus hydrochaeris).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Capivara(Hydrochoerus_hydrochaeris).jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q12-200": {
+      "title": "008 Eurasian hoopoe eating in Keoladeo National Park Photo by Giles Laurent.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:008_Eurasian_hoopoe_eating_in_Keoladeo_National_Park_Photo_by_Giles_Laurent.jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q12-300": {
+      "title": "Kleiber Sitta europaea-0447.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Kleiber_Sitta_europaea-0447.jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q12-400": {
+      "title": "Saiga antelope at the Stepnoi Sanctuary.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Saiga_antelope_at_the_Stepnoi_Sanctuary.jpg",
+      "checked_at": "2026-11-07"
+    },
+    "q12-500": {
+      "title": "Balaeniceps rex (Schuhschnabel - Shoebill) - Weltvogelpark Walsrode 2010-10.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Balaeniceps_rex_(Schuhschnabel_-_Shoebill)_-_Weltvogelpark_Walsrode_2010-10.jpg",
+      "checked_at": "2026-11-07"
+    }
+  },
+  "rounds": [
+    {
+      "id": 1,
+      "category_ids": [
+        1,
+        2,
+        4,
+        5,
+        8,
+        11,
+        13,
+        16,
+        18,
+        19
+      ]
+    },
+    {
+      "id": 2,
+      "category_ids": [
+        3,
+        6,
+        7,
+        9,
+        10,
+        12,
+        14,
+        15,
+        17,
+        20
+      ]
+    }
+  ],
+  "notes": [
+    "Ровно 20 категорий, два раунда по 10 категорий, в каждой вопросы 100–500. Всего 100 вопросов.",
+    "Игорь и Серёжа — самостоятельная категория. В мемной и сериальной категориях их вопросов больше нет.",
+    "Магшоты исключены. Их прежние файлы не используются в действующем пакете.",
+    "Полный проход 100 вопросов ориентировочно 100–140 минут с обсуждениями. Для 60–90 минут можно выбрать 50–60 вопросов из полного поля.",
+    "Рекомендуемые 60 вопросов: в каждой категории сыграть три выбранных вопроса. Все пять цен остаются доступными для выбора.",
+    "Категории 14 и 18 рассчитаны на скорость. В категории 18 все пять заданий намеренно простые, цена не означает сложность.",
+    "Ребусы — авторские русскоязычные карточки после исследования форматов Reddit. Обсуждения и голоса не выдаются за опрос «100 к 1».",
+    "Фотографии сохранены без редактирования. Прямоугольные плашки реализованы как слой в локальном документе просмотра; полный кадр доступен в раскрытии.",
+    "Название «Закуски из леса» — шутка. В заданиях требуется название, а не определение съедобности.",
+    "Данные готовы для проверки ведущим. Это пакет контента, игрового сайта и синхронизации здесь ещё нет."
+  ]
+}

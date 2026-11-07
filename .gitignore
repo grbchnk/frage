@@ -1,0 +1,10 @@
+research/render-tools/node_modules/
+research/__pycache__/
+node_modules/
+dist/
+.env*
+!.env.example
+public/content/
+public/media/
+supabase/setup.sql
+*.local

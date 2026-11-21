@@ -195,9 +195,9 @@ for(const [id,title,description,qs] of visuals){
   return {id:`q${id}-${(i+1)*100}`,value:(i+1)*100,prompt:id===43?(i===4?'Сколько этажей в самой высокой, центральной секции? Считаем с первого.':'Сколько этажей в этом доме? Считаем с первого.'):id===42?'Назовите рэпера на фото.':id===41?'Назовите актёра на фото.':id===40?'Какой мост на фото? Можно назвать город.':id===38?'Как называется этот музыкальный инструмент?':'Назовите предмет на фотографии.',answer,accepted_answers:[answer,...accepted],explanation,source_ids:[aid],time_seconds:25,host_note:id===43?'Ответ задан пользователем по имени исходного файла. Считаем надземные этажи, включая первый; крышу не считаем.':'Зачёт по указанным вариантам. Название файла участникам не показывается.',editorial_status:'ready_for_host_review',options:[],media:{kind:'image',path:r.path,source_id:aid,question_alt:'Фотография для вопроса'}};
  })});
 }
-p.categories=[...p.categories.filter(c=>c.id<=20),...categories];
+p.categories=[...p.categories.filter(c=>c.id<=20),...categories,...p.categories.filter(c=>c.id>43)];
 p.title='ВИКТОРИНА В КИНОКОМНАТЕ У ПАШИ';p.version='4.0-pasha-buttons';p.prepared_at='2026-11-21';p.players={min:2,max:10,mode:'individual'};
 p.rounds=[{id:1,category_ids:p.categories.map(c=>c.id)}];
 p.notes=['Банк: 43 категории и 215 вопросов. Каждая партия: один раунд из 10 случайно выбранных категорий.','Игроки входят по имени и нажимают кнопку на телефоне. Первого фиксирует база Supabase.','За неверный ответ ведущий снимает половину стоимости вопроса и открывает кнопки остальным; ошибившийся ждёт следующего вопроса.','50 вопросов в полной игре; 30 — при лимите три вопроса на категорию.','Вопросы про GTA VI основаны на официальных персонажах и географии, без даты выхода и слухов.'];
 fs.writeFileSync('quiz-pack.json',JSON.stringify(p,null,2)+'\n');
-console.log('43 categories / 215 questions / 40 new photographs');
+console.log(`${p.categories.length} categories; original extension refreshed`);

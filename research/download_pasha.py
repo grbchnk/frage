@@ -1,6 +1,6 @@
 """Download new licensed quiz photographs with Wikimedia attribution metadata."""
 from pathlib import Path
-import urllib.request, urllib.parse, json, hashlib, time
+import urllib.request, urllib.parse, json, hashlib, time, sys
 ROOT=Path(__file__).resolve().parents[1]
 FILES={
  'pasha-whisk':'File:Kitchen-whisk.jpg',
@@ -62,10 +62,14 @@ SEARCH.update({'pasha-actor-e':'Ryan Gosling portrait'})
 def fetch(url):
  return urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'PashaCinemaQuiz/1.0 (educational trivia; attribution recorded)'}),timeout=35)
 def api(params):
- return json.load(fetch('https://commons.wikimedia.org/w/api.php?'+urllib.parse.urlencode({'action':'query','format':'json',**params})))
+ return json.load(fetch('https://commons.wikimedia.org/w/api.php?'+urllib.parse.urlencode({'action':'query','format':'json','requestid':str(time.time_ns()),**params})))
+if len(sys.argv)>1:
+ manifest=json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))
+ FILES={aid:spec['title'] for aid,spec in manifest.items()}
+ SEARCH.update({aid:spec.get('search',spec['title'].replace('File:','')) for aid,spec in manifest.items()})
 records={r['id']:r for r in json.loads((ROOT/'assets/image_sources.json').read_text(encoding='utf-8'))}
 for aid,title in FILES.items():
- if aid in records and (ROOT/records[aid]['path']).exists() and (aid not in ['pasha-torque','pasha-cassette','pasha-actor-d'] or records[aid]['title']==title):continue
+ if aid in records and (ROOT/records[aid]['path']).exists() and (aid not in ['pasha-torque','pasha-cassette','pasha-actor-d','more-art-e'] or records[aid]['title']==title):continue
  try:
   common={'prop':'imageinfo','iiprop':'url|extmetadata','iiurlwidth':960}
   pages=api({'titles':title,**common})['query']['pages']
@@ -78,14 +82,14 @@ for aid,title in FILES.items():
   url=url.split('?')[0]
   try: raw=fetch(url).read()
   except Exception:
-   url=info['url'].split('?')[0];raw=fetch(url).read()
+   url=info['url'].split('?')[0]+'?download='+str(time.time_ns());raw=fetch(url).read()
   ext=Path(urllib.parse.unquote(urllib.parse.urlparse(url).path)).suffix.lower()
   dest=ROOT/'assets/images'/f'{aid}{ext}';dest.write_bytes(raw)
   val=lambda k:meta.get(k,{}).get('value','')
   records[aid]={'id':aid,'path':dest.relative_to(ROOT).as_posix(),'source_url':info['descriptionurl'],'download_url':url,'title':page['title'],'author_html':val('Artist'),'license':val('LicenseShortName'),'license_url':val('LicenseUrl'),'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'downloaded_at':'2026-11-21','used_in_current_pack':False}
   (ROOT/'assets/image_sources.json').write_text(json.dumps(list(records.values()),ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
   print(aid,page['title'].encode('ascii','replace').decode(),val('LicenseShortName'),flush=True)
-  time.sleep(3)
+  time.sleep(8)
  except Exception as e:
   print('FAILED',aid,str(e),flush=True)
-  if '429' in str(e):time.sleep(2)
+  if '429' in str(e):time.sleep(15)

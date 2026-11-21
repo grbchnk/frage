@@ -144,7 +144,7 @@
     if (state.phase === 'lobby') {
       var lobby = el('div', 'tv-center', null, content);
       el('h1', '', 'ВИКТОРИНА В КИНОКОМНАТЕ У ПАШИ', lobby);
-      el('p', '', '43 темы в банке · 10 случайных тем · 1 раунд', lobby);
+      el('p', '', pack.categories.length + ' тем в банке · 10 тем в игре · 1 раунд', lobby);
       el('p', '', 'Ожидаем ведущего', lobby);
     } else if (state.phase === 'board') {
       var chooser = state.players[state.turnIndex];

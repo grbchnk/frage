@@ -2,12 +2,12 @@ import {readFileSync,existsSync} from 'node:fs';
 import {it,expect} from 'vitest';
 import type {Pack} from '../src/types';
 const pack:Pack=JSON.parse(readFileSync('public/content/questions.json','utf8'));
-it('43 темы и 215 уникальных вопросов в одном банке',()=>{
-  expect(pack.categories).toHaveLength(43);
-  expect(pack.rounds.map(r=>r.category_ids.length)).toEqual([43]);
-  expect(new Set(pack.rounds.flatMap(r=>r.category_ids)).size).toBe(43);
+it('75 тем и 375 уникальных вопросов в одном банке',()=>{
+  expect(pack.categories).toHaveLength(75);
+  expect(pack.rounds.map(r=>r.category_ids.length)).toEqual([75]);
+  expect(new Set(pack.rounds.flatMap(r=>r.category_ids)).size).toBe(75);
   const questions=pack.categories.flatMap(c=>c.questions);
-  expect(questions).toHaveLength(215);expect(new Set(questions.map(q=>q.id)).size).toBe(215);
+  expect(questions).toHaveLength(375);expect(new Set(questions.map(q=>q.id)).size).toBe(375);
   for(const c of pack.categories)expect(c.questions.map(q=>q.value)).toEqual([100,200,300,400,500]);
 });
 it('публичный пакет не содержит правильных ответов или заметок ведущего',()=>{
@@ -26,7 +26,7 @@ it('все фото существуют; плашки находятся в п�
     }else expect(existsSync(`public/${q.media.path}`)).toBe(true);
     for(const [x,y,w,h] of q.media.question_masks_normalized||[]){expect(x).toBeGreaterThanOrEqual(0);expect(y).toBeGreaterThanOrEqual(0);expect(w).toBeGreaterThan(0);expect(h).toBeGreaterThan(0);expect(x+w).toBeLessThanOrEqual(1.00001);expect(y+h).toBeLessThanOrEqual(1.00001);}
   }
-  expect(count).toBe(81);
+  expect(count).toBe(111);
 });
 it('новые рубрики, отсутствие вариантов и фоторебусы соответствуют правкам ведущего',()=>{
   const original=JSON.parse(readFileSync('quiz-pack.json','utf8'));
@@ -37,7 +37,7 @@ it('новые рубрики, отсутствие вариантов и фот
   expect(qs.find((q:any)=>q.id==='q11-200').accepted_answers).toContain('Боровик');
   expect(qs.filter((q:any)=>q.media?.kind==='photo_rebus')).toHaveLength(7);
   expect(pack.revision).toMatch(/^[a-f0-9]{16}$/);
-  expect(original.categories.filter((c:any)=>c.id>20)).toHaveLength(23);
+  expect(original.categories.filter((c:any)=>c.id>20&&c.id<=43)).toHaveLength(23);
   expect(original.categories.find((c:any)=>c.id===27).title).toBe('Грудной карапуз');
   expect(original.categories.find((c:any)=>c.id===33).title).toBe('Клюёт только комар');
   expect(original.categories.find((c:any)=>c.id===35).title).toBe('Выход через письку');

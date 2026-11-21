@@ -8,3 +8,4 @@ public/content/
 public/media/
 supabase/setup.sql
 *.local
+supabase/update-answers.sql

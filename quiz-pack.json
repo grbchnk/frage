@@ -1,7 +1,7 @@
 {
   "title": "ВИКТОРИНА В КИНОКОМНАТЕ У ПАШИ",
-  "version": "4.0-pasha-buttons",
-  "prepared_at": "2026-11-21",
+  "version": "5.0-expanded-bank",
+  "prepared_at": "2026-11-22",
   "language": "ru",
   "players": {
     "min": 2,
@@ -5175,6 +5175,3428 @@
           }
         }
       ]
+    },
+    {
+      "id": 44,
+      "title": "КБЖУ: жизнь на кухонных весах",
+      "description": "Считаем еду, а не чужие деньги.",
+      "questions": [
+        {
+          "id": "q44-100",
+          "value": 100,
+          "prompt": "Как расшифровывается КБЖУ?",
+          "answer": "Калории, белки, жиры, углеводы",
+          "explanation": "Буквы обозначают энергетическую ценность и три основных макронутриента.",
+          "accepted_answers": [
+            "Калории, белки, жиры, углеводы",
+            "Калорийность, белки, жиры, углеводы"
+          ],
+          "source_ids": [
+            "more-food"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q44-200",
+          "value": 200,
+          "prompt": "Сколько килокалорий обычно считают в одном грамме жира?",
+          "answer": "9 ккал",
+          "explanation": "Для стандартного расчёта используют коэффициент 9 ккал на грамм жиров.",
+          "accepted_answers": [
+            "9 ккал",
+            "9",
+            "Девять"
+          ],
+          "source_ids": [
+            "more-food"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q44-300",
+          "value": 300,
+          "prompt": "На пачке 25 г белка на 100 г. Вы съели 40 г продукта. Сколько граммов белка досталось вам?",
+          "answer": "10 г",
+          "explanation": "25 × 40 / 100 = 10. Калькулятор может идти отдыхать.",
+          "accepted_answers": [
+            "10 г",
+            "10",
+            "Десять"
+          ],
+          "source_ids": [
+            "more-food"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q44-400",
+          "value": 400,
+          "prompt": "В порции 20 г белка, 8 г жира и 3 г углеводов. Сколько ккал по формуле 4–9–4?",
+          "answer": "164 ккал",
+          "explanation": "20 × 4 + 8 × 9 + 3 × 4 = 164.",
+          "accepted_answers": [
+            "164 ккал",
+            "164"
+          ],
+          "source_ids": [
+            "more-food"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q44-500",
+          "value": 500,
+          "prompt": "На этикетке 250 ккал на 100 г. Сколько ккал в пачке массой 60 г?",
+          "answer": "150 ккал",
+          "explanation": "250 × 0,6 = 150. Надпись «фитнес» на арифметику не влияет.",
+          "accepted_answers": [
+            "150 ккал",
+            "150"
+          ],
+          "source_ids": [
+            "more-food"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 45,
+      "title": "Попил — и опять загадки",
+      "description": "Безалкогольные напитки с характером.",
+      "questions": [
+        {
+          "id": "q45-100",
+          "value": 100,
+          "prompt": "Как называется красный напиток из чашечек гибискуса?",
+          "answer": "Каркаде",
+          "explanation": "Это растительный настой, а не сорт чайного куста.",
+          "accepted_answers": [
+            "Каркаде"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q45-200",
+          "value": 200,
+          "prompt": "Из какого крахмального продукта обычно делают жевательные шарики в бабл-ти?",
+          "answer": "Тапиока",
+          "explanation": "Тапиоковый крахмал получают из корней маниока.",
+          "accepted_answers": [
+            "Тапиока",
+            "Крахмал маниока"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q45-300",
+          "value": 300,
+          "prompt": "Какой газ делает газировку газировкой?",
+          "answer": "Углекислый газ",
+          "explanation": "Растворённый CO₂ выходит пузырьками.",
+          "accepted_answers": [
+            "Углекислый газ",
+            "CO2",
+            "Диоксид углерода"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q45-400",
+          "value": 400,
+          "prompt": "Как называется южноамериканский напиток из листьев парагвайского падуба, который пьют через бомбилью?",
+          "answer": "Мате",
+          "explanation": "Бомбилья — трубочка с фильтром.",
+          "accepted_answers": [
+            "Мате",
+            "Йерба мате"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q45-500",
+          "value": 500,
+          "prompt": "Каскара — напиток из высушенной мякоти и кожицы плодов какого растения?",
+          "answer": "Кофейного дерева",
+          "explanation": "Напиток делают из оболочек кофейных ягод, а не из обжаренных зёрен.",
+          "accepted_answers": [
+            "Кофейного дерева",
+            "Кофе"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 46,
+      "title": "Паровоз на зарядке",
+      "description": "Устройство и химия вейпа, без инструкции по употреблению.",
+      "questions": [
+        {
+          "id": "q46-100",
+          "value": 100,
+          "prompt": "Какая перезаряжаемая деталь питает обычную электронную сигарету?",
+          "answer": "Аккумулятор",
+          "explanation": "Он подаёт электричество на нагреватель.",
+          "accepted_answers": [
+            "Аккумулятор",
+            "Батарея",
+            "Батарейка"
+          ],
+          "source_ids": [
+            "more-vape"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q46-200",
+          "value": 200,
+          "prompt": "Какое вещество в большинстве никотиновых вейпов вызывает зависимость?",
+          "answer": "Никотин",
+          "explanation": "Наличие ароматизатора не меняет свойства никотина.",
+          "accepted_answers": [
+            "Никотин"
+          ],
+          "source_ids": [
+            "more-vape"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q46-300",
+          "value": 300,
+          "prompt": "Облако из вейпа — просто водяной пар или аэрозоль?",
+          "answer": "Аэрозоль",
+          "explanation": "В воздухе находятся мелкие частицы и капли. Это не просто водяной пар.",
+          "accepted_answers": [
+            "Аэрозоль",
+            "Это аэрозоль"
+          ],
+          "source_ids": [
+            "more-vape"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q46-400",
+          "value": 400,
+          "prompt": "Какой компонент жидкостей скрывается за буквами VG?",
+          "answer": "Глицерин",
+          "explanation": "VG — vegetable glycerin, растительный глицерин.",
+          "accepted_answers": [
+            "Глицерин",
+            "Растительный глицерин"
+          ],
+          "source_ids": [
+            "more-vape-dictionary"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q46-500",
+          "value": 500,
+          "prompt": "Какой компонент жидкостей обозначают буквами PG?",
+          "answer": "Пропиленгликоль",
+          "explanation": "PG — propylene glycol. Название похоже на заклинание, но это химическое соединение.",
+          "accepted_answers": [
+            "Пропиленгликоль"
+          ],
+          "source_ids": [
+            "more-vape-dictionary"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 47,
+      "title": "Мама, я дома и голодный",
+      "description": "То, что исчезает со сковородки ещё до ужина.",
+      "questions": [
+        {
+          "id": "q47-100",
+          "value": 100,
+          "prompt": "Какой овощ натирают для классических драников?",
+          "answer": "Картофель",
+          "explanation": "Картофель — основа классических белорусских драников.",
+          "accepted_answers": [
+            "Картофель",
+            "Картошка"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q47-200",
+          "value": 200,
+          "prompt": "Какой молочный продукт лежит в основе сырников?",
+          "answer": "Творог",
+          "explanation": "Название может сбить с толку: твёрдый сыр не нужен.",
+          "accepted_answers": [
+            "Творог"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q47-300",
+          "value": 300,
+          "prompt": "Какая крупа обычно торчит «иголками» из мясных ёжиков?",
+          "answer": "Рис",
+          "explanation": "Так называют мясные тефтели с рисом.",
+          "accepted_answers": [
+            "Рис"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q47-400",
+          "value": 400,
+          "prompt": "Какие микроорганизмы помогают дрожжевому тесту подняться?",
+          "answer": "Дрожжи",
+          "explanation": "При брожении выделяется углекислый газ. Тесто становится пористым.",
+          "accepted_answers": [
+            "Дрожжи"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q47-500",
+          "value": 500,
+          "prompt": "Как называется белковая сеть в пшеничном тесте, которая помогает ему растягиваться?",
+          "answer": "Клейковина",
+          "explanation": "Её также называют глютеном.",
+          "accepted_answers": [
+            "Клейковина",
+            "Глютен"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 48,
+      "title": "Шесть ног и ноль аренды",
+      "description": "Узнай насекомое раньше остальных.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q48-100",
+          "value": 100,
+          "prompt": "Как называется это насекомое?",
+          "answer": "Божья коровка",
+          "explanation": "На фото семиточечная божья коровка.",
+          "accepted_answers": [
+            "Божья коровка"
+          ],
+          "source_ids": [
+            "more-insect-a"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-insect-a.jpg",
+            "source_id": "more-insect-a",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q48-200",
+          "value": 200,
+          "prompt": "Как называется это насекомое?",
+          "answer": "Богомол",
+          "explanation": "Характерные хватательные передние ноги напоминают молитвенную позу.",
+          "accepted_answers": [
+            "Богомол"
+          ],
+          "source_ids": [
+            "more-insect-b"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-insect-b.jpg",
+            "source_id": "more-insect-b",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q48-300",
+          "value": 300,
+          "prompt": "Как называется это насекомое?",
+          "answer": "Жук-олень",
+          "explanation": "Крупные челюсти самца похожи на оленьи рога.",
+          "accepted_answers": [
+            "Жук-олень"
+          ],
+          "source_ids": [
+            "more-insect-c"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-insect-c.jpg",
+            "source_id": "more-insect-c",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q48-400",
+          "value": 400,
+          "prompt": "Как называется это насекомое?",
+          "answer": "Листовидка",
+          "explanation": "Насекомое маскируется под лист. На фото самка гигантской листовидки.",
+          "accepted_answers": [
+            "Листовидка",
+            "Листотел"
+          ],
+          "source_ids": [
+            "more-insect-d"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-insect-d.jpg",
+            "source_id": "more-insect-d",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q48-500",
+          "value": 500,
+          "prompt": "Как называется это насекомое?",
+          "answer": "Шмель",
+          "explanation": "На фото земляной шмель.",
+          "accepted_answers": [
+            "Шмель"
+          ],
+          "source_ids": [
+            "more-insect-e"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-insect-e.jpg",
+            "source_id": "more-insect-e",
+            "question_alt": "Изображение к вопросу"
+          }
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "title": "Игрушки, которые не дарят племяннику",
+      "description": "Термины и техника для взрослых. Без откровенных изображений.",
+      "questions": [
+        {
+          "id": "q49-100",
+          "value": 100,
+          "prompt": "Как называется интимный прибор, основная функция которого — вибрация?",
+          "answer": "Вибратор",
+          "explanation": "Название буквально описывает принцип работы.",
+          "accepted_answers": [
+            "Вибратор"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q49-200",
+          "value": 200,
+          "prompt": "Как одним словом называется средство, уменьшающее трение при интимном контакте?",
+          "answer": "Лубрикант",
+          "explanation": "Это специальная смазка.",
+          "accepted_answers": [
+            "Лубрикант",
+            "Смазка",
+            "Интимная смазка"
+          ],
+          "source_ids": [
+            "more-lube"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q49-300",
+          "value": 300,
+          "prompt": "На коробке написано «медицинский силикон». О каком классе материалов идёт речь: металл, полимер или стекло?",
+          "answer": "Полимер",
+          "explanation": "Силиконы относятся к полимерным материалам.",
+          "accepted_answers": [
+            "Полимер"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q49-400",
+          "value": 400,
+          "prompt": "Как называется маленькое устройство с кнопками, которым можно управлять игрушкой на расстоянии?",
+          "answer": "Пульт",
+          "explanation": "Дистанционное управление встречается и у телевизоров, и у взрослых гаджетов.",
+          "accepted_answers": [
+            "Пульт",
+            "Пульт управления"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q49-500",
+          "value": 500,
+          "prompt": "Какая беспроводная технология с символом, похожим на угловатую букву B, часто соединяет гаджет со смартфоном?",
+          "answer": "Bluetooth",
+          "explanation": "Название технологии пришло от прозвища короля Харальда Синезубого.",
+          "accepted_answers": [
+            "Bluetooth",
+            "Блютус"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 50,
+      "title": "Родня: кто все эти люди?",
+      "description": "Семейный чат без схемы родства не разобрать.",
+      "questions": [
+        {
+          "id": "q50-100",
+          "value": 100,
+          "prompt": "Кто для мужа мать его жены?",
+          "answer": "Тёща",
+          "explanation": "Это мать супруги.",
+          "accepted_answers": [
+            "Тёща"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q50-200",
+          "value": 200,
+          "prompt": "Как жена называет сестру своего мужа?",
+          "answer": "Золовка",
+          "explanation": "Не путать со свояченицей — сестрой жены.",
+          "accepted_answers": [
+            "Золовка"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q50-300",
+          "value": 300,
+          "prompt": "Кто для жены брат её мужа?",
+          "answer": "Деверь",
+          "explanation": "Так называется брат супруга.",
+          "accepted_answers": [
+            "Деверь"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q50-400",
+          "value": 400,
+          "prompt": "Как муж называет сестру своей жены?",
+          "answer": "Свояченица",
+          "explanation": "Да, у этого семейного персонажа есть отдельное слово.",
+          "accepted_answers": [
+            "Свояченица"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q50-500",
+          "value": 500,
+          "prompt": "Кем друг другу приходятся мужья двух родных сестёр?",
+          "answer": "Свояки",
+          "explanation": "Родство через супругов тоже получает собственное название.",
+          "accepted_answers": [
+            "Свояки"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 51,
+      "title": "Деревня: Wi-Fi у колодца",
+      "description": "Здесь будильник работает на зерне.",
+      "questions": [
+        {
+          "id": "q51-100",
+          "value": 100,
+          "prompt": "Кто обычно кричит «кукареку»: гусь, петух или индюк?",
+          "answer": "Петух",
+          "explanation": "Деревенская подписка на будильник.",
+          "accepted_answers": [
+            "Петух"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q51-200",
+          "value": 200,
+          "prompt": "Как называется высушенная трава, которую заготавливают на корм скоту?",
+          "answer": "Сено",
+          "explanation": "Солома — в основном стебли зерновых после обмолота.",
+          "accepted_answers": [
+            "Сено"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q51-300",
+          "value": 300,
+          "prompt": "Как называется место, где стоят ульи и живут пчёлы?",
+          "answer": "Пасека",
+          "explanation": "А человек, который ими занимается, — пчеловод.",
+          "accepted_answers": [
+            "Пасека"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q51-400",
+          "value": 400,
+          "prompt": "Как называется подгребание земли к нижней части картофельного куста?",
+          "answer": "Окучивание",
+          "explanation": "Земля образует гребень вокруг растения.",
+          "accepted_answers": [
+            "Окучивание"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q51-500",
+          "value": 500,
+          "prompt": "Как называется сочный корм, который получают консервированием зелёной массы без доступа воздуха?",
+          "answer": "Силос",
+          "explanation": "Важную роль в сохранении корма играет молочнокислое брожение.",
+          "accepted_answers": [
+            "Силос"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 52,
+      "title": "Авто — это жизнь, остальное кредит",
+      "description": "Бренды и автомобильные байки с проверяемым ответом.",
+      "questions": [
+        {
+          "id": "q52-100",
+          "value": 100,
+          "prompt": "У какой автомобильной марки на эмблеме четыре кольца?",
+          "answer": "Audi",
+          "explanation": "Кольца связаны с объединением четырёх компаний в Auto Union.",
+          "accepted_answers": [
+            "Audi",
+            "Ауди"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q52-200",
+          "value": 200,
+          "prompt": "Какое животное встаёт на дыбы на эмблеме Ferrari?",
+          "answer": "Лошадь",
+          "explanation": "Чёрный гарцующий конь — символ марки.",
+          "accepted_answers": [
+            "Лошадь",
+            "Конь"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q52-300",
+          "value": 300,
+          "prompt": "Что Honda начала выпускать раньше: мотоциклы или автомобили?",
+          "answer": "Мотоциклы",
+          "explanation": "Серийные автомобили Honda появились в 1963 году, позднее мотоциклов.",
+          "accepted_answers": [
+            "Мотоциклы"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q52-400",
+          "value": 400,
+          "prompt": "Название какого шведского автобренда переводится с латыни как «я качусь»?",
+          "answer": "Volvo",
+          "explanation": "Volvo происходит от латинского глагола volvere.",
+          "accepted_answers": [
+            "Volvo",
+            "Вольво"
+          ],
+          "source_ids": [
+            "more-volvo"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q52-500",
+          "value": 500,
+          "prompt": "В честь чьей дочери появилось автомобильное имя Mercedes? Назовите фамилию предпринимателя.",
+          "answer": "Еллинек",
+          "explanation": "Эмиль Еллинек использовал имя дочери Мерседес.",
+          "accepted_answers": [
+            "Еллинек",
+            "Эмиль Еллинек",
+            "Йеллинек"
+          ],
+          "source_ids": [
+            "more-mercedes"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 53,
+      "title": "Писька, у нас вопросы",
+      "description": "Нормальная анатомия за ненормальные баллы.",
+      "questions": [
+        {
+          "id": "q53-100",
+          "value": 100,
+          "prompt": "Какой анатомический термин обозначает наружные женские половые органы в целом?",
+          "answer": "Вульва",
+          "explanation": "Влагалище — внутренний канал; наружные органы называют вульвой.",
+          "accepted_answers": [
+            "Вульва"
+          ],
+          "source_ids": [
+            "more-anatomy"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q53-200",
+          "value": 200,
+          "prompt": "В каком органе обычно развивается беременность?",
+          "answer": "Матка",
+          "explanation": "В норме эмбрион имплантируется в слизистую оболочку матки.",
+          "accepted_answers": [
+            "Матка"
+          ],
+          "source_ids": [
+            "more-anatomy"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q53-300",
+          "value": 300,
+          "prompt": "В каких парных органах созревают яйцеклетки?",
+          "answer": "Яичники",
+          "explanation": "Они также вырабатывают половые гормоны.",
+          "accepted_answers": [
+            "Яичники"
+          ],
+          "source_ids": [
+            "more-anatomy"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q53-400",
+          "value": 400,
+          "prompt": "Как называется канал, по которому моча выходит из мочевого пузыря?",
+          "answer": "Уретра",
+          "explanation": "Мочеиспускательный канал — отдельная структура, а не влагалище.",
+          "accepted_answers": [
+            "Уретра",
+            "Мочеиспускательный канал"
+          ],
+          "source_ids": [
+            "more-anatomy"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q53-500",
+          "value": 500,
+          "prompt": "Как называются трубы, соединяющие полость матки с областью яичников?",
+          "answer": "Маточные трубы",
+          "explanation": "Также употребляется название «фаллопиевы трубы». Они открываются в брюшную полость рядом с яичниками.",
+          "accepted_answers": [
+            "Маточные трубы",
+            "Фаллопиевы трубы",
+            "Яйцеводы"
+          ],
+          "source_ids": [
+            "more-anatomy"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 54,
+      "title": "Я тоже так могу нарисовать",
+      "description": "Назови автора по произведению.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q54-100",
+          "value": 100,
+          "prompt": "Кто автор этого произведения?",
+          "answer": "Леонардо да Винчи",
+          "explanation": "«Мона Лиза».",
+          "accepted_answers": [
+            "Леонардо да Винчи",
+            "Да Винчи",
+            "Леонардо"
+          ],
+          "source_ids": [
+            "more-art-a"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-art-a.jpg",
+            "source_id": "more-art-a",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q54-200",
+          "value": 200,
+          "prompt": "Кто автор этого произведения?",
+          "answer": "Винсент ван Гог",
+          "explanation": "«Звёздная ночь», 1889 год.",
+          "accepted_answers": [
+            "Винсент ван Гог",
+            "Ван Гог"
+          ],
+          "source_ids": [
+            "more-art-b"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-art-b.jpg",
+            "source_id": "more-art-b",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q54-300",
+          "value": 300,
+          "prompt": "Кто автор этого произведения?",
+          "answer": "Ян Вермеер",
+          "explanation": "«Девушка с жемчужной серёжкой».",
+          "accepted_answers": [
+            "Ян Вермеер",
+            "Вермеер",
+            "Йоханнес Вермеер"
+          ],
+          "source_ids": [
+            "more-art-c"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-art-c.jpg",
+            "source_id": "more-art-c",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q54-400",
+          "value": 400,
+          "prompt": "Кто автор этого произведения?",
+          "answer": "Кацусика Хокусай",
+          "explanation": "«Большая волна в Канагаве». Это гравюра.",
+          "accepted_answers": [
+            "Кацусика Хокусай",
+            "Хокусай"
+          ],
+          "source_ids": [
+            "more-art-d"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-art-d.jpg",
+            "source_id": "more-art-d",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q54-500",
+          "value": 500,
+          "prompt": "Кто автор этого произведения?",
+          "answer": "Казимир Малевич",
+          "explanation": "«Чёрный квадрат».",
+          "accepted_answers": [
+            "Казимир Малевич",
+            "Малевич"
+          ],
+          "source_ids": [
+            "more-art-e"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-art-e.jpg",
+            "source_id": "more-art-e",
+            "question_alt": "Изображение к вопросу"
+          }
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "title": "Она смотрела, ты переживал",
+      "description": "Узнаём сериалы по сюжету, а не по стереотипам.",
+      "questions": [
+        {
+          "id": "q55-100",
+          "value": 100,
+          "prompt": "Леди Уистлдаун анонимно разносит сплетни, а лондонское высшее общество ищет пару. Какой сериал?",
+          "answer": "Бриджертоны",
+          "explanation": "История семьи Бриджертонов и брачного сезона.",
+          "accepted_answers": [
+            "Бриджертоны",
+            "Bridgerton"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q55-200",
+          "value": 200,
+          "prompt": "Монтерей, мамы первоклассников, тайны и расследование смерти на школьном вечере. Какой сериал?",
+          "answer": "Большая маленькая ложь",
+          "explanation": "Сериал по роману Лианы Мориарти.",
+          "accepted_answers": [
+            "Большая маленькая ложь",
+            "Big Little Lies"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q55-300",
+          "value": 300,
+          "prompt": "Три женщины, один дом и семейные проблемы в 1963, 1984 и 2019 годах. Как называется первый сезон этого сериала?",
+          "answer": "Почему женщины убивают",
+          "explanation": "В первом сезоне показаны три эпохи жизни одного особняка.",
+          "accepted_answers": [
+            "Почему женщины убивают",
+            "Why Women Kill"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q55-400",
+          "value": 400,
+          "prompt": "Анонимный блог следит за Сереной ван дер Вудсен и Блэр Уолдорф. Что за сериал?",
+          "answer": "Сплетница",
+          "explanation": "Речь об оригинальном сериале о подростках Верхнего Ист-Сайда.",
+          "accepted_answers": [
+            "Сплетница",
+            "Gossip Girl"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q55-500",
+          "value": 500,
+          "prompt": "Алисия Флоррик возвращается к работе адвокатом после скандала вокруг мужа-политика. Какой сериал?",
+          "answer": "Хорошая жена",
+          "explanation": "Главную роль исполнила Джулианна Маргулис.",
+          "accepted_answers": [
+            "Хорошая жена",
+            "The Good Wife"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 56,
+      "title": "За этого я не голосовал",
+      "description": "История президентов без угадывания сегодняшних должностей.",
+      "questions": [
+        {
+          "id": "q56-100",
+          "value": 100,
+          "prompt": "Кто стал первым президентом США?",
+          "answer": "Джордж Вашингтон",
+          "explanation": "Он вступил в должность в 1789 году.",
+          "accepted_answers": [
+            "Джордж Вашингтон",
+            "Вашингтон"
+          ],
+          "source_ids": [
+            "more-washington"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q56-200",
+          "value": 200,
+          "prompt": "Какой президент США побеждал на президентских выборах четыре раза?",
+          "answer": "Франклин Рузвельт",
+          "explanation": "Победы — 1932, 1936, 1940 и 1944 годы.",
+          "accepted_answers": [
+            "Франклин Рузвельт",
+            "Франклин Делано Рузвельт",
+            "Рузвельт"
+          ],
+          "source_ids": [
+            "more-fdr"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q56-300",
+          "value": 300,
+          "prompt": "Кто выиграл первые президентские выборы в Беларуси в 1994 году?",
+          "answer": "Александр Лукашенко",
+          "explanation": "Вопрос об историческом результате выборов 1994 года.",
+          "accepted_answers": [
+            "Александр Лукашенко",
+            "Лукашенко"
+          ],
+          "source_ids": [
+            "more-belarus"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q56-400",
+          "value": 400,
+          "prompt": "Президентом какой страны в 1980 году избрали Вигдис Финнбогадоуттир — первую женщину, избранную президентом государства на общенациональных выборах?",
+          "answer": "Исландия",
+          "explanation": "Она занимала пост с 1980 по 1996 год.",
+          "accepted_answers": [
+            "Исландия"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q56-500",
+          "value": 500,
+          "prompt": "Кто стал президентом ЮАР после первых всеобщих демократических выборов 1994 года?",
+          "answer": "Нельсон Мандела",
+          "explanation": "Инаугурация состоялась 10 мая 1994 года.",
+          "accepted_answers": [
+            "Нельсон Мандела",
+            "Мандела"
+          ],
+          "source_ids": [
+            "more-mandela"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 57,
+      "title": "Фу, кто это сделал?",
+      "description": "Запахи, от которых вопросы не становятся приятнее.",
+      "questions": [
+        {
+          "id": "q57-100",
+          "value": 100,
+          "prompt": "Какой чёрно-белый зверь знаменит пахучим защитным спреем?",
+          "answer": "Скунс",
+          "explanation": "Секрет выделяется из специальных желёз.",
+          "accepted_answers": [
+            "Скунс"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q57-200",
+          "value": 200,
+          "prompt": "Какой колючий тропический фрукт славится настолько сильным запахом, что его запрещают проносить в некоторые отели?",
+          "answer": "Дуриан",
+          "explanation": "Его аромат — отдельное испытание для носа.",
+          "accepted_answers": [
+            "Дуриан"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q57-300",
+          "value": 300,
+          "prompt": "Как одним словом называется характерный запах после дождя по сухой земле?",
+          "answer": "Петрикор",
+          "explanation": "Термин предложили исследователи Изабел Беар и Ричард Томас.",
+          "accepted_answers": [
+            "Петрикор"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q57-400",
+          "value": 400,
+          "prompt": "Какой газ обычно описывают словами «пахнет тухлыми яйцами»?",
+          "answer": "Сероводород",
+          "explanation": "Химическая формула — H₂S. По запаху нельзя надёжно оценивать его наличие: это опасный газ.",
+          "accepted_answers": [
+            "Сероводород",
+            "H2S"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q57-500",
+          "value": 500,
+          "prompt": "Как называется вещество с землистым запахом, который можно почувствовать в свёкле и влажной почве?",
+          "answer": "Геосмин",
+          "explanation": "Название связано с греческими словами «земля» и «запах».",
+          "accepted_answers": [
+            "Геосмин"
+          ],
+          "source_ids": [
+            "more-geosmin"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 58,
+      "title": "В рот или обратно на полку?",
+      "description": "Узнаём продукт по изображению. Ответ не инструкция пробовать незнакомые предметы.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q58-100",
+          "value": 100,
+          "prompt": "Это продукт питания? Ответьте «да» или «нет» и назовите предмет.",
+          "answer": "Да, рамбутан",
+          "explanation": "Волосатая оболочка скрывает съедобную мякоть.",
+          "accepted_answers": [
+            "Да, рамбутан",
+            "Рамбутан"
+          ],
+          "source_ids": [
+            "more-edible-a"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-edible-a.jpg",
+            "source_id": "more-edible-a",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q58-200",
+          "value": 200,
+          "prompt": "Это продукт питания? Ответьте «да» или «нет» и назовите предмет.",
+          "answer": "Нет, флюорит",
+          "explanation": "Это минерал, а не леденец.",
+          "accepted_answers": [
+            "Нет, флюорит",
+            "Флюорит",
+            "Плавиковый шпат"
+          ],
+          "source_ids": [
+            "more-edible-b"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-edible-b.jpg",
+            "source_id": "more-edible-b",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q58-300",
+          "value": 300,
+          "prompt": "Это продукт питания? Ответьте «да» или «нет» и назовите предмет.",
+          "answer": "Да, кивано",
+          "explanation": "Рогатая дыня — съедобный плод.",
+          "accepted_answers": [
+            "Да, кивано",
+            "Кивано",
+            "Рогатая дыня"
+          ],
+          "source_ids": [
+            "more-edible-c"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-edible-c.jpg",
+            "source_id": "more-edible-c",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q58-400",
+          "value": 400,
+          "prompt": "Это продукт питания? Ответьте «да» или «нет» и назовите предмет.",
+          "answer": "Нет, бомбочка для ванны",
+          "explanation": "Косметическое средство, даже если напоминает десерт.",
+          "accepted_answers": [
+            "Нет, бомбочка для ванны",
+            "Бомбочка для ванны"
+          ],
+          "source_ids": [
+            "more-edible-d"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-edible-d.jpg",
+            "source_id": "more-edible-d",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q58-500",
+          "value": 500,
+          "prompt": "Это продукт питания? Ответьте «да» или «нет» и назовите предмет.",
+          "answer": "Да, цитрон «рука Будды»",
+          "explanation": "Ароматную кожуру этого цитруса используют в кулинарии.",
+          "accepted_answers": [
+            "Да, цитрон «рука Будды»",
+            "Рука Будды",
+            "Цитрон"
+          ],
+          "source_ids": [
+            "more-edible-e"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-edible-e.jpg",
+            "source_id": "more-edible-e",
+            "question_alt": "Изображение к вопросу"
+          }
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "title": "ИИ нас заменит, но не сегодня",
+      "description": "Нейросети тоже умеют уверенно нести чушь.",
+      "questions": [
+        {
+          "id": "q59-100",
+          "value": 100,
+          "prompt": "Какая компания разработала ChatGPT?",
+          "answer": "OpenAI",
+          "explanation": "Публичный запуск ChatGPT состоялся в ноябре 2022 года.",
+          "accepted_answers": [
+            "OpenAI"
+          ],
+          "source_ids": [
+            "more-chatgpt"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q59-200",
+          "value": 200,
+          "prompt": "Как называют реалистичную подделку видео или голоса человека с помощью ИИ?",
+          "answer": "Дипфейк",
+          "explanation": "Английское название — deepfake.",
+          "accepted_answers": [
+            "Дипфейк",
+            "Deepfake"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q59-300",
+          "value": 300,
+          "prompt": "Как называют ситуацию, когда нейросеть уверенно выдаёт выдуманный факт?",
+          "answer": "Галлюцинация",
+          "explanation": "Термин описывает недостоверное сгенерированное содержание, а не человеческое восприятие.",
+          "accepted_answers": [
+            "Галлюцинация"
+          ],
+          "source_ids": [
+            "more-hallucinations"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q59-400",
+          "value": 400,
+          "prompt": "Чьим именем назван известный тест с попыткой отличить машину от человека в переписке?",
+          "answer": "Алана Тьюринга",
+          "explanation": "В статье 1950 года Тьюринг предложил «игру в имитацию».",
+          "accepted_answers": [
+            "Алана Тьюринга",
+            "Тьюринг",
+            "Тест Тьюринга"
+          ],
+          "source_ids": [
+            "more-turing"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q59-500",
+          "value": 500,
+          "prompt": "Что означает буква T в сокращении GPT?",
+          "answer": "Transformer",
+          "explanation": "Полная расшифровка — Generative Pre-trained Transformer.",
+          "accepted_answers": [
+            "Transformer",
+            "Трансформер"
+          ],
+          "source_ids": [
+            "more-transformer"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 60,
+      "title": "Цитаты без пацанских пабликов",
+      "description": "Узнаваемые фразы с известным источником.",
+      "questions": [
+        {
+          "id": "q60-100",
+          "value": 100,
+          "prompt": "Кто сказал «Поехали!» перед первым полётом человека в космос?",
+          "answer": "Юрий Гагарин",
+          "explanation": "Фраза прозвучала при старте «Востока-1» в 1961 году.",
+          "accepted_answers": [
+            "Юрий Гагарин",
+            "Гагарин"
+          ],
+          "source_ids": [
+            "more-gagarin"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q60-200",
+          "value": 200,
+          "prompt": "Кому древние авторы приписывают фразу «Пришёл, увидел, победил»?",
+          "answer": "Юлий Цезарь",
+          "explanation": "Латинская формула — Veni, vidi, vici.",
+          "accepted_answers": [
+            "Юлий Цезарь",
+            "Цезарь"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q60-300",
+          "value": 300,
+          "prompt": "Кто произнёс слова о маленьком шаге человека и гигантском скачке человечества, ступив на Луну?",
+          "answer": "Нил Армстронг",
+          "explanation": "Это произошло во время миссии Apollo 11 в 1969 году.",
+          "accepted_answers": [
+            "Нил Армстронг",
+            "Армстронг"
+          ],
+          "source_ids": [
+            "more-armstrong"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q60-400",
+          "value": 400,
+          "prompt": "Чья речь 1963 года известна по словам «У меня есть мечта»?",
+          "answer": "Мартин Лютер Кинг",
+          "explanation": "Речь прозвучала во время Марша на Вашингтон.",
+          "accepted_answers": [
+            "Мартин Лютер Кинг",
+            "Мартин Лютер Кинг-младший",
+            "Кинг"
+          ],
+          "source_ids": [
+            "more-king"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q60-500",
+          "value": 500,
+          "prompt": "Какому физику принадлежит фраза о том, что Бог не играет в кости?",
+          "answer": "Альберт Эйнштейн",
+          "explanation": "В письме Максу Борну 1926 года Эйнштейн выражал своё отношение к вероятностному описанию квантовой физики.",
+          "accepted_answers": [
+            "Альберт Эйнштейн",
+            "Эйнштейн"
+          ],
+          "source_ids": [
+            "more-einstein-quote"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 61,
+      "title": "Химия, за которую не ставят пятёрку",
+      "description": "История и термины. Без рецептов и способов употребления.",
+      "questions": [
+        {
+          "id": "q61-100",
+          "value": 100,
+          "prompt": "Как называется психоактивное вещество, ради которого многие утром заваривают кофе?",
+          "answer": "Кофеин",
+          "explanation": "Кофеин — стимулятор, содержащийся также в чае и других растениях.",
+          "accepted_answers": [
+            "Кофеин"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q61-200",
+          "value": 200,
+          "prompt": "Как называется препарат-антагонист опиоидных рецепторов, применяемый при передозировке опиоидами?",
+          "answer": "Налоксон",
+          "explanation": "Вопрос о названии лекарства, а не об инструкции по его применению.",
+          "accepted_answers": [
+            "Налоксон"
+          ],
+          "source_ids": [
+            "more-naloxone"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q61-300",
+          "value": 300,
+          "prompt": "В честь какого греческого бога сновидений назвали морфин?",
+          "answer": "Морфей",
+          "explanation": "Название связано со снотворным действием опиатов.",
+          "accepted_answers": [
+            "Морфей"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q61-400",
+          "value": 400,
+          "prompt": "Какого швейцарского химика связывают с открытием психоактивных свойств ЛСД в 1943 году?",
+          "answer": "Альберт Хофман",
+          "explanation": "Само соединение он впервые синтезировал раньше — в 1938 году.",
+          "accepted_answers": [
+            "Альберт Хофман",
+            "Хофман",
+            "Хоффман"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q61-500",
+          "value": 500,
+          "prompt": "Как называются собственные пептиды организма, чьё название сокращено от «эндогенные морфины»?",
+          "answer": "Эндорфины",
+          "explanation": "Они взаимодействуют с опиоидными рецепторами. Это не означает, что их можно считать уличным наркотиком.",
+          "accepted_answers": [
+            "Эндорфины"
+          ],
+          "source_ids": [
+            "more-anatomy"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 62,
+      "title": "Приговор, а не фейсконтроль",
+      "description": "Фотобиографии: вспомни человека и его историю. Внешность ничего не доказывает.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q62-100",
+          "value": 100,
+          "prompt": "Был ли этот человек осуждён за убийство? Ответьте «да» или «нет».",
+          "answer": "Нет — Чарли Чаплин",
+          "explanation": "Это актёр и режиссёр Чарли Чаплин, а не осуждённый за убийство.",
+          "accepted_answers": [
+            "Нет — Чарли Чаплин",
+            "Нет"
+          ],
+          "source_ids": [
+            "more-history-a"
+          ],
+          "time_seconds": 25,
+          "host_note": "Оцениваем документированный приговор, а не внешность. После ответа назвать человека и пояснить биографию.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-history-a.jpg",
+            "source_id": "more-history-a",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q62-200",
+          "value": 200,
+          "prompt": "Был ли этот человек осуждён за убийство? Ответьте «да» или «нет».",
+          "answer": "Да — Тед Банди",
+          "explanation": "Банди был осуждён за убийства; казнён в 1989 году.",
+          "accepted_answers": [
+            "Да — Тед Банди",
+            "Да"
+          ],
+          "source_ids": [
+            "more-history-b",
+            "more-bundy"
+          ],
+          "time_seconds": 25,
+          "host_note": "Оцениваем документированный приговор, а не внешность. После ответа назвать человека и пояснить биографию.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-history-b.jpg",
+            "source_id": "more-history-b",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q62-300",
+          "value": 300,
+          "prompt": "Был ли этот человек осуждён за убийство? Ответьте «да» или «нет».",
+          "answer": "Нет — Юрий Гагарин",
+          "explanation": "Это первый человек в космосе Юрий Гагарин.",
+          "accepted_answers": [
+            "Нет — Юрий Гагарин",
+            "Нет"
+          ],
+          "source_ids": [
+            "more-history-c"
+          ],
+          "time_seconds": 25,
+          "host_note": "Оцениваем документированный приговор, а не внешность. После ответа назвать человека и пояснить биографию.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-history-c.jpg",
+            "source_id": "more-history-c",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q62-400",
+          "value": 400,
+          "prompt": "Был ли этот человек осуждён за убийство? Ответьте «да» или «нет».",
+          "answer": "Да — Джон Уэйн Гейси",
+          "explanation": "В 1980 году его признали виновным в 33 убийствах.",
+          "accepted_answers": [
+            "Да — Джон Уэйн Гейси",
+            "Да"
+          ],
+          "source_ids": [
+            "more-history-d",
+            "more-gacy"
+          ],
+          "time_seconds": 25,
+          "host_note": "Оцениваем документированный приговор, а не внешность. После ответа назвать человека и пояснить биографию.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-history-d.jpg",
+            "source_id": "more-history-d",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q62-500",
+          "value": 500,
+          "prompt": "Был ли этот человек осуждён за убийство? Ответьте «да» или «нет».",
+          "answer": "Да — Чарльз Мэнсон",
+          "explanation": "В 1971 году осуждён за убийства и сговор; речь о судебной ответственности, а не утверждении, что он лично совершил каждое убийство.",
+          "accepted_answers": [
+            "Да — Чарльз Мэнсон",
+            "Да"
+          ],
+          "source_ids": [
+            "more-history-e",
+            "more-manson"
+          ],
+          "time_seconds": 25,
+          "host_note": "Оцениваем документированный приговор, а не внешность. После ответа назвать человека и пояснить биографию.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-history-e.jpg",
+            "source_id": "more-history-e",
+            "question_alt": "Изображение к вопросу"
+          }
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "title": "Я его видел в нашем кино",
+      "description": "Пять новых лиц: российские актёры.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q63-100",
+          "value": 100,
+          "prompt": "Назовите актёра на фотографии.",
+          "answer": "Данила Козловский",
+          "explanation": "Актёр фильмов «Легенда № 17» и «Экипаж».",
+          "accepted_answers": [
+            "Данила Козловский",
+            "Козловский"
+          ],
+          "source_ids": [
+            "more-actor-a"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-actor-a.jpg",
+            "source_id": "more-actor-a",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q63-200",
+          "value": 200,
+          "prompt": "Назовите актёра на фотографии.",
+          "answer": "Сергей Бурунов",
+          "explanation": "Актёр сериалов «Полицейский с Рублёвки» и «Ивановы-Ивановы».",
+          "accepted_answers": [
+            "Сергей Бурунов",
+            "Бурунов"
+          ],
+          "source_ids": [
+            "more-actor-b"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-actor-b.jpg",
+            "source_id": "more-actor-b",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q63-300",
+          "value": 300,
+          "prompt": "Назовите актёра на фотографии.",
+          "answer": "Константин Хабенский",
+          "explanation": "Актёр фильмов «Ночной дозор» и «Географ глобус пропил».",
+          "accepted_answers": [
+            "Константин Хабенский",
+            "Хабенский"
+          ],
+          "source_ids": [
+            "more-actor-c"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-actor-c.jpg",
+            "source_id": "more-actor-c",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q63-400",
+          "value": 400,
+          "prompt": "Назовите актёра на фотографии.",
+          "answer": "Юра Борисов",
+          "explanation": "Актёр фильмов «Купе номер 6» и «Анора».",
+          "accepted_answers": [
+            "Юра Борисов",
+            "Юрий Борисов",
+            "Борисов"
+          ],
+          "source_ids": [
+            "more-actor-d"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-actor-d.jpg",
+            "source_id": "more-actor-d",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q63-500",
+          "value": 500,
+          "prompt": "Назовите актёра на фотографии.",
+          "answer": "Александр Петров",
+          "explanation": "Актёр фильмов «Лёд» и «Текст».",
+          "accepted_answers": [
+            "Александр Петров",
+            "Петров"
+          ],
+          "source_ids": [
+            "more-actor-e"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-actor-e.jpg",
+            "source_id": "more-actor-e",
+            "question_alt": "Изображение к вопросу"
+          }
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "title": "Градус повышается, вопросы тоже",
+      "description": "Напитки по сырью и истории, без рецептов.",
+      "questions": [
+        {
+          "id": "q64-100",
+          "value": 100,
+          "prompt": "Из какого фрукта получают вино, которое перегоняют для производства коньяка?",
+          "answer": "Виноград",
+          "explanation": "Коньяк — виноградный дистиллят из определённого региона.",
+          "accepted_answers": [
+            "Виноград"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q64-200",
+          "value": 200,
+          "prompt": "Какое растение даёт сырьё для рома?",
+          "answer": "Сахарный тростник",
+          "explanation": "Используют тростниковый сок или продукты переработки тростника, например мелассу.",
+          "accepted_answers": [
+            "Сахарный тростник",
+            "Тростник"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q64-300",
+          "value": 300,
+          "prompt": "Какой злак служит основой саке?",
+          "answer": "Рис",
+          "explanation": "В производстве участвуют рис, вода, кодзи и дрожжи.",
+          "accepted_answers": [
+            "Рис"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q64-400",
+          "value": 400,
+          "prompt": "Из какого растения делают текилу?",
+          "answer": "Голубая агава",
+          "explanation": "Это агава, а не кактус.",
+          "accepted_answers": [
+            "Голубая агава",
+            "Агава"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q64-500",
+          "value": 500,
+          "prompt": "Что виноделы и производители крепких напитков называют «долей ангелов»?",
+          "answer": "Часть напитка, испарившаяся при выдержке",
+          "explanation": "При хранении в бочках жидкость постепенно испаряется.",
+          "accepted_answers": [
+            "Часть напитка, испарившаяся при выдержке",
+            "Испарение",
+            "Испарившийся алкоголь"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 65,
+      "title": "Сейчас будет больно, но по правилам",
+      "description": "Единоборства без необходимости получать по лицу.",
+      "questions": [
+        {
+          "id": "q65-100",
+          "value": 100,
+          "prompt": "В каком японском виде борьбы тяжёлые спортсмены стараются вытолкнуть друг друга из круга?",
+          "answer": "Сумо",
+          "explanation": "Площадка называется дохё.",
+          "accepted_answers": [
+            "Сумо"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q65-200",
+          "value": 200,
+          "prompt": "Какое японское единоборство переводят как «мягкий путь»?",
+          "answer": "Дзюдо",
+          "explanation": "Его основал Дзигоро Кано.",
+          "accepted_answers": [
+            "Дзюдо"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q65-300",
+          "value": 300,
+          "prompt": "Из какой страны происходит тхэквондо?",
+          "answer": "Корея",
+          "explanation": "Современное тхэквондо сформировалось в Корее.",
+          "accepted_answers": [
+            "Корея",
+            "Южная Корея"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q65-400",
+          "value": 400,
+          "prompt": "Как называется бразильское единоборство с музыкой, акробатикой и движениями, похожими на танец?",
+          "answer": "Капоэйра",
+          "explanation": "Участники образуют круг — роду.",
+          "accepted_answers": [
+            "Капоэйра"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q65-500",
+          "value": 500,
+          "prompt": "Какое единоборство основал Морихэй Уэсиба?",
+          "answer": "Айкидо",
+          "explanation": "В нём важны перенаправление движения соперника и контроль.",
+          "accepted_answers": [
+            "Айкидо"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 66,
+      "title": "Мешок с костями и амбициями",
+      "description": "Из чего собран участник викторины.",
+      "questions": [
+        {
+          "id": "q66-100",
+          "value": 100,
+          "prompt": "Какой орган человека обычно называют самым большим по площади?",
+          "answer": "Кожа",
+          "explanation": "Она покрывает тело и образует защитный барьер.",
+          "accepted_answers": [
+            "Кожа"
+          ],
+          "source_ids": [
+            "more-anatomy"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q66-200",
+          "value": 200,
+          "prompt": "Сколько костей обычно насчитывают в скелете взрослого человека?",
+          "answer": "206",
+          "explanation": "Количество может немного различаться из-за анатомических вариантов.",
+          "accepted_answers": [
+            "206",
+            "Двести шесть"
+          ],
+          "source_ids": [
+            "more-anatomy"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q66-300",
+          "value": 300,
+          "prompt": "Как называется самая маленькая косточка человека, находящаяся в среднем ухе?",
+          "answer": "Стремечко",
+          "explanation": "Она входит в цепь слуховых косточек.",
+          "accepted_answers": [
+            "Стремечко"
+          ],
+          "source_ids": [
+            "more-anatomy"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q66-400",
+          "value": 400,
+          "prompt": "Какая мышца отделяет грудную полость от брюшной и играет важную роль в дыхании?",
+          "answer": "Диафрагма",
+          "explanation": "При её сокращении увеличивается объём грудной полости.",
+          "accepted_answers": [
+            "Диафрагма"
+          ],
+          "source_ids": [
+            "more-anatomy"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q66-500",
+          "value": 500,
+          "prompt": "Какая железа вырабатывает и пищеварительные ферменты, и инсулин?",
+          "answer": "Поджелудочная железа",
+          "explanation": "У неё есть экзокринная и эндокринная части.",
+          "accepted_answers": [
+            "Поджелудочная железа",
+            "Поджелудочная"
+          ],
+          "source_ids": [
+            "more-anatomy"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 67,
+      "title": "Когда люди ещё не всё испортили",
+      "description": "Планета задолго до чатов и ипотек.",
+      "questions": [
+        {
+          "id": "q67-100",
+          "value": 100,
+          "prompt": "Кто появился раньше: тираннозавр или человек разумный?",
+          "answer": "Тираннозавр",
+          "explanation": "Тираннозавры жили в конце мелового периода, задолго до Homo sapiens.",
+          "accepted_answers": [
+            "Тираннозавр",
+            "Динозавр"
+          ],
+          "source_ids": [
+            "more-fossils"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q67-200",
+          "value": 200,
+          "prompt": "Как называется древний суперконтинент, объединивший почти всю сушу?",
+          "answer": "Пангея",
+          "explanation": "Его распад сформировал предшественников современных материков.",
+          "accepted_answers": [
+            "Пангея"
+          ],
+          "source_ids": [
+            "more-fossils"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q67-300",
+          "value": 300,
+          "prompt": "Как называются вымершие морские членистоногие с трёхдольным панцирем?",
+          "answer": "Трилобиты",
+          "explanation": "Их окаменелости — одни из самых узнаваемых палеозойских ископаемых.",
+          "accepted_answers": [
+            "Трилобиты"
+          ],
+          "source_ids": [
+            "more-trilobites"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q67-400",
+          "value": 400,
+          "prompt": "Как называются вымершие головоногие моллюски, часто встречающиеся в виде спиральных окаменелых раковин?",
+          "answer": "Аммониты",
+          "explanation": "Не путать с современными наутилусами. Вопрос о вымершей группе.",
+          "accepted_answers": [
+            "Аммониты"
+          ],
+          "source_ids": [
+            "more-fossils"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q67-500",
+          "value": 500,
+          "prompt": "Какие фотосинтезирующие бактерии сыграли ключевую роль в насыщении древней атмосферы кислородом?",
+          "answer": "Цианобактерии",
+          "explanation": "Историческое название — сине-зелёные водоросли, но это бактерии.",
+          "accepted_answers": [
+            "Цианобактерии",
+            "Сине-зелёные водоросли"
+          ],
+          "source_ids": [
+            "more-fossils"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 68,
+      "title": "Школа: я это списывал",
+      "description": "Дневники убрали, телефоны оставили для кнопки.",
+      "questions": [
+        {
+          "id": "q68-100",
+          "value": 100,
+          "prompt": "Сколько будет семь умножить на восемь?",
+          "answer": "56",
+          "explanation": "Таблица умножения не устаревает.",
+          "accepted_answers": [
+            "56",
+            "Пятьдесят шесть"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q68-200",
+          "value": 200,
+          "prompt": "В предложении «Кот украл сосиску» какое слово является подлежащим?",
+          "answer": "Кот",
+          "explanation": "Кто совершил действие? Кот. Сосиска пострадала.",
+          "accepted_answers": [
+            "Кот"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q68-300",
+          "value": 300,
+          "prompt": "Как называется результат деления?",
+          "answer": "Частное",
+          "explanation": "При сложении — сумма, при вычитании — разность, при умножении — произведение.",
+          "accepted_answers": [
+            "Частное"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q68-400",
+          "value": 400,
+          "prompt": "Уравнение x² = 49 имеет два корня. Назовите оба.",
+          "answer": "7 и −7",
+          "explanation": "Квадрат и семёрки, и минус семёрки равен 49.",
+          "accepted_answers": [
+            "7 и −7",
+            "Плюс-минус семь",
+            "-7 и 7"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q68-500",
+          "value": 500,
+          "prompt": "Как называется переносное выражение «золотые руки», если руки у человека обычные?",
+          "answer": "Метафора",
+          "explanation": "Качество переносится по сходству: речь о мастерстве, а не о металле.",
+          "accepted_answers": [
+            "Метафора"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 69,
+      "title": "Небесная канцелярия",
+      "description": "Религиозные сюжеты и термины: спокойно и уважительно.",
+      "questions": [
+        {
+          "id": "q69-100",
+          "value": 100,
+          "prompt": "Кто, согласно библейскому рассказу, построил ковчег перед потопом?",
+          "answer": "Ной",
+          "explanation": "Вопрос относится к сюжету Книги Бытия.",
+          "accepted_answers": [
+            "Ной"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q69-200",
+          "value": 200,
+          "prompt": "Как называется священная книга ислама?",
+          "answer": "Коран",
+          "explanation": "В арабской традиции название связано с чтением или декламацией.",
+          "accepted_answers": [
+            "Коран"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q69-300",
+          "value": 300,
+          "prompt": "Как называется еврейский молитвенный дом?",
+          "answer": "Синагога",
+          "explanation": "Синагога также служит местом изучения и общинной жизни.",
+          "accepted_answers": [
+            "Синагога"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q69-400",
+          "value": 400,
+          "prompt": "Что означает титул «Будда»: «пробуждённый» или «завоеватель»?",
+          "answer": "Пробуждённый",
+          "explanation": "Также переводят как «просветлённый».",
+          "accepted_answers": [
+            "Пробуждённый",
+            "Просветлённый"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q69-500",
+          "value": 500,
+          "prompt": "Брахма, Вишну и Шива образуют тримурти в какой религиозной традиции?",
+          "answer": "Индуизм",
+          "explanation": "Тримурти объединяет функции творения, сохранения и разрушения.",
+          "accepted_answers": [
+            "Индуизм"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 70,
+      "title": "Снюс: пакетик с характером",
+      "description": "Разбираем названия, а не рекламируем привычки.",
+      "questions": [
+        {
+          "id": "q70-100",
+          "value": 100,
+          "prompt": "Традиционный шведский снюс содержит табачный лист или делается только из чайных листьев?",
+          "answer": "Табачный лист",
+          "explanation": "Снюс — табачный продукт; никотиновые паучи без табачного листа — другая категория.",
+          "accepted_answers": [
+            "Табачный лист",
+            "Табак"
+          ],
+          "source_ids": [
+            "more-pouches"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q70-200",
+          "value": 200,
+          "prompt": "Какое вызывающее зависимость вещество содержат никотиновые паучи?",
+          "answer": "Никотин",
+          "explanation": "Отсутствие табачного листа не означает отсутствия никотина.",
+          "accepted_answers": [
+            "Никотин"
+          ],
+          "source_ids": [
+            "more-pouches"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q70-300",
+          "value": 300,
+          "prompt": "Что значит английское pouch в названии nicotine pouch?",
+          "answer": "Мешочек",
+          "explanation": "Также подходят «пакетик» и «саше».",
+          "accepted_answers": [
+            "Мешочек",
+            "Пакетик",
+            "Саше"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q70-400",
+          "value": 400,
+          "prompt": "Какой растительный полимер часто используют как наполнитель никотиновых паучей?",
+          "answer": "Целлюлоза",
+          "explanation": "Один из вариантов — микрокристаллическая целлюлоза.",
+          "accepted_answers": [
+            "Целлюлоза",
+            "Микрокристаллическая целлюлоза"
+          ],
+          "source_ids": [
+            "more-pouches"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q70-500",
+          "value": 500,
+          "prompt": "В честь какого французского дипломата XVI века назвали никотин?",
+          "answer": "Жан Нико",
+          "explanation": "Его фамилия вошла и в родовое название табака Nicotiana.",
+          "accepted_answers": [
+            "Жан Нико",
+            "Нико"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 71,
+      "title": "Наука: сейчас как объясню",
+      "description": "Простые опыты без поджога кухни.",
+      "questions": [
+        {
+          "id": "q71-100",
+          "value": 100,
+          "prompt": "Килограмм железа и килограмм перьев: у чего больше масса?",
+          "answer": "Масса одинаковая",
+          "explanation": "Оба предмета имеют массу один килограмм.",
+          "accepted_answers": [
+            "Масса одинаковая",
+            "Одинаково",
+            "Равны",
+            "Ни у чего"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q71-200",
+          "value": 200,
+          "prompt": "Какой металл из трёх обычно притягивает магнит: железо, медь или алюминий?",
+          "answer": "Железо",
+          "explanation": "Обычный железный предмет проявляет ферромагнитные свойства.",
+          "accepted_answers": [
+            "Железо"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q71-300",
+          "value": 300,
+          "prompt": "Какой pH у нейтральной чистой воды при 25 °C?",
+          "answer": "7",
+          "explanation": "Уточнение температуры важно: нейтральное значение зависит от неё.",
+          "accepted_answers": [
+            "7",
+            "Семь"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q71-400",
+          "value": 400,
+          "prompt": "В каких единицах СИ измеряют силу?",
+          "answer": "Ньютоны",
+          "explanation": "Обозначение — Н, международное — N.",
+          "accepted_answers": [
+            "Ньютоны",
+            "Ньютон"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q71-500",
+          "value": 500,
+          "prompt": "Как называется переход сухого льда из твёрдого состояния сразу в газ?",
+          "answer": "Сублимация",
+          "explanation": "Русский синоним — возгонка.",
+          "accepted_answers": [
+            "Сублимация",
+            "Возгонка"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 72,
+      "title": "Сериалы, когда интернет был по карточке",
+      "description": "Премьеры 2000-х, которые обсуждали задолго до TikTok.",
+      "questions": [
+        {
+          "id": "q72-100",
+          "value": 100,
+          "prompt": "Самолёт Oceanic 815 терпит крушение на загадочном острове. Какой сериал стартовал в 2004 году?",
+          "answer": "Остаться в живых",
+          "explanation": "Оригинальное название — Lost.",
+          "accepted_answers": [
+            "Остаться в живых",
+            "Lost",
+            "Лост"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q72-200",
+          "value": 200,
+          "prompt": "Майкл Скофилд попадает в тюрьму, чтобы спасти брата. Как называется сериал 2005 года?",
+          "answer": "Побег",
+          "explanation": "Оригинальное название — Prison Break.",
+          "accepted_answers": [
+            "Побег",
+            "Prison Break"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q72-300",
+          "value": 300,
+          "prompt": "Как зовут врача с тростью, который не любит пациентов, но любит сложные диагнозы? Назовите сериал.",
+          "answer": "Доктор Хаус",
+          "explanation": "Грегори Хауса сыграл Хью Лори.",
+          "accepted_answers": [
+            "Доктор Хаус",
+            "Хаус",
+            "House"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q72-400",
+          "value": 400,
+          "prompt": "В каком сериале 2006 года слоган призывал спасти чирлидершу, чтобы спасти мир?",
+          "answer": "Герои",
+          "explanation": "Оригинальный слоган — Save the cheerleader, save the world.",
+          "accepted_answers": [
+            "Герои",
+            "Heroes"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q72-500",
+          "value": 500,
+          "prompt": "Джей Ди, Тёрк и доктор Кокс работают в больнице Sacred Heart. Что это за сериал?",
+          "answer": "Клиника",
+          "explanation": "Премьера Scrubs состоялась в 2001 году.",
+          "accepted_answers": [
+            "Клиника",
+            "Scrubs"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 73,
+      "title": "Новые сериалы, старый недосып",
+      "description": "Узнаваемые сериалы 2020-х по завязке, без спойлеров.",
+      "questions": [
+        {
+          "id": "q73-100",
+          "value": 100,
+          "prompt": "Девочка из семьи Аддамс поступает в академию «Невермор». Назовите сериал.",
+          "answer": "Уэнсдей",
+          "explanation": "Главную роль играет Дженна Ортега.",
+          "accepted_answers": [
+            "Уэнсдей",
+            "Wednesday"
+          ],
+          "source_ids": [
+            "more-wednesday"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q73-200",
+          "value": 200,
+          "prompt": "Люди в долгах играют в смертельно опасные версии детских игр. Среди символов — круг, треугольник и квадрат. Какой сериал?",
+          "answer": "Игра в кальмара",
+          "explanation": "Корейский сериал Netflix.",
+          "accepted_answers": [
+            "Игра в кальмара",
+            "Squid Game"
+          ],
+          "source_ids": [
+            "more-squid"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q73-300",
+          "value": 300,
+          "prompt": "Работникам Lumon разделяют воспоминания о работе и о внешней жизни. Как называется сериал?",
+          "answer": "Разделение",
+          "explanation": "В оригинале — Severance.",
+          "accepted_answers": [
+            "Разделение",
+            "Severance"
+          ],
+          "source_ids": [
+            "more-severance"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q73-400",
+          "value": 400,
+          "prompt": "Какой медицинский сериал с Ноа Уайли показывает одну 15-часовую смену в отделении неотложной помощи Питтсбурга?",
+          "answer": "Больница Питт",
+          "explanation": "Оригинальное название — The Pitt; каждый эпизод соответствует примерно часу смены.",
+          "accepted_answers": [
+            "Больница Питт",
+            "The Pitt",
+            "Питт"
+          ],
+          "source_ids": [
+            "more-pitt"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q73-500",
+          "value": 500,
+          "prompt": "В каком сериале Винса Гиллигана с Рэй Сихорн самой несчастной женщине на Земле приходится спасать мир от счастья?",
+          "answer": "Одна из многих",
+          "explanation": "Оригинальное название — Pluribus.",
+          "accepted_answers": [
+            "Одна из многих",
+            "Pluribus",
+            "Плюрибус"
+          ],
+          "source_ids": [
+            "more-pluribus"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 74,
+      "title": "Дырки, которые стоят денег",
+      "description": "Названия пирсинга по месту прокола, без инструкций.",
+      "questions": [
+        {
+          "id": "q74-100",
+          "value": 100,
+          "prompt": "Как по-английски называют классический прокол мочки уха: lobe или septum?",
+          "answer": "Lobe",
+          "explanation": "Lobe означает «мочка».",
+          "accepted_answers": [
+            "Lobe",
+            "Лоб",
+            "Лоуб"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q74-200",
+          "value": 200,
+          "prompt": "Как называется прокол крыла носа?",
+          "answer": "Нострил",
+          "explanation": "От английского nostril — ноздря.",
+          "accepted_answers": [
+            "Нострил",
+            "Nostril"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q74-300",
+          "value": 300,
+          "prompt": "Как называется пирсинг носовой перегородки с кольцом по центру носа?",
+          "answer": "Септум",
+          "explanation": "Название происходит от латинского septum — перегородка.",
+          "accepted_answers": [
+            "Септум",
+            "Septum"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q74-400",
+          "value": 400,
+          "prompt": "Как называется прокол верхнего наружного завитка ушной раковины?",
+          "answer": "Хеликс",
+          "explanation": "Helix — анатомическое название завитка уха.",
+          "accepted_answers": [
+            "Хеликс",
+            "Helix"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q74-500",
+          "value": 500,
+          "prompt": "Как называют прокол по центру над верхней губой, в области фильтрума?",
+          "answer": "Медуза",
+          "explanation": "Также используют название «фильтрум».",
+          "accepted_answers": [
+            "Медуза",
+            "Medusa",
+            "Фильтрум",
+            "Philtrum"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ],
+      "default_mode": "open"
+    },
+    {
+      "id": 75,
+      "title": "Узнал учёного — прошёл в лабораторию",
+      "description": "Портреты людей, которые пригодились школьным учебникам.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q75-100",
+          "value": 100,
+          "prompt": "Назовите учёного на фотографии.",
+          "answer": "Альберт Эйнштейн",
+          "explanation": "Теория относительности; Нобелевская премия за объяснение фотоэффекта.",
+          "accepted_answers": [
+            "Альберт Эйнштейн",
+            "Эйнштейн"
+          ],
+          "source_ids": [
+            "more-scientist-a"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-scientist-a.jpg",
+            "source_id": "more-scientist-a",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q75-200",
+          "value": 200,
+          "prompt": "Назовите учёного на фотографии.",
+          "answer": "Дмитрий Менделеев",
+          "explanation": "Создатель периодической системы химических элементов.",
+          "accepted_answers": [
+            "Дмитрий Менделеев",
+            "Менделеев"
+          ],
+          "source_ids": [
+            "more-scientist-b"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-scientist-b.jpg",
+            "source_id": "more-scientist-b",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q75-300",
+          "value": 300,
+          "prompt": "Назовите учёного на фотографии.",
+          "answer": "Мария Склодовская-Кюри",
+          "explanation": "Исследовательница радиоактивности, лауреат двух Нобелевских премий.",
+          "accepted_answers": [
+            "Мария Склодовская-Кюри",
+            "Мария Кюри",
+            "Мари Кюри",
+            "Кюри"
+          ],
+          "source_ids": [
+            "more-scientist-c"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-scientist-c.jpg",
+            "source_id": "more-scientist-c",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q75-400",
+          "value": 400,
+          "prompt": "Назовите учёного на фотографии.",
+          "answer": "Никола Тесла",
+          "explanation": "Изобретатель, работавший над системами переменного тока.",
+          "accepted_answers": [
+            "Никола Тесла",
+            "Тесла"
+          ],
+          "source_ids": [
+            "more-scientist-d"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-scientist-d.jpg",
+            "source_id": "more-scientist-d",
+            "question_alt": "Изображение к вопросу"
+          }
+        },
+        {
+          "id": "q75-500",
+          "value": 500,
+          "prompt": "Назовите учёного на фотографии.",
+          "answer": "Чарльз Дарвин",
+          "explanation": "Автор «Происхождения видов».",
+          "accepted_answers": [
+            "Чарльз Дарвин",
+            "Дарвин"
+          ],
+          "source_ids": [
+            "more-scientist-e"
+          ],
+          "time_seconds": 25,
+          "host_note": "Достаточно фамилии или общеупотребительного названия.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/more-scientist-e.jpg",
+            "source_id": "more-scientist-e",
+            "question_alt": "Изображение к вопросу"
+          }
+        }
+      ]
     }
   ],
   "sources": {
@@ -6025,6 +9447,258 @@
     "pasha-house-e": {
       "title": "Дом E, материал пользователя",
       "url": ""
+    },
+    "more-reference": {
+      "title": "Большая российская энциклопедия: справочные определения",
+      "url": "https://bigenc.ru/"
+    },
+    "more-food": {
+      "title": "USDA: Food and Nutrition Information Center",
+      "url": "https://www.nal.usda.gov/programs/fnic"
+    },
+    "more-vape": {
+      "title": "CDC: About E-Cigarettes",
+      "url": "https://www.cdc.gov/tobacco/e-cigarettes/about.html"
+    },
+    "more-vape-dictionary": {
+      "title": "CDC: E-Cigarette or Vaping Products Visual Dictionary",
+      "url": "https://www.cdc.gov/tobacco/basic_information/e-cigarettes/pdfs/ecigarette-or-vaping-products-visual-dictionary-508.pdf"
+    },
+    "more-pouches": {
+      "title": "FDA: Other Tobacco Products — nicotine pouches",
+      "url": "https://www.fda.gov/tobacco-products/tobacco-products-ingredients-components/other-tobacco-products"
+    },
+    "more-anatomy": {
+      "title": "OpenStax: Anatomy and Physiology 2e",
+      "url": "https://openstax.org/details/books/anatomy-and-physiology-2e"
+    },
+    "more-lube": {
+      "title": "Planned Parenthood: Lube",
+      "url": "https://www.plannedparenthood.org/planned-parenthood-south-texas/pages/lube"
+    },
+    "more-fossils": {
+      "title": "Smithsonian: Ocean Through Time",
+      "url": "https://ocean.si.edu/through-time/ocean-through-time"
+    },
+    "more-volvo": {
+      "title": "Volvo Cars: происхождение названия",
+      "url": "https://www.volvocars.com/us/media/press-releases/D2EF71797E46EB34/"
+    },
+    "more-mercedes": {
+      "title": "Mercedes-Benz: Emil Jellinek and his daughter Mercédès",
+      "url": "https://media.mercedes-benz.com/en/article/5f43ea77-a36d-4393-b26e-42a7778c3b28"
+    },
+    "more-washington": {
+      "title": "White House: George Washington",
+      "url": "https://www.whitehouse.gov/presidents/george-washington/"
+    },
+    "more-fdr": {
+      "title": "FDR Presidential Library: Presidency",
+      "url": "https://www.fdrlibrary.org/fdr-presidency"
+    },
+    "more-belarus": {
+      "title": "Президент Беларуси: биография",
+      "url": "https://president.gov.by/ru/president/biography"
+    },
+    "more-mandela": {
+      "title": "Nelson Mandela Foundation: biography",
+      "url": "https://www.nelsonmandela.org/biography"
+    },
+    "more-geosmin": {
+      "title": "Royal Society of Chemistry: Geosmin",
+      "url": "https://www.chemistryworld.com/podcasts/geosmin/3005899.article"
+    },
+    "more-chatgpt": {
+      "title": "OpenAI: Introducing ChatGPT",
+      "url": "https://openai.com/index/chatgpt/"
+    },
+    "more-hallucinations": {
+      "title": "OpenAI: Why language models hallucinate",
+      "url": "https://openai.com/index/why-language-models-hallucinate/"
+    },
+    "more-turing": {
+      "title": "Alan Turing: Computing Machinery and Intelligence",
+      "url": "https://doi.org/10.1093/mind/LIX.236.433"
+    },
+    "more-transformer": {
+      "title": "Vaswani et al.: Attention Is All You Need",
+      "url": "https://arxiv.org/abs/1706.03762"
+    },
+    "more-gagarin": {
+      "title": "NASA: Remembering Yuri Gagarin",
+      "url": "https://www.nasa.gov/history/remembering-yuri-gagarin-50-years-later/"
+    },
+    "more-armstrong": {
+      "title": "NASA: Apollo 11 Mission Overview",
+      "url": "https://www.nasa.gov/missions/apollo/apollo-11-mission-overview/"
+    },
+    "more-king": {
+      "title": "Stanford King Institute: I Have a Dream",
+      "url": "https://kinginstitute.stanford.edu/i-have-dream"
+    },
+    "more-einstein-quote": {
+      "title": "Einstein Papers Project: Digital Einstein Papers",
+      "url": "https://einsteinpapers.press.princeton.edu/"
+    },
+    "more-naloxone": {
+      "title": "NIDA: Naloxone DrugFacts",
+      "url": "https://nida.nih.gov/publications/drugfacts/naloxone"
+    },
+    "more-trilobites": {
+      "title": "Natural History Museum: Trilobite fossils",
+      "url": "https://www.nhm.ac.uk/schools/teaching-resources/big-ideas-in-science-evolution/trilobite-fossils-resources-and-class-activities.html"
+    },
+    "more-wednesday": {
+      "title": "Netflix: Wednesday",
+      "url": "https://www.netflix.com/tudum/wednesday"
+    },
+    "more-squid": {
+      "title": "Netflix: Squid Game",
+      "url": "https://www.netflix.com/tudum/squid-game"
+    },
+    "more-severance": {
+      "title": "Apple TV Press: Severance",
+      "url": "https://www.apple.com/tv-pr/originals/severance/"
+    },
+    "more-pitt": {
+      "title": "HBO Max: The Pitt",
+      "url": "https://press.wbd.com/ca/media-release/hbo-max/pitt/max-original-drama-series-pitt-debuts-january-9"
+    },
+    "more-pluribus": {
+      "title": "Apple TV Press: Pluribus",
+      "url": "https://www.apple.com/tv-pr/originals/pluribus/"
+    },
+    "more-insect-a": {
+      "title": "File:Seven Spot Ladybird Coccinella septempunctata (16991590756).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Seven_Spot_Ladybird_Coccinella_septempunctata_(16991590756).jpg"
+    },
+    "more-insect-b": {
+      "title": "File:Mantis religiosa 01.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Mantis_religiosa_01.jpg"
+    },
+    "more-insect-c": {
+      "title": "File:Lucanus cervus.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Lucanus_cervus.jpg"
+    },
+    "more-insect-d": {
+      "title": "File:Pulchriphyllium giganteum, adult femal from dorsal.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Pulchriphyllium_giganteum,_adult_femal_from_dorsal.jpg"
+    },
+    "more-insect-e": {
+      "title": "File:Bombus terrestris.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Bombus_terrestris.jpg"
+    },
+    "more-art-a": {
+      "title": "File:Mona Lisa, by Leonardo da Vinci, from C2RMF retouched.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg"
+    },
+    "more-art-b": {
+      "title": "File:Van Gogh - Starry Night - Google Art Project.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg"
+    },
+    "more-art-c": {
+      "title": "File:Girl with a Pearl Earring.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Girl_with_a_Pearl_Earring.jpg"
+    },
+    "more-art-d": {
+      "title": "File:The Great Wave off Kanagawa.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:The_Great_Wave_off_Kanagawa.jpg"
+    },
+    "more-art-e": {
+      "title": "File:Black Square.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Black_Square.jpg"
+    },
+    "more-edible-a": {
+      "title": "File:Rambutan white background alt.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Rambutan_white_background_alt.jpg"
+    },
+    "more-edible-b": {
+      "title": "File:Fluorite.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Fluorite.jpg"
+    },
+    "more-edible-c": {
+      "title": "File:Kiwano.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Kiwano.jpg"
+    },
+    "more-edible-d": {
+      "title": "File:Bath Bomb (51333339918).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Bath_Bomb_(51333339918).jpg"
+    },
+    "more-edible-e": {
+      "title": "File:Buddhahand.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Buddhahand.jpg"
+    },
+    "more-bundy": {
+      "title": "FBI: Ted Bundy’s Campaign of Terror",
+      "url": "https://www.fbi.gov/news/stories/serial-killers-part-3-ted-bundys-campaign-of-terror1"
+    },
+    "more-gacy": {
+      "title": "Illinois Secretary of State: Chronology of Illinois History",
+      "url": "https://www.ilsos.gov/content/dam/publications/illinois-bluebook/2025-26/chronology-of-illinois-history.pdf"
+    },
+    "more-manson": {
+      "title": "Superior Court of California: Manson probate ruling, findings on convictions",
+      "url": "https://s3.documentcloud.org/documents/4407825/Manson-Probate-Ruling.pdf"
+    },
+    "more-history-a": {
+      "title": "File:Charlie Chaplin portrait.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Charlie_Chaplin_portrait.jpg"
+    },
+    "more-history-b": {
+      "title": "File:Ted Bundy headshot.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Ted_Bundy_headshot.jpg"
+    },
+    "more-history-c": {
+      "title": "File:Yuri Gagarin (1961) - Restoration.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Yuri_Gagarin_(1961)_-_Restoration.jpg"
+    },
+    "more-history-d": {
+      "title": "File:John Wayne Gacy.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:John_Wayne_Gacy.jpg"
+    },
+    "more-history-e": {
+      "title": "File:Manson1968.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Manson1968.jpg"
+    },
+    "more-actor-a": {
+      "title": "File:ДанилаКозловский1.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:%D0%94%D0%B0%D0%BD%D0%B8%D0%BB%D0%B0%D0%9A%D0%BE%D0%B7%D0%BB%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B91.jpg"
+    },
+    "more-actor-b": {
+      "title": "File:Sergey Burunov by Alexander Mysyakin (cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Sergey_Burunov_by_Alexander_Mysyakin_(cropped).jpg"
+    },
+    "more-actor-c": {
+      "title": "File:Konstantin Khabensky — 2018.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Konstantin_Khabensky_%E2%80%94_2018.jpg"
+    },
+    "more-actor-d": {
+      "title": "File:Yura Borisov at the 2024 Toronto International Film Festival (Cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Yura_Borisov_at_the_2024_Toronto_International_Film_Festival_(Cropped).jpg"
+    },
+    "more-actor-e": {
+      "title": "File:Petrov Alexander 2017.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Petrov_Alexander_2017.jpg"
+    },
+    "more-scientist-a": {
+      "title": "File:Albert Einstein Head.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Albert_Einstein_Head.jpg"
+    },
+    "more-scientist-b": {
+      "title": "File:Dmitri Mendeleev 1890s.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Dmitri_Mendeleev_1890s.jpg"
+    },
+    "more-scientist-c": {
+      "title": "File:Marie Curie c. 1920s.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Marie_Curie_c._1920s.jpg"
+    },
+    "more-scientist-d": {
+      "title": "File:N.Tesla.JPG",
+      "url": "https://commons.wikimedia.org/wiki/File:N.Tesla.JPG"
+    },
+    "more-scientist-e": {
+      "title": "File:Charles Darwin seated crop.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Charles_Darwin_seated_crop.jpg"
     }
   },
   "rounds": [
@@ -6073,12 +9747,44 @@
         40,
         41,
         42,
-        43
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75
       ]
     }
   ],
   "notes": [
-    "Банк: 43 категории и 215 вопросов. Каждая партия: один раунд из 10 случайно выбранных категорий.",
+    "Банк: 75 категорий и 375 вопросов. Каждая партия: один раунд из 10 случайных или выбранных ведущим категорий.",
     "Игроки входят по имени и нажимают кнопку на телефоне. Первого фиксирует база Supabase.",
     "За неверный ответ ведущий снимает половину стоимости вопроса и открывает кнопки остальным; ошибившийся ждёт следующего вопроса.",
     "50 вопросов в полной игре; 30 — при лимите три вопроса на категорию.",

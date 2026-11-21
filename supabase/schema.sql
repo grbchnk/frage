@@ -34,7 +34,7 @@ create policy "host updates game" on public.quiz_game for update to authenticate
   with check (id = 'main' and exists (select 1 from public.quiz_hosts where user_id = (select auth.uid())));
 -- No INSERT/DELETE grants for browser clients. No privileged public functions.
 insert into public.quiz_game(id,state) values ('main',
-  '{"phase":"lobby","players":[],"turnIndex":0,"roundIndex":0,"completed":[],"activeQuestionId":null,"revealed":null,"winnerId":null,"questionEndsAt":null,"breakEndsAt":null,"event":0,"questionsPerCategory":5}'::jsonb
+  '{"phase":"lobby","players":[],"turnIndex":0,"roundIndex":0,"completed":[],"activeQuestionId":null,"revealed":null,"winnerId":null,"questionEndsAt":null,"breakEndsAt":null,"event":0,"questionsPerCategory":5,"categoryIds":[],"questionOpenedAt":null,"activeQuestionValue":null,"scoreChanges":{}}'::jsonb
 ) on conflict (id) do nothing;
 do $$ begin
   if exists(select 1 from pg_publication where pubname='supabase_realtime')

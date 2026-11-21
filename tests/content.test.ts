@@ -2,12 +2,12 @@ import {readFileSync,existsSync} from 'node:fs';
 import {it,expect} from 'vitest';
 import type {Pack} from '../src/types';
 const pack:Pack=JSON.parse(readFileSync('public/content/questions.json','utf8'));
-it('20 тем и 100 уникальных вопросов, два непересекающихся раунда по 10 тем',()=>{
-  expect(pack.categories).toHaveLength(20);
-  expect(pack.rounds.map(r=>r.category_ids.length)).toEqual([10,10]);
-  expect(new Set(pack.rounds.flatMap(r=>r.category_ids)).size).toBe(20);
+it('43 темы и 215 уникальных вопросов в одном банке',()=>{
+  expect(pack.categories).toHaveLength(43);
+  expect(pack.rounds.map(r=>r.category_ids.length)).toEqual([43]);
+  expect(new Set(pack.rounds.flatMap(r=>r.category_ids)).size).toBe(43);
   const questions=pack.categories.flatMap(c=>c.questions);
-  expect(questions).toHaveLength(100);expect(new Set(questions.map(q=>q.id)).size).toBe(100);
+  expect(questions).toHaveLength(215);expect(new Set(questions.map(q=>q.id)).size).toBe(215);
   for(const c of pack.categories)expect(c.questions.map(q=>q.value)).toEqual([100,200,300,400,500]);
 });
 it('публичный пакет не содержит правильных ответов или заметок ведущего',()=>{
@@ -26,15 +26,20 @@ it('все фото существуют; плашки находятся в п�
     }else expect(existsSync(`public/${q.media.path}`)).toBe(true);
     for(const [x,y,w,h] of q.media.question_masks_normalized||[]){expect(x).toBeGreaterThanOrEqual(0);expect(y).toBeGreaterThanOrEqual(0);expect(w).toBeGreaterThan(0);expect(h).toBeGreaterThan(0);expect(x+w).toBeLessThanOrEqual(1.00001);expect(y+h).toBeLessThanOrEqual(1.00001);}
   }
-  expect(count).toBe(41);
+  expect(count).toBe(81);
 });
 it('новые рубрики, отсутствие вариантов и фоторебусы соответствуют правкам ведущего',()=>{
   const original=JSON.parse(readFileSync('quiz-pack.json','utf8'));
   const qs=original.categories.flatMap((c:any)=>c.questions);
   expect(original.categories.find((c:any)=>c.id===3).title).toBe('Съедобное / несъедобное');
   expect(qs.filter((q:any)=>q.options?.length)).toHaveLength(0);
-  expect(qs.filter((q:any)=>!q.id.startsWith('q03-')&&q.prompt.includes(' или '))).toHaveLength(0);
+  expect(qs.filter((q:any)=>Number(q.id.slice(1,3))<=20&&!q.id.startsWith('q03-')&&q.prompt.includes(' или '))).toHaveLength(0);
   expect(qs.find((q:any)=>q.id==='q11-200').accepted_answers).toContain('Боровик');
   expect(qs.filter((q:any)=>q.media?.kind==='photo_rebus')).toHaveLength(7);
   expect(pack.revision).toMatch(/^[a-f0-9]{16}$/);
+  expect(original.categories.filter((c:any)=>c.id>20)).toHaveLength(23);
+  expect(original.categories.find((c:any)=>c.id===27).title).toBe('Грудной карапуз');
+  expect(original.categories.find((c:any)=>c.id===33).title).toBe('Клюёт только комар');
+  expect(original.categories.find((c:any)=>c.id===35).title).toBe('Выход через письку');
+  expect(original.categories.find((c:any)=>c.id===43).questions.map((q:any)=>q.answer)).toEqual(['3 этажа','5 этажей','7 этажей','9 этажей','18 этажей']);
 });

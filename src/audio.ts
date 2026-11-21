@@ -23,6 +23,8 @@ export class QuizAudio {
     if(this.phase==='board'||this.phase==='lobby'){
       const bass=[110,110,130.81,98][Math.floor(i/8)%4];
       if(i%2===0)this.note(bass,0,.6,.08,'triangle');
+      if(i%4===0)this.note(65.41,0,.13,.09,'sine');
+      if(i%4===2){this.note(174.61,0,.05,.015,'triangle');this.note(261.63,.02,.05,.012,'triangle');}
       const notes=[440,523.25,659.25,523.25,392,523.25,587.33,0];
       if(notes[i%8])this.note(notes[i%8],0,.32,.025);
     }else if(this.phase==='question'){
@@ -31,7 +33,7 @@ export class QuizAudio {
     }
   },500);}
   effect(kind:string){
-    const tune=kind==='question'?[220,329.63,440]:kind==='answer'?[523.25,659.25,783.99,1046.5]:kind==='finished'?[392,523.25,659.25,783.99,659.25,1046.5]:kind==='break'?[440,329.63,261.63]:[];
+    const tune=kind==='wrong'?[293.66,220,146.83]:kind==='buzz'?[880,1174.66]:kind==='question'?[220,329.63,440]:kind==='answer'?[523.25,659.25,783.99,1046.5]:kind==='finished'?[392,523.25,659.25,783.99,659.25,1046.5]:kind==='break'?[440,329.63,261.63]:[];
     tune.forEach((f,i)=>this.note(f,i*.11,.6,.12,'triangle'));
   }
   stop(){if(this.timer)clearInterval(this.timer);this.timer=null;void this.context?.close();}

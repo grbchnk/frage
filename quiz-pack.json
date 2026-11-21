@@ -1,11 +1,11 @@
 {
-  "title": "ВИКТОРИНА У АЛИНЫ ДОМА",
-  "version": "3.0-host-revision",
-  "prepared_at": "2026-11-07",
+  "title": "ВИКТОРИНА В КИНОКОМНАТЕ У ПАШИ",
+  "version": "4.0-pasha-buttons",
+  "prepared_at": "2026-11-21",
   "language": "ru",
   "players": {
-    "min": 6,
-    "max": 7,
+    "min": 2,
+    "max": 10,
     "mode": "individual"
   },
   "target_minutes": [
@@ -2583,6 +2583,2598 @@
           }
         }
       ]
+    },
+    {
+      "id": 21,
+      "title": "ЛОГОТИП ПОБОЛЬШЕ",
+      "description": "Клиент вчера хотел логотип побольше. Сегодня проверяем словарь агентства.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q21-100",
+          "value": 100,
+          "prompt": "Клиент прислал документ: задача, аудитория, сроки и бюджет. Как называется эта отправная точка работы агентства?",
+          "answer": "Бриф",
+          "accepted_answers": [
+            "Бриф"
+          ],
+          "explanation": "Бриф описывает задачу и исходные условия проекта.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q21-200",
+          "value": 200,
+          "prompt": "Как называется короткая запоминающаяся фраза бренда, которую придумывают вместо скучного «мы хорошие»?",
+          "answer": "Слоган",
+          "accepted_answers": [
+            "Слоган"
+          ],
+          "explanation": "Слоган — краткая рекламная формулировка.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q21-300",
+          "value": 300,
+          "prompt": "Вы посмотрели диван на сайте, а теперь он преследует вас на баннерах. Как агентство называет эту погоню?",
+          "answer": "Ретаргетинг",
+          "accepted_answers": [
+            "Ретаргетинг",
+            "Ремаркетинг"
+          ],
+          "explanation": "Реклама возвращается к аудитории, уже взаимодействовавшей с брендом.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q21-400",
+          "value": 400,
+          "prompt": "Баннер показали 1000 раз, кликнули 25 раз. Чему равен CTR в процентах?",
+          "answer": "2,5%",
+          "accepted_answers": [
+            "2,5%",
+            "2.5%",
+            "2,5",
+            "2.5"
+          ],
+          "explanation": "25 ÷ 1000 × 100 = 2,5%.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q21-500",
+          "value": 500,
+          "prompt": "Агентство сравнивает два варианта одной страницы, случайно разделив посетителей на две группы. Как называется такой тест?",
+          "answer": "A/B-тест",
+          "accepted_answers": [
+            "A/B-тест",
+            "А/Б-тест",
+            "Сплит-тест"
+          ],
+          "explanation": "При A/B-тестировании сравнивают варианты на сопоставимых группах.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "title": "БЕЛКИ, УГЛЕВОДЫ И НОЧНОЙ ДОЖОР",
+      "description": "Здесь считают граммы, а не осуждают ночной холодильник.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q22-100",
+          "value": 100,
+          "prompt": "Спортсмен покупает протеин, а бабушка думает, что это зверь с орехом. Как по-русски называется протеин?",
+          "answer": "Белки",
+          "accepted_answers": [
+            "Белки"
+          ],
+          "explanation": "Protein — английское название белков.",
+          "source_ids": [
+            "pasha-food"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q22-200",
+          "value": 200,
+          "prompt": "Какой углевод в картофеле и рисе синеет при школьном опыте с йодом?",
+          "answer": "Крахмал",
+          "accepted_answers": [
+            "Крахмал"
+          ],
+          "explanation": "Йод используют для качественной реакции на крахмал.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q22-300",
+          "value": 300,
+          "prompt": "Молоко пишет на упаковке «без меня», и некоторым животам становится спокойнее. Как называется этот молочный сахар?",
+          "answer": "Лактоза",
+          "accepted_answers": [
+            "Лактоза",
+            "Молочный сахар"
+          ],
+          "explanation": "Лактоза — углевод молока.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q22-400",
+          "value": 400,
+          "prompt": "Из каких небольших молекул организм собирает белки, словно бусы из бусин?",
+          "answer": "Аминокислоты",
+          "accepted_answers": [
+            "Аминокислоты"
+          ],
+          "explanation": "Белки состоят из цепочек аминокислот.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q22-500",
+          "value": 500,
+          "prompt": "В порции 10 г белка и 20 г усвояемых углеводов. Сколько это килокалорий, если жиров нет и для обоих берём по 4 ккал на грамм?",
+          "answer": "120 ккал",
+          "accepted_answers": [
+            "120 ккал",
+            "120"
+          ],
+          "explanation": "(10 + 20) × 4 = 120.",
+          "source_ids": [
+            "pasha-food"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "title": "ПЕЧИ НЕ ДЛЯ ПИЦЦЫ",
+      "description": "Беларусь, армейские традиции и знакомые названия. Без вопросов о текущих операциях.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q23-100",
+          "value": 100,
+          "prompt": "Какого числа в феврале в Беларуси отмечают День защитников Отечества и Вооружённых Сил?",
+          "answer": "23 февраля",
+          "accepted_answers": [
+            "23 февраля",
+            "23"
+          ],
+          "explanation": "Праздник отмечается 23 февраля.",
+          "source_ids": [
+            "pasha-army"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q23-200",
+          "value": 200,
+          "prompt": "Белорусский новобранец говорит: «Попал в Печи». С каким городом связан этот известный учебный центр?",
+          "answer": "Борисов",
+          "accepted_answers": [
+            "Борисов",
+            "Барысаў"
+          ],
+          "explanation": "Печи — военный городок в Борисове.",
+          "source_ids": [
+            "pasha-pechi"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q23-300",
+          "value": 300,
+          "prompt": "Какое торжественное обещание верности народу и стране принимает белорусский военнослужащий?",
+          "answer": "Военная присяга",
+          "accepted_answers": [
+            "Военная присяга",
+            "Присяга"
+          ],
+          "explanation": "Принятие Военной присяги — отдельная торжественная церемония.",
+          "source_ids": [
+            "pasha-pechi"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q23-400",
+          "value": 400,
+          "prompt": "В каком белорусском городе находится 103-я отдельная гвардейская воздушно-десантная бригада, получившая название по этому городу?",
+          "answer": "Витебск",
+          "accepted_answers": [
+            "Витебск",
+            "Віцебск"
+          ],
+          "explanation": "Бригаде присвоено наименование «Витебская».",
+          "source_ids": [
+            "pasha-brigades"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q23-500",
+          "value": 500,
+          "prompt": "Назовите номер гвардейского объединённого учебного центра, который белорусские военнослужащие знают как Печи.",
+          "answer": "72-й",
+          "accepted_answers": [
+            "72-й",
+            "72"
+          ],
+          "explanation": "Это 72-й гвардейский объединённый учебный центр подготовки прапорщиков и младших специалистов.",
+          "source_ids": [
+            "pasha-pechi"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "title": "ТАЧКА НА ПРОКАЧКУ МОЗГОВ",
+      "description": "Устройство автомобиля без гадания по звуку из-под капота.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q24-100",
+          "value": 100,
+          "prompt": "Этот прибор объясняет, почему камера прислала вам платное фото. Что показывает скорость на панели машины?",
+          "answer": "Спидометр",
+          "accepted_answers": [
+            "Спидометр"
+          ],
+          "explanation": "Обороты показывает тахометр.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q24-200",
+          "value": 200,
+          "prompt": "Что означает буква R у селектора автоматической коробки передач?",
+          "answer": "Задний ход",
+          "accepted_answers": [
+            "Задний ход",
+            "Реверс",
+            "Reverse"
+          ],
+          "explanation": "R — reverse.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q24-300",
+          "value": 300,
+          "prompt": "Какой узел позволяет ведущим колёсам на повороте вращаться с разной скоростью?",
+          "answer": "Дифференциал",
+          "accepted_answers": [
+            "Дифференциал"
+          ],
+          "explanation": "Наружное колесо проходит более длинный путь, поэтому скорости колёс различаются.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q24-400",
+          "value": 400,
+          "prompt": "Что означает число 16 в маркировке шины 205/55 R16: какой размер в дюймах оно задаёт?",
+          "answer": "Посадочный диаметр диска",
+          "accepted_answers": [
+            "Посадочный диаметр диска",
+            "Диаметр диска",
+            "Диаметр обода"
+          ],
+          "explanation": "Число указывает диаметр обода, на который устанавливается шина.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q24-500",
+          "value": 500,
+          "prompt": "В четырёхтактном двигателе: впуск, сжатие, рабочий ход. Как называется четвёртый такт?",
+          "answer": "Выпуск",
+          "accepted_answers": [
+            "Выпуск",
+            "Выхлоп"
+          ],
+          "explanation": "Выпуск удаляет отработавшие газы из цилиндра.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "title": "АВТОСЕРВИС «САМО ПРОЙДЁТ»",
+      "description": "Детали и инструменты. Не руководство к ремонту на спор.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q25-100",
+          "value": 100,
+          "prompt": "Как называется расходная деталь, которая очищает моторное масло от загрязнений?",
+          "answer": "Масляный фильтр",
+          "accepted_answers": [
+            "Масляный фильтр"
+          ],
+          "explanation": "Масляный фильтр задерживает загрязнения в системе смазки.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q25-200",
+          "value": 200,
+          "prompt": "На торте её задувают, а в бензиновом двигателе без неё не вспыхнет смесь. Назовите деталь.",
+          "answer": "Свеча зажигания",
+          "accepted_answers": [
+            "Свеча зажигания",
+            "Свеча"
+          ],
+          "explanation": "Свеча воспламеняет топливовоздушную смесь искрой.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q25-300",
+          "value": 300,
+          "prompt": "Какой инструмент нужен мастеру, чтобы затянуть крепёж с заданным крутящим моментом?",
+          "answer": "Динамометрический ключ",
+          "accepted_answers": [
+            "Динамометрический ключ"
+          ],
+          "explanation": "Он позволяет контролировать момент затяжки.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q25-400",
+          "value": 400,
+          "prompt": "Как называется «резиновая гармошка», которая защищает ШРУС от грязи и удерживает смазку?",
+          "answer": "Пыльник",
+          "accepted_answers": [
+            "Пыльник",
+            "Пыльник ШРУСа"
+          ],
+          "explanation": "Повреждённый пыльник перестаёт защищать шарнир.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q25-500",
+          "value": 500,
+          "prompt": "Этот датчик в выхлопной системе назван греческой буквой, но в студенческом братстве не состоял. Как называется кислородный датчик с «лямбдой» в имени?",
+          "answer": "Лямбда-зонд",
+          "accepted_answers": [
+            "Лямбда-зонд",
+            "Лямбда зонд"
+          ],
+          "explanation": "Лямбда-зонд измеряет содержание кислорода в отработавших газах.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "title": "ДЕБЕТ, КОТ И КРЕДИТ",
+      "description": "Тут сходится даже то, что не сходилось весь квартал.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q26-100",
+          "value": 100,
+          "prompt": "Бухгалтер говорит, что у него опять «не сошлись» эти двое. Назовите обе стороны бухгалтерского счёта.",
+          "answer": "Дебет и кредит",
+          "accepted_answers": [
+            "Дебет и кредит",
+            "Кредит и дебет"
+          ],
+          "explanation": "Это стороны бухгалтерского счёта.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q26-200",
+          "value": 200,
+          "prompt": "По бумагам на складе десять стульев. Все сели — одного не хватило. Как называется официальное «пересчитать всё руками»?",
+          "answer": "Инвентаризация",
+          "accepted_answers": [
+            "Инвентаризация"
+          ],
+          "explanation": "Фактическое наличие сопоставляют с учётными данными.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q26-300",
+          "value": 300,
+          "prompt": "Клиент забрал товар и кормит компанию обещаниями вместо денег. Как называется эта задолженность в учёте продавца?",
+          "answer": "Дебиторская",
+          "accepted_answers": [
+            "Дебиторская",
+            "Дебиторская задолженность"
+          ],
+          "explanation": "Дебитор — тот, кто должен организации.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q26-400",
+          "value": 400,
+          "prompt": "Станок постепенно переносит свою стоимость в расходы в течение срока использования. Как называется этот процесс?",
+          "answer": "Амортизация",
+          "accepted_answers": [
+            "Амортизация"
+          ],
+          "explanation": "Амортизация распределяет амортизируемую стоимость актива по периодам его использования.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q26-500",
+          "value": 500,
+          "prompt": "За день продали на 1000 рублей. Себестоимость проданного — 600, прочие расходы — 250. Какой результат до налогов в этой упрощённой задаче?",
+          "answer": "Прибыль 150 рублей",
+          "accepted_answers": [
+            "Прибыль 150 рублей",
+            "150",
+            "150 рублей"
+          ],
+          "explanation": "1000 − 600 − 250 = 150.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "title": "Грудной карапуз",
+      "description": "Человек размером с батон уже командует всей квартирой.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q27-100",
+          "value": 100,
+          "prompt": "Ребёнку дали это пососать, но молока там нет. Как называется такой предмет-обманка?",
+          "answer": "Пустышка",
+          "accepted_answers": [
+            "Пустышка",
+            "Соска",
+            "Соска-пустышка"
+          ],
+          "explanation": "Пустышка предназначена для сосания без кормления.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q27-200",
+          "value": 200,
+          "prompt": "Руки свободны, а ребёнок всё равно висит на взрослом. Как называется тканевая переноска для такой прогулки?",
+          "answer": "Слинг",
+          "accepted_answers": [
+            "Слинг",
+            "Слинг-шарф",
+            "Май-слинг"
+          ],
+          "explanation": "Слинг — тканевая переноска для ребёнка.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q27-300",
+          "value": 300,
+          "prompt": "Не молочный коктейль, а первое густое желтоватое мамино молоко. Как оно называется?",
+          "answer": "Молозиво",
+          "accepted_answers": [
+            "Молозиво",
+            "Colostrum"
+          ],
+          "explanation": "Молозиво вырабатывается в первые дни после родов.",
+          "source_ids": [
+            "pasha-colostrum"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q27-400",
+          "value": 400,
+          "prompt": "У карапуза на голове есть «окошко», но проветривать через него нельзя. Как называется мягкий участок между костями черепа?",
+          "answer": "Родничок",
+          "accepted_answers": [
+            "Родничок",
+            "Фонтанелла"
+          ],
+          "explanation": "Кости черепа в этой области ещё не срослись.",
+          "source_ids": [
+            "pasha-newborn"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q27-500",
+          "value": 500,
+          "prompt": "Малыш схватил взрослого за палец, хотя договор не подписывал. Как называется врождённый рефлекс такого захвата ладонью?",
+          "answer": "Хватательный рефлекс",
+          "accepted_answers": [
+            "Хватательный рефлекс",
+            "Ладонный хватательный рефлекс",
+            "Рефлекс Робинсона"
+          ],
+          "explanation": "Ладонный хватательный рефлекс — автоматическое сжатие пальцев.",
+          "source_ids": [
+            "pasha-reflex"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "title": "ДРУЖБА ДО ПЕРВОЙ МОНОПОЛИИ",
+      "description": "Физические игры, после которых стол ещё долго обсуждают.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q28-100",
+          "value": 100,
+          "prompt": "В какой классической настольной игре покупают улицы, строят отели и могут отправиться в тюрьму?",
+          "answer": "Монополия",
+          "accepted_answers": [
+            "Монополия",
+            "Monopoly"
+          ],
+          "explanation": "Эти механики относятся к Monopoly.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q28-200",
+          "value": 200,
+          "prompt": "В какой игре вытаскивают деревянные бруски из башни и кладут наверх, стараясь её не обрушить?",
+          "answer": "Дженга",
+          "accepted_answers": [
+            "Дженга",
+            "Jenga"
+          ],
+          "explanation": "Jenga — игра с башней из брусков.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q28-300",
+          "value": 300,
+          "prompt": "В шахматах король под ударом, и нет ни одного допустимого способа спастись. Как это называется?",
+          "answer": "Мат",
+          "accepted_answers": [
+            "Мат"
+          ],
+          "explanation": "При мате партия заканчивается.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q28-400",
+          "value": 400,
+          "prompt": "В «Каркассоне» игроки выкладывают квадратные элементы карты. Как обычно называют такой элемент одним словом?",
+          "answer": "Тайл",
+          "accepted_answers": [
+            "Тайл",
+            "Плитка",
+            "Тайлик"
+          ],
+          "explanation": "Тайл — плитка игрового поля.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q28-500",
+          "value": 500,
+          "prompt": "Какое максимальное число очков даёт один дротик на стандартной мишени для дартса?",
+          "answer": "60",
+          "accepted_answers": [
+            "60",
+            "Шестьдесят"
+          ],
+          "explanation": "Утроение сектора 20 даёт 60, больше чем центр с 50 очками.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "title": "GTA 6: ОТПУСК С УГОНОМ",
+      "description": "Персонажи и география официальных материалов Rockstar. Без слухов и плавающих дат.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q29-100",
+          "value": 100,
+          "prompt": "Как называется город из GTA VI, в который серия возвращает игроков после знаменитой игры 2002 года?",
+          "answer": "Вайс-Сити",
+          "accepted_answers": [
+            "Вайс-Сити",
+            "Vice City"
+          ],
+          "explanation": "Vice City — город в Леониде.",
+          "source_ids": [
+            "pasha-gta"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q29-200",
+          "value": 200,
+          "prompt": "Назовите женское имя главной героини GTA VI.",
+          "answer": "Люсия",
+          "accepted_answers": [
+            "Люсия",
+            "Лусия",
+            "Lucia",
+            "Люсия Каминос"
+          ],
+          "explanation": "Главная героиня — Lucia Caminos.",
+          "source_ids": [
+            "pasha-gta"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q29-300",
+          "value": 300,
+          "prompt": "Как зовут напарника Люсии, второго главного героя GTA VI?",
+          "answer": "Джейсон",
+          "accepted_answers": [
+            "Джейсон",
+            "Jason",
+            "Джейсон Дюваль"
+          ],
+          "explanation": "Его полное имя — Jason Duval.",
+          "source_ids": [
+            "pasha-gta"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q29-400",
+          "value": 400,
+          "prompt": "Как называется вымышленный штат, где происходит действие GTA VI?",
+          "answer": "Леонида",
+          "accepted_answers": [
+            "Леонида",
+            "Leonida"
+          ],
+          "explanation": "Официальные материалы Rockstar называют штат Leonida.",
+          "source_ids": [
+            "pasha-gta"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q29-500",
+          "value": 500,
+          "prompt": "Какой реальный американский штат послужил основой для Леониды из GTA VI?",
+          "answer": "Флорида",
+          "accepted_answers": [
+            "Флорида",
+            "Florida"
+          ],
+          "explanation": "Леонида и Вайс-Сити переосмысляют Флориду и Майами.",
+          "source_ids": [
+            "pasha-gta"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "title": "СОСЕДИ ТОЖЕ ЗНАЮТ ПРИПЕВ",
+      "description": "Песни, артисты и альбомы без необходимости брать высокую ноту.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q30-100",
+          "value": 100,
+          "prompt": "Какая шведская группа исполнила Dancing Queen и дала имя мюзиклу Mamma Mia!?",
+          "answer": "ABBA",
+          "accepted_answers": [
+            "ABBA",
+            "Абба"
+          ],
+          "explanation": "В мюзикле использованы песни ABBA.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q30-200",
+          "value": 200,
+          "prompt": "Какая британская группа записала Bohemian Rhapsody?",
+          "answer": "Queen",
+          "accepted_answers": [
+            "Queen",
+            "Куин"
+          ],
+          "explanation": "Песню написал Фредди Меркьюри.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q30-300",
+          "value": 300,
+          "prompt": "Как называлась группа Виктора Цоя?",
+          "answer": "Кино",
+          "accepted_answers": [
+            "Кино"
+          ],
+          "explanation": "Виктор Цой был автором песен и фронтменом группы «Кино».",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q30-400",
+          "value": 400,
+          "prompt": "Какой дуэт выходил на сцену в роботизированных шлемах и выпустил альбом Random Access Memories?",
+          "answer": "Daft Punk",
+          "accepted_answers": [
+            "Daft Punk",
+            "Дафт Панк"
+          ],
+          "explanation": "Французский электронный дуэт — Тома Бангальтер и Ги-Мануэль де Омем-Кристо.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q30-500",
+          "value": 500,
+          "prompt": "Какой альбом Pink Floyd узнают по призме, раскладывающей свет на радугу?",
+          "answer": "The Dark Side of the Moon",
+          "accepted_answers": [
+            "The Dark Side of the Moon",
+            "Dark Side of the Moon",
+            "Тёмная сторона Луны"
+          ],
+          "explanation": "Призма изображена на обложке альбома 1973 года.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "title": "Я ЭТО ЗНАЛ ВО ВТОРОМ КЛАССЕ",
+      "description": "Короткие вопросы о том, что вроде бы все помнят.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q31-100",
+          "value": 100,
+          "prompt": "Игральный кубик опять выпал не той стороной. Сколько всего у обычного кубика граней?",
+          "answer": "Шесть",
+          "accepted_answers": [
+            "Шесть",
+            "6"
+          ],
+          "explanation": "У куба шесть квадратных граней.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q31-200",
+          "value": 200,
+          "prompt": "Химик посмотрел на обручальное кольцо и сказал: «Au». Какой элемент он имел в виду?",
+          "answer": "Золото",
+          "accepted_answers": [
+            "Золото"
+          ],
+          "explanation": "Символ происходит от латинского aurum.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q31-300",
+          "value": 300,
+          "prompt": "Сколько градусов в сумме углов треугольника на плоскости?",
+          "answer": "180",
+          "accepted_answers": [
+            "180",
+            "180 градусов"
+          ],
+          "explanation": "В евклидовой геометрии сумма равна 180°.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q31-400",
+          "value": 400,
+          "prompt": "Какая единица СИ измеряет частоту и означает одно колебание в секунду?",
+          "answer": "Герц",
+          "accepted_answers": [
+            "Герц",
+            "Гц",
+            "Hz"
+          ],
+          "explanation": "Герц равен одной обратной секунде.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q31-500",
+          "value": 500,
+          "prompt": "Как называется число, равное единице со ста нулями?",
+          "answer": "Гугол",
+          "accepted_answers": [
+            "Гугол",
+            "Googol"
+          ],
+          "explanation": "Гугол — 10 в сотой степени.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "title": "ЛОГИКА ПОСЛЕ ПОПКОРНА",
+      "description": "Никакой энциклопедии. Только внимательно послушать.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q32-100",
+          "value": 100,
+          "prompt": "Ты обогнал бегуна, который шёл вторым. Каким теперь идёшь ты?",
+          "answer": "Вторым",
+          "accepted_answers": [
+            "Вторым",
+            "Второй",
+            "2"
+          ],
+          "explanation": "Ты занял его место, а не место лидера.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q32-200",
+          "value": 200,
+          "prompt": "В семье пять дочерей. У каждой один и тот же брат. Сколько всего детей?",
+          "answer": "Шесть",
+          "accepted_answers": [
+            "Шесть",
+            "6"
+          ],
+          "explanation": "Пять сестёр и их общий брат.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q32-300",
+          "value": 300,
+          "prompt": "На столе три яблока. Ты взял два. Сколько яблок у тебя?",
+          "answer": "Два",
+          "accepted_answers": [
+            "Два",
+            "2"
+          ],
+          "explanation": "Спрашивается, сколько ты взял, а не сколько осталось.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q32-400",
+          "value": 400,
+          "prompt": "Два отца и два сына разделили три пирожка, каждому достался целый. Никто не остался без пирожка. Кем они приходятся друг другу?",
+          "answer": "Дед, отец и сын",
+          "accepted_answers": [
+            "Дед, отец и сын",
+            "Дедушка, папа и внук"
+          ],
+          "explanation": "Средний одновременно является сыном и отцом.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q32-500",
+          "value": 500,
+          "prompt": "Пять станков делают пять деталей за пять минут. За сколько минут сто таких станков сделают сто деталей при той же скорости?",
+          "answer": "Пять минут",
+          "accepted_answers": [
+            "Пять минут",
+            "5",
+            "5 минут"
+          ],
+          "explanation": "Каждый станок делает одну деталь за пять минут.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "title": "Клюёт только комар",
+      "description": "Рыбалка: иногда рыба, иногда философия на берегу.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q33-100",
+          "value": 100,
+          "prompt": "Рыбак говорит: «Клюёт!» Какая часть снасти обычно подаёт ему сигнал, уходя под воду?",
+          "answer": "Поплавок",
+          "accepted_answers": [
+            "Поплавок"
+          ],
+          "explanation": "Поплавок служит сигнализатором поклёвки.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q33-200",
+          "value": 200,
+          "prompt": "Рыбак не верит в магию, но таскает железную рыбку с крючком. Как называется такая металлическая приманка?",
+          "answer": "Блесна",
+          "accepted_answers": [
+            "Блесна"
+          ],
+          "explanation": "Блесна — металлическая искусственная приманка.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q33-300",
+          "value": 300,
+          "prompt": "У рыбьей «жилетки» нет молнии: какой внутренний пузырь помогает многим костным рыбам удерживаться на нужной глубине?",
+          "answer": "Плавательный пузырь",
+          "accepted_answers": [
+            "Плавательный пузырь",
+            "Плавательный"
+          ],
+          "explanation": "Газовый пузырь помогает регулировать плавучесть.",
+          "source_ids": [
+            "pasha-fish-anatomy"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q33-400",
+          "value": 400,
+          "prompt": "У дерева считают кольца на стволе. На каких наружных пластинках рыб некоторых видов тоже читают годовые отметки?",
+          "answer": "На чешуе",
+          "accepted_answers": [
+            "На чешуе",
+            "Чешуя",
+            "На чешуйках"
+          ],
+          "explanation": "Для некоторых видов возраст определяют по кольцам на чешуе.",
+          "source_ids": [
+            "pasha-fish"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q33-500",
+          "value": 500,
+          "prompt": "Учёный ищет возраст рыбы не в паспорте, а в «ушных камешках» с кольцами роста. Как называются эти камешки?",
+          "answer": "Отолиты",
+          "accepted_answers": [
+            "Отолиты",
+            "Отолит"
+          ],
+          "explanation": "Отолиты — структуры внутреннего уха костных рыб; по их слоям оценивают возраст.",
+          "source_ids": [
+            "pasha-fish"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "title": "КОНДИТЕР, ВЫ ТОЧНО ТРЕЗВЫЙ?",
+      "description": "Сладости и пряности: из чего сделан этот праздник.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q34-100",
+          "value": 100,
+          "prompt": "У сладкой ваты нет ни хлопка, ни овцы. Какой продукт превращают в её воздушные нити?",
+          "answer": "Сахар",
+          "accepted_answers": [
+            "Сахар"
+          ],
+          "explanation": "Сладкая вата — тонкие нити сахара.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q34-200",
+          "value": 200,
+          "prompt": "В кинозале зерно устраивает маленький взрыв. Какая жидкость внутри него превращается в пар и разрывает оболочку попкорна?",
+          "answer": "Вода",
+          "accepted_answers": [
+            "Вода",
+            "Влага"
+          ],
+          "explanation": "При нагреве водяной пар повышает давление внутри зерна. ",
+          "source_ids": [
+            "pasha-popcorn"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q34-300",
+          "value": 300,
+          "prompt": "Кондитер сказал: «Это ваниль, не фасоль». Плоды какого семейства цветов дают натуральную ваниль?",
+          "answer": "Орхидные",
+          "accepted_answers": [
+            "Орхидные",
+            "Орхидея",
+            "Орхидеи"
+          ],
+          "explanation": "Ваниль — лиана из семейства орхидных.",
+          "source_ids": [
+            "pasha-vanilla"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q34-400",
+          "value": 400,
+          "prompt": "Один плод — две пряности: семя идёт как мускатный орех. Как называется пряность из красной оболочки вокруг семени?",
+          "answer": "Мацис",
+          "accepted_answers": [
+            "Мацис",
+            "Мускатный цвет"
+          ],
+          "explanation": "Мацис, или мускатный цвет, получают из присемянника мускатного ореха.",
+          "source_ids": [
+            "pasha-nutmeg"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q34-500",
+          "value": 500,
+          "prompt": "Кондитер покупает натуральную ваниль по цене маленькой драмы. Какая пряность, по данным Kew, дороже ванили и производится из рылец цветков крокуса?",
+          "answer": "Шафран",
+          "accepted_answers": [
+            "Шафран",
+            "Saffron"
+          ],
+          "explanation": "Шафран — пряность из рылец Crocus sativus; ваниль называют второй по дороговизне пряностью.",
+          "source_ids": [
+            "pasha-vanilla"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "title": "Выход через письку",
+      "description": "Роды и первый день: карапуз выходит в свет, взрослые учат новые слова.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q35-100",
+          "value": 100,
+          "prompt": "Девять месяцев ребёнок подключён к маме без Wi-Fi. Как называется шнур, который соединяет его с плацентой?",
+          "answer": "Пуповина",
+          "accepted_answers": [
+            "Пуповина"
+          ],
+          "explanation": "Пуповина соединяет плод с плацентой.",
+          "source_ids": [
+            "pasha-editorial"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q35-200",
+          "value": 200,
+          "prompt": "Это слово звучит как драка, но в родзале так называют регулярные сокращения матки. Что это?",
+          "answer": "Схватки",
+          "accepted_answers": [
+            "Схватки"
+          ],
+          "explanation": "Схватки — сокращения матки во время родов.",
+          "source_ids": [
+            "pasha-birth"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q35-300",
+          "value": 300,
+          "prompt": "Новорождённый бывает покрыт белой защитной смазкой. Это не майонез: как называется эта смазка?",
+          "answer": "Верникс",
+          "accepted_answers": [
+            "Верникс",
+            "Первородная смазка",
+            "Vernix"
+          ],
+          "explanation": "Верникс — первородная смазка, защищающая кожу ребёнка.",
+          "source_ids": [
+            "pasha-newborn"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q35-400",
+          "value": 400,
+          "prompt": "Первую оценку карапуз получает ещё до школы — по шкале Апгар. Сколько баллов в ней максимум?",
+          "answer": "10",
+          "accepted_answers": [
+            "10",
+            "Десять"
+          ],
+          "explanation": "Шкала Апгар оценивает пять признаков, каждый от 0 до 2 баллов.",
+          "source_ids": [
+            "pasha-apgar"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q35-500",
+          "value": 500,
+          "prompt": "Анатом XVI века посмотрел на этот орган и вспомнил лепёшку. Название какого временного органа беременности происходит от слова «лепёшка»?",
+          "answer": "Плацента",
+          "accepted_answers": [
+            "Плацента",
+            "Детское место"
+          ],
+          "explanation": "Латинское placenta связано с плоской лепёшкой; название описывает форму органа.",
+          "source_ids": [
+            "pasha-placenta"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "title": "НАЖМИ, ЕСЛИ УЗНАЛ ЭТУ ШТУКУ",
+      "description": "Узнай знакомый предмет и успей нажать первым.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q36-100",
+          "value": 100,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Венчик",
+          "accepted_answers": [
+            "Венчик",
+            "Кухонный венчик"
+          ],
+          "explanation": "Им взбивают и перемешивают.",
+          "source_ids": [
+            "pasha-whisk"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-whisk.jpg",
+            "source_id": "pasha-whisk",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q36-200",
+          "value": 200,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Прищепка",
+          "accepted_answers": [
+            "Прищепка",
+            "Бельевая прищепка"
+          ],
+          "explanation": "Ею закрепляют бельё на верёвке.",
+          "source_ids": [
+            "pasha-clothespin"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-clothespin.jpg",
+            "source_id": "pasha-clothespin",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q36-300",
+          "value": 300,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Степлер",
+          "accepted_answers": [
+            "Степлер",
+            "Скобосшиватель"
+          ],
+          "explanation": "Он скрепляет листы металлическими скобами.",
+          "source_ids": [
+            "pasha-stapler"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-stapler.jpg",
+            "source_id": "pasha-stapler",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q36-400",
+          "value": 400,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Дуршлаг",
+          "accepted_answers": [
+            "Дуршлаг"
+          ],
+          "explanation": "Посуда с отверстиями для отделения жидкости.",
+          "source_ids": [
+            "pasha-colander"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-colander.jpg",
+            "source_id": "pasha-colander",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q36-500",
+          "value": 500,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Штопор",
+          "accepted_answers": [
+            "Штопор"
+          ],
+          "explanation": "Инструмент для извлечения пробки.",
+          "source_ids": [
+            "pasha-corkscrew"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-corkscrew.jpg",
+            "source_id": "pasha-corkscrew",
+            "question_alt": "Фотография для вопроса"
+          }
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "title": "ПАП, ЭТО ОТ ТВОЕЙ МАШИНЫ?",
+      "description": "Назови деталь или инструмент на настоящей фотографии.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q37-100",
+          "value": 100,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Свеча зажигания",
+          "accepted_answers": [
+            "Свеча зажигания",
+            "Свеча"
+          ],
+          "explanation": "Создаёт искру в бензиновом двигателе.",
+          "source_ids": [
+            "pasha-sparkplug"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-sparkplug.jpg",
+            "source_id": "pasha-sparkplug",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q37-200",
+          "value": 200,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Трещотка",
+          "accepted_answers": [
+            "Трещотка",
+            "Трещоточный ключ",
+            "Торцевой ключ с трещоткой"
+          ],
+          "explanation": "Храповой механизм позволяет переставлять рукоятку без снятия головки.",
+          "source_ids": [
+            "pasha-ratchet"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-ratchet.jpg",
+            "source_id": "pasha-ratchet",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q37-300",
+          "value": 300,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Шариковый подшипник",
+          "accepted_answers": [
+            "Шариковый подшипник",
+            "Подшипник"
+          ],
+          "explanation": "Шарики уменьшают трение между кольцами.",
+          "source_ids": [
+            "pasha-bearing"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-bearing.jpg",
+            "source_id": "pasha-bearing",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q37-400",
+          "value": 400,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Штангенциркуль",
+          "accepted_answers": [
+            "Штангенциркуль"
+          ],
+          "explanation": "Измеряет наружные и внутренние размеры, а также глубину.",
+          "source_ids": [
+            "pasha-caliper"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-caliper.jpg",
+            "source_id": "pasha-caliper",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q37-500",
+          "value": 500,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Динамометрический ключ",
+          "accepted_answers": [
+            "Динамометрический ключ"
+          ],
+          "explanation": "Инструмент для затяжки с контролем крутящего момента.",
+          "source_ids": [
+            "pasha-torque"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-torque.jpg",
+            "source_id": "pasha-torque",
+            "question_alt": "Фотография для вопроса"
+          }
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "title": "ЭТО ВООБЩЕ ИЗДАЁТ ЗВУК?",
+      "description": "Узнай музыкальный инструмент по фотографии.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q38-100",
+          "value": 100,
+          "prompt": "Как называется этот музыкальный инструмент?",
+          "answer": "Аккордеон",
+          "accepted_answers": [
+            "Аккордеон"
+          ],
+          "explanation": "Меховой клавишно-пневматический инструмент с фортепианной клавиатурой.",
+          "source_ids": [
+            "pasha-accordion"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-accordion.jpg",
+            "source_id": "pasha-accordion",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q38-200",
+          "value": 200,
+          "prompt": "Как называется этот музыкальный инструмент?",
+          "answer": "Окарина",
+          "accepted_answers": [
+            "Окарина"
+          ],
+          "explanation": "Духовой инструмент, обычно с замкнутым корпусом и отверстиями для пальцев.",
+          "source_ids": [
+            "pasha-ocarina"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-ocarina.jpg",
+            "source_id": "pasha-ocarina",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q38-300",
+          "value": 300,
+          "prompt": "Как называется этот музыкальный инструмент?",
+          "answer": "Калимба",
+          "accepted_answers": [
+            "Калимба",
+            "Мбира"
+          ],
+          "explanation": "Звук извлекают, защипывая металлические язычки.",
+          "source_ids": [
+            "pasha-kalimba"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-kalimba.jpg",
+            "source_id": "pasha-kalimba",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q38-400",
+          "value": 400,
+          "prompt": "Как называется этот музыкальный инструмент?",
+          "answer": "Кахон",
+          "accepted_answers": [
+            "Кахон"
+          ],
+          "explanation": "Коробчатый ударный инструмент, на котором исполнитель обычно сидит.",
+          "source_ids": [
+            "pasha-cajon"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-cajon.jpg",
+            "source_id": "pasha-cajon",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q38-500",
+          "value": 500,
+          "prompt": "Как называется этот музыкальный инструмент?",
+          "answer": "Терменвокс",
+          "accepted_answers": [
+            "Терменвокс",
+            "Theremin"
+          ],
+          "explanation": "Высоту и громкость меняют движением рук возле антенн без прикосновения.",
+          "source_ids": [
+            "pasha-theremin"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-theremin.jpg",
+            "source_id": "pasha-theremin",
+            "question_alt": "Фотография для вопроса"
+          }
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "title": "ДЕД, ЭТО ТВОЙ АЙФОН?",
+      "description": "Устройства, которые пережили свои инструкции.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q39-100",
+          "value": 100,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Аудиокассета",
+          "accepted_answers": [
+            "Аудиокассета",
+            "Кассета",
+            "Компакт-кассета"
+          ],
+          "explanation": "Магнитная лента в небольшом корпусе.",
+          "source_ids": [
+            "pasha-cassette"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-cassette.jpg",
+            "source_id": "pasha-cassette",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q39-200",
+          "value": 200,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Дисковый телефон",
+          "accepted_answers": [
+            "Дисковый телефон",
+            "Телефон",
+            "Роторный телефон"
+          ],
+          "explanation": "Номер набирают поворотом диска.",
+          "source_ids": [
+            "pasha-phone"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-phone.jpg",
+            "source_id": "pasha-phone",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q39-300",
+          "value": 300,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Дискета",
+          "accepted_answers": [
+            "Дискета",
+            "Гибкий диск"
+          ],
+          "explanation": "Съёмный магнитный носитель данных.",
+          "source_ids": [
+            "pasha-floppy"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-floppy.jpg",
+            "source_id": "pasha-floppy",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q39-400",
+          "value": 400,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Пишущая машинка",
+          "accepted_answers": [
+            "Пишущая машинка",
+            "Печатная машинка"
+          ],
+          "explanation": "Механическое устройство для печати на бумаге.",
+          "source_ids": [
+            "pasha-typewriter"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-typewriter.jpg",
+            "source_id": "pasha-typewriter",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q39-500",
+          "value": 500,
+          "prompt": "Назовите предмет на фотографии.",
+          "answer": "Пейджер",
+          "accepted_answers": [
+            "Пейджер",
+            "Pager"
+          ],
+          "explanation": "Небольшое устройство для приёма коротких сообщений.",
+          "source_ids": [
+            "pasha-pager"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-pager.jpg",
+            "source_id": "pasha-pager",
+            "question_alt": "Фотография для вопроса"
+          }
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "title": "МОСТЫ: РАЗВЕЛИ И НЕ ПЕРЕЗВОНИЛИ",
+      "description": "Назови мост на фото; город тоже принимается.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q40-100",
+          "value": 100,
+          "prompt": "Какой мост на фото? Можно назвать город.",
+          "answer": "Тауэрский мост",
+          "accepted_answers": [
+            "Тауэрский мост",
+            "Лондон",
+            "Tower Bridge"
+          ],
+          "explanation": "Разводной мост через Темзу в Лондоне.",
+          "source_ids": [
+            "pasha-tower"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-tower.jpg",
+            "source_id": "pasha-tower",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q40-200",
+          "value": 200,
+          "prompt": "Какой мост на фото? Можно назвать город.",
+          "answer": "Золотые Ворота",
+          "accepted_answers": [
+            "Золотые Ворота",
+            "Сан-Франциско",
+            "Golden Gate"
+          ],
+          "explanation": "Подвесной мост через пролив Золотые Ворота.",
+          "source_ids": [
+            "pasha-golden"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-golden.jpg",
+            "source_id": "pasha-golden",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q40-300",
+          "value": 300,
+          "prompt": "Какой мост на фото? Можно назвать город.",
+          "answer": "Риальто",
+          "accepted_answers": [
+            "Риальто",
+            "Венеция",
+            "Rialto"
+          ],
+          "explanation": "Каменный мост через Гранд-канал в Венеции.",
+          "source_ids": [
+            "pasha-rialto"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-rialto.jpg",
+            "source_id": "pasha-rialto",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q40-400",
+          "value": 400,
+          "prompt": "Какой мост на фото? Можно назвать город.",
+          "answer": "Харбор-Бридж",
+          "accepted_answers": [
+            "Харбор-Бридж",
+            "Сидней",
+            "Sydney Harbour Bridge"
+          ],
+          "explanation": "Арочный мост через Сиднейскую гавань.",
+          "source_ids": [
+            "pasha-sydney"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-sydney.jpg",
+            "source_id": "pasha-sydney",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q40-500",
+          "value": 500,
+          "prompt": "Какой мост на фото? Можно назвать город.",
+          "answer": "Карлов мост",
+          "accepted_answers": [
+            "Карлов мост",
+            "Прага",
+            "Charles Bridge"
+          ],
+          "explanation": "Исторический мост через Влтаву в Праге.",
+          "source_ids": [
+            "pasha-charles"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-charles.jpg",
+            "source_id": "pasha-charles",
+            "question_alt": "Фотография для вопроса"
+          }
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "title": "Лицо знакомое, имя забыл",
+      "description": "Узнай актёра по фотографии. Роль назвать недостаточно.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q41-100",
+          "value": 100,
+          "prompt": "Назовите актёра на фото.",
+          "answer": "Леонардо Ди Каприо",
+          "accepted_answers": [
+            "Леонардо Ди Каприо",
+            "Леонардо ДиКаприо",
+            "Ди Каприо",
+            "ДиКаприо",
+            "Leonardo DiCaprio"
+          ],
+          "explanation": "На фото — Леонардо Ди Каприо.",
+          "source_ids": [
+            "pasha-actor-a"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-actor-a.jpg",
+            "source_id": "pasha-actor-a",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q41-200",
+          "value": 200,
+          "prompt": "Назовите актёра на фото.",
+          "answer": "Киану Ривз",
+          "accepted_answers": [
+            "Киану Ривз",
+            "Keanu Reeves",
+            "Ривз"
+          ],
+          "explanation": "На фото — Киану Ривз.",
+          "source_ids": [
+            "pasha-actor-b"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-actor-b.jpg",
+            "source_id": "pasha-actor-b",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q41-300",
+          "value": 300,
+          "prompt": "Назовите актёра на фото.",
+          "answer": "Роберт Дауни — младший",
+          "accepted_answers": [
+            "Роберт Дауни — младший",
+            "Роберт Дауни",
+            "Дауни",
+            "Robert Downey Jr."
+          ],
+          "explanation": "На фото — Роберт Дауни — младший.",
+          "source_ids": [
+            "pasha-actor-c"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-actor-c.jpg",
+            "source_id": "pasha-actor-c",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q41-400",
+          "value": 400,
+          "prompt": "Назовите актёра на фото.",
+          "answer": "Марго Робби",
+          "accepted_answers": [
+            "Марго Робби",
+            "Margot Robbie",
+            "Робби"
+          ],
+          "explanation": "На фото — Марго Робби.",
+          "source_ids": [
+            "pasha-actor-d"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-actor-d.jpg",
+            "source_id": "pasha-actor-d",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q41-500",
+          "value": 500,
+          "prompt": "Назовите актёра на фото.",
+          "answer": "Райан Гослинг",
+          "accepted_answers": [
+            "Райан Гослинг",
+            "Ryan Gosling",
+            "Гослинг"
+          ],
+          "explanation": "На фото — Райан Гослинг.",
+          "source_ids": [
+            "pasha-actor-e"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-actor-e.jpg",
+            "source_id": "pasha-actor-e",
+            "question_alt": "Фотография для вопроса"
+          }
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "title": "Кто этот фреш?",
+      "description": "Новая волна русского рэпа: узнаём по фото, без подсказки названием трека.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q42-100",
+          "value": 100,
+          "prompt": "Назовите рэпера на фото.",
+          "answer": "BUSHIDO ZHO",
+          "accepted_answers": [
+            "BUSHIDO ZHO",
+            "Бушидо Жо",
+            "Бушидо"
+          ],
+          "explanation": "На фото — BUSHIDO ZHO.",
+          "source_ids": [
+            "pasha-rap-a"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-rap-a.jpg",
+            "source_id": "pasha-rap-a",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q42-200",
+          "value": 200,
+          "prompt": "Назовите рэпера на фото.",
+          "answer": "FRIENDLY THUG 52 NGG",
+          "accepted_answers": [
+            "FRIENDLY THUG 52 NGG",
+            "Френдли Таг",
+            "Friendly Thug",
+            "Френдли Тхаг"
+          ],
+          "explanation": "На фото — FRIENDLY THUG 52 NGG.",
+          "source_ids": [
+            "pasha-rap-b"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-rap-b.jpg",
+            "source_id": "pasha-rap-b",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q42-300",
+          "value": 300,
+          "prompt": "Назовите рэпера на фото.",
+          "answer": "madk1d",
+          "accepted_answers": [
+            "madk1d",
+            "Мэдкид",
+            "Мадкид",
+            "madkid"
+          ],
+          "explanation": "На фото — madk1d.",
+          "source_ids": [
+            "pasha-rap-c"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-rap-c.jpg",
+            "source_id": "pasha-rap-c",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q42-400",
+          "value": 400,
+          "prompt": "Назовите рэпера на фото.",
+          "answer": "Тёмный Принц",
+          "accepted_answers": [
+            "Тёмный Принц",
+            "Темный Принц",
+            "Тёмный принц"
+          ],
+          "explanation": "На фото — Тёмный Принц.",
+          "source_ids": [
+            "pasha-rap-d"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-rap-d.jpg",
+            "source_id": "pasha-rap-d",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q42-500",
+          "value": 500,
+          "prompt": "Назовите рэпера на фото.",
+          "answer": "Whole Lotta Swag",
+          "accepted_answers": [
+            "Whole Lotta Swag",
+            "Хоул Лотта Сваг",
+            "Хоул Лотта Свэг",
+            "Вол Лотта Сваг"
+          ],
+          "explanation": "На фото — Whole Lotta Swag.",
+          "source_ids": [
+            "pasha-rap-e"
+          ],
+          "time_seconds": 25,
+          "host_note": "Зачёт по указанным вариантам. Название файла участникам не показывается.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-rap-e.jpg",
+            "source_id": "pasha-rap-e",
+            "question_alt": "Фотография для вопроса"
+          }
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "title": "Считай этажи, а не ворон",
+      "description": "Первый этаж тоже считается. Крыша отдельного этажа не добавляет.",
+      "default_mode": "open",
+      "questions": [
+        {
+          "id": "q43-100",
+          "value": 100,
+          "prompt": "Сколько этажей в этом доме? Считаем с первого.",
+          "answer": "3 этажа",
+          "accepted_answers": [
+            "3 этажа",
+            "3",
+            "Три"
+          ],
+          "explanation": "Три надземных этажа, включая первый.",
+          "source_ids": [
+            "pasha-house-a"
+          ],
+          "time_seconds": 25,
+          "host_note": "Ответ задан пользователем по имени исходного файла. Считаем надземные этажи, включая первый; крышу не считаем.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-house-a.jpg",
+            "source_id": "pasha-house-a",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q43-200",
+          "value": 200,
+          "prompt": "Сколько этажей в этом доме? Считаем с первого.",
+          "answer": "5 этажей",
+          "accepted_answers": [
+            "5 этажей",
+            "5",
+            "Пять"
+          ],
+          "explanation": "Пять надземных этажей, включая первый.",
+          "source_ids": [
+            "pasha-house-b"
+          ],
+          "time_seconds": 25,
+          "host_note": "Ответ задан пользователем по имени исходного файла. Считаем надземные этажи, включая первый; крышу не считаем.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-house-b.jpg",
+            "source_id": "pasha-house-b",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q43-300",
+          "value": 300,
+          "prompt": "Сколько этажей в этом доме? Считаем с первого.",
+          "answer": "7 этажей",
+          "accepted_answers": [
+            "7 этажей",
+            "7",
+            "Семь"
+          ],
+          "explanation": "Семь надземных этажей, включая первый.",
+          "source_ids": [
+            "pasha-house-c"
+          ],
+          "time_seconds": 25,
+          "host_note": "Ответ задан пользователем по имени исходного файла. Считаем надземные этажи, включая первый; крышу не считаем.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-house-c.jpg",
+            "source_id": "pasha-house-c",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q43-400",
+          "value": 400,
+          "prompt": "Сколько этажей в этом доме? Считаем с первого.",
+          "answer": "9 этажей",
+          "accepted_answers": [
+            "9 этажей",
+            "9",
+            "Девять"
+          ],
+          "explanation": "Девять надземных этажей, включая первый.",
+          "source_ids": [
+            "pasha-house-d"
+          ],
+          "time_seconds": 25,
+          "host_note": "Ответ задан пользователем по имени исходного файла. Считаем надземные этажи, включая первый; крышу не считаем.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-house-d.png",
+            "source_id": "pasha-house-d",
+            "question_alt": "Фотография для вопроса"
+          }
+        },
+        {
+          "id": "q43-500",
+          "value": 500,
+          "prompt": "Сколько этажей в самой высокой, центральной секции? Считаем с первого.",
+          "answer": "18 этажей",
+          "accepted_answers": [
+            "18 этажей",
+            "18",
+            "Восемнадцать"
+          ],
+          "explanation": "Считаем самую высокую, центральную секцию: восемнадцать этажей.",
+          "source_ids": [
+            "pasha-house-e"
+          ],
+          "time_seconds": 25,
+          "host_note": "Ответ задан пользователем по имени исходного файла. Считаем надземные этажи, включая первый; крышу не считаем.",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": {
+            "kind": "image",
+            "path": "assets/images/pasha-house-e.jpg",
+            "source_id": "pasha-house-e",
+            "question_alt": "Фотография для вопроса"
+          }
+        }
+      ]
     }
   ],
   "sources": {
@@ -3205,6 +5797,234 @@
       "title": "File:Shelly Beach in Summer 2022.jpg",
       "url": "https://commons.wikimedia.org/wiki/File:Shelly_Beach_in_Summer_2022.jpg",
       "checked_at": "2026-11-07"
+    },
+    "pasha-editorial": {
+      "title": "Авторские вопросы: определения, арифметика и общеизвестные факты",
+      "url": ""
+    },
+    "pasha-gta": {
+      "title": "Rockstar Games — GTA VI: персонажи и места",
+      "url": "https://www.rockstargames.com/VI"
+    },
+    "pasha-food": {
+      "title": "USDA — энергия белков, жиров и углеводов",
+      "url": "https://www.nal.usda.gov/programs/fnic"
+    },
+    "pasha-newborn": {
+      "title": "NHS — знакомство с новорождённым",
+      "url": "https://www.nhs.uk/pregnancy/labour-and-birth/getting-to-know-your-newborn/"
+    },
+    "pasha-army": {
+      "title": "Министерство обороны Республики Беларусь — официальные публикации",
+      "url": "https://t.me/s/modmilby/36328"
+    },
+    "pasha-pechi": {
+      "title": "72-й гвардейский объединённый учебный центр — официальные публикации",
+      "url": "https://t.me/s/pechi72ouc/37354"
+    },
+    "pasha-brigades": {
+      "title": "Придвинье — присвоение бригадам наименований Витебская и Брестская",
+      "url": "https://pridvinje.by/2020/01/13/103-otdelnaya-gvardejskaya-vozdushno-desantnaya-brigada-smenila-nazvanie/"
+    },
+    "pasha-whisk": {
+      "title": "File:Balloon spiral ball whisks.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Balloon_spiral_ball_whisks.jpg"
+    },
+    "pasha-clothespin": {
+      "title": "File:Clothespin (51891894538).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Clothespin_(51891894538).jpg"
+    },
+    "pasha-stapler": {
+      "title": "File:Stapler.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Stapler.jpg"
+    },
+    "pasha-colander": {
+      "title": "File:Colander.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Colander.jpg"
+    },
+    "pasha-corkscrew": {
+      "title": "File:Corkscrews December 2014-1.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Corkscrews_December_2014-1.jpg"
+    },
+    "pasha-sparkplug": {
+      "title": "File:Spark plug.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Spark_plug.jpg"
+    },
+    "pasha-ratchet": {
+      "title": "File:Socket wrench and sockets.JPG",
+      "url": "https://commons.wikimedia.org/wiki/File:Socket_wrench_and_sockets.JPG"
+    },
+    "pasha-bearing": {
+      "title": "File:Ball bearing.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Ball_bearing.jpg"
+    },
+    "pasha-caliper": {
+      "title": "File:Messschieber.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Messschieber.jpg"
+    },
+    "pasha-torque": {
+      "title": "File:Western Forge Craftsman beam torque wrench.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Western_Forge_Craftsman_beam_torque_wrench.jpg"
+    },
+    "pasha-accordion": {
+      "title": "File:Accordion.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Piano-Accordion.jpg"
+    },
+    "pasha-ocarina": {
+      "title": "File:Ocarina.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Ocarina.jpg"
+    },
+    "pasha-kalimba": {
+      "title": "File:Kalimba Touba Dialaw.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Kalimba_Touba_Dialaw.jpg"
+    },
+    "pasha-cajon": {
+      "title": "File:Homemade cajón.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Homemade_caj%C3%B3n.jpg"
+    },
+    "pasha-theremin": {
+      "title": "File:Etherwave Theremin Kit.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Etherwave_Theremin_Kit.jpg"
+    },
+    "pasha-cassette": {
+      "title": "File:Compact Cassette - Fuji Metal Z 90.JPG",
+      "url": "https://commons.wikimedia.org/wiki/File:Compact_Cassette_-_Fuji_Metal_Z_90.JPG"
+    },
+    "pasha-phone": {
+      "title": "File:Rotary dial telephone.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Rotary_dial_telephone.jpg"
+    },
+    "pasha-floppy": {
+      "title": "File:Floppy disk 2009 G1.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Floppy_disk_2009_G1.jpg"
+    },
+    "pasha-typewriter": {
+      "title": "File:Typewriter.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:IBM_Correcting_Selectric_III_Typewriter.jpg"
+    },
+    "pasha-pager": {
+      "title": "File:Pager.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Pager.jpg"
+    },
+    "pasha-tower": {
+      "title": "File:Tower Bridge London Feb 2006.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Tower_Bridge_London_Feb_2006.jpg"
+    },
+    "pasha-golden": {
+      "title": "File:Golden Gate Bridge from Fort Point.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Golden_Gate_Bridge_from_Fort_Point.jpg"
+    },
+    "pasha-rialto": {
+      "title": "File:Ponte di Rialto Venice 1.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Ponte_di_Rialto_Venice_1.jpg"
+    },
+    "pasha-sydney": {
+      "title": "File:Sydney Harbour Bridge from Circular Quay.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Sydney_Harbour_Bridge_from_Circular_Quay.jpg"
+    },
+    "pasha-charles": {
+      "title": "File:Charles Bridge at night.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Charles_Bridge_at_night.jpg"
+    },
+    "pasha-colostrum": {
+      "title": "NHS — молозиво в первые дни",
+      "url": "https://www.nhs.uk/baby/breastfeeding-and-bottle-feeding/breastfeeding/the-first-few-days/"
+    },
+    "pasha-reflex": {
+      "title": "American Academy of Pediatrics — рефлексы новорождённых",
+      "url": "https://www.healthychildren.org/English/ages-stages/baby/Pages/Newborn-Reflexes.aspx"
+    },
+    "pasha-birth": {
+      "title": "NHS — этапы родов",
+      "url": "https://www.nhs.uk/pregnancy/labour-and-birth/the-stages-of-labour-and-birth/"
+    },
+    "pasha-apgar": {
+      "title": "NSW Health — шкала Апгар",
+      "url": "https://www.health.nsw.gov.au/Reports/mothersbabies/2024/Pages/apgar.aspx"
+    },
+    "pasha-placenta": {
+      "title": "Placental Development — происхождение названия плаценты",
+      "url": "https://www.ncbi.nlm.nih.gov/books/NBK53251/"
+    },
+    "pasha-fish": {
+      "title": "NOAA Fisheries — определение возраста рыбы",
+      "url": "https://www.fisheries.noaa.gov/national/science-data/age-and-growth"
+    },
+    "pasha-fish-anatomy": {
+      "title": "South Carolina DNR — анатомия рыбы",
+      "url": "https://www.dnr.sc.gov/fish/anatomy.html"
+    },
+    "pasha-vanilla": {
+      "title": "Royal Botanic Gardens, Kew — ваниль",
+      "url": "https://www.kew.org/plants/vanilla"
+    },
+    "pasha-popcorn": {
+      "title": "Pacific Science Center — почему лопается попкорн",
+      "url": "https://pacificsciencecenter.org/wp-content/uploads/2022/05/cah-pressure-inside.pdf"
+    },
+    "pasha-nutmeg": {
+      "title": "Indian Institute of Spices Research — мускатный орех и мацис",
+      "url": "https://spices.res.in/products/spices/nutmeg-mace.html"
+    },
+    "pasha-actor-a": {
+      "title": "File:Leonardo DiCaprio crop.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Leonardo_DiCaprio_crop.jpg"
+    },
+    "pasha-actor-b": {
+      "title": "File:Reunião com o ator norte-americano Keanu Reeves (46806576944) (cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Reuni%C3%A3o_com_o_ator_norte-americano_Keanu_Reeves_(46806576944)_(cropped).jpg"
+    },
+    "pasha-actor-c": {
+      "title": "File:Robert Downey Jr 2014 Comic Con (cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Robert_Downey_Jr_2014_Comic_Con_(cropped).jpg"
+    },
+    "pasha-actor-d": {
+      "title": "File:Margot Robbie at Somerset House in 2013 (cropped).jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Margot_Robbie_at_Somerset_House_in_2013_(cropped).jpg"
+    },
+    "pasha-actor-e": {
+      "title": "File:Ryan Gosling in 2018.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Ryan_Gosling_in_2018.jpg"
+    },
+    "pasha-rap-a": {
+      "title": "File:Bushido Zho 2024.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Bushido_Zho_2024.jpg"
+    },
+    "pasha-rap-b": {
+      "title": "File:FRIENDLY THUG 52 NGG.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:FRIENDLY_THUG_52_NGG.jpg"
+    },
+    "pasha-rap-c": {
+      "title": "File:Madkid 2026.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Madkid_2026.jpg"
+    },
+    "pasha-rap-d": {
+      "title": "File:Тёмный принц 2026.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:%D0%A2%D1%91%D0%BC%D0%BD%D1%8B%D0%B9_%D0%BF%D1%80%D0%B8%D0%BD%D1%86_2026.jpg"
+    },
+    "pasha-rap-e": {
+      "title": "File:Whole Lotta Swag на VK Fest 2025 в СПб.jpg",
+      "url": "https://commons.wikimedia.org/wiki/File:Whole_Lotta_Swag_%D0%BD%D0%B0_VK_Fest_2025_%D0%B2_%D0%A1%D0%9F%D0%B1.jpg"
+    },
+    "pasha-house-a": {
+      "title": "Дом A, материал пользователя",
+      "url": ""
+    },
+    "pasha-house-b": {
+      "title": "Дом B, материал пользователя",
+      "url": ""
+    },
+    "pasha-house-c": {
+      "title": "Дом C, материал пользователя",
+      "url": ""
+    },
+    "pasha-house-d": {
+      "title": "Дом D, материал пользователя",
+      "url": ""
+    },
+    "pasha-house-e": {
+      "title": "Дом E, материал пользователя",
+      "url": ""
     }
   },
   "rounds": [
@@ -3213,38 +6033,55 @@
       "category_ids": [
         1,
         2,
+        3,
         4,
         5,
-        8,
-        11,
-        13,
-        16,
-        18,
-        19
-      ]
-    },
-    {
-      "id": 2,
-      "category_ids": [
-        3,
         6,
         7,
+        8,
         9,
         10,
+        11,
         12,
+        13,
         14,
         15,
+        16,
         17,
-        20
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
       ]
     }
   ],
   "notes": [
-    "20 категорий, два раунда по 10 тем, 100 вопросов. Для короткого вечера доступен режим на 60 вопросов.",
-    "Самбо удалено. Вместо него — Съедобное / несъедобное. Вместо Вообще-то, душнила прав — простая категория про видеоигры.",
-    "Варианты ответов удалены. Ведущий видит правильный ответ и допустимые формулировки.",
-    "Боровик принимается в вопросе про белый гриб. Точное видовое название для остальных природных вопросов не обязательно.",
-    "В БАЛКОНЕ, КОТЛЕТЕ и пяти кино-ребусах используются фотографии с указанием авторства. Операторы и буквы — отдельные элементы интерфейса.",
-    "Правки контента требуют повторного запуска supabase/setup.sql, чтобы ответы в базе совпадали с вопросами на сайте."
+    "Банк: 43 категории и 215 вопросов. Каждая партия: один раунд из 10 случайно выбранных категорий.",
+    "Игроки входят по имени и нажимают кнопку на телефоне. Первого фиксирует база Supabase.",
+    "За неверный ответ ведущий снимает половину стоимости вопроса и открывает кнопки остальным; ошибившийся ждёт следующего вопроса.",
+    "50 вопросов в полной игре; 30 — при лимите три вопроса на категорию.",
+    "Вопросы про GTA VI основаны на официальных персонажах и географии, без даты выхода и слухов."
   ]
 }

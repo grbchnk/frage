@@ -2,14 +2,14 @@ import {writeFile} from 'node:fs/promises';
 const esc=s=>String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const plain=s=>String(s||'').replace(/<[^>]*>/g,'').trim();
 export async function renderEditorial(pack,credits){
-  const title='ВИКТОРИНА У АЛИНЫ ДОМА';
-  const md=[`# ${title}`,'','**Пакет ведущего: здесь раскрыты ответы.**','','20 категорий · 2 раунда · 100 вопросов. В каждой теме 100–500 баллов.','',...pack.notes.map(n=>`- ${n}`),''];
-  const style=`body{font:18px/1.5 system-ui,sans-serif;background:#111922;color:#f2f1e9;max-width:1200px;margin:35px auto;padding:0 20px}a{color:#c3f68a}h2{margin-top:55px}article{border:1px solid #34414b;border-radius:12px;padding:24px;margin:20px 0;background:#1a2530}summary{cursor:pointer;color:#c3f68a;font-weight:bold}.image{position:relative;display:inline-block;max-width:100%;line-height:0}.image img{max-width:100%;max-height:550px;width:auto;height:auto}.mask{position:absolute;background:#273f48;display:grid;place-items:center;color:#9bbbbd;font:50px system-ui}.rebus{display:flex;gap:18px;align-items:center;padding:45px 15px 15px;max-width:100%;background:#f4f1e8;color:#172b3a;border-radius:10px}.panel{flex:1;min-width:0;position:relative;text-align:center}.panel img{display:block;width:100%;height:300px;object-fit:contain}.token{font-size:65px;font-weight:700}.op{position:absolute;top:-38px;left:0;right:0;font-weight:bold;font-size:25px}.trim{position:absolute;right:-8px;top:-45px;font-size:60px;font-weight:bold}details{margin-top:20px}small{color:#a5b4c0}nav{columns:2}@media(max-width:650px){.panel img{height:190px}.rebus{gap:8px}.token{font-size:40px}body{font-size:16px}}`;
-  const html=[`<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} — пакет ведущего</title><style>${style}</style><body><h1>${title}</h1><p>Пакет ведущего · 100 вопросов. Здесь есть ответы; игрокам этот документ не показывать.</p><nav>`];
+  const title=pack.title;
+  const md=[`# ${title}`,'','**Пакет ведущего: здесь раскрыты ответы.**','','43 категории · 215 вопросов в банке · 10 случайных тем в одной игре. В каждой теме 100–500 баллов.','',...pack.notes.map(n=>`- ${n}`),''];
+  const style=`body{font:18px/1.5 system-ui,sans-serif;background:#191612;color:#fff4df;max-width:1200px;margin:35px auto;padding:0 20px}a{color:#f4bd62}h2{margin-top:55px}article{border:1px solid #4b3d30;border-radius:12px;padding:24px;margin:20px 0;background:#28221c}summary{cursor:pointer;color:#f4bd62;font-weight:bold}.image{position:relative;display:inline-block;max-width:100%;line-height:0}.image img{max-width:100%;max-height:550px;width:auto;height:auto}.mask{position:absolute;background:#503b28;display:grid;place-items:center;color:#dfbb91;font:50px system-ui}.rebus{display:flex;gap:18px;align-items:center;padding:45px 15px 15px;max-width:100%;background:#f4f1e8;color:#38291c;border-radius:10px}.panel{flex:1;min-width:0;position:relative;text-align:center}.panel img{display:block;width:100%;height:300px;object-fit:contain}.token{font-size:65px;font-weight:700}.op{position:absolute;top:-38px;left:0;right:0;font-weight:bold;font-size:25px}.trim{position:absolute;right:-8px;top:-45px;font-size:60px;font-weight:bold}details{margin-top:20px}small{color:#b8a58e}nav{columns:2}@media(max-width:650px){.panel img{height:190px}.rebus{gap:8px}.token{font-size:40px}body{font-size:16px}}`;
+  const html=[`<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} — пакет ведущего</title><style>${style}</style><body><h1>${title}</h1><p>Пакет ведущего · 215 вопросов. Здесь есть ответы; игрокам этот документ не показывать.</p><nav>`];
   for(const c of pack.categories)html.push(`<p><a href="#c${c.id}">${esc(c.title)}</a></p>`);
   html.push('</nav>');
   for(const round of pack.rounds){
-    md.push(`## Раунд ${round.id}`,'');html.push(`<h2>Раунд ${round.id}</h2>`);
+    md.push(`## Банк категорий`,'');html.push(`<h2>Банк категорий</h2>`);
     for(const id of round.category_ids){
       const c=pack.categories.find(c=>c.id===id);md.push(`### ${c.title}`,'');html.push(`<h2 id="c${id}">${esc(c.title)}</h2>`);
       for(const q of c.questions){
@@ -43,7 +43,7 @@ export async function renderEditorial(pack,credits){
     }
   }
   html.push('</body></html>');
-  await writeFile('ВИКТОРИНА_100_ВОПРОСОВ.md',md.join('\n'));
+  await writeFile('ВИКТОРИНА_БАНК_ВОПРОСОВ.md',md.join('\n'));
   await writeFile('ПРОСМОТР_ПАКЕТА.html',html.join('\n'));
   const attribution=['# Изображения текущего пакета','',`Используется ${credits.length} файлов. Старые неиспользуемые фото не включаются в сайт.`,'','Веб-копии уменьшены и перекодированы. Фото в ребусах показываются отдельными элементами интерфейса; буквы, знаки и плашки не изменяют исходники.',''];
   for(const r of credits)attribution.push(`## ${r.id}`,'',`Файл: ${r.path}`,'',`Источник: [${r.title}](${r.source_url||''})`,'',`Автор: ${plain(r.author_html)}`,'',`Лицензия: ${r.license}${r.license_url?` — ${r.license_url}`:''}`,'');

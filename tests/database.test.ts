@@ -11,7 +11,7 @@ it('SQL запускается повторно; зритель, посторо�
       insert into auth.users values('00000000-0000-0000-0000-000000000001','host@test.local'),('00000000-0000-0000-0000-000000000002','other@test.local');`);
     const sql=readFileSync('supabase/setup.sql','utf8');
     await db.exec(sql);await db.exec(sql);
-    expect((await db.query('select * from public.quiz_answers')).rows).toHaveLength(100);
+    expect((await db.query('select * from public.quiz_answers')).rows).toHaveLength(215);
     const revision=JSON.parse(readFileSync('public/content/questions.json','utf8')).revision;
     const revisions=await db.query<{revision:string}>("select distinct data->>'pack_revision' as revision from public.quiz_answers");
     expect(revisions.rows).toEqual([{revision}]);
@@ -25,7 +25,7 @@ it('SQL запускается повторно; зритель, посторо�
     expect((await db.query('update public.quiz_game set revision=1 returning *')).rows).toHaveLength(0);
     await expect(db.query(`insert into public.quiz_hosts values('00000000-0000-0000-0000-000000000002')`)).rejects.toThrow();
     await db.exec(`set request.jwt.claim.sub='00000000-0000-0000-0000-000000000001';`);
-    expect((await db.query('select * from public.quiz_answers')).rows).toHaveLength(100);
+    expect((await db.query('select * from public.quiz_answers')).rows).toHaveLength(215);
     expect((await db.query("update public.quiz_game set revision=1 where id='main' and revision=0 returning *")).rows).toHaveLength(1);
     // A stale second controller cannot overwrite the newer state.
     expect((await db.query("update public.quiz_game set revision=1 where id='main' and revision=0 returning *")).rows).toHaveLength(0);

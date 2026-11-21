@@ -119,7 +119,7 @@ create or replace function quiz_private.sync_buzzer()
 returns trigger language plpgsql security definer set search_path='' as $$
 begin
   if new.state->>'phase'='lobby' and old.state->>'phase'<>'lobby' then
-    delete from public.quiz_participants;
+    delete from public.quiz_participants where id is not null;
   end if;
   if new.state->>'phase'='question' and
      (old.state->>'phase' is distinct from 'question' or new.state->>'activeQuestionId' is distinct from old.state->>'activeQuestionId' or new.state->>'questionOpenedAt' is distinct from old.state->>'questionOpenedAt') then

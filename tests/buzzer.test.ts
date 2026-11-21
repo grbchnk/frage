@@ -45,7 +45,7 @@ it('гости входят по имени; только одно нажати�
   await db.exec(`set request.jwt.claim.sub='00000000-0000-0000-0000-000000000001';`);
   const result=(await db.query<{result:{buzzer:Buzzer;snapshot:Snapshot}}>(`select public.quiz_rearm($1::uuid,$2) as result`,[window,rev])).rows[0].result;
   const next=result.buzzer;state=result.snapshot.state;
-  expect(state.players.find(p=>p.id===first)!.score).toBe(-q.value/2);
+  expect(state.players.find(p=>p.id===first)!.score).toBe(-q.value/2);expect(state.scoreChanges[first]).toBe(-q.value/2);
   expect(result.snapshot.revision).toBe(rev+1);
   expect(next.window_id).not.toBe(window);expect(next.excluded).toEqual([first]);
   await expect(db.query(`select * from public.quiz_rearm($1::uuid,$2)`,[window,rev])).rejects.toThrow();

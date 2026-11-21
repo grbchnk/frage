@@ -58,7 +58,7 @@ declare b public.quiz_buzzer; g jsonb;
 begin
   -- Always lock game before buzzer, also used by the host trigger and rearm.
   select state into g from public.quiz_game where id='main' for share;
-  if g->>'phase'<>'question' or not exists(select 1 from jsonb_array_elements(g->'players') p where p->>'id'=player_id) then
+  if g->>'phase'<>'question' or g->>'winnerId' is not null or not exists(select 1 from jsonb_array_elements(g->'players') p where p->>'id'=player_id) then
     raise exception 'Сейчас нажать нельзя.';
   end if;
   update public.quiz_buzzer set claimant=player_id,accepting=false
@@ -79,7 +79,7 @@ declare b public.quiz_buzzer; g jsonb; rev integer; points integer; players json
 begin
   if not exists(select 1 from public.quiz_hosts where user_id=(select auth.uid())) then raise exception 'Только ведущий.'; end if;
   select state,revision into g,rev from public.quiz_game where id='main' for update;
-  if g->>'phase'<>'question' or rev<>expected_revision then raise exception 'Игра уже изменилась. Обновите пульт.'; end if;
+  if g->>'phase'<>'question' or g->>'winnerId' is not null or rev<>expected_revision then raise exception 'Игра уже изменилась. Обновите пульт.'; end if;
   select * into b from public.quiz_buzzer where id='main' and window_id=expected_window and claimant is not null for update;
   if b.id is null then raise exception 'Нажатие уже обработано. Обновите пульт.'; end if;
   points:=(g->>'activeQuestionValue')::integer;
@@ -124,6 +124,8 @@ begin
   if new.state->>'phase'='question' and
      (old.state->>'phase' is distinct from 'question' or new.state->>'activeQuestionId' is distinct from old.state->>'activeQuestionId' or new.state->>'questionOpenedAt' is distinct from old.state->>'questionOpenedAt') then
     update public.quiz_buzzer set question_id=new.state->>'activeQuestionId',window_id=gen_random_uuid(),claimant=null,accepting=true,excluded='{}' where id='main';
+  elsif new.state->>'phase'='question' and new.state->>'winnerId' is not null then
+    update public.quiz_buzzer set accepting=false where id='main';
   elsif new.state->>'phase'<>'question' then
     update public.quiz_buzzer set accepting=false,claimant=null,question_id=null,window_id=gen_random_uuid(),excluded='{}' where id='main';
   end if;

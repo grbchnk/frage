@@ -22,6 +22,7 @@ export async function saveGame(previous:Snapshot,state:Game):Promise<Snapshot>{
       if(readDemo().revision!==previous.revision)throw new Error('Игра уже изменилась в другой вкладке. Повторите действие.');
       const result={id:'main',revision:previous.revision+1,state};
       if(state.phase==='question'&&(previous.state.phase!=='question'||state.activeQuestionId!==previous.state.activeQuestionId||state.questionOpenedAt!==previous.state.questionOpenedAt)){localStorage.setItem(buzzerKey,JSON.stringify({...emptyBuzzer(),question_id:state.activeQuestionId,accepting:true}));}
+      else if(state.phase==='question'&&state.winnerId!==null){const b=await readBuzzer();b.accepting=false;localStorage.setItem(buzzerKey,JSON.stringify(b));}
       else if(state.phase!=='question')localStorage.setItem(buzzerKey,JSON.stringify(emptyBuzzer()));
       if(state.phase==='lobby'&&previous.state.phase!=='lobby')localStorage.removeItem(rosterKey);
       localStorage.setItem(localKey,JSON.stringify(result));channel!.postMessage(result);return result;
@@ -87,7 +88,7 @@ export async function buzz(playerId:string,windowId:string):Promise<Buzzer>{
   if(!demo)return rpc('quiz_buzz',{player_id:playerId,expected_window:windowId});
   return navigator.locks.request(localKey,async()=>{
     const b=await readBuzzer(),g=readDemo().state;
-    if(g.phase!=='question'||!g.players.some(p=>p.id===playerId))throw new Error('Сейчас нажать нельзя.');
+    if(g.phase!=='question'||g.winnerId!==null||!g.players.some(p=>p.id===playerId))throw new Error('Сейчас нажать нельзя.');
     if(b.window_id===windowId&&b.accepting&&!b.claimant&&!b.excluded.includes(playerId)){
       b.claimant=playerId;b.accepting=false;localStorage.setItem(buzzerKey,JSON.stringify(b));channel!.postMessage({aux:true});
     }
@@ -98,7 +99,7 @@ export async function rearm(windowId:string,previous:Snapshot,pack:Pack):Promise
   if(!demo)return rpc('quiz_rearm',{expected_window:windowId,expected_revision:previous.revision});
   return navigator.locks.request(localKey,async()=>{
     const b=await readBuzzer(),current=readDemo();
-    if(current.revision!==previous.revision||current.state.phase!=='question'||b.window_id!==windowId||!b.claimant)throw new Error('Нажатие уже обработано.');
+    if(current.revision!==previous.revision||current.state.phase!=='question'||current.state.winnerId!==null||b.window_id!==windowId||!b.claimant)throw new Error('Нажатие уже обработано.');
     const snapshot={id:'main',revision:current.revision+1,state:transition(current.state,{type:'wrong',playerId:b.claimant},pack)};
     b.excluded.push(b.claimant);b.claimant=null;b.accepting=true;b.window_id=crypto.randomUUID();
     localStorage.setItem(buzzerKey,JSON.stringify(b));localStorage.setItem(localKey,JSON.stringify(snapshot));channel!.postMessage(snapshot);channel!.postMessage({aux:true});return {buzzer:b,snapshot};

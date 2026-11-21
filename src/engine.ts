@@ -12,7 +12,7 @@ export function available(pack: Pack, state: Game, id: string) {
   const cat=roundCategories(pack,state).find(c=>c.questions.some(q=>q.id===id));
   return !!cat && !state.completed.includes(id) && cat.questions.filter(q=>state.completed.includes(q.id)).length<state.questionsPerCategory;
 }
-export type Action = {type:'start'; names:string[]; limit:number; participants?:{id:string;name:string}[]; categoryIds?:number[]}|{type:'open'; id:string}|{type:'award'; playerId:string|null; answer:Answer}|{type:'wrong';playerId:string}|{type:'continue'}|{type:'cancel'}|{type:'endRound'}|{type:'reset'};
+export type Action = {type:'start'; names:string[]; limit:number; participants?:{id:string;name:string}[]; categoryIds?:number[]}|{type:'open'; id:string}|{type:'award';playerId:string}|{type:'reveal';answer:Answer}|{type:'adjustScore';playerId:string;delta:number}|{type:'wrong';playerId:string}|{type:'continue'}|{type:'cancel'}|{type:'endRound'}|{type:'reset'};
 export function transition(state:Game, action:Action, pack:Pack, now=Date.now()):Game {
   const next=structuredClone(state);
   const fail=()=>{throw new Error('Действие уже выполнено или сейчас недоступно.');};
@@ -33,15 +33,24 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
       next.phase='question';next.activeQuestionId=q.id;next.activeQuestionValue=q.value;next.questionOpenedAt=now;next.questionEndsAt=now+q.time_seconds*1000;next.revealed=null;next.winnerId=null;next.scoreChanges={};break;
     }
     case 'wrong': {
-      if(state.phase!=='question')return fail();
+      if(state.phase!=='question'||state.winnerId!==null)return fail();
       const q=findQuestion(pack,state.activeQuestionId),player=next.players.find(p=>p.id===action.playerId);
       if(!q||!player)return fail();player.score-=q.value/2;next.scoreChanges={...next.scoreChanges,[player.id]:-q.value/2};break;
     }
     case 'award': {
-      if(state.phase!=='question') return fail();
-      const q=findQuestion(pack,state.activeQuestionId); if(!q||!action.answer?.answer) return fail();
-      if(action.playerId!==null){const player=next.players.find(p=>p.id===action.playerId);if(!player)return fail();player.score+=q.value;next.scoreChanges={...next.scoreChanges,[player.id]:q.value};}
-      next.winnerId=action.playerId;next.revealed={answer:action.answer.answer,explanation:action.answer.explanation,accepted_answers:[],host_note:''};next.phase='answer';break;
+      if(state.phase!=='question'||state.winnerId!==null)return fail();
+      const q=findQuestion(pack,state.activeQuestionId),player=next.players.find(p=>p.id===action.playerId);
+      if(!q||!player||!Number.isSafeInteger(player.score+q.value))return fail();
+      player.score+=q.value;next.winnerId=player.id;next.scoreChanges={...next.scoreChanges,[player.id]:q.value};break;
+    }
+    case 'reveal': {
+      if(state.phase!=='question'||!action.answer?.answer)return fail();
+      next.revealed={answer:action.answer.answer,explanation:action.answer.explanation,accepted_answers:[],host_note:''};next.phase='answer';break;
+    }
+    case 'adjustScore': {
+      const player=next.players.find(p=>p.id===action.playerId);
+      if(state.phase==='lobby'||!player||!Number.isSafeInteger(action.delta)||!action.delta||!Number.isSafeInteger(player.score+action.delta))return fail();
+      player.score+=action.delta;next.scoreChanges={...next.scoreChanges,[player.id]:action.delta};break;
     }
     case 'continue': {
       if(state.phase!=='answer'||!state.activeQuestionId) return fail();
@@ -56,7 +65,7 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
       next.phase=done?'finished':'board';
       break;
     }
-    case 'cancel': if(state.phase!=='question')return fail();next.phase='board';next.activeQuestionId=null;next.questionEndsAt=null;break;
+    case 'cancel': if(state.phase!=='question'||state.winnerId!==null)return fail();next.phase='board';next.activeQuestionId=null;next.questionEndsAt=null;break;
     case 'endRound': if(state.phase!=='board')return fail();next.phase='finished';break;
     case 'reset': return {...initialGame(),event:state.event+1};
   }

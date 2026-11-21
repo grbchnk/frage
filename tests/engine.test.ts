@@ -12,11 +12,12 @@ describe('Один вечер в кинокомнате',()=>{
    const before=state;
    state=transition(state,{type:'open',id:q.id},pack,1000);
    expect(state.questionOpenedAt).toBe(1000);expect(state.revealed).toBeNull();
-   state=transition(state,{type:'award',playerId:'p2',answer},pack);
+   state=transition(state,{type:'award',playerId:'p2'},pack);
    expect(state.players[1].score).toBe(before.players[1].score+q.value);
-   expect(state.revealed?.host_note).toBe('');expect(state.revealed?.accepted_answers).toEqual([]);
-   expect(()=>transition(state,{type:'award',playerId:'p2',answer},pack)).toThrow();
-   state=transition(state,{type:'continue'},pack);expect(state.turnIndex).toBe(1);
+   expect(state.revealed).toBeNull();expect(state.phase).toBe('question');
+   expect(()=>transition(state,{type:'award',playerId:'p2'},pack)).toThrow();
+   state=transition(state,{type:'reveal',answer},pack);expect(state.revealed?.host_note).toBe('');
+   state=transition(state,{type:'continue'},pack);expect(state.turnIndex).toBe(1);expect(state.scoreChanges.p2).toBe(q.value);
   }
   expect(state.phase).toBe('finished');expect(state.completed).toHaveLength(10*limit);expect(state.breakEndsAt).toBeNull();
  });
@@ -32,7 +33,7 @@ describe('Один вечер в кинокомнате',()=>{
   let state=start();const q=roundCategories(pack,state)[0].questions[0];
   const cancelled=transition(transition(state,{type:'open',id:q.id},pack),{type:'cancel'},pack);
   expect(cancelled.completed).toEqual([]);expect(available(pack,cancelled,q.id)).toBe(true);
-  state=transition(state,{type:'open',id:q.id},pack);state=transition(state,{type:'award',playerId:null,answer},pack);state=transition(state,{type:'continue'},pack);
+  state=transition(state,{type:'open',id:q.id},pack);state=transition(state,{type:'reveal',answer},pack);state=transition(state,{type:'continue'},pack);
   expect(state.turnIndex).toBe(0);expect(available(pack,state,q.id)).toBe(false);
   expect(transition(state,{type:'endRound'},pack).phase).toBe('finished');
   expect(transition(state,{type:'reset'},pack).categoryIds).toEqual([]);
@@ -46,7 +47,14 @@ describe('Один вечер в кинокомнате',()=>{
   const state=start(),q=roundCategories(pack,state)[0].questions[2];
   const opened=transition(state,{type:'open',id:q.id},pack);
   const wrong=transition(opened,{type:'wrong',playerId:'p1'},pack);
-  expect(wrong.players[0].score).toBe(-150);expect(wrong.phase).toBe('question');
+  expect(wrong.players[0].score).toBe(-150);expect(wrong.scoreChanges.p1).toBe(-150);expect(wrong.phase).toBe('question');
   expect(wrong.activeQuestionId).toBe(q.id);expect(opened.players[0].score).toBe(0);
  });
+ it('ручная корректировка не раскрывает ответ и проверяет сумму',()=>{
+  const state=start(),q=roundCategories(pack,state)[0].questions[0],opened=transition(state,{type:'open',id:q.id},pack);
+  const adjusted=transition(opened,{type:'adjustScore',playerId:'p1',delta:50},pack);
+  expect(adjusted.players[0].score).toBe(50);expect(adjusted.revealed).toBeNull();expect(adjusted.phase).toBe('question');
+  expect(()=>transition(opened,{type:'adjustScore',playerId:'p1',delta:0.5},pack)).toThrow();
+ });
+
 });

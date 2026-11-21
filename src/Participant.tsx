@@ -1,5 +1,4 @@
 import {useEffect,useState} from 'react';
-import QRCode from 'qrcode';
 import {buzz,joinGame} from './connection';
 import type {Buzzer,Game,Participant} from './types';
 
@@ -7,7 +6,7 @@ export function JoinLink(){
   const url=new URL(location.href);url.searchParams.set('mode','player');
   const link=url.href;
   const [qr,setQr]=useState(''),[copied,setCopied]=useState(false);
-  useEffect(()=>{void QRCode.toDataURL(link,{width:200,margin:1,color:{dark:'#211b16',light:'#fff4dc'}}).then(setQr);},[link]);
+  useEffect(()=>{void import('qrcode').then(({default:QRCode})=>QRCode.toDataURL(link,{width:200,margin:1,color:{dark:'#211b16',light:'#fff4dc'}})).then(setQr);},[link]);
   return <section className="join-link">{qr&&<img src={qr} alt="QR-код для подключения участников"/>}<div><strong>Телефон — ваша кнопка</strong><p>Сканируйте код и введите имя</p><a href={link} target="_blank" rel="noreferrer">{link}</a><button className="text-link" onClick={()=>{void navigator.clipboard.writeText(link).then(()=>setCopied(true)).catch(()=>setCopied(false));}}>{copied?'Ссылка скопирована':'Скопировать ссылку'}</button></div></section>;
 }
 

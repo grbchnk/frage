@@ -12,7 +12,7 @@ export function available(pack: Pack, state: Game, id: string) {
   const cat=roundCategories(pack,state).find(c=>c.questions.some(q=>q.id===id));
   return !!cat && !state.completed.includes(id) && cat.questions.filter(q=>state.completed.includes(q.id)).length<state.questionsPerCategory;
 }
-export type Action = {type:'start'; names:string[]; limit:number; participants?:{id:string;name:string}[]; categoryIds?:number[]}|{type:'open'; id:string}|{type:'award';playerId:string}|{type:'reveal';answer:Answer}|{type:'adjustScore';playerId:string;delta:number}|{type:'wrong';playerId:string}|{type:'continue'}|{type:'cancel'}|{type:'endRound'}|{type:'reset'};
+export type Action = {type:'start'; names:string[]; limit:number; participants?:{id:string;name:string}[]; categoryIds?:number[]}|{type:'open'; id:string}|{type:'award';playerId:string}|{type:'correct';playerId:string;answer:Answer}|{type:'reveal';answer:Answer}|{type:'adjustScore';playerId:string;delta:number}|{type:'wrong';playerId:string}|{type:'continue'}|{type:'cancel'}|{type:'endRound'}|{type:'reset'};
 export function transition(state:Game, action:Action, pack:Pack, now=Date.now()):Game {
   const next=structuredClone(state);
   const fail=()=>{throw new Error('Действие уже выполнено или сейчас недоступно.');};
@@ -42,6 +42,11 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
       const q=findQuestion(pack,state.activeQuestionId),player=next.players.find(p=>p.id===action.playerId);
       if(!q||!player||!Number.isSafeInteger(player.score+q.value))return fail();
       player.score+=q.value;next.winnerId=player.id;next.scoreChanges={...next.scoreChanges,[player.id]:q.value};break;
+    }
+    case 'correct': {
+      if(!action.answer?.answer)return fail();
+      const awarded=transition(state,{type:'award',playerId:action.playerId},pack,now);
+      return {...transition(awarded,{type:'reveal',answer:action.answer},pack,now),event:state.event+1};
     }
     case 'reveal': {
       if(state.phase!=='question'||!action.answer?.answer)return fail();

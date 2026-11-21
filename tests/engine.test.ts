@@ -56,5 +56,20 @@ describe('Один вечер в кинокомнате',()=>{
   expect(adjusted.players[0].score).toBe(50);expect(adjusted.revealed).toBeNull();expect(adjusted.phase).toBe('question');
   expect(()=>transition(opened,{type:'adjustScore',playerId:'p1',delta:0.5},pack)).toThrow();
  });
+ it('большая кнопка «Правильно» начисляет один раз и сразу раскрывает ответ',()=>{
+  const state=start(),q=roundCategories(pack,state)[0].questions[2];
+  const opened=transition(state,{type:'open',id:q.id},pack);
+  const correct=transition(opened,{type:'correct',playerId:'p2',answer},pack);
+  expect(correct.phase).toBe('answer');expect(correct.players[1].score).toBe(300);
+  expect(correct.revealed).toEqual({...answer,accepted_answers:[],host_note:''});
+  expect(correct.event).toBe(opened.event+1);
+  expect(()=>transition(correct,{type:'correct',playerId:'p2',answer},pack)).toThrow();
+ });
+ it('ручной набор из 10 тем сохраняется точно; неполный набор нельзя запустить',()=>{
+  const ids=pack.categories.slice(-10).map(c=>c.id);
+  const state=transition(initialGame(),{type:'start',names:['А','Б'],limit:5,categoryIds:ids},pack);
+  expect(roundCategories(pack,state).map(c=>c.id)).toEqual(ids);
+  expect(()=>transition(initialGame(),{type:'start',names:['А','Б'],limit:5,categoryIds:ids.slice(1)},pack)).toThrow();
+ });
 
 });

@@ -30,7 +30,7 @@ export async function saveGame(previous:Snapshot,state:Game):Promise<Snapshot>{
   }
   if(!supabase)throw new Error('Нет подключения.');
   const {data,error}=await supabase.from('quiz_game').update({state,revision:previous.revision+1,updated_at:new Date().toISOString()}).eq('id','main').eq('revision',previous.revision).select('id,state,revision');
-  if(error)throw new Error(`Не удалось сохранить (${error.code}). Проверьте сеть и права ведущего.`);
+  if(error)throw Object.assign(new Error(`Не удалось сохранить (${error.code}): ${error.message}`),{code:error.code});
   if(!data?.length)throw new Error('Игра уже изменилась или нет прав ведущего. Обновляю состояние — повторите действие.');
   return data[0] as Snapshot;
 }
@@ -65,7 +65,7 @@ export async function readBuzzer():Promise<Buzzer>{
 async function rpc<T>(name:string,args:Record<string,unknown>):Promise<T>{
   if(!supabase)throw new Error('Нет подключения.');
   const {data,error}=await supabase.rpc(name,args);
-  if(error)throw new Error(error.message);
+  if(error)throw Object.assign(new Error(`${error.message} (${error.code})`),{code:error.code});
   const row=Array.isArray(data)?data[0]:data;
   if(!row)throw new Error('База не вернула результат. Повторите действие.');
   return row as T;
@@ -113,6 +113,23 @@ export async function restoreGame(previous:Snapshot,state:Game,buzzer:Buzzer):Pr
     const restored=state.phase==='question'&&buzzer.question_id===state.activeQuestionId?{...buzzer,window_id:crypto.randomUUID()}:emptyBuzzer();
     localStorage.setItem(localKey,JSON.stringify(result));localStorage.setItem(buzzerKey,JSON.stringify(restored));channel!.postMessage(result);channel!.postMessage({aux:true});return result;
   });
+}
+export async function resetGame():Promise<Snapshot>{
+  // Start from the database's current revision, not a potentially stale remote.
+  // The existing host RPC applies the empty lobby atomically and triggers guest cleanup.
+  for(let attempt=0;attempt<2;attempt++){
+    const previous=await readGame();
+    const state={...initialGame(),event:previous.state.event+1};
+    try{
+      const result=await restoreGame(previous,state,emptyBuzzer());
+      if(demo){localStorage.removeItem(rosterKey);channel!.postMessage({aux:true});}
+      return result;
+    }catch(e){
+      if(attempt===0&&(e as Error).message.includes('Игра уже изменилась'))continue;
+      throw new Error(`Не удалось начать новую игру: ${(e as Error).message}`);
+    }
+  }
+  throw new Error('Игра изменилась на другом пульте. Повторите новую игру.');
 }
 export function subscribeParticipants(changed:()=>void){
   if(demo){const fn=(e:MessageEvent)=>{if(e.data.aux)changed();};channel!.addEventListener('message',fn);return ()=>channel!.removeEventListener('message',fn);}

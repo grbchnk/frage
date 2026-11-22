@@ -26,33 +26,35 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
 .tv-category-phase #tv-footer { margin-top:10px; padding-top:6px; }
 .tv-category-phase #tv-retry { background:#28184c; border:1px solid #7852ab; color:#fcf7ff; font-size:12px; padding:5px 8px; }
 .tv-category-phase #tv-players { border-spacing:9px 6px; }
-.tv-category-phase .tv-player { text-align:left; padding:8px 10px; background:#1b153b; border:1px solid #7544aa; border-radius:12px; }
-.tv-category-phase .tv-player span { font-size:19px; font-weight:bold; }
-.tv-category-phase .tv-player strong { color:#fcf7ff; display:inline-block; margin:4px 5px 0 0; font-size:24px; }
+.tv-category-phase .tv-player { position:relative; text-align:center; padding:8px 10px; background:#1b153b; border:1px solid #7544aa; border-radius:12px; }
+.tv-category-phase .tv-player span { display:block; font-size:19px; font-weight:bold; }
+.tv-category-phase .tv-player strong { color:#fcf7ff; display:block; margin:4px 0 0; font-size:24px; }
 .tv-category-phase .tv-choosing { border-color:#e693ff; box-shadow:0 0 11px #c859f7; }
-.tv-board-leader { color:#ffca62; font-size:22px; margin-right:5px; }
-.tv-category-phase .tv-delta { color:#e0d0fa; background:#3c285b; border-radius:14px; padding:3px 6px; }
+.tv-board-crown { position:absolute; top:50%; left:7%; margin-top:-12px; font-size:23px; line-height:1; }
+.tv-category-phase .tv-delta { position:absolute; right:6%; bottom:8px; color:#e0d0fa; background:#3c285b; border-radius:14px; padding:3px 6px; }
+.tv-category-phase .tv-many-players .tv-board-crown { left:3%; font-size:15px; }
+.tv-category-phase .tv-many-players .tv-delta { position:static; margin-top:4px; }
 .tv-category-phase .tv-positive { color:#b6ffd0; background:#24513c; }
 .tv-category-phase .tv-negative { color:#ffaac1; background:#602745; }
 .tv-category-phase #tv-content { min-height:0; padding:8px 0; }
 .tv-board-chooser { text-align:center; }
-.tv-board-chooser p { margin-bottom:4px; font-size:15px; letter-spacing:3px; text-transform:uppercase; color:#dfd3f3; }
-.tv-board-chooser h1 { font-size:41px; margin:0 0 12px; }
+.tv-board-chooser h1 { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:20px; letter-spacing:2px; text-transform:uppercase; color:#dfd3f3; margin:0 0 12px; }
+.tv-board-chooser strong { color:#fcf7ff; font-size:30px; }
 .tv-board-frame { padding:8px; border:1px solid #9256ce; border-radius:20px; background:#120d2e; }
 .tv-category-phase .tv-board { border-spacing:6px; }
 .tv-category-phase .tv-board th,.tv-category-phase .tv-board td { border-radius:9px; height:57px; }
-.tv-category-phase .tv-board th { width:33%; background:#211b44; border-color:#674197; font-size:20px; }
+.tv-category-phase .tv-board th { width:33%; background:#211b44; border-color:#674197; font-size:20px; text-transform:uppercase; }
 .tv-category-number { display:inline-block; padding:3px 7px; min-width:24px; margin-right:8px; border:1px solid #a77ee7; border-radius:5px; background:#522b97; color:white; font-weight:bold; text-align:center; }
 .tv-category-2 .tv-category-number { background:#244c9e; border-color:#71a4ff; }
 .tv-category-3 .tv-category-number { background:#216e73; border-color:#71d4d1; }
 .tv-category-4 .tv-category-number { background:#8a552f; border-color:#e5ae68; }
 .tv-category-5 .tv-category-number { background:#82305f; border-color:#f084bc; }
 .tv-category-phase .tv-board td { color:#fcf7ff; border-color:#8d52c7; font-weight:bold; }
-.tv-category-phase .tv-price-100 { background:#3e218e; background:linear-gradient(#5526b8,#291864); }
-.tv-category-phase .tv-price-200 { background:#4f2291; background:linear-gradient(#6b2db2,#331659); }
-.tv-category-phase .tv-price-300 { background:#652586; background:linear-gradient(#842ca9,#481260); }
-.tv-category-phase .tv-price-400 { background:#7c256b; background:linear-gradient(#a32380,#5d1952); }
-.tv-category-phase .tv-board .tv-price-500 { background:#b64c40; background:linear-gradient(#e76f3d,#8f2639); border-color:#ffab70; }
+.tv-category-phase .tv-price-100 { background:#3e218e; background:linear-gradient(104deg,#301575,#5828bb 52%,#692dbd); }
+.tv-category-phase .tv-price-200 { background:#4f2291; background:linear-gradient(104deg,#612bbc,#7130c3 52%,#812cb9); }
+.tv-category-phase .tv-price-300 { background:#652586; background:linear-gradient(104deg,#792dc0,#872bb0 52%,#97228d); }
+.tv-category-phase .tv-price-400 { background:#7c256b; background:linear-gradient(104deg,#8e27a0,#a62681 52%,#b93c76); }
+.tv-category-phase .tv-board .tv-price-500 { background:#b64c40; background:linear-gradient(104deg,#bd4170,#e46c3e 52%,#fd8b4e); border-color:#ffab70; }
 .tv-category-phase .tv-board .tv-used { background:#211f3a; border-color:#3c3457; }
 .tv-category-phase .tv-board-dense { border-spacing:4px; }
 .tv-category-phase .tv-board-dense th,.tv-category-phase .tv-board-dense td { height:35px; padding:2px 5px; font-size:17px; }

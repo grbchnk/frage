@@ -7,7 +7,7 @@ import {QuizAudio} from './audio';
 import './style.css';
 import './board.css';
 import {JoinLink,ParticipantScreen} from './Participant';
-import {AnswerFlash,Finale,GAME_NAME,Place,ScoreDelta,VisualCategory,useAnswerFeedback} from './GameViews';
+import {AnswerFlash,BoardCrown,Finale,GAME_NAME,Place,ScoreDelta,VisualCategory,useAnswerFeedback} from './GameViews';
 
 const params=new URLSearchParams(location.search);
 const initialRole=params.get('mode')||(matchMedia('(max-width: 760px) and (pointer: coarse)').matches?'player':'display');
@@ -142,9 +142,9 @@ function App(){
     </header>
     {error&&!scoresOpen&&<div className="error" role="alert"><span>{error}</span><button onClick={()=>setError('')} aria-label="Закрыть сообщение">×</button></div>}
     {snapshot.revision<0||!pack||(host&&!answersReady)?<main className="waiting"><span className="eyebrow">{GAME_NAME}</span><h1>Собираем игру<span className="accent">.</span></h1><p>Подключаем экран к общему столу.</p><button disabled={host&&answersLoading} onClick={()=>{setError('');if(host)setAnswerRetry(value=>value+1);void refresh().catch(e=>setError(e.message));}}>Повторить подключение</button>{import.meta.env.DEV&&!demo&&<a className="text-link" href="?mode=host&demo=1">Локальная репетиция без базы ↗</a>}</main>:legacy?<main className="waiting"><h1>Новая игра</h1><p>Обновились правила и банк вопросов. Ведущий может начать новую партию с кнопками участников.</p>{host&&<button onClick={()=>setConfirm('reset')}>Начать новую игру</button>}</main>:<>
-      {inGame&&state.phase!=='finished'&&<section className={`scoreboard ${ranked.length>6?'many-players':''}`} aria-label="Очки игроков" style={{'--player-count':ranked.length,'--mobile-columns':ranked.length<=4?2:ranked.length<=6?3:ranked.length<=8?4:5} as React.CSSProperties}>
-        {ranked.map(p=><div className={`player ${state.phase==='board'&&p.id===choosingId?'choosing':''} ${state.winnerId===p.id?'scored':''} ${p.rank===1?'leader':''}`} key={p.id}>
-          {state.phase==='board'&&p.rank===1&&<svg className="board-crown" viewBox="0 0 32 28" role="img" aria-label="Первое место"><path d="M3 7 9 13 16 3 23 13 29 7 26 22H6Z" fill="#ffcc64" stroke="#f5a42d" strokeWidth="1.3" strokeLinejoin="round"/><path d="M7 25h18" stroke="#ffd77b" strokeWidth="2.4" strokeLinecap="round"/><path d="m9 13 2 8h4l1-17z" fill="#ffe9a5"/><circle cx="3" cy="7" r="2" fill="#ffe4a2"/><circle cx="16" cy="3" r="2.5" fill="#fff1b8"/><circle cx="29" cy="7" r="2" fill="#ffe4a2"/></svg>}
+      {inGame&&state.phase!=='finished'&&<section className={`scoreboard ${ranked.length>4?'many-players':''}`} aria-label="Очки игроков" style={{'--player-count':ranked.length,'--mobile-columns':ranked.length<=4?2:ranked.length<=6?3:ranked.length<=8?4:5} as React.CSSProperties}>
+        {ranked.map(p=><div className={`player ${state.phase==='board'&&p.id===choosingId?'choosing':''} ${state.winnerId===p.id?'scored':''}`} key={p.id}>
+          {state.phase==='board'&&p.rank<=3&&<BoardCrown rank={p.rank}/>}
           <div className="player-name">{state.phase!=='board'&&<Place rank={p.rank}/>}<span title={p.name}>{p.name}</span></div>
           <strong>{host?p.score.toLocaleString('ru-RU'):<AnimatedScore value={p.score}/>}</strong>
           <div className="score-delta-slot">{state.scoreChanges?.[p.id]!==undefined&&<ScoreDelta delta={state.scoreChanges[p.id]}/>}</div>
@@ -223,8 +223,7 @@ function Board({categories,state,pack,host,busy,open,openPage}:{categories:Pack[
   const used=categories.reduce((sum,c)=>sum+c.questions.filter(item=>state.completed.includes(item.id)).length,0);
   return <main className="board-main">
     <div className="board-chooser">
-      <h1>Сейчас выбирает категорию</h1>
-      <p><strong>{chooser?.name}</strong></p>
+      <h1><span>Выбирает</span> <strong>{chooser?.name}</strong></h1>
     </div>
     {pages>1&&<nav className="board-pages" aria-label="Страницы категорий">
       {host&&<button disabled={busy||page===0} onClick={()=>openPage(page-1)}>← Предыдущие</button>}

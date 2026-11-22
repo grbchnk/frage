@@ -191,6 +191,7 @@
     var ranked = rankPlayers(state.players);
     var chooser = state.players[state.turnIndex];
     var i;
+    players.className = boardPhase && ranked.length > 4 ? 'tv-many-players' : '';
     text(players, '');
     if (state.phase !== 'lobby' && state.phase !== 'finished') {
       for (i = 0; i < ranked.length; i++) {
@@ -198,7 +199,7 @@
         var choosing = boardPhase && chooser && chooser.id === player.id;
         var cell = el('div', 'tv-player' + (choosing ? ' tv-choosing' : '') + (player.id === state.winnerId ? ' tv-scored' : ''), null, players);
         if (boardPhase) {
-          if (ranked[i].rank === 1) el('b', 'tv-board-leader', '♛', cell);
+          if (ranked[i].rank <= 3) el('b', 'tv-board-crown ' + ranks[ranked[i].rank], '♛', cell);
         } else {
           el('b', 'tv-place ' + (ranks[ranked[i].rank] || ''), ranked[i].rank, cell);
         }
@@ -219,8 +220,9 @@
       var pageCount = Math.ceil(ids.length / 10);
       var page = Math.max(0, Math.min(pageCount - 1, state.boardPage || 0));
       var selection = el('div', 'tv-board-chooser', null, content);
-      el('p', '', 'Сейчас выбирает категорию', selection);
-      el('h1', '', chooser ? chooser.name : '', selection);
+      var heading = el('h1', '', null, selection);
+      text(heading, 'Выбирает ');
+      el('strong', '', chooser ? chooser.name : '', heading);
       if (pageCount > 1) el('p', 'tv-meta', 'Страница ' + (page + 1) + ' из ' + pageCount, content);
       ids = ids.slice(page * 10, (page + 1) * 10);
       var frame = el('div', 'tv-board-frame', null, content);

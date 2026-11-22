@@ -18,6 +18,17 @@ export function Place({rank}:{rank:number}){
   </span>;
 }
 
+export function BoardCrown({rank}:{rank:number}){
+  return <svg className="board-crown" data-rank={rank} viewBox="0 0 32 28" role="img" aria-label={`Место ${rank}`}>
+    <path d="M3 7 9 13 16 3 23 13 29 7 26 22H6Z" fill="var(--crown-fill)" stroke="var(--crown-edge)" strokeWidth="1.3" strokeLinejoin="round"/>
+    <path d="M7 25h18" stroke="var(--crown-light)" strokeWidth="2.4" strokeLinecap="round"/>
+    <path d="m9 13 2 8h4l1-17z" fill="var(--crown-light)"/>
+    <circle cx="3" cy="7" r="2" fill="var(--crown-light)"/>
+    <circle cx="16" cy="3" r="2.5" fill="var(--crown-light)"/>
+    <circle cx="29" cy="7" r="2" fill="var(--crown-light)"/>
+  </svg>;
+}
+
 export function ScoreDelta({delta}:{delta:number}){
   return <span className={`score-change ${delta>0?'positive':delta<0?'negative':'neutral'}`} aria-label={`За последний вопрос: ${formatDelta(delta)}`}>{formatDelta(delta)}</span>;
 }

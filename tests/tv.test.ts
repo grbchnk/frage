@@ -56,8 +56,9 @@ it('TV без современных API показывает все этапы 
   app.update({phase:'board',players,completed:[firstQuestion.id]});
   const board=app.get('tv-content');
   expect(board.all().filter(n=>n.tag==='tr')).toHaveLength(10);
-  expect(board.all().find(n=>n.className==='tv-board-chooser')?.text).toContain('Сейчас выбирает категорию');
+  expect(board.all().find(n=>n.className==='tv-board-chooser')?.text).toContain('Выбирает');
   expect(board.all().find(n=>n.className==='tv-category-number')?.text).toBe('1');
+  expect(app.get('tv-players').all().filter(n=>n.className.startsWith('tv-board-crown')).map(n=>n.className)).toEqual(['tv-board-crown tv-gold','tv-board-crown tv-silver']);
   expect(board.all().find(n=>n.className==='tv-used')?.text).toBe('');
   expect(board.all().find(n=>n.className==='tv-price-500')?.text).toBe('500');
   expect(app.get('tv-players').text).toContain('Стас <img src=x>');

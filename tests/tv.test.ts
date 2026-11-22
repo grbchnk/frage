@@ -26,6 +26,7 @@ function tv(){
   const timers=new Map<number,()=>void>();
   let current={id:'main',revision:1,state:initialGame()};
   let code=200;
+  let buzzer={question_id:'',claimant:''};
   const requests:{url:string;method:string;headers:Record<string,string>;body:unknown}[]=[];
   class XHR {
     readyState=0;status=0;responseText='';url='';method='';headers:Record<string,string>={};
@@ -36,7 +37,7 @@ function tv(){
     send(body:unknown){
       requests.push({url:this.url,method:this.method,headers:this.headers,body});
       this.status=this.url.includes('/rest/')?code:200;
-      this.responseText=JSON.stringify(this.url.includes('/rest/')?[current]:pack);
+      this.responseText=JSON.stringify(this.url.includes('/quiz_buzzer?')?[buzzer]:this.url.includes('/quiz_participants?')?[{id:'lobby-player',name:'Алина'}]:this.url.includes('/rest/')?[current]:pack);
       this.readyState=4;this.onreadystatechange();
     }
   }
@@ -45,20 +46,34 @@ function tv(){
     document:{documentElement:{clientWidth:1280,clientHeight:720},getElementById:get,createElement:(tag:string)=>new Node(tag),createTextNode:(value:string)=>{const n=new Node('#text');n.value=value;return n;}},
     XMLHttpRequest:XHR,
   });
-  return {pack,root,get,requests,update:(patch:Partial<ReturnType<typeof initialGame>>)=>{current={...current,revision:current.revision+1,state:{...current.state,...patch}};timers.get(2000)!();},fail:()=>{code=503;timers.get(2000)!();},recover:()=>{code=200;timers.get(2000)!();}};
+  return {pack,root,get,requests,buzz:(question_id:string,claimant:string)=>{buzzer={question_id,claimant};timers.get(2000)!();},update:(patch:Partial<ReturnType<typeof initialGame>>)=>{current={...current,revision:current.revision+1,state:{...current.state,...patch}};timers.get(2000)!();},fail:()=>{code=503;timers.get(2000)!();},recover:()=>{code=200;timers.get(2000)!();}};
 }
 it('TV без современных API показывает все этапы и не запрашивает частные ответы',()=>{
   const app=tv();
-  expect(app.get('tv-content').text).toContain('Ожидаем ведущего');
+  expect(app.get('tv-content').text).toContain('Алина');
   const players=[{id:'p1',name:'Стас <img src=x>',score:100},{id:'p2',name:'Алина',score:0}];
-  app.update({phase:'board',players});
-  expect(app.get('tv-content').all().filter(n=>n.tag==='tr')).toHaveLength(10);
+  const firstQuestion=app.pack.categories[0].questions[0];
+  app.update({phase:'board',players,completed:[firstQuestion.id]});
+  const board=app.get('tv-content');
+  expect(board.all().filter(n=>n.tag==='tr')).toHaveLength(10);
+  expect(board.all().find(n=>n.className==='tv-board-chooser')?.text).toContain('Выбирает');
+  expect(board.all().find(n=>n.className==='tv-category-number')?.text).toBe('1');
+  expect(app.get('tv-players').all().filter(n=>n.className.startsWith('tv-board-crown')).map(n=>n.className)).toEqual(['tv-board-crown tv-gold','tv-board-crown tv-silver']);
+  expect(board.all().find(n=>n.className==='tv-used')?.text).toBe('');
+  expect(board.all().find(n=>n.className==='tv-price-500')?.text).toBe('500');
   expect(app.get('tv-players').text).toContain('Стас <img src=x>');
   expect(app.get('tv-players').all().some(n=>n.tag==='img')).toBe(false);
   const question=app.pack.categories.flatMap((c:any)=>c.questions).find((q:any)=>q.media?.question_masks_normalized?.length);
-  app.update({phase:'question',activeQuestionId:question.id,questionEndsAt:Date.now()+60000});
+  const questionCategory=app.pack.categories.find((c:any)=>c.questions.includes(question));
+  app.update({phase:'question',activeQuestionId:question.id,categoryIds:[app.pack.categories[0].id,questionCategory.id]});
+  const label=app.get('tv-content').all().find(n=>n.className.startsWith('tv-question-label'));
+  expect(label?.text).toContain(questionCategory.title);
+  expect(label?.all().find(n=>n.className==='tv-category-number')?.text).toBe(questionCategory===app.pack.categories[0]?'1':'2');
+  expect(app.get('tv-players').all().filter(n=>n.className.startsWith('tv-board-crown')).map(n=>n.className)).toEqual(['tv-board-crown tv-gold','tv-board-crown tv-silver']);
   expect(app.get('tv-content').text).toContain(question.prompt);
-  expect(app.get('tv-clock').text).toMatch(/^00:(59|60)|01:00$/);
+  app.buzz(question.id,'p2');
+  expect(app.get('tv-respondent').text).toBe('Отвечает Алина');
+  expect(app.get('tv-clock')).toBeUndefined();
   expect(app.get('tv-content').all().filter(n=>n.className==='tv-mask')).toHaveLength(question.media.question_masks_normalized.length);
   expect(app.get('tv-content').all().find(n=>n.tag==='img')?.src).toMatch(/\.jpg$/);
   app.update({phase:'answer',revealed:{answer:'Тестовый ответ',explanation:'Объяснение',accepted_answers:[],host_note:''},winnerId:'p1'});
@@ -67,10 +82,12 @@ it('TV без современных API показывает все этапы 
   const rebus=app.pack.categories.flatMap((c:any)=>c.questions).find((q:any)=>q.media?.kind==='photo_rebus');
   app.update({phase:'question',activeQuestionId:rebus.id});
   expect(app.get('tv-content').all().filter(n=>n.className==='tv-rebus-panel')).toHaveLength(rebus.media.panels.length);
-  app.update({phase:'break',breakEndsAt:Date.now()+600000});
+  app.update({phase:'break'});
   expect(app.get('tv-content').text).toContain('Перерыв');
   app.update({phase:'finished'});
   expect(app.get('tv-content').text).toContain('Победитель');
+  expect(app.get('tv-content').text).toContain('2-е место');
+  expect(app.get('tv-content').text).not.toContain('3-е место');
   app.fail();
   expect(app.get('tv-error').text).toContain('503');
   expect(app.get('tv-content').text).toContain('Победитель');
@@ -79,7 +96,7 @@ it('TV без современных API показывает все этапы 
   for(const request of app.requests){
     expect(request.method).toBe('GET');
     expect(request.body).toBe(null);
-    expect(request.url).toMatch(/content\/questions\.json|\/rest\/v1\/quiz_game\?/);
+    expect(request.url).toMatch(/content\/questions\.json|\/rest\/v1\/quiz_(game|buzzer|participants)\?/);
     if(request.url.includes('/rest/'))expect(request.headers.apikey).toBe('public-test-key');
   }
 });

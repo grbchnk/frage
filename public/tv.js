@@ -6,11 +6,17 @@
   var snapshot = null;
   var pending = false;
   var revision = -1;
+  var lastFeedback = -1;
+  var buzzer = null;
+  var responseRequest = false;
+  var lobbyRoster = [];
+  var rosterRequest = false;
+  var ranks = ['', 'tv-gold', 'tv-silver', 'tv-bronze'];
   var content = document.getElementById('tv-content');
   var players = document.getElementById('tv-players');
   var errorBox = document.getElementById('tv-error');
   var status = document.getElementById('tv-status');
-  var colors = ['#bdf684', '#afcaff', '#f7b0ce', '#ffd28c', '#c7b7ff', '#81ddd2', '#f4a48d', '#c4d5a0', '#fff3b0', '#bec6df'];
+
 
   function text(node, value) {
     while (node.firstChild) node.removeChild(node.firstChild);
@@ -127,32 +133,119 @@
       el('b', '', '?', mask);
     }
   }
+  function signed(value) {
+    return value > 0 ? '+' + value : value < 0 ? '−' + Math.abs(value) : '0';
+  }
+  function rankPlayers(items) {
+    var sorted = items.map(function (player, index) { return { player: player, index: index }; });
+    sorted.sort(function (a, b) { return b.player.score - a.player.score || a.index - b.index; });
+    var rank = 0;
+    return sorted.map(function (item, index) {
+      if (index === 0 || item.player.score !== sorted[index - 1].player.score) rank = index + 1;
+      return { player: item.player, rank: rank };
+    });
+  }
+  function photoIcon(parent) {
+    var ns = 'http://www.w3.org/2000/svg';
+    if (!document.createElementNS) return;
+    var icon = document.createElementNS(ns, 'svg');
+    icon.setAttribute('class', 'tv-photo-icon');
+    icon.setAttribute('viewBox', '0 0 24 24');
+    icon.setAttribute('role', 'img');
+    icon.setAttribute('aria-label', 'Категория с картинками');
+    var path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', 'M3 4h18v16H3z M4 17l4-4 3 3 4-5 5 5 M9 8v2');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', '#f4bd62');
+    path.setAttribute('stroke-width', '2');
+    icon.appendChild(path);
+    parent.appendChild(icon);
+  }
+  function showRespondent() {
+    var label = document.getElementById('tv-respondent');
+    if (!label || !snapshot) return;
+    var name = '';
+    var state = snapshot.state;
+    if (buzzer && buzzer.question_id === state.activeQuestionId && buzzer.claimant) {
+      for (var i = 0; i < state.players.length; i++) {
+        if (state.players[i].id === buzzer.claimant) name = state.players[i].name;
+      }
+    }
+    text(label, name ? 'Отвечает ' + name : 'Кто первый нажмёт?');
+    label.className = name ? 'tv-respondent active' : 'tv-respondent';
+  }
+  function flash(feedback) {
+    if (!feedback || feedback.event === lastFeedback) return;
+    lastFeedback = feedback.event;
+    if (new Date().getTime() - feedback.at > 2800) return;
+    var overlay = document.getElementById('tv-flash');
+    if (!overlay) return;
+    overlay.className = feedback.kind === 'correct' ? 'tv-flash-correct' : 'tv-flash-wrong';
+    window.setTimeout(function () {
+      if (lastFeedback === feedback.event) overlay.className = '';
+    }, 1300);
+  }
   function render() {
     if (!pack || !snapshot) return;
     var state = snapshot.state;
+    var boardPhase = state.phase === 'board';
+    var roundPhase = boardPhase || state.phase === 'question' || state.phase === 'answer';
+    document.documentElement.className = 'tv-stage tv-phase-' + state.phase + (roundPhase ? ' tv-round' : '') + (boardPhase ? ' tv-category-phase' : '');
+    var roundIds = state.categoryIds && state.categoryIds.length ? state.categoryIds : pack.rounds[0].category_ids.slice(0,10);
+    var ranked = rankPlayers(state.players);
+    var chooser = state.players[state.turnIndex];
     var i;
+    players.className = roundPhase && ranked.length > 4 ? 'tv-many-players' : '';
     text(players, '');
-    if (state.phase !== 'lobby') {
-      for (i = 0; i < state.players.length; i++) {
-        var player = state.players[i];
-        var cell = el('div', 'tv-player' + (state.phase === 'board' && i === state.turnIndex ? ' tv-choosing' : '') + (player.id === state.winnerId ? ' tv-scored' : ''), null, players);
-        el('span', '', player.name, cell).style.color = colors[i % colors.length];
+    if (state.phase !== 'lobby' && state.phase !== 'finished') {
+      for (i = 0; i < ranked.length; i++) {
+        var player = ranked[i].player;
+        var choosing = boardPhase && chooser && chooser.id === player.id;
+        var cell = el('div', 'tv-player' + (choosing ? ' tv-choosing' : '') + (player.id === state.winnerId ? ' tv-scored' : ''), null, players);
+        if (roundPhase) {
+          if (ranked[i].rank <= 3) el('b', 'tv-board-crown ' + ranks[ranked[i].rank], '♛', cell);
+        } else {
+          el('b', 'tv-place ' + (ranks[ranked[i].rank] || ''), ranked[i].rank, cell);
+        }
+        el('span', '', player.name, cell);
         el('strong', '', player.score, cell);
+        var change = state.scoreChanges && state.scoreChanges[player.id];
+        if (typeof change === 'number') el('small', 'tv-delta' + (change > 0 ? ' tv-positive' : change < 0 ? ' tv-negative' : ''), signed(change), cell);
       }
     }
     text(content, '');
     if (state.phase === 'lobby') {
-      var lobby = el('div', 'tv-center', null, content);
-      el('h1', '', 'ВИКТОРИНА В КИНОКОМНАТЕ У ПАШИ', lobby);
-      el('p', '', pack.categories.length + ' тем в банке · 10 тем в игре · 1 раунд', lobby);
-      el('p', '', 'Ожидаем ведущего', lobby);
+      var lobby = el('div', 'tv-lobby', null, content);
+      var qrCard = el('div', 'tv-lobby-qr', null, lobby);
+      var join = el('a', '', null, qrCard);
+      join.href = './?mode=player';
+      if (join.href === pack.tvJoinUrl) {
+        var qr = el('img', '', null, join);
+        qr.src = './content/tv-join.png';
+        qr.alt = 'QR-код для входа в игру';
+        el('p', '', 'Сканируйте, чтобы войти', qrCard);
+      } else {
+        text(join, 'Ссылка для игроков');
+      }
+      var room = el('div', 'tv-lobby-room', null, lobby);
+      el('h1', '', 'Кто первый?', room);
+      var rosterBox = el('div', 'tv-lobby-roster', null, room);
+      el('h2', '', 'Игроки · ' + lobbyRoster.length, rosterBox);
+      if (!lobbyRoster.length) el('p', '', 'Ждём игроков…', rosterBox);
+      for (i = 0; i < lobbyRoster.length; i++) el('strong', '', lobbyRoster[i].name, rosterBox);
     } else if (state.phase === 'board') {
-      var chooser = state.players[state.turnIndex];
-      el('h2', '', 'Большая игра · 10 тем', content);
-      el('p', 'tv-meta', 'Выбирает: ' + (chooser ? chooser.name : ''), content);
-      var table = el('table', 'tv-board', null, content);
+      var ids = roundIds;
+      var pageCount = Math.ceil(ids.length / 10);
+      var page = Math.max(0, Math.min(pageCount - 1, state.boardPage || 0));
+      var selection = el('div', 'tv-board-chooser', null, content);
+      var heading = el('h1', '', null, selection);
+      text(heading, 'Выбирает ');
+      el('strong', '', chooser ? chooser.name : '', heading);
+      if (pageCount > 1) el('p', 'tv-meta', 'Страница ' + (page + 1) + ' из ' + pageCount, content);
+      ids = ids.slice(page * 10, (page + 1) * 10);
+      var frame = el('div', 'tv-board-frame', null, content);
+      var table = el('table', 'tv-board' + (ids.length > 6 ? ' tv-board-dense' : ''), null, frame);
       var body = el('tbody', '', null, table);
-      var ids = (state.categoryIds && state.categoryIds.length ? state.categoryIds : pack.rounds[0].category_ids.slice(0,10));
       for (i = 0; i < ids.length; i++) {
         var cat = category(ids[i]);
         if (!cat) continue;
@@ -160,10 +253,14 @@
         var k;
         for (k = 0; k < cat.questions.length; k++) if (contains(state.completed, cat.questions[k].id)) used++;
         var row = el('tr', '', null, body);
-        el('th', '', cat.title + (state.questionsPerCategory === 3 ? ' (' + used + '/3)' : ''), row);
+        var number = page * 10 + i + 1;
+        var title = el('th', 'tv-category-' + ((number - 1) % 5 + 1), null, row);
+        el('span', 'tv-category-number', number, title);
+        el('strong', '', cat.title, title);
+        if (cat.questions.some(function (item) { return !!item.media; })) photoIcon(title);
         for (k = 0; k < cat.questions.length; k++) {
-          var played = contains(state.completed, cat.questions[k].id);
-          el('td', played || used >= state.questionsPerCategory ? 'tv-used' : '', played ? '—' : cat.questions[k].value, row);
+          var blank = contains(state.completed, cat.questions[k].id) || used >= state.questionsPerCategory;
+          el('td', blank ? 'tv-used' : 'tv-price-' + cat.questions[k].value, blank ? '' : cat.questions[k].value, row);
         }
       }
     } else if (state.phase === 'question' || state.phase === 'answer') {
@@ -171,8 +268,11 @@
       if (!found) { el('p', '', 'Вопрос не найден. Обновите страницу.', content); return; }
       var q = found.question;
       var section = el('div', 'tv-question', null, content);
-      var meta = el('div', 'tv-meta', found.category.title + ' · ' + q.value + ' баллов', section);
-      if (state.phase === 'question') el('span', 'tv-clock', '', meta).id = 'tv-clock';
+      var categoryNumber = roundIds.indexOf(found.category.id) + 1;
+      var questionLabel = el('div', 'tv-question-label tv-category-' + ((categoryNumber - 1) % 5 + 1), null, section);
+      if (categoryNumber > 0) el('span', 'tv-category-number', categoryNumber, questionLabel);
+      el('strong', '', found.category.title, questionLabel);
+      el('span', 'tv-question-value', q.value, questionLabel);
       el('h1', '', q.prompt, section);
       if (state.phase === 'answer' && state.revealed) {
         el('h2', '', state.revealed.answer, section);
@@ -182,39 +282,42 @@
         el('p', 'tv-award', award, section);
       }
       if (q.media) mediaView(q.media, state.phase === 'answer', section);
+      if (state.phase === 'question') el('p', 'tv-respondent', '', section).id = 'tv-respondent';
+      showRespondent();
+      flash(state.feedback);
     } else if (state.phase === 'break') {
       var pause = el('div', 'tv-center', null, content);
       el('p', '', 'Первый раунд завершён', pause);
       el('h1', '', 'Перерыв', pause);
-      el('span', 'tv-clock-large', '', pause).id = 'tv-clock';
     } else if (state.phase === 'finished') {
-      var sorted = state.players.slice().sort(function (a, b) { return b.score - a.score; });
-      var names = [];
-      for (i = 0; i < sorted.length; i++) if (sorted[i].score === sorted[0].score) names.push(sorted[i].name);
-      el('h1', '', names.length > 1 ? 'Победители' : 'Победитель', content);
-      el('h2', 'tv-award', names.join(' и '), content);
-      var standings = el('table', 'tv-standings', null, content);
-      var rows = el('tbody', '', null, standings);
-      var rank = 1;
-      for (i = 0; i < sorted.length; i++) {
-        if (i === 0 || sorted[i].score !== sorted[i - 1].score) rank = i + 1;
-        var standing = el('tr', '', null, rows);
-        el('td', '', rank + '. ' + sorted[i].name, standing);
-        el('td', 'tv-score', sorted[i].score, standing);
+      var winner = el('div', 'tv-winner', null, content);
+      var firstPlace = ranked.filter(function (item) { return item.rank === 1; });
+      el('h1', '', firstPlace.length > 1 ? 'Победители' : 'Победитель', winner);
+      var podium = el('div', 'tv-podium', null, winner);
+      var order = [2, 1, 3];
+      for (i = 0; i < order.length; i++) {
+        var rank = order[i];
+        var placed = ranked.filter(function (item) { return item.rank === rank; });
+        if (!placed.length) continue;
+        var card = el('div', 'tv-podium-place tv-podium-' + rank, null, podium);
+        el('b', 'tv-podium-crown ' + ranks[rank], '♛', card);
+        el('small', '', rank + '-е место', card);
+        el('h2', '', placed.map(function (item) { return item.player.name; }).join(' · '), card);
+        el('p', '', placed[0].player.score + ' баллов', card);
       }
+      var others = ranked.filter(function (item) { return item.rank > 3; });
+      if (others.length) {
+        var standings = el('table', 'tv-standings', null, content);
+        var rows = el('tbody', '', null, standings);
+        for (i = 0; i < others.length; i++) {
+          var standing = el('tr', '', null, rows);
+          el('td', '', others[i].rank + '. ' + others[i].player.name, standing);
+          el('td', 'tv-score', others[i].player.score, standing);
+        }
+      }
+
     }
-    tick();
     window.scrollTo(0, 0);
-  }
-  function tick() {
-    var clock = document.getElementById('tv-clock');
-    if (!clock || !snapshot) return;
-    var state = snapshot.state;
-    var end = state.phase === 'break' ? state.breakEndsAt : state.questionEndsAt;
-    var seconds = end ? Math.max(0, Math.ceil((end - new Date().getTime()) / 1000)) : 0;
-    var minutes = Math.floor(seconds / 60);
-    var remainder = seconds % 60;
-    text(clock, (minutes < 10 ? '0' : '') + minutes + ':' + (remainder < 10 ? '0' : '') + remainder);
   }
   function refresh() {
     if (pending) return;
@@ -234,6 +337,27 @@
       }
       text(status, 'В эфире');
       showError('');
+      if (snapshot.state.phase === 'lobby' && !rosterRequest) {
+        rosterRequest = true;
+        request(config.url.replace(/\/$/, '') + '/rest/v1/quiz_participants?select=id,name&order=joined_at.asc,id.asc', true, function (rosterError, roster) {
+          rosterRequest = false;
+          if (rosterError || !roster || snapshot.state.phase !== 'lobby') return;
+          if (JSON.stringify(roster) === JSON.stringify(lobbyRoster)) return;
+          lobbyRoster = roster;
+          render();
+        });
+      }
+      if (snapshot.state.phase === 'question' && !responseRequest) {
+        responseRequest = true;
+        request(config.url.replace(/\/$/, '') + '/rest/v1/quiz_buzzer?id=eq.main&select=question_id,claimant', true, function (buzzerError, buttonRows) {
+          responseRequest = false;
+          if (buzzerError || !buttonRows || !buttonRows.length) return;
+          buzzer = buttonRows[0];
+          showRespondent();
+        });
+      } else if (snapshot.state.phase !== 'question') {
+        buzzer = null;
+      }
     });
   }
   var loadingPack = false;
@@ -252,5 +376,4 @@
   loadPack();
   refresh();
   window.setInterval(function () { loadPack(); refresh(); }, 2000);
-  window.setInterval(tick, 250);
 }());

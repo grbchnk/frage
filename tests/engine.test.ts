@@ -1,6 +1,6 @@
 import {describe,it,expect} from 'vitest';
 import {readFileSync} from 'node:fs';
-import {available,chooseCategories,initialGame,roundCategories,transition} from '../src/engine';
+import {available,chooseCategories,initialGame,rankPlayers,roundCategories,transition} from '../src/engine';
 import type {Pack,Answer} from '../src/types';
 const pack:Pack=JSON.parse(readFileSync('quiz-pack.json','utf8'));
 const answer:Answer={answer:'Верно',explanation:'Почему верно',accepted_answers:['вариант'],host_note:'Секретная заметка'};
@@ -19,7 +19,7 @@ describe('Один вечер в кинокомнате',()=>{
    state=transition(state,{type:'reveal',answer},pack);expect(state.revealed?.host_note).toBe('');
    state=transition(state,{type:'continue'},pack);expect(state.turnIndex).toBe(1);expect(state.scoreChanges.p2).toBe(q.value);
   }
-  expect(state.phase).toBe('finished');expect(state.completed).toHaveLength(10*limit);expect(state.breakEndsAt).toBeNull();
+  expect(state.phase).toBe('finished');expect(state.completed).toHaveLength(10*limit);
  });
  it('сохраняет случайные темы и идентификаторы подключившихся участников',()=>{
   for(let i=0;i<20;i++){const ids=chooseCategories(pack);expect(ids).toHaveLength(10);expect(new Set(ids).size).toBe(10);expect(ids.every(id=>pack.categories.some(c=>c.id===id))).toBe(true);}
@@ -53,7 +53,7 @@ describe('Один вечер в кинокомнате',()=>{
  it('ручная корректировка не раскрывает ответ и проверяет сумму',()=>{
   const state=start(),q=roundCategories(pack,state)[0].questions[0],opened=transition(state,{type:'open',id:q.id},pack);
   const adjusted=transition(opened,{type:'adjustScore',playerId:'p1',delta:50},pack);
-  expect(adjusted.players[0].score).toBe(50);expect(adjusted.revealed).toBeNull();expect(adjusted.phase).toBe('question');
+  expect(adjusted.players[0].score).toBe(50);expect(adjusted.revealed).toBeNull();expect(adjusted.phase).toBe('question');expect(adjusted.scoreChanges).toEqual({});
   expect(()=>transition(opened,{type:'adjustScore',playerId:'p1',delta:0.5},pack)).toThrow();
  });
  it('большая кнопка «Правильно» начисляет один раз и сразу раскрывает ответ',()=>{
@@ -65,11 +65,39 @@ describe('Один вечер в кинокомнате',()=>{
   expect(correct.event).toBe(opened.event+1);
   expect(()=>transition(correct,{type:'correct',playerId:'p2',answer},pack)).toThrow();
  });
- it('ручной набор из 10 тем сохраняется точно; неполный набор нельзя запустить',()=>{
-  const ids=pack.categories.slice(-10).map(c=>c.id);
-  const state=transition(initialGame(),{type:'start',names:['А','Б'],limit:5,categoryIds:ids},pack);
-  expect(roundCategories(pack,state).map(c=>c.id)).toEqual(ids);
-  expect(()=>transition(initialGame(),{type:'start',names:['А','Б'],limit:5,categoryIds:ids.slice(1)},pack)).toThrow();
+ it('ведущий может выбрать одну, пять, десять или весь банк тем',()=>{
+  for(const count of [1,5,10,pack.categories.length]){
+    const ids=chooseCategories(pack,Math.random,count);
+    const state=transition(initialGame(),{type:'start',names:['А','Б'],limit:5,categoryIds:ids},pack);
+    expect(roundCategories(pack,state).map(c=>c.id)).toEqual(ids);
+    expect(new Set(ids).size).toBe(count);
+    if(count>10){
+      expect(transition(state,{type:'boardPage',page:1},pack).boardPage).toBe(1);
+      expect(()=>transition(state,{type:'boardPage',page:Math.ceil(count/10)},pack)).toThrow();
+    }
+  }
+  expect(()=>transition(initialGame(),{type:'start',names:['А','Б'],limit:5,categoryIds:[]},pack)).toThrow();
  });
-
+ it('суммирует три штрафа и верный ответ с сохранением нулевого и чужого итога',()=>{
+  let state=start();
+  const q=roundCategories(pack,state)[0].questions[2];
+  state=transition(state,{type:'open',id:q.id},pack);
+  for(let i=0;i<3;i++)state=transition(state,{type:'wrong',playerId:'p1'},pack);
+  state=transition(state,{type:'wrong',playerId:'p2'},pack);
+  state=transition(state,{type:'correct',playerId:'p1',answer},pack);
+  expect(state.feedback).toMatchObject({kind:'correct',playerId:'p1'});
+  expect(state.scoreChanges).toEqual({p1:-q.value/2,p2:-q.value/2});
+  state=transition(state,{type:'continue'},pack);
+  expect(state.scoreChanges.p1).toBe(-q.value/2);
+  state=transition(state,{type:'open',id:roundCategories(pack,state)[0].questions[1].id},pack);
+  state=transition(state,{type:'wrong',playerId:'p1'},pack);
+  state=transition(state,{type:'wrong',playerId:'p1'},pack);
+  state=transition(state,{type:'correct',playerId:'p1',answer},pack);
+  expect(state.scoreChanges).toEqual({p1:0});
+ });
+ it('одинаковые баллы дают общее место без изменения порядка ходов',()=>{
+  const players=[{id:'1',name:'А',score:50},{id:'2',name:'Б',score:100},{id:'3',name:'В',score:100},{id:'4',name:'Г',score:0}];
+  expect(rankPlayers(players).map(p=>[p.id,p.rank])).toEqual([['2',1],['3',1],['1',3],['4',4]]);
+  expect(players[0].id).toBe('1');
+ });
 });

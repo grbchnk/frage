@@ -15,24 +15,24 @@ export async function readGame():Promise<Snapshot>{
   if(error)throw Object.assign(new Error(error.code==='PGRST205'?'База ещё не настроена. Выполните supabase/setup.sql в SQL Editor.':`Не удалось загрузить игру (${error.code}). Проверьте соединение и настройку Supabase.`),{code:error.code});
   return data as Snapshot;
 }
-export async function saveGame(previous:Snapshot,state:Game):Promise<Snapshot>{
+export async function saveGame(previous:Snapshot,state:Game,judgedWindow?:string):Promise<Snapshot>{
   if(demo){
     // Web Locks serialize writes across local demo tabs, matching server CAS semantics.
     return navigator.locks.request(localKey,async()=>{
       if(readDemo().revision!==previous.revision)throw new Error('Игра уже изменилась в другой вкладке. Повторите действие.');
+      if(judgedWindow){
+        const b=await readBuzzer();
+        if(b.window_id!==judgedWindow||b.claimant!==state.winnerId)throw new Error('Нажатие уже обработано. Обновите пульт.');
+      }
       const result={id:'main',revision:previous.revision+1,state};
       if(state.phase==='question'&&(previous.state.phase!=='question'||state.activeQuestionId!==previous.state.activeQuestionId||state.questionOpenedAt!==previous.state.questionOpenedAt)){localStorage.setItem(buzzerKey,JSON.stringify({...emptyBuzzer(),question_id:state.activeQuestionId,accepting:true}));}
       else if(state.phase==='question'&&state.winnerId!==null){const b=await readBuzzer();b.accepting=false;localStorage.setItem(buzzerKey,JSON.stringify(b));}
       else if(state.phase!=='question')localStorage.setItem(buzzerKey,JSON.stringify(emptyBuzzer()));
-      if(state.phase==='lobby'&&previous.state.phase!=='lobby')localStorage.removeItem(rosterKey);
+      if(state.phase==='lobby')localStorage.removeItem(rosterKey);
       localStorage.setItem(localKey,JSON.stringify(result));channel!.postMessage(result);return result;
     });
   }
-  if(!supabase)throw new Error('Нет подключения.');
-  const {data,error}=await supabase.from('quiz_game').update({state,revision:previous.revision+1,updated_at:new Date().toISOString()}).eq('id','main').eq('revision',previous.revision).select('id,state,revision');
-  if(error)throw Object.assign(new Error(`Не удалось сохранить (${error.code}): ${error.message}`),{code:error.code});
-  if(!data?.length)throw new Error('Игра уже изменилась или нет прав ведущего. Обновляю состояние — повторите действие.');
-  return data[0] as Snapshot;
+  return rpc('quiz_save',{expected_revision:previous.revision,desired_state:state,judged_window:judgedWindow??null});
 }
 export function subscribeGame(receive:(s:Snapshot)=>void,status:(s:string)=>void){
   if(demo){const fn=(e:MessageEvent)=>{if(!e.data.aux)receive(e.data);};channel!.addEventListener('message',fn);status('Демо · один браузер');return ()=>channel!.removeEventListener('message',fn);}
@@ -42,10 +42,11 @@ export function subscribeGame(receive:(s:Snapshot)=>void,status:(s:string)=>void
 }
 export async function loadAnswers(revision:string,count:number):Promise<Record<string,Answer>>{
   if(demo){const response=await fetch(`${import.meta.env.BASE_URL}__demo_answers`);if(!response.ok)throw new Error('Демо работает через npm run dev.');return response.json();}
-  const {data,error}=await supabase!.from('quiz_answers').select('question_id,data');
-  if(error||data?.length!==count)throw new Error(`Нет доступа к ${count} ответам. Добавьте аккаунт в quiz_hosts и выполните setup.sql.`);
-  if(data.some(row=>row.data?.pack_revision!==revision))throw new Error('Вопросы обновлены. Выполните новый supabase/setup.sql, чтобы обновить ответы в базе, затем перезагрузите пульт.');
-  return Object.fromEntries(data.map(row=>[row.question_id,row.data]));
+  if(!supabase)throw new Error('Не настроено подключение. См. README → Supabase.');
+  const {data,error}=await supabase.rpc('quiz_host_answers');
+  if(error||data?.length!==count)throw new Error(`Не удалось загрузить ${count} ответов. Выполните свежий supabase/setup.sql.`);
+  if(data.some((row:{data:{pack_revision?:string}})=>row.data?.pack_revision!==revision))throw new Error('Вопросы обновлены. Выполните свежий supabase/setup.sql и перезагрузите пульт.');
+  return Object.fromEntries(data.map((row:{question_id:string;data:Answer})=>[row.question_id,row.data]));
 }
 
 const rosterKey='quiz-roster-v2', buzzerKey='quiz-buzzer-v2';
@@ -89,19 +90,19 @@ export async function buzz(playerId:string,windowId:string):Promise<Buzzer>{
   return navigator.locks.request(localKey,async()=>{
     const b=await readBuzzer(),g=readDemo().state;
     if(g.phase!=='question'||g.winnerId!==null||!g.players.some(p=>p.id===playerId))throw new Error('Сейчас нажать нельзя.');
-    if(b.window_id===windowId&&b.accepting&&!b.claimant&&!b.excluded.includes(playerId)){
+    if(b.window_id===windowId&&b.accepting&&!b.claimant){
       b.claimant=playerId;b.accepting=false;localStorage.setItem(buzzerKey,JSON.stringify(b));channel!.postMessage({aux:true});
     }
     return b;
   });
 }
-export async function rearm(windowId:string,previous:Snapshot,pack:Pack):Promise<{buzzer:Buzzer;snapshot:Snapshot}>{
-  if(!demo)return rpc('quiz_rearm',{expected_window:windowId,expected_revision:previous.revision});
+export async function rearm(windowId:string,previous:Snapshot,pack:Pack,penalize:boolean):Promise<{buzzer:Buzzer;snapshot:Snapshot}>{
+  if(!demo)return rpc(penalize?'quiz_rearm':'quiz_release',{expected_window:windowId,expected_revision:previous.revision});
   return navigator.locks.request(localKey,async()=>{
     const b=await readBuzzer(),current=readDemo();
     if(current.revision!==previous.revision||current.state.phase!=='question'||current.state.winnerId!==null||b.window_id!==windowId||!b.claimant)throw new Error('Нажатие уже обработано.');
-    const snapshot={id:'main',revision:current.revision+1,state:transition(current.state,{type:'wrong',playerId:b.claimant},pack)};
-    b.excluded.push(b.claimant);b.claimant=null;b.accepting=true;b.window_id=crypto.randomUUID();
+    const snapshot={id:'main',revision:current.revision+1,state:penalize?transition(current.state,{type:'wrong',playerId:b.claimant},pack):current.state};
+    b.excluded=[];b.claimant=null;b.accepting=true;b.window_id=crypto.randomUUID();
     localStorage.setItem(buzzerKey,JSON.stringify(b));localStorage.setItem(localKey,JSON.stringify(snapshot));channel!.postMessage(snapshot);channel!.postMessage({aux:true});return {buzzer:b,snapshot};
   });
 }
@@ -110,7 +111,8 @@ export async function restoreGame(previous:Snapshot,state:Game,buzzer:Buzzer):Pr
   return navigator.locks.request(localKey,async()=>{
     if(readDemo().revision!==previous.revision)throw new Error('Игра уже изменилась. Отмена недоступна.');
     const result={id:'main',revision:previous.revision+1,state};
-    const restored=state.phase==='question'&&buzzer.question_id===state.activeQuestionId?{...buzzer,window_id:crypto.randomUUID()}:emptyBuzzer();
+    const restored=state.phase==='question'&&buzzer.question_id===state.activeQuestionId?{...buzzer,excluded:[],window_id:crypto.randomUUID()}:emptyBuzzer();
+    if(state.phase==='lobby')localStorage.removeItem(rosterKey);
     localStorage.setItem(localKey,JSON.stringify(result));localStorage.setItem(buzzerKey,JSON.stringify(restored));channel!.postMessage(result);channel!.postMessage({aux:true});return result;
   });
 }
@@ -121,9 +123,7 @@ export async function resetGame():Promise<Snapshot>{
     const previous=await readGame();
     const state={...initialGame(),event:previous.state.event+1};
     try{
-      const result=await restoreGame(previous,state,emptyBuzzer());
-      if(demo){localStorage.removeItem(rosterKey);channel!.postMessage({aux:true});}
-      return result;
+      return await restoreGame(previous,state,emptyBuzzer());
     }catch(e){
       if(attempt===0&&(e as Error).message.includes('Игра уже изменилась'))continue;
       throw new Error(`Не удалось начать новую игру: ${(e as Error).message}`);

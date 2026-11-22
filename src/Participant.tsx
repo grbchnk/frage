@@ -1,6 +1,8 @@
 import {useEffect,useRef,useState} from 'react';
-import {buzz,joinGame} from './connection';
-import type {Buzzer,Game,Participant} from './types';
+import {buzz,chooseFinalCategory,joinGame,showHint} from './connection';
+import {findQuestion,formatDelta} from './engine';
+import {PlayerInput} from './GroupQuestion';
+import type {Buzzer,Game,Pack,Participant,Snapshot} from './types';
 import {AnswerFlash,GAME_NAME,ScoreDelta,useAnswerFeedback} from './GameViews';
 
 export function JoinLink(){
@@ -55,7 +57,7 @@ function BuzzerIcon({mode}:{mode:keyof typeof buzzerLabels}){
   </svg>;
 }
 
-export function ParticipantScreen({state,roster,buzzer,online,onUpdate}:{state:Game;roster:Participant[];buzzer:Buzzer;online:boolean;onUpdate:()=>Promise<void>}){
+export function ParticipantScreen({state,pack,roster,buzzer,online,onUpdate,onAccept}:{state:Game;pack:Pack|null;roster:Participant[];buzzer:Buzzer;online:boolean;onUpdate:()=>Promise<void>;onAccept:(value:Snapshot)=>void}){
   const [self,setSelf]=useState<Participant|null>(()=>{try{return JSON.parse(sessionStorage.getItem('quiz-self-v2')||'null');}catch{return null;}});
   const [name,setName]=useState(self?.name||'');
   const [pending,setPending]=useState(false);
@@ -69,6 +71,10 @@ export function ParticipantScreen({state,roster,buzzer,online,onUpdate}:{state:G
   const joined=state.phase==='lobby'?roster.some(p=>p.id===self?.id):!!player;
   const visibleBuzzer=claim?.window_id===buzzer.window_id?claim:buzzer;
   const question=state.phase==='question';
+  const activeQuestion=pack?findQuestion(pack,state.activeQuestionId):undefined;
+  const inputRound=question||state.phase==='final'?state.inputRound:undefined;
+  const result=state.results?.find(item=>item.playerId===self?.id);
+  const finalCategory=state.phase==='final'&&state.final?.stage==='category';
   const currentWindow=question&&visibleBuzzer.question_id===state.activeQuestionId;
   const respondent=currentWindow?state.players.find(p=>p.id===visibleBuzzer.claimant):undefined;
   const mode=!question?'idle':respondent&&respondent.id===self?.id?'won':
@@ -79,13 +85,14 @@ export function ParticipantScreen({state,roster,buzzer,online,onUpdate}:{state:G
     feedback?.kind==='correct'?(feedback.playerId===self?.id?'Вы ответили верно':`${feedbackName} · верный ответ`):
     feedback?.kind==='wrong'&&!respondent?(feedback.playerId===self?.id?'Неверно. Можно нажать снова':`${feedbackName} · неверный ответ`):
     mode==='won'?'Ведущий ждёт ваш ответ':respondent?`Отвечает ${respondent.name}`:
+    inputRound?'Ответьте на телефоне':
     question?(mode==='ready'?'Вопрос открыт':'Ожидаем открытия кнопок'):
     state.phase==='board'?`Тему выбирает ${state.players[state.turnIndex]?.name??'ведущий'}`:
-    state.phase==='answer'?'Ответ открыт':state.phase==='finished'?'Игра окончена':'Ожидаем начала игры';
+    state.phase==='answer'?'Ответ открыт':state.phase==='final'?'Финальный вопрос':state.phase==='finished'?'Игра окончена':'Ожидаем начала игры';
   const delta=player&&state.scoreChanges?.[player.id];
 
   async function press(){
-    if(mode!=='ready'||pressing.current||!self)return;
+    if(mode!=='ready'||inputRound||pressing.current||!self)return;
     pressing.current=true;
     setPending(true);setDepressed(true);setError('');navigator.vibrate?.(35);
     if(releaseTimer.current!==null)window.clearTimeout(releaseTimer.current);
@@ -93,6 +100,20 @@ export function ParticipantScreen({state,roster,buzzer,online,onUpdate}:{state:G
     try{setClaim(await buzz(self.id,visibleBuzzer.window_id));await onUpdate();}
     catch(e){setError((e as Error).message);await onUpdate().catch(()=>{});}
     finally{pressing.current=false;setPending(false);}
+  }
+  async function hint(){
+    if(!self||pending||mode!=='won'||state.hint)return;
+    setPending(true);setError('');
+    try{onAccept(await showHint(self.id,visibleBuzzer.window_id));}
+    catch(e){setError((e as Error).message);}
+    finally{setPending(false);}
+  }
+  async function chooseTopic(id:string){
+    if(!self||!pack||!online||pending)return;
+    setPending(true);setError('');
+    try{onAccept(await chooseFinalCategory(self.id,id,pack));}
+    catch(e){setError((e as Error).message);}
+    finally{setPending(false);}
   }
   async function join(){
     setPending(true);setError('');
@@ -109,14 +130,24 @@ export function ParticipantScreen({state,roster,buzzer,online,onUpdate}:{state:G
     </form>:<>
       {feedback&&<AnswerFlash key={feedback.event} kind={feedback.kind}/>}
       <header className="participant-header"><h1>{self?.name}</h1><div><strong>{(player?.score??0).toLocaleString('ru-RU')}</strong><span>баллов</span>{delta!==undefined&&<ScoreDelta delta={delta}/>}</div></header>
-      <div className="buzzer-stage">
+      {inputRound?<PlayerInput key={inputRound.id} round={inputRound} playerId={self!.id} online={online} onAccept={onAccept}
+        prompt={question?activeQuestion?.prompt:state.final?.prompt} unit={activeQuestion?.unit}/>:finalCategory?
+        <section className="player-input"><h2>Финальная категория</h2>
+          {state.final?.chooser===self?.id?<div className="player-options">{pack?.finals?.map(topic=>
+            <button key={topic.id} className="secondary" disabled={!online||pending} onClick={()=>void chooseTopic(topic.id)}>{topic.title}</button>)}</div>:
+            <p>Выбирает {state.players.find(player=>player.id===state.final?.chooser)?.name}</p>}
+        </section>:result&&(state.phase==='answer'||state.final?.stage==='result')?
+        <section className="player-input"><h2>{formatDelta(result.delta)}</h2>{result.timedOut&&<p>Время вышло</p>}<p>{state.revealed?.answer}</p></section>:
+        <div className="buzzer-stage">
         <button className={`buzzer-button ${mode} ${depressed?'pressed':''}`} disabled={mode!=='ready'||pending}
           onPointerDown={e=>{if(e.button===0){e.preventDefault();void press();}}}
           onClick={()=>void press()} aria-label={buzzerLabels[mode]}>
           <BuzzerIcon mode={mode}/><span>{buzzerLabels[mode]}</span>
         </button>
-      </div>
-      <footer className="participant-status" role="status">{status}</footer>
+        {question&&activeQuestion?.hasHint&&<button className="text-link hint-button" disabled={mode!=='won'||pending||!online||!!state.hint}
+          onClick={()=>void hint()}>{state.hint?'Подсказка открыта':'Подсказка'}</button>}
+      </div>}
+      {(!inputRound||!online)&&!finalCategory&&<footer className="participant-status" role="status">{status}</footer>}
     </>}
     {error&&<p className="participant-error" role="alert">{error}</p>}
   </main>;

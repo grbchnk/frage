@@ -412,7 +412,7 @@
     "bytes": 274708,
     "alterations": "none",
     "downloaded_at": "2026-11-07",
-    "used_in_current_pack": true
+    "used_in_current_pack": false
   },
   {
     "id": "q12-300",
@@ -877,7 +877,7 @@
     "bytes": 385807,
     "alterations": "Wikimedia thumbnail when original unavailable; no creative edits",
     "downloaded_at": "2026-11-07",
-    "used_in_current_pack": true
+    "used_in_current_pack": false
   },
   {
     "id": "forest-birch",
@@ -1327,7 +1327,7 @@
     "sha256": "3feeeee139bd0f2c0a073053f74df55b1489ebb438e48d16887a972245d75698",
     "bytes": 336372,
     "downloaded_at": "2026-11-21",
-    "used_in_current_pack": true
+    "used_in_current_pack": false
   },
   {
     "id": "pasha-ocarina",
@@ -1341,7 +1341,7 @@
     "sha256": "fdd2c58c3b10450051cf886463462a7fc3e132283df99e50c7be1c9101d698ca",
     "bytes": 14270,
     "downloaded_at": "2026-11-21",
-    "used_in_current_pack": true
+    "used_in_current_pack": false
   },
   {
     "id": "pasha-accordion",
@@ -1467,7 +1467,7 @@
     "sha256": "ffe342efd7fc42f66c18417d529d6e14337b6ae40a79eea5768fd2f3e8f41623",
     "bytes": 147565,
     "downloaded_at": "2026-11-21",
-    "used_in_current_pack": true
+    "used_in_current_pack": false
   },
   {
     "id": "pasha-rialto",
@@ -1523,7 +1523,7 @@
     "sha256": "0d45546b292f38c14b57788ba803eb279bff8b51f9031d314eeee86e1a155222",
     "bytes": 143821,
     "downloaded_at": "2026-11-21",
-    "used_in_current_pack": true
+    "used_in_current_pack": false
   },
   {
     "id": "pasha-actor-a",
@@ -1607,7 +1607,7 @@
     "sha256": "f52c63b567d3b43c3c0d40f65853acdcf8040bd64e76add0c7b4445fb1099589",
     "bytes": 114841,
     "downloaded_at": "2026-11-21",
-    "used_in_current_pack": true
+    "used_in_current_pack": false
   },
   {
     "id": "pasha-rap-c",
@@ -1784,7 +1784,7 @@
     "sha256": "d6ea440aac4e05f4033add3b4d7bd4b920e9a65b7c6756a4f1c760d5a0d619c2",
     "bytes": 345723,
     "downloaded_at": "2026-11-21",
-    "used_in_current_pack": true
+    "used_in_current_pack": false
   },
   {
     "id": "more-insect-e",
@@ -1994,7 +1994,7 @@
     "sha256": "a5c3bf23898ddee6da6219f0b46e1596f8d62c0c84936fdb6bd63f0fb3627226",
     "bytes": 79527,
     "downloaded_at": "2026-11-21",
-    "used_in_current_pack": true
+    "used_in_current_pack": false
   },
   {
     "id": "more-actor-a",
@@ -2148,6 +2148,62 @@
     "sha256": "7e85d8c8d3452763cc5a4f66a4e862afd2556f47a71ae7a34f498feb3b9c35db",
     "bytes": 183895,
     "downloaded_at": "2026-11-21",
+    "used_in_current_pack": false
+  },
+  {
+    "id": "plaster-fruit",
+    "path": "assets/images/plaster-fruit.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Fake_fruit_%28AM_641320%29.jpg",
+    "download_url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Fake_fruit_%28AM_641320%29.jpg",
+    "title": "File:Fake fruit (AM 641320).jpg",
+    "author_html": "Auckland Museum",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "sha256": "76ff1a109ce7e6a7850414a3fced28a262409d18d6c1aafddc37231ed502dff6",
+    "bytes": 98323,
+    "downloaded_at": "2026-11-22",
+    "used_in_current_pack": true
+  },
+  {
+    "id": "carambola-cut",
+    "path": "assets/images/carambola-cut.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Carambola_cut.jpg",
+    "download_url": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Carambola_cut.jpg",
+    "title": "File:Carambola cut.jpg",
+    "author_html": "Fibonacci",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "sha256": "9ebd49f280ccf746b55ac180d9fc27ad7efcc6b624253163749b905ff093864f",
+    "bytes": 56441,
+    "downloaded_at": "2026-11-22",
+    "used_in_current_pack": true
+  },
+  {
+    "id": "big-baby-tape",
+    "path": "assets/images/big-baby-tape.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Big_Baby_Tape.png",
+    "download_url": "https://upload.wikimedia.org/wikipedia/commons/2/20/Big_Baby_Tape.png",
+    "title": "File:Big Baby Tape.png",
+    "author_html": "kvvalerka",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0/",
+    "sha256": "bd877f2116d7116fe1859b26c79957a66ef31548280fa49e64cc5a13c2d83efd",
+    "bytes": 19498,
+    "downloaded_at": "2026-11-22",
+    "used_in_current_pack": true
+  },
+  {
+    "id": "manson-2014",
+    "path": "assets/images/manson-2014.jpg",
+    "source_url": "https://commons.wikimedia.org/wiki/File:CharlesManson2014.jpg",
+    "download_url": "https://upload.wikimedia.org/wikipedia/commons/9/95/CharlesManson2014.jpg",
+    "title": "File:CharlesManson2014.jpg",
+    "author_html": "California Department of Corrections and Rehabilitation",
+    "license": "Public domain",
+    "license_url": "",
+    "sha256": "30b01928b1f0545ab1e12e3cffd1c682fb8ddb2cf3e311743ed6f5e76353ce61",
+    "bytes": 49141,
+    "downloaded_at": "2026-11-22",
     "used_in_current_pack": true
   }
 ]

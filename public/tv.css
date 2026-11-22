@@ -116,3 +116,17 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
   .tv-category-phase #tv-content { padding:4px 0; }
   .tv-category-phase .tv-board-dense { border-spacing:3px; }
 }
+.tv-shared { padding:0; margin:6px 0; list-style:none; text-align:center; }
+.tv-shared li { display:inline-block; margin:3px; padding:4px 8px; border:1px solid #9568c1; border-radius:6px; background:#261a45; }
+.tv-shared .tv-eliminated { color:#bcacc9; text-decoration:line-through; }
+.tv-shared .tv-submitted { color:#bdffd4; border-color:#7dd7a5; }
+.tv-progress { text-align:center; }
+.tv-format-icon { margin-left:8px; color:#ddbafd; }
+
+#tv-timer-sound { margin-left:8px; }
+.tv-estimate-clock { width:225px; margin:6px auto; padding:4px 12px 8px; border:1px solid #9b75e4; border-radius:10px; background:#231843; color:#e1cdff; text-align:center; }
+.tv-estimate-clock strong { font-size:36px; line-height:1; }
+.tv-estimate-track { height:5px; margin-top:4px; background:#453360; border-radius:4px; overflow:hidden; }
+.tv-estimate-fill { height:5px; background:#bf93ff; }
+.tv-estimate-clock.urgent { border-color:#f48f89; color:#ffd5c2; }
+.tv-estimate-clock.urgent .tv-estimate-fill { background:#ff9b83; }

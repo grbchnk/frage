@@ -22,7 +22,7 @@ it('гости входят по имени; только одно нажати�
   await expect(db.query(`update public.quiz_buzzer set accepting=true`)).rejects.toThrow();
   await expect(db.query(`select * from public.quiz_rearm(gen_random_uuid(),0)`)).rejects.toThrow();
   const pack:Pack=JSON.parse(readFileSync('quiz-pack.json','utf8'));
-  let state=transition(initialGame(),{type:'start',names:[a.name,b.name],participants:[a,b],limit:5},pack);
+  let state=transition(initialGame(),{type:'start',names:[a.name,b.name],participants:[a,b],limit:5,categoryIds:[1]},pack);
   const save=async()=>{
    const rev=(await db.query<{revision:number}>('select revision from public.quiz_game')).rows[0].revision;
    return db.query('select * from public.quiz_save($1,$2::jsonb,null)',[rev,JSON.stringify(state)]);

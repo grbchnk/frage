@@ -186,6 +186,8 @@
   function render() {
     if (!pack || !snapshot) return;
     var state = snapshot.state;
+    var boardPhase = state.phase === 'board';
+    document.documentElement.className = boardPhase ? 'tv-category-phase' : '';
     var ranked = rankPlayers(state.players);
     var chooser = state.players[state.turnIndex];
     var i;
@@ -193,14 +195,17 @@
     if (state.phase !== 'lobby' && state.phase !== 'finished') {
       for (i = 0; i < ranked.length; i++) {
         var player = ranked[i].player;
-        var choosing = state.phase === 'board' && chooser && chooser.id === player.id;
+        var choosing = boardPhase && chooser && chooser.id === player.id;
         var cell = el('div', 'tv-player' + (choosing ? ' tv-choosing' : '') + (player.id === state.winnerId ? ' tv-scored' : ''), null, players);
-        el('b', 'tv-place ' + (ranks[ranked[i].rank] || ''), ranked[i].rank, cell);
+        if (boardPhase) {
+          if (ranked[i].rank === 1) el('b', 'tv-board-leader', '♛', cell);
+        } else {
+          el('b', 'tv-place ' + (ranks[ranked[i].rank] || ''), ranked[i].rank, cell);
+        }
         el('span', '', player.name, cell);
         el('strong', '', player.score, cell);
-        if (choosing) el('small', 'tv-chooser', 'Выбирает', cell);
         var change = state.scoreChanges && state.scoreChanges[player.id];
-        if (typeof change === 'number') el('small', 'tv-delta', signed(change), cell);
+        if (typeof change === 'number') el('small', 'tv-delta' + (change > 0 ? ' tv-positive' : change < 0 ? ' tv-negative' : ''), signed(change), cell);
       }
     }
     text(content, '');
@@ -213,10 +218,13 @@
       var ids = state.categoryIds && state.categoryIds.length ? state.categoryIds : pack.rounds[0].category_ids.slice(0,10);
       var pageCount = Math.ceil(ids.length / 10);
       var page = Math.max(0, Math.min(pageCount - 1, state.boardPage || 0));
-      el('h2', 'tv-board-title', 'Категории · ' + ids.length, content);
+      var selection = el('div', 'tv-board-chooser', null, content);
+      el('p', '', 'Сейчас выбирает категорию', selection);
+      el('h1', '', chooser ? chooser.name : '', selection);
       if (pageCount > 1) el('p', 'tv-meta', 'Страница ' + (page + 1) + ' из ' + pageCount, content);
       ids = ids.slice(page * 10, (page + 1) * 10);
-      var table = el('table', 'tv-board', null, content);
+      var frame = el('div', 'tv-board-frame', null, content);
+      var table = el('table', 'tv-board' + (ids.length > 6 ? ' tv-board-dense' : ''), null, frame);
       var body = el('tbody', '', null, table);
       for (i = 0; i < ids.length; i++) {
         var cat = category(ids[i]);
@@ -225,11 +233,14 @@
         var k;
         for (k = 0; k < cat.questions.length; k++) if (contains(state.completed, cat.questions[k].id)) used++;
         var row = el('tr', '', null, body);
-        var title = el('th', '', cat.title + (state.questionsPerCategory === 3 ? ' (' + used + '/3)' : ''), row);
+        var number = page * 10 + i + 1;
+        var title = el('th', 'tv-category-' + ((number - 1) % 5 + 1), null, row);
+        el('span', 'tv-category-number', number, title);
+        el('strong', '', cat.title, title);
         if (cat.questions.some(function (item) { return !!item.media; })) photoIcon(title);
         for (k = 0; k < cat.questions.length; k++) {
-          var played = contains(state.completed, cat.questions[k].id);
-          el('td', played || used >= state.questionsPerCategory ? 'tv-used' : '', played ? '—' : cat.questions[k].value, row);
+          var blank = contains(state.completed, cat.questions[k].id) || used >= state.questionsPerCategory;
+          el('td', blank ? 'tv-used' : 'tv-price-' + cat.questions[k].value, blank ? '' : cat.questions[k].value, row);
         }
       }
     } else if (state.phase === 'question' || state.phase === 'answer') {

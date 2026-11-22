@@ -5,6 +5,7 @@ import {demo,loadAnswers,readGame,saveGame,subscribeGame,readParticipants,readBu
 import type {Answer,Game,Pack,Snapshot,Participant,Buzzer} from './types';
 import {QuizAudio} from './audio';
 import './style.css';
+import './board.css';
 import {JoinLink,ParticipantScreen} from './Participant';
 import {AnswerFlash,Finale,GAME_NAME,Place,ScoreDelta,VisualCategory,useAnswerFeedback} from './GameViews';
 
@@ -141,11 +142,12 @@ function App(){
     </header>
     {error&&!scoresOpen&&<div className="error" role="alert"><span>{error}</span><button onClick={()=>setError('')} aria-label="Закрыть сообщение">×</button></div>}
     {snapshot.revision<0||!pack||(host&&!answersReady)?<main className="waiting"><span className="eyebrow">{GAME_NAME}</span><h1>Собираем игру<span className="accent">.</span></h1><p>Подключаем экран к общему столу.</p><button disabled={host&&answersLoading} onClick={()=>{setError('');if(host)setAnswerRetry(value=>value+1);void refresh().catch(e=>setError(e.message));}}>Повторить подключение</button>{import.meta.env.DEV&&!demo&&<a className="text-link" href="?mode=host&demo=1">Локальная репетиция без базы ↗</a>}</main>:legacy?<main className="waiting"><h1>Новая игра</h1><p>Обновились правила и банк вопросов. Ведущий может начать новую партию с кнопками участников.</p>{host&&<button onClick={()=>setConfirm('reset')}>Начать новую игру</button>}</main>:<>
-      {inGame&&state.phase!=='finished'&&<section className="scoreboard" aria-label="Очки игроков" style={{'--player-count':ranked.length,'--mobile-columns':ranked.length<=4?2:ranked.length<=6?3:ranked.length<=8?4:5} as React.CSSProperties}>
-        {ranked.map(p=><div className={`player ${state.phase==='board'&&p.id===choosingId?'choosing':''} ${state.winnerId===p.id?'scored':''}`} key={p.id}>
-          <div className="player-name"><Place rank={p.rank}/><span title={p.name}>{p.name}</span></div>
+      {inGame&&state.phase!=='finished'&&<section className={`scoreboard ${ranked.length>6?'many-players':''}`} aria-label="Очки игроков" style={{'--player-count':ranked.length,'--mobile-columns':ranked.length<=4?2:ranked.length<=6?3:ranked.length<=8?4:5} as React.CSSProperties}>
+        {ranked.map(p=><div className={`player ${state.phase==='board'&&p.id===choosingId?'choosing':''} ${state.winnerId===p.id?'scored':''} ${p.rank===1?'leader':''}`} key={p.id}>
+          {state.phase==='board'&&p.rank===1&&<svg className="board-crown" viewBox="0 0 32 28" role="img" aria-label="Первое место"><path d="M3 7 9 13 16 3 23 13 29 7 26 22H6Z" fill="#ffcc64" stroke="#f5a42d" strokeWidth="1.3" strokeLinejoin="round"/><path d="M7 25h18" stroke="#ffd77b" strokeWidth="2.4" strokeLinecap="round"/><path d="m9 13 2 8h4l1-17z" fill="#ffe9a5"/><circle cx="3" cy="7" r="2" fill="#ffe4a2"/><circle cx="16" cy="3" r="2.5" fill="#fff1b8"/><circle cx="29" cy="7" r="2" fill="#ffe4a2"/></svg>}
+          <div className="player-name">{state.phase!=='board'&&<Place rank={p.rank}/>}<span title={p.name}>{p.name}</span></div>
           <strong>{host?p.score.toLocaleString('ru-RU'):<AnimatedScore value={p.score}/>}</strong>
-          <div className="score-delta-slot">{state.phase==='board'&&p.id===choosingId&&<span className="chooser-label">Выбирает</span>}{state.scoreChanges?.[p.id]!==undefined&&<ScoreDelta delta={state.scoreChanges[p.id]}/>}</div>
+          <div className="score-delta-slot">{state.scoreChanges?.[p.id]!==undefined&&<ScoreDelta delta={state.scoreChanges[p.id]}/>}</div>
         </div>)}
       </section>}
       {state.phase==='lobby'&&(host?<Setup pack={pack} categories={pack.categories} busy={busy} roster={roster} online={buttonsOnline} start={(names,limit,categoryIds)=>void act({type:'start',names,limit,participants:roster,categoryIds})}/>:<main className="lobby"><div className="lobby-copy"><h1>Кто <em>первый?</em></h1><div className="lobby-pills"><span>{pack.categories.length} темы в банке</span><span>1 раунд</span></div></div><div className="lobby-art" aria-hidden="true"><div className="orbit"/><div className="art-tile a">100</div><div className="art-tile b">?</div><div className="art-tile c">500</div><span className="spark">✳</span></div><JoinLink/><div className="waiting-host"><span className="pulse"/> Ожидаем ведущего · подключились: {roster.map(p=>p.name).join(", ")||"пока никого"}</div>{!audioOn&&<button className="sound-start" onClick={()=>void sound()}>♫ Включить звук</button>}</main>)}
@@ -217,26 +219,38 @@ function Board({categories,state,pack,host,busy,open,openPage}:{categories:Pack[
   const pages=Math.ceil(categories.length/BOARD_PAGE_SIZE);
   const page=Math.min(pages-1,Math.max(0,state.boardPage??0));
   const visible=categories.slice(page*BOARD_PAGE_SIZE,(page+1)*BOARD_PAGE_SIZE);
+  const chooser=state.players[state.turnIndex];
   const used=categories.reduce((sum,c)=>sum+c.questions.filter(item=>state.completed.includes(item.id)).length,0);
   return <main className="board-main">
-    <div className="board-heading"><h1>Категории <span className="round-total">· {categories.length}</span></h1>
-      <span className="board-progress">{used} / {state.questionsPerCategory*categories.length} сыграно</span>
+    <div className="board-chooser">
+      <h1>Сейчас выбирает категорию</h1>
+      <p><strong>{chooser?.name}</strong></p>
     </div>
     {pages>1&&<nav className="board-pages" aria-label="Страницы категорий">
       {host&&<button disabled={busy||page===0} onClick={()=>openPage(page-1)}>← Предыдущие</button>}
       <span>Страница {page+1} из {pages}</span>
       {host&&<button disabled={busy||page===pages-1} onClick={()=>openPage(page+1)}>Следующие →</button>}
     </nav>}
-    <div className="board" aria-label="Категории и вопросы" style={{'--board-rows':visible.length} as React.CSSProperties}>
+    <div className={`board ${visible.length>6?'board-dense':''}`} aria-label="Категории и вопросы" style={{'--board-rows':visible.length} as React.CSSProperties}>
       {visible.map((c,row)=>{
         const played=c.questions.filter(item=>state.completed.includes(item.id)).length;
-        return <div className={`board-row ${played>=state.questionsPerCategory?'complete':''}`} style={{'--row':row} as React.CSSProperties} key={c.id}>
-          <div className="category-title"><VisualCategory category={c}/><strong>{c.title}</strong>{state.questionsPerCategory===3&&<small>{played}/3</small>}</div>
-          {c.questions.map(item=><button className={`price ${state.completed.includes(item.id)?'played':''}`} key={item.id} disabled={!host||busy||!available(pack,state,item.id)} onClick={()=>open(item.id)} aria-label={`${c.title}, ${item.value}`}>{state.completed.includes(item.id)?<span className="played-mark">—</span>:item.value}</button>)}
+        const complete=played>=state.questionsPerCategory;
+        const number=page*BOARD_PAGE_SIZE+row+1;
+        return <div className="board-row" data-accent={((number-1)%5)+1} style={{'--row':row} as React.CSSProperties} key={c.id}>
+          <div className="category-title">
+            <span className="category-number" aria-hidden="true">{number}</span>
+            <strong title={c.title}>{c.title}</strong>
+            <VisualCategory category={c}/>
+          </div>
+          {c.questions.map(item=>{
+            const wasPlayed=state.completed.includes(item.id);
+            const blank=wasPlayed||complete;
+            return <button className={`price ${blank?'played':''}`} data-value={item.value} key={item.id} disabled={blank||!host||busy||!available(pack,state,item.id)} onClick={()=>open(item.id)} aria-label={`${c.title}, ${item.value}${wasPlayed?', сыграно':complete?', категория закрыта':''}`}>{!blank&&item.value}</button>;
+          })}
         </div>;
       })}
     </div>
-
+    {host&&<p className="board-progress">{used} / {state.questionsPerCategory*categories.length} сыграно</p>}
   </main>;
 }
 function FittedCopy({contentKey,children}:{contentKey:string;children:React.ReactNode}){

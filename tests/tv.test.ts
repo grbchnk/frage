@@ -52,8 +52,14 @@ it('TV без современных API показывает все этапы 
   const app=tv();
   expect(app.get('tv-content').text).toContain('Ожидаем ведущего');
   const players=[{id:'p1',name:'Стас <img src=x>',score:100},{id:'p2',name:'Алина',score:0}];
-  app.update({phase:'board',players});
-  expect(app.get('tv-content').all().filter(n=>n.tag==='tr')).toHaveLength(10);
+  const firstQuestion=app.pack.categories[0].questions[0];
+  app.update({phase:'board',players,completed:[firstQuestion.id]});
+  const board=app.get('tv-content');
+  expect(board.all().filter(n=>n.tag==='tr')).toHaveLength(10);
+  expect(board.all().find(n=>n.className==='tv-board-chooser')?.text).toContain('Сейчас выбирает категорию');
+  expect(board.all().find(n=>n.className==='tv-category-number')?.text).toBe('1');
+  expect(board.all().find(n=>n.className==='tv-used')?.text).toBe('');
+  expect(board.all().find(n=>n.className==='tv-price-500')?.text).toBe('500');
   expect(app.get('tv-players').text).toContain('Стас <img src=x>');
   expect(app.get('tv-players').all().some(n=>n.tag==='img')).toBe(false);
   const question=app.pack.categories.flatMap((c:any)=>c.questions).find((q:any)=>q.media?.question_masks_normalized?.length);

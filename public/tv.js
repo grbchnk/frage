@@ -9,6 +9,8 @@
   var lastFeedback = -1;
   var buzzer = null;
   var responseRequest = false;
+  var lobbyRoster = [];
+  var rosterRequest = false;
   var ranks = ['', 'tv-gold', 'tv-silver', 'tv-bronze'];
   var content = document.getElementById('tv-content');
   var players = document.getElementById('tv-players');
@@ -187,7 +189,7 @@
     if (!pack || !snapshot) return;
     var state = snapshot.state;
     var boardPhase = state.phase === 'board';
-    document.documentElement.className = boardPhase ? 'tv-category-phase' : '';
+    document.documentElement.className = 'tv-stage tv-phase-' + state.phase + (boardPhase ? ' tv-category-phase' : '');
     var ranked = rankPlayers(state.players);
     var chooser = state.players[state.turnIndex];
     var i;
@@ -211,10 +213,24 @@
     }
     text(content, '');
     if (state.phase === 'lobby') {
-      var lobby = el('div', 'tv-center', null, content);
-      el('h1', '', 'Кто первый?', lobby);
-      el('p', '', pack.categories.length + ' тем в банке', lobby);
-      el('p', '', 'Ожидаем ведущего', lobby);
+      var lobby = el('div', 'tv-lobby', null, content);
+      var qrCard = el('div', 'tv-lobby-qr', null, lobby);
+      var join = el('a', '', null, qrCard);
+      join.href = './?mode=player';
+      if (join.href === pack.tvJoinUrl) {
+        var qr = el('img', '', null, join);
+        qr.src = './content/tv-join.png';
+        qr.alt = 'QR-код для входа в игру';
+        el('p', '', 'Сканируйте, чтобы войти', qrCard);
+      } else {
+        text(join, 'Ссылка для игроков');
+      }
+      var room = el('div', 'tv-lobby-room', null, lobby);
+      el('h1', '', 'Кто первый?', room);
+      var rosterBox = el('div', 'tv-lobby-roster', null, room);
+      el('h2', '', 'Игроки · ' + lobbyRoster.length, rosterBox);
+      if (!lobbyRoster.length) el('p', '', 'Ждём игроков…', rosterBox);
+      for (i = 0; i < lobbyRoster.length; i++) el('strong', '', lobbyRoster[i].name, rosterBox);
     } else if (state.phase === 'board') {
       var ids = state.categoryIds && state.categoryIds.length ? state.categoryIds : pack.rounds[0].category_ids.slice(0,10);
       var pageCount = Math.ceil(ids.length / 10);
@@ -268,19 +284,32 @@
       el('p', '', 'Первый раунд завершён', pause);
       el('h1', '', 'Перерыв', pause);
     } else if (state.phase === 'finished') {
-      var names = [];
-      for (i = 0; i < ranked.length && ranked[i].rank === 1; i++) names.push(ranked[i].player.name);
       var winner = el('div', 'tv-winner', null, content);
-      el('h1', '', names.length > 1 ? 'Победители' : 'Победитель', winner);
-      el('h2', 'tv-award', names.join(' · '), winner);
-      if (ranked.length) el('p', '', ranked[0].player.score + ' баллов', winner);
-      var standings = el('table', 'tv-standings', null, content);
-      var rows = el('tbody', '', null, standings);
-      for (i = 0; i < ranked.length; i++) {
-        var standing = el('tr', '', null, rows);
-        el('td', ranks[ranked[i].rank] || '', ranked[i].rank + '. ' + ranked[i].player.name, standing);
-        el('td', 'tv-score', ranked[i].player.score, standing);
+      var firstPlace = ranked.filter(function (item) { return item.rank === 1; });
+      el('h1', '', firstPlace.length > 1 ? 'Победители' : 'Победитель', winner);
+      var podium = el('div', 'tv-podium', null, winner);
+      var order = [2, 1, 3];
+      for (i = 0; i < order.length; i++) {
+        var rank = order[i];
+        var placed = ranked.filter(function (item) { return item.rank === rank; });
+        if (!placed.length) continue;
+        var card = el('div', 'tv-podium-place tv-podium-' + rank, null, podium);
+        el('b', 'tv-podium-crown ' + ranks[rank], '♛', card);
+        el('small', '', rank + '-е место', card);
+        el('h2', '', placed.map(function (item) { return item.player.name; }).join(' · '), card);
+        el('p', '', placed[0].player.score + ' баллов', card);
       }
+      var others = ranked.filter(function (item) { return item.rank > 3; });
+      if (others.length) {
+        var standings = el('table', 'tv-standings', null, content);
+        var rows = el('tbody', '', null, standings);
+        for (i = 0; i < others.length; i++) {
+          var standing = el('tr', '', null, rows);
+          el('td', '', others[i].rank + '. ' + others[i].player.name, standing);
+          el('td', 'tv-score', others[i].player.score, standing);
+        }
+      }
+
     }
     window.scrollTo(0, 0);
   }
@@ -302,6 +331,16 @@
       }
       text(status, 'В эфире');
       showError('');
+      if (snapshot.state.phase === 'lobby' && !rosterRequest) {
+        rosterRequest = true;
+        request(config.url.replace(/\/$/, '') + '/rest/v1/quiz_participants?select=id,name&order=joined_at.asc,id.asc', true, function (rosterError, roster) {
+          rosterRequest = false;
+          if (rosterError || !roster || snapshot.state.phase !== 'lobby') return;
+          if (JSON.stringify(roster) === JSON.stringify(lobbyRoster)) return;
+          lobbyRoster = roster;
+          render();
+        });
+      }
       if (snapshot.state.phase === 'question' && !responseRequest) {
         responseRequest = true;
         request(config.url.replace(/\/$/, '') + '/rest/v1/quiz_buzzer?id=eq.main&select=question_id,claimant', true, function (buzzerError, buttonRows) {

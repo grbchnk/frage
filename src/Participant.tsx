@@ -4,11 +4,41 @@ import type {Buzzer,Game,Participant} from './types';
 import {AnswerFlash,GAME_NAME,ScoreDelta,useAnswerFeedback} from './GameViews';
 
 export function JoinLink(){
-  const url=new URL(location.href);url.searchParams.set('mode','player');
+  const url=new URL(location.href);
+  url.searchParams.set('mode','player');
   const link=url.href;
-  const [qr,setQr]=useState(''),[copied,setCopied]=useState(false);
-  useEffect(()=>{void import('qrcode').then(({default:QRCode})=>QRCode.toDataURL(link,{width:200,margin:1,color:{dark:'#211b16',light:'#fff4dc'}})).then(setQr);},[link]);
-  return <section className="join-link">{qr&&<img src={qr} alt="QR-код для подключения участников"/>}<div><strong>Телефон — ваша кнопка</strong><p>Сканируйте код и введите имя</p><a href={link} target="_blank" rel="noreferrer">{link}</a><button className="text-link" onClick={()=>{void navigator.clipboard.writeText(link).then(()=>setCopied(true)).catch(()=>setCopied(false));}}>{copied?'Ссылка скопирована':'Скопировать ссылку'}</button></div></section>;
+  const [qr,setQr]=useState('');
+  const [copy,setCopy]=useState<'idle'|'copied'|'failed'>('idle');
+  useEffect(()=>{
+    let active=true;
+    void import('qrcode')
+      .then(({default:QRCode})=>QRCode.toDataURL(link,{width:512,margin:4,errorCorrectionLevel:'M',color:{dark:'#241544',light:'#faf5ff'}}))
+      .then(value=>{if(active)setQr(value);})
+      .catch(()=>{});
+    return ()=>{active=false;};
+  },[link]);
+  async function copyLink(){
+    try{await navigator.clipboard.writeText(link);setCopy('copied');}
+    catch{setCopy('failed');}
+  }
+  return <section className="qr-card">
+    <a className="qr-link" href={link} target="_blank" rel="noreferrer" aria-label="Открыть ссылку для игроков">
+      {qr?<img src={qr} alt="QR-код для входа в игру"/>:<span>Ссылка для игроков ↗</span>}
+    </a>
+    <strong>Сканируйте, чтобы войти</strong>
+    <button className="text-link" onClick={()=>void copyLink()}>{copy==='copied'?'Ссылка скопирована':'Скопировать ссылку'}</button>
+    {copy==='failed'&&<a className="qr-url" href={link}>{link}</a>}
+  </section>;
+}
+
+export function LobbyRoster({roster}:{roster:Participant[]}){
+  return <section className="lobby-roster" aria-labelledby="lobby-roster-title">
+    <h2 id="lobby-roster-title">Игроки <span>{roster.length}</span></h2>
+    <div aria-live="polite">
+      {roster.length?<ul className="lobby-players">{roster.map(p=>
+        <li key={p.id}><span aria-hidden="true"/><strong>{p.name}</strong></li>)}</ul>:<p>Ждём игроков…</p>}
+    </div>
+  </section>;
 }
 
 const hostLink=new URL(location.href);
@@ -32,6 +62,9 @@ export function ParticipantScreen({state,roster,buzzer,online,onUpdate}:{state:G
   const [error,setError]=useState('');
   const [claim,setClaim]=useState<Buzzer|null>(null);
   const pressing=useRef(false);
+  const [depressed,setDepressed]=useState(false);
+  const releaseTimer=useRef<number|null>(null);
+  useEffect(()=>()=>{if(releaseTimer.current!==null)window.clearTimeout(releaseTimer.current);},[]);
   const player=state.players.find(p=>p.id===self?.id);
   const joined=state.phase==='lobby'?roster.some(p=>p.id===self?.id):!!player;
   const visibleBuzzer=claim?.window_id===buzzer.window_id?claim:buzzer;
@@ -53,7 +86,10 @@ export function ParticipantScreen({state,roster,buzzer,online,onUpdate}:{state:G
 
   async function press(){
     if(mode!=='ready'||pressing.current||!self)return;
-    pressing.current=true;setPending(true);setError('');navigator.vibrate?.(35);
+    pressing.current=true;
+    setPending(true);setDepressed(true);setError('');navigator.vibrate?.(35);
+    if(releaseTimer.current!==null)window.clearTimeout(releaseTimer.current);
+    releaseTimer.current=window.setTimeout(()=>{setDepressed(false);releaseTimer.current=null;},170);
     try{setClaim(await buzz(self.id,visibleBuzzer.window_id));await onUpdate();}
     catch(e){setError((e as Error).message);await onUpdate().catch(()=>{});}
     finally{pressing.current=false;setPending(false);}
@@ -74,7 +110,7 @@ export function ParticipantScreen({state,roster,buzzer,online,onUpdate}:{state:G
       {feedback&&<AnswerFlash key={feedback.event} kind={feedback.kind}/>}
       <header className="participant-header"><h1>{self?.name}</h1><div><strong>{(player?.score??0).toLocaleString('ru-RU')}</strong><span>баллов</span>{delta!==undefined&&<ScoreDelta delta={delta}/>}</div></header>
       <div className="buzzer-stage">
-        <button className={`buzzer-button ${mode} ${pending?'pressed':''}`} disabled={mode!=='ready'||pending}
+        <button className={`buzzer-button ${mode} ${depressed?'pressed':''}`} disabled={mode!=='ready'||pending}
           onPointerDown={e=>{if(e.button===0){e.preventDefault();void press();}}}
           onClick={()=>void press()} aria-label={buzzerLabels[mode]}>
           <BuzzerIcon mode={mode}/><span>{buzzerLabels[mode]}</span>

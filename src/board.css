@@ -4,13 +4,7 @@
   --board-line: #7446ac;
   padding-inline: clamp(18px, 5.5vw, 180px);
   color: var(--board-ink);
-  background:
-    radial-gradient(ellipse at 55% 42%, #461a9b 0%, transparent 40%),
-    radial-gradient(ellipse at -5% 6%, #6f1caf 0%, transparent 34%),
-    radial-gradient(ellipse at 104% -2%, #6a1a9f 0%, transparent 34%),
-    radial-gradient(ellipse at 102% 103%, #6d0aa8 0%, transparent 49%),
-    radial-gradient(ellipse at 1% 94%, #3e15b6 0%, transparent 42%),
-    linear-gradient(120deg, #181135, #121437 49%, #211564);
+  background: var(--stage-background);
 }
 
 /* Single animated layer behind the UI, with the static background as its fallback. */

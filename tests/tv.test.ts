@@ -37,7 +37,7 @@ function tv(){
     send(body:unknown){
       requests.push({url:this.url,method:this.method,headers:this.headers,body});
       this.status=this.url.includes('/rest/')?code:200;
-      this.responseText=JSON.stringify(this.url.includes('/quiz_buzzer?')?[buzzer]:this.url.includes('/rest/')?[current]:pack);
+      this.responseText=JSON.stringify(this.url.includes('/quiz_buzzer?')?[buzzer]:this.url.includes('/quiz_participants?')?[{id:'lobby-player',name:'Алина'}]:this.url.includes('/rest/')?[current]:pack);
       this.readyState=4;this.onreadystatechange();
     }
   }
@@ -50,7 +50,7 @@ function tv(){
 }
 it('TV без современных API показывает все этапы и не запрашивает частные ответы',()=>{
   const app=tv();
-  expect(app.get('tv-content').text).toContain('Ожидаем ведущего');
+  expect(app.get('tv-content').text).toContain('Алина');
   const players=[{id:'p1',name:'Стас <img src=x>',score:100},{id:'p2',name:'Алина',score:0}];
   const firstQuestion=app.pack.categories[0].questions[0];
   app.update({phase:'board',players,completed:[firstQuestion.id]});
@@ -81,6 +81,8 @@ it('TV без современных API показывает все этапы 
   expect(app.get('tv-content').text).toContain('Перерыв');
   app.update({phase:'finished'});
   expect(app.get('tv-content').text).toContain('Победитель');
+  expect(app.get('tv-content').text).toContain('2-е место');
+  expect(app.get('tv-content').text).not.toContain('3-е место');
   app.fail();
   expect(app.get('tv-error').text).toContain('503');
   expect(app.get('tv-content').text).toContain('Победитель');
@@ -89,7 +91,7 @@ it('TV без современных API показывает все этапы 
   for(const request of app.requests){
     expect(request.method).toBe('GET');
     expect(request.body).toBe(null);
-    expect(request.url).toMatch(/content\/questions\.json|\/rest\/v1\/quiz_(game|buzzer)\?/);
+    expect(request.url).toMatch(/content\/questions\.json|\/rest\/v1\/quiz_(game|buzzer|participants)\?/);
     if(request.url.includes('/rest/'))expect(request.headers.apikey).toBe('public-test-key');
   }
 });

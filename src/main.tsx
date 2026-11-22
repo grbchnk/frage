@@ -6,7 +6,8 @@ import type {Answer,Game,Pack,Snapshot,Participant,Buzzer} from './types';
 import {QuizAudio} from './audio';
 import './style.css';
 import './board.css';
-import {JoinLink,ParticipantScreen} from './Participant';
+import './theme.css';
+import {JoinLink,LobbyRoster,ParticipantScreen} from './Participant';
 import {AnswerFlash,BoardCrown,Finale,GAME_NAME,Place,ScoreDelta,VisualCategory,useAnswerFeedback} from './GameViews';
 
 const params=new URLSearchParams(location.search);
@@ -150,9 +151,18 @@ function App(){
           <div className="score-delta-slot">{state.scoreChanges?.[p.id]!==undefined&&<ScoreDelta delta={state.scoreChanges[p.id]}/>}</div>
         </div>)}
       </section>}
-      {state.phase==='lobby'&&(host?<Setup pack={pack} categories={pack.categories} busy={busy} roster={roster} online={buttonsOnline} start={(names,limit,categoryIds)=>void act({type:'start',names,limit,participants:roster,categoryIds})}/>:<main className="lobby"><div className="lobby-copy"><h1>Кто <em>первый?</em></h1><div className="lobby-pills"><span>{pack.categories.length} темы в банке</span><span>1 раунд</span></div></div><div className="lobby-art" aria-hidden="true"><div className="orbit"/><div className="art-tile a">100</div><div className="art-tile b">?</div><div className="art-tile c">500</div><span className="spark">✳</span></div><JoinLink/><div className="waiting-host"><span className="pulse"/> Ожидаем ведущего · подключились: {roster.map(p=>p.name).join(", ")||"пока никого"}</div>{!audioOn&&<button className="sound-start" onClick={()=>void sound()}>♫ Включить звук</button>}</main>)}
+      {state.phase==='lobby'&&(host?
+        <Setup pack={pack} categories={pack.categories} busy={busy} roster={roster} online={buttonsOnline} start={(names,limit,categoryIds)=>void act({type:'start',names,limit,participants:roster,categoryIds})}/>:
+        <main className="display-lobby">
+          <JoinLink/>
+          <div className="lobby-room">
+            <h1>{GAME_NAME}</h1>
+            <LobbyRoster roster={roster}/>
+          </div>
+        </main>
+      )}
       {state.phase==='board'&&<Board categories={categories} state={state} pack={pack} host={host} busy={busy} open={id=>void act({type:'open',id})} openPage={page=>void act({type:'boardPage',page})}/>}
-      {(state.phase==='question'||state.phase==='answer')&&q&&<main className={`question-main ${q.media?'with-media':''} ${state.phase==='answer'?'revealed':''}`} key={q.id}><div className="question-meta"><span className="question-category">{category?.title}</span><span className="question-value">{q.value} <small>БАЛЛОВ</small></span></div><div className="question-content"><FittedCopy contentKey={`${q.id}-${state.phase}-${role}`}><h1><TypedQuestion text={q.prompt} openedAt={state.questionOpenedAt} reveal={host||state.phase==='answer'}/></h1>{state.phase==='answer'&&state.revealed&&<div className="answer-copy"><h2>{state.revealed.answer}</h2><p>{state.revealed.explanation}</p><span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span></div>}</FittedCopy>{q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}</div>
+      {(state.phase==='question'||state.phase==='answer')&&q&&<main className={`question-main ${q.media?'with-media':''} ${state.phase==='answer'?'revealed':''}`} key={q.id}><div className="question-meta"><span className="question-category">{category?.title}</span><span className="question-value" data-value={q.value}>{q.value} <small>БАЛЛОВ</small></span></div><div className="question-content"><FittedCopy contentKey={`${q.id}-${state.phase}-${role}`}><h1><TypedQuestion text={q.prompt} openedAt={state.questionOpenedAt} reveal={host||state.phase==='answer'}/></h1>{state.phase==='answer'&&state.revealed&&<div className="answer-copy"><h2>{state.revealed.answer}</h2><p>{state.revealed.explanation}</p><span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span></div>}</FittedCopy>{q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}</div>
         {state.phase==='question'&&!host&&<div className={`respondent ${respondent?'has-respondent':''}`} role="status">{respondent?`Отвечает ${respondent.name}`:'Кто первый нажмёт?'}</div>}
         {host&&state.phase==='question'&&<section className="host-answer">
           <div className="private-answer"><span className="eyebrow">Ответ для ведущего</span><h2>{privateAnswer?.answer||'Ответ ещё не загружен'}</h2>{privateAnswer&&privateAnswer.accepted_answers?.length>0&&<p className="accepted-answers">Принимаем: {privateAnswer.accepted_answers.join(' · ')}</p>}
@@ -293,10 +303,8 @@ function Setup({busy,roster,online,start,categories,pack}:{categories:Pack['cate
   }
   return <main className="setup host-setup">
     <section className="setup-players">
-      <h1>Собрать игру</h1><JoinLink/>
-      <div className="joined-players" aria-live="polite">{roster.map(p=><span key={p.id}>{p.name}</span>)}{!roster.length&&<p>Ждём участников…</p>}</div>
-      {roster.length<2&&<p className="dim small">Для старта нужны два игрока.</p>}
-      {!online&&<p className="dim small">Подключаем кнопки…</p>}
+      <h1>Лобби</h1>
+      <div className="host-lobby-connect"><JoinLink/><LobbyRoster roster={roster}/></div>
     </section>
     <section className="setup-rules">
       <fieldset className="category-mode"><legend>Категории</legend>
@@ -311,6 +319,7 @@ function Setup({busy,roster,online,start,categories,pack}:{categories:Pack['cate
         </section>}
       <fieldset className="game-length"><legend>Вопросов в каждой теме</legend>{[3,5].map(value=><label key={value} className={limit===value?'active':''}><input type="radio" name="limit" checked={limit===value} onChange={()=>setLimit(value)}/><strong>{value}</strong></label>)}</fieldset>
       <button className="primary" disabled={busy||!online||roster.length<2||!valid} onClick={launch}>Начать игру {valid&&<span>{count*limit} вопросов</span>}</button>
+      {!online?<p className="setup-status">Подключаем кнопки…</p>:roster.length<2&&<p className="setup-status">Для старта нужны два игрока</p>}
     </section>
   </main>;
 }

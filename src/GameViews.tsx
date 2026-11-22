@@ -51,18 +51,24 @@ export function AnswerFlash({kind}:{kind:'correct'|'wrong'}){
 
 export function Finale({players,reset}:{players:Game['players'];reset?:()=>void}){
   const ranked=rankPlayers(players);
-  const winners=ranked.filter(p=>p.rank===1);
-  return <main className="results">
-    <section className="results-winner">
+  const places=[2,1,3].map(rank=>({rank,players:ranked.filter(p=>p.rank===rank)})).filter(place=>place.players.length>0);
+  const others=ranked.filter(p=>p.rank>3);
+  const sharedFirst=ranked.filter(p=>p.rank===1).length>1;
+  return <main className="results finale-screen">
+    <div className="finale-heading">
       <svg className="results-cup" viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 12h24v13a12 12 0 0 1-24 0V12Zm0 5H11v5a9 9 0 0 0 9 9m24-14h9v5a9 9 0 0 1-9 9M32 37v11m-10 5h20m-22 4h24"/><path d="M32 18v11m-5-5.5h10" opacity=".65"/></svg>
-      <h1>{winners.length===1?'Победитель':'Победители'}</h1>
-      <p className="winner-names">{winners.map(p=><span key={p.id}>{p.name}</span>)}</p>
-      {winners.length>0&&<p className="results-points">{winners[0].score.toLocaleString('ru-RU')} <span>баллов</span></p>}
-      {reset&&<button className="primary" onClick={reset}>Новая игра <span aria-hidden="true">→</span></button>}
-    </section>
-    <section className="results-table">
-      <h2>Итоговый счёт</h2>
-      <ol>{ranked.map(p=><li key={p.id} className={p.rank===1?'first':''}><Place rank={p.rank}/><strong>{p.name}</strong><span>{p.score.toLocaleString('ru-RU')}</span></li>)}</ol>
-    </section>
+      <h1>{sharedFirst?'Победители':'Победитель'}</h1>
+      <div className="finale-confetti" aria-hidden="true">{Array.from({length:16},(_,i)=><i key={i} style={{left:`${(i*37)%96+2}%`,animationDelay:`${i*80}ms`}}/>)}</div>
+    </div>
+    <div className="finale-podium" aria-label="Пьедестал">
+      {places.map(({rank,players:group})=><section className="podium-place" data-rank={rank} key={rank} aria-label={`Место ${rank}`}>
+        <BoardCrown rank={rank}/>
+        <span className="podium-label">{rank}-е место</span>
+        <ul>{group.map(p=><li key={p.id}>{p.name}</li>)}</ul>
+        <strong>{group[0].score.toLocaleString('ru-RU')} <span>баллов</span></strong>
+      </section>)}
+    </div>
+    {others.length>0&&<ol className="finale-remaining" aria-label="Остальные места">{others.map(p=><li key={p.id}><span>{p.rank}.</span><strong>{p.name}</strong><span>{p.score.toLocaleString('ru-RU')}</span></li>)}</ol>}
+    {reset&&<button className="primary finale-reset" onClick={reset}>Новая игра <span aria-hidden="true">→</span></button>}
   </main>;
 }

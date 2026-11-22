@@ -20,6 +20,30 @@ drop trigger if exists quiz_clear_submissions on public.quiz_game;
 create trigger quiz_clear_submissions after update on public.quiz_game
   for each row when (new.state->>'phase'='lobby') execute function quiz_private.clear_submissions();
 
+-- Stamp the deadline with the database clock and guard early closure.
+create or replace function quiz_private.sync_estimate_timer()
+returns trigger language plpgsql security definer set search_path='' as $$
+declare current_round jsonb:=new.state->'inputRound'; previous_round jsonb:=old.state->'inputRound';
+        now_ms bigint:=floor(extract(epoch from clock_timestamp())*1000);
+begin
+  if new.state->>'phase'<>'question' or current_round->>'stage' is distinct from 'estimate' then return new; end if;
+  if old.state->>'phase'='board' and new.state->>'estimateTimer'='true' then
+    new.state:=jsonb_set(new.state,'{inputRound,deadline}',to_jsonb(now_ms+25000));
+  elsif old.state->>'phase'='question' and current_round->>'id'=previous_round->>'id'
+    and previous_round->>'deadline' is not null
+    and current_round->>'closed'='true' and coalesce(previous_round->>'closed','false')='false'
+    and now_ms<(previous_round->>'deadline')::bigint
+    and jsonb_array_length(previous_round->'submitted')<jsonb_array_length(old.state->'players')
+  then
+    raise exception 'Таймер ещё идёт.';
+  end if;
+  return new;
+end $$;
+drop trigger if exists quiz_estimate_timer on public.quiz_game;
+create trigger quiz_estimate_timer before update on public.quiz_game
+  for each row execute function quiz_private.sync_estimate_timer();
+revoke all on function quiz_private.sync_estimate_timer() from public;
+
 create or replace function quiz_private.submit_input(expected_round text,player_id text,choice jsonb)
 returns public.quiz_game language plpgsql security definer set search_path='' as $$
 declare game public.quiz_game; round jsonb; stage text; option_ids jsonb; valid boolean:=false;
@@ -32,6 +56,9 @@ begin
     or (stage='turns' and round->'queue'->>((round->>'turn')::integer) is distinct from player_id)
   then raise exception 'Приём этого ответа уже закрыт.'; end if;
   if round->'submitted' ? player_id then return game; end if;
+  if stage='estimate' and round->>'deadline' is not null
+    and floor(extract(epoch from clock_timestamp())*1000)>=(round->>'deadline')::bigint
+  then raise exception 'Время вышло.'; end if;
   select coalesce(jsonb_agg(opt->'id'),'[]'::jsonb) into option_ids
     from jsonb_array_elements(round->'options') opt
     where not (coalesce(round->'eliminated','[]'::jsonb) @> jsonb_build_array(opt->'id'));

@@ -15,6 +15,7 @@ export interface Game {
   questionsPerCategory: number;
   categoryIds: number[];
   boardPage?: number;
+  estimateTimer?:boolean;
   selectedQuestions?:string[];
   inputRound?:InputRound;
   results?:RoundResult[];
@@ -36,11 +37,13 @@ export interface InputRound {
   stage: InputStage;
   submitted: string[];
   closed?:boolean;
+  deadline?:number;
+  autoScorePaused?:boolean;
   options?: {id:number;label:string}[];
   eliminated?: number[];
   queue?: string[];
   turn?: number;
   limits?: Record<string,number>;
 }
-export interface RoundResult { playerId:string; input?:string; delta:number; correct?:boolean; wager?:number; }
+export interface RoundResult { playerId:string; input?:string; delta:number; correct?:boolean; wager?:number; timedOut?:boolean; }
 export interface FinalCategory { id:string; title:string; questions:{id:string}[]; }

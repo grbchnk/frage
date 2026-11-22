@@ -10,6 +10,7 @@ import './theme.css';
 import {useScreenWakeLock} from './use-screen-wake-lock';
 import {JoinLink,LobbyRoster,ParticipantScreen} from './Participant';
 import {allSubmitted,drawQuestions,filterCategories,hasEnoughQuestions,questionFilters,prices,type QuestionFilter} from './rounds';
+import {EstimateClock} from './EstimateClock';
 import {FinalReview,GroupControls,RoundResults,SharedOptions,SharedProgress,stageLabel} from './GroupQuestion';
 import {AnswerFlash,BoardCrown,Finale,GAME_NAME,ScoreDelta,VisualCategory,useAnswerFeedback} from './GameViews';
 
@@ -37,6 +38,7 @@ function App(){
   const privateAnswer=q?answers[q.id]:undefined;
   const finalAnswer=state.final?.questionId?answers[state.final.questionId]:undefined;
   const processedTurn=useRef('');
+  const scoring=useRef(false);
   useScreenWakeLock(role==='display'&&state.phase!=='finished');
   useEffect(()=>{if(state.phase==='lobby'||!host)setScoresOpen(false);},[state.phase,host]);
   const [roster,setRoster]=useState<Participant[]>([]),[buzzer,setBuzzer]=useState<Buzzer>(emptyBuzzer),[buttonsOnline,setButtonsOnline]=useState(false);
@@ -85,9 +87,12 @@ function App(){
   const feedback=useAnswerFeedback(state.feedback);
   useEffect(()=>{
     audio.current?.setPhase(state.phase);
-    if(lastEvent.current!==null&&state.event!==lastEvent.current)audio.current?.effect(state.feedback?.event===state.event&&state.feedback.kind==='wrong'?'wrong':state.phase);
+    if(lastEvent.current!==null&&state.event!==lastEvent.current){
+      if(state.phase==='answer'&&state.results?.some(result=>result.timedOut)&&inputRound)audio.current?.countdown(inputRound.id,0);
+      else audio.current?.effect(state.feedback?.event===state.event&&state.feedback.kind==='wrong'?'wrong':state.phase);
+    }
     lastEvent.current=state.event;
-  },[state.event,state.phase,state.feedback]);
+  },[state.event,state.phase,state.feedback,state.results,inputRound]);
   useEffect(()=>()=>audio.current?.stop(),[]);
   const previousClaim=useRef<string|null>(null);
   useEffect(()=>{
@@ -98,7 +103,10 @@ function App(){
   function openScoreAdjustment(){setError('');setScoresOpen(true);}
   function switchRole(){const next=host?'display':'host';setRole(next);const url=new URL(location.href);url.searchParams.set('mode',next);historyWindow(url);}
   async function sound(){try{if(!audio.current){audio.current=new QuizAudio();await audio.current.enable();audio.current.setPhase(state.phase);}const value=!audioOn;audio.current.volume(value?volume:0);setAudioOn(value);}catch{setError('Нажмите ещё раз, чтобы браузер включил звук.');}}
-  async function act(action:Action,revision?:number){
+  const playCountdown=useCallback((seconds:number)=>{
+    if(!host&&audioOn&&inputRound?.id)audio.current?.countdown(inputRound.id,seconds);
+  },[host,audioOn,inputRound?.id]);
+  async function act(action:Action,revision?:number,record=true){
     if(!pack||writing.current)return false;
     writing.current=true;setBusy(true);setError('');
     const before=current.current;
@@ -114,9 +122,11 @@ function App(){
       const next=transition(before.state,action,pack);
       const saved=await saveGame(before,next,action.type==='correct'?buzzer.window_id:undefined);
       accept(saved);
-      history.current.push({state:before.state,after:saved.revision,buzzer:structuredClone(buzzer)});
-      if(history.current.length>30)history.current.shift();
-      setUndoCount(history.current.length);
+      if(record){
+        history.current.push({state:before.state,after:saved.revision,buzzer:structuredClone(buzzer)});
+        if(history.current.length>30)history.current.shift();
+        setUndoCount(history.current.length);
+      }
       return true;
     }
     catch(e){setError((e as Error).message);await refresh().catch(()=>{});return false;}
@@ -133,26 +143,45 @@ function App(){
     const previous=history.current.at(-1);if(!previous)return;
     if(previous.after!==current.current.revision){history.current=[];setUndoCount(0);setError('После действий с другого устройства отмена недоступна.');return;}
     writing.current=true;setBusy(true);
-    try{const saved=await restoreGame(current.current,{...previous.state,event:current.current.state.event+1,feedback:null},previous.buzzer);accept(saved);history.current.pop();const top=history.current.at(-1);if(top)top.after=saved.revision;setUndoCount(history.current.length);setError('');}
+    const restored={...previous.state,event:current.current.state.event+1,feedback:null};
+    if(restored.phase==='question'&&restored.inputRound?.deadline!==undefined&&restored.inputRound.closed){
+      restored.inputRound={...restored.inputRound,autoScorePaused:true};
+    }
+    try{const saved=await restoreGame(current.current,restored,previous.buzzer);accept(saved);history.current.pop();const top=history.current.at(-1);if(top)top.after=saved.revision;setUndoCount(history.current.length);setError('');}
     catch(e){setError((e as Error).message);await refresh().catch(()=>{});}finally{writing.current=false;setBusy(false);}
   }
   async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{setError('Полный экран недоступен в этом браузере. Можно скрыть панели браузера вручную.');}}
   async function scoreRound(){
     let before=current.current;
     let round=before.state.inputRound;
-    if(!round||!privateAnswer||busy)return;
+    if(before.state.phase!=='question'||!round||!privateAnswer||writing.current||scoring.current)return false;
+    scoring.current=true;
     try{
       if(round.stage!=='turns'&&!round.closed){
-        if(!await act({type:'closeInputs',roundId:round.id},before.revision))return;
+        if(!await act({type:'closeInputs',roundId:round.id},before.revision,round.deadline===undefined))return false;
         before=current.current;
         round=before.state.inputRound;
-        if(!round)return;
+        if(!round)return false;
       }
       const inputs=await readInputs(round.id);
-      if(before.state.activeQuestionId!==q?.id||round.id!==current.current.state.inputRound?.id)return;
-      await act({type:'scoreRound',inputs,answer:privateAnswer},before.revision);
-    }catch(e){setError((e as Error).message);}
+      if(before.state.activeQuestionId!==q?.id||round.id!==current.current.state.inputRound?.id)return false;
+      return await act({type:'scoreRound',inputs,answer:privateAnswer},before.revision);
+    }catch(e){setError((e as Error).message);return false;}
+    finally{scoring.current=false;}
   }
+  useEffect(()=>{
+    const deadline=inputRound?.deadline;
+    if(!host||!privateAnswer||state.phase!=='question'||!inputRound||deadline===undefined||inputRound.autoScorePaused)return;
+    let disposed=false;
+    let retry:number;
+    const score=async()=>{
+      if(await scoreRound()||disposed)return;
+      retry=window.setTimeout(score,900);
+    };
+    const ready=inputRound.closed||allSubmitted(inputRound,state.players);
+    retry=window.setTimeout(score,ready?0:Math.max(0,deadline-Date.now()));
+    return ()=>{disposed=true;window.clearTimeout(retry);};
+  },[host,privateAnswer,state.phase,inputRound,state.players]);
   useEffect(()=>{
     if(!host||!privateAnswer||busy||state.phase!=='question'||inputRound?.stage!=='turns'||!allSubmitted(inputRound,state.players))return;
     const key=`${inputRound.id}:${inputRound.turn}:${snapshot.revision}`;
@@ -197,7 +226,7 @@ function App(){
         </div>)}
       </section>}
       {state.phase==='lobby'&&(host?
-        <Setup pack={pack} categories={pack.categories} busy={busy} roster={roster} online={buttonsOnline} start={(names,limit,categoryIds,selectedQuestions,final)=>void act({type:'start',names,limit,participants:roster,categoryIds,selectedQuestions,final})}/>:
+        <Setup pack={pack} categories={pack.categories} busy={busy} roster={roster} online={buttonsOnline} start={(names,limit,categoryIds,selectedQuestions,final,estimateTimer)=>void act({type:'start',names,limit,participants:roster,categoryIds,selectedQuestions,final,estimateTimer})}/>:
         <main className="display-lobby">
           <JoinLink/>
           <div className="lobby-room">
@@ -221,7 +250,7 @@ function App(){
               {!state.results&&<span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span>}
             </div>
           </FittedCopy>:<FittedCopy contentKey={`${q.id}-prompt-${role}`} kind="prompt">
-            <h1><TypedQuestion text={q.prompt} openedAt={state.questionOpenedAt} instant={host}/></h1>
+            <h1><TypedQuestion text={q.prompt} openedAt={state.questionOpenedAt} instant={host||inputRound?.deadline!==undefined}/></h1>
           </FittedCopy>}
         </div>
         {q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}
@@ -229,6 +258,7 @@ function App(){
         {state.phase==='question'&&state.hint&&<p className="question-hint"><strong>Подсказка · </strong>{state.hint}</p>}
         {state.phase==='question'&&inputRound&&<>
           <p className="shared-progress">{stageLabel(inputRound.stage)}</p>
+          {inputRound.deadline!==undefined&&<EstimateClock deadline={inputRound.deadline} closed={inputRound.closed} onSecond={playCountdown}/>}
           <SharedOptions round={inputRound}/>
           {host?<GroupControls key={inputRound.id} round={inputRound} players={state.players} busy={busy} onReveal={()=>void scoreRound()}/>
             :<SharedProgress round={inputRound} players={state.players}/>}
@@ -395,7 +425,7 @@ function FittedCopy({contentKey,kind,children}:{contentKey:string;kind:'prompt'|
 }
 function Setup({busy,roster,online,start,categories,pack}:{
   categories:Pack['categories'];pack:Pack;busy:boolean;roster:Participant[];online:boolean;
-  start:(names:string[],limit:number,categoryIds:number[],selectedQuestions:string[],final:boolean)=>void;
+  start:(names:string[],limit:number,categoryIds:number[],selectedQuestions:string[],final:boolean,estimateTimer:boolean)=>void;
 }){
   const [limit,setLimit]=useState(5);
   const [selection,setSelection]=useState<'random'|'manual'>('random');
@@ -403,6 +433,7 @@ function Setup({busy,roster,online,start,categories,pack}:{
   const [selected,setSelected]=useState<number[]>([]);
   const [types,setTypes]=useState(()=>Object.keys(questionFilters) as QuestionFilter[]);
   const [final,setFinal]=useState(false);
+  const [estimateTimer,setEstimateTimer]=useState(true);
   const [search,setSearch]=useState('');
   const [sort,setSort]=useState<'bank'|'name'>('bank');
   const filtered=filterCategories(categories,types);
@@ -415,7 +446,7 @@ function Setup({busy,roster,online,start,categories,pack}:{
   function launch(){
     if(!valid)return;
     const ids=selection==='manual'?manual.map(c=>c.id):chooseCategories({...pack,categories:eligible},Math.random,count);
-    start(roster.map(p=>p.name),limit,ids,drawQuestions(eligible,ids),final);
+    start(roster.map(p=>p.name),limit,ids,drawQuestions(eligible,ids),final,estimateTimer);
   }
   return <main className="setup host-setup">
     <section className="setup-players">
@@ -452,6 +483,7 @@ function Setup({busy,roster,online,start,categories,pack}:{
       {selection==='manual'&&selected.length>manual.length&&<p className="setup-status">Выбрано {manual.length} доступных тем. Остальные не подходят под текущие фильтры.</p>}
       {!eligible.length&&<p className="setup-status">С этими фильтрами ни в одной категории нет пяти подходящих вопросов.</p>}
       <fieldset className="game-length"><legend>Вопросов в каждой теме</legend>{[3,5].map(value=><label key={value} className={limit===value?'active':''}><input type="radio" name="limit" checked={limit===value} onChange={()=>setLimit(value)}/><strong>{value}</strong></label>)}</fieldset>
+      <label className="final-toggle"><input type="checkbox" checked={estimateTimer} onChange={e=>setEstimateTimer(e.target.checked)}/>Таймер «Кто ближе?» · 25 секунд</label>
       {!!pack.finals?.length&&<label className="final-toggle"><input type="checkbox" checked={final} onChange={e=>setFinal(e.target.checked)}/>Финальный вопрос со ставкой</label>}
       <button className="primary" disabled={busy||!online||roster.length<2||!valid} onClick={launch}>Начать игру {valid&&<span>{count*limit} вопросов</span>}</button>
       {!online?<p className="setup-status">Подключаем кнопки…</p>:roster.length<2&&<p className="setup-status">Для старта нужны два игрока</p>}

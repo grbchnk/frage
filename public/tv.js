@@ -13,6 +13,10 @@
   var responseRequest = false;
   var lobbyRoster = [];
   var rosterRequest = false;
+  var timerView = null;
+  var timerAudio = null;
+  var timerSound = false;
+  var previousCue = '';
   var formatLabels={estimate:'Кто ближе?',turns:'Варианты по очереди',choice:'Варианты для всех',
     order:'Расставь по порядку',wager:'Ставки',written:'Письменный ответ'};
   var formatIcons={estimate:'≈',turns:'↻',choice:'☑',order:'⇅'};
@@ -206,10 +210,52 @@
     var available = (window.innerHeight || document.documentElement.clientHeight) - top - footer.offsetHeight - 27;
     table.style.height = Math.max(0, Math.min(available, table.rows.length * 72)) + 'px';
   }
+  function timerCue(id, seconds) {
+    var key = id + ':' + seconds;
+    if (!timerSound || !timerAudio || key === previousCue) return;
+    previousCue = key;
+    function note(frequency, offset, duration) {
+      var osc = timerAudio.createOscillator();
+      var gain = timerAudio.createGain();
+      var start = timerAudio.currentTime + offset;
+      osc.frequency.value = frequency;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.08, start + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+      osc.connect(gain);
+      gain.connect(timerAudio.destination);
+      osc.start(start);
+      osc.stop(start + duration);
+    }
+    if (seconds) note(seconds === 1 ? 784 : 659, 0, 0.13);
+    else { note(523, 0, 0.29); note(349, 0.13, 0.46); }
+  }
+  function updateTimer() {
+    if (!timerView) return;
+    var left = Math.max(0, Math.min(25000, timerView.deadline - new Date().getTime()));
+    var seconds = Math.ceil(left / 1000);
+    if (timerView.seconds !== seconds) {
+      timerView.seconds = seconds;
+      text(timerView.number, (seconds < 10 ? '0' : '') + seconds);
+      timerView.face.className = 'tv-estimate-clock' + (seconds <= 5 ? ' urgent' : '');
+    }
+    timerView.fill.style.width = (left / 250) + '%';
+    if (seconds <= 5) timerCue(timerView.id, seconds);
+  }
+  function showTimer(round, parent) {
+    var face = el('div', 'tv-estimate-clock', null, parent);
+    var number = el('strong', '', '', face);
+    el('span', '', ' сек', face);
+    var bar = el('div', 'tv-estimate-track', null, face);
+    var fill = el('div', 'tv-estimate-fill', null, bar);
+    timerView = {id:round.id, deadline:round.deadline, face:face, number:number, fill:fill};
+    updateTimer();
+  }
   function showProgress(state, parent) {
     var round = state.inputRound;
     if (!round) return;
     el('p', 'tv-progress', formatLabels[round.stage], parent);
+    if (typeof round.deadline === 'number' && !round.closed) showTimer(round, parent);
     if (round.stage === 'turns') {
       var active = round.queue[round.turn];
       var player = state.players.filter(function (p) { return p.id === active; })[0];
@@ -234,7 +280,7 @@
     state.players.forEach(function (player) {
       state.results.forEach(function (result) {
         if (result.playerId !== player.id) return;
-        var value = result.input == null ? 'без ответа' : result.input;
+        var value = result.input == null ? (result.timedOut ? 'не успел ответить' : 'без ответа') : result.input;
         var wager = typeof result.wager === 'number' ? ' · ставка ' + result.wager : '';
         el('li', '', player.name + ' · ' + value + wager + ' · ' + signed(result.delta), list);
       });
@@ -316,7 +362,9 @@
   }
   function render() {
     if (!pack || !snapshot) return;
+    timerView = null;
     var state = snapshot.state;
+    if (state.phase === 'answer' && state.inputRound && state.results && state.results.some(function (result) { return result.timedOut; })) timerCue(state.inputRound.id, 0);
     var boardPhase = state.phase === 'board';
     var roundPhase = boardPhase || state.phase === 'question' || state.phase === 'answer';
     document.documentElement.className = 'tv-stage tv-phase-' + state.phase + (roundPhase ? ' tv-round' : '') + (boardPhase ? ' tv-category-phase' : '');
@@ -505,6 +553,18 @@
       syncWakeLock();
     });
   }
+  var soundButton = document.getElementById('tv-timer-sound');
+  if (soundButton) {
+    var TimerAudio = window.AudioContext || window.webkitAudioContext;
+    if (!TimerAudio) soundButton.style.display = 'none';
+    else soundButton.onclick = function () {
+      timerAudio = timerAudio || new TimerAudio();
+      if (timerAudio.resume) timerAudio.resume();
+      timerSound = !timerSound;
+      text(soundButton, timerSound ? 'Выключить звук таймера' : 'Включить звук таймера');
+    };
+  }
+  window.setInterval(updateTimer, 100);
   document.getElementById('tv-retry').onclick = function () { loadPack(); revision = -1; refresh(); };
   if (document.addEventListener) {
     document.addEventListener('visibilitychange', syncWakeLock);

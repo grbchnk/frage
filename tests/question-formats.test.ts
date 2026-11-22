@@ -68,6 +68,24 @@ it('начисляет за близость, варианты и сортиро
     .toEqual([400,-200]);
 });
 
+it('таймер заканчивает приём на 25-й секунде и штрафует пропустивших, отключение сохраняет ручной режим',()=>{
+  const state={...base,categoryIds:[76],estimateTimer:true};
+  const opened=transition(state,{type:'open',id:'q76-100',roundId:'timer'},pack,1000);
+  expect(opened.inputRound?.deadline).toBe(26000);
+  const withAnswers={...opened,inputRound:{...opened.inputRound!,submitted:['a','b']}};
+  expect(()=>transition(withAnswers,{type:'closeInputs',roundId:'timer'},pack,25999)).toThrow();
+  const closed=transition(withAnswers,{type:'closeInputs',roundId:'timer'},pack,26000);
+  const scored=transition(closed,{type:'scoreRound',inputs:{a:49,b:95},answer},pack,26000);
+  expect(scored.scoreChanges).toEqual({a:100,b:-50,c:-50,d:-50});
+  expect(scored.results?.filter(item=>item.timedOut).map(item=>item.playerId)).toEqual(['c','d']);
+  const replay={...withAnswers,inputRound:{...withAnswers.inputRound,submitted:players.map(player=>player.id)}};
+  expect(transition(replay,{type:'closeInputs',roundId:'timer'},pack,2000).inputRound?.closed).toBe(true);
+  const unlimited=transition({...state,estimateTimer:false},{type:'open',id:'q76-100',roundId:'unlimited'},pack,1000);
+  expect(unlimited.inputRound?.deadline).toBeUndefined();
+  const manual=transition(unlimited,{type:'closeInputs',roundId:'unlimited'},pack,1000);
+  expect(transition(manual,{type:'scoreRound',inputs:{},answer},pack).scoreChanges).toEqual({});
+});
+
 it('финал открывает вопрос после ставок и сохраняет результат ручной проверки',()=>{
   const state=transition({...base,final:{enabled:true}},{type:'endRound'},pack);
   expect(state.final?.chooser).toBe('c');
@@ -127,6 +145,22 @@ it('SQL принимает только доступный ответ, не пу
     expect((await db.query("select public.quiz_host_inputs('written') as inputs")).rows).toEqual([{inputs:{c:'Тайный ответ'}}]);
     await expect(db.query("select public.quiz_submit_input('written','a','\"Опоздал\"')")).rejects.toThrow();
     await db.exec('reset role');
+    const timedBoard:Game={...base,estimateTimer:true};
+    await db.query("update public.quiz_game set state=$1::jsonb where id='main'",[JSON.stringify(timedBoard)]);
+    const timed=transition({...timedBoard,categoryIds:[76]},{type:'open',id:'q76-100',roundId:'timed'},pack,1000);
+    await db.query("update public.quiz_game set state=$1::jsonb where id='main'",[JSON.stringify(timed)]);
+    const stamped=(await db.query<{state:Game}>('select state from public.quiz_game')).rows[0].state;
+    expect(stamped.inputRound!.deadline!).toBeGreaterThan(Date.now()+20000);
+    await expect(db.query("update public.quiz_game set state=jsonb_set(state,'{inputRound,closed}','true')")).rejects.toThrow('Таймер ещё идёт.');
+    await db.exec('set role anon');
+    await db.query("select public.quiz_submit_input('timed','a','50')");
+    await db.exec('reset role');
+    await db.query("update public.quiz_game set state=jsonb_set(state,'{inputRound,deadline}','0')");
+    await db.exec('set role anon');
+    await db.query("select public.quiz_submit_input('timed','a','50')");
+    await expect(db.query("select public.quiz_submit_input('timed','b','90')")).rejects.toThrow('Время вышло.');
+    await db.exec('reset role');
+
     const hintGame={...state,inputRound:undefined,activeQuestionId:'q01-100',activeQuestionValue:100};
     await db.query("update public.quiz_game set state=$1::jsonb where id='main'",[JSON.stringify(hintGame)]);
     const window=(await db.query<{window_id:string}>("select window_id from public.quiz_buzzer")).rows[0].window_id;

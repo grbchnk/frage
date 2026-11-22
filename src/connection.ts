@@ -164,6 +164,7 @@ export async function submitInput(roundId:string,playerId:string,input:RoundInpu
       throw new Error('Приём этого ответа уже закрыт.');
     if(!validateInput(round,playerId,input))throw new Error('Проверьте введённый ответ.');
     if(round.submitted.includes(playerId))return current;
+    if(round.deadline!==undefined&&Date.now()>=round.deadline)throw new Error('Время вышло.');
     const inputs=demoInputs();
     inputs[round.id]={...inputs[round.id],[playerId]:input};
     localStorage.setItem(inputsKey,JSON.stringify(inputs));

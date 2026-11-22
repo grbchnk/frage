@@ -1,5 +1,6 @@
 import type {Answer, Category, Game, InputRound, InputStage, Question, QuestionType, RoundInput, RoundResult} from './types';
 
+export const ESTIMATE_SECONDS=25;
 export const questionTypes:Record<QuestionType,string>={
   buzzer:'Кто первый?',estimate:'Кто ближе?',turns:'Варианты по очереди',choice:'Варианты для всех',order:'Расставь по порядку',
 };

@@ -137,7 +137,7 @@ export function ParticipantScreen({state,pack,roster,buzzer,online,onUpdate,onAc
             <button key={topic.id} className="secondary" disabled={!online||pending} onClick={()=>void chooseTopic(topic.id)}>{topic.title}</button>)}</div>:
             <p>Выбирает {state.players.find(player=>player.id===state.final?.chooser)?.name}</p>}
         </section>:result&&(state.phase==='answer'||state.final?.stage==='result')?
-        <section className="player-input"><h2>{formatDelta(result.delta)}</h2><p>{state.revealed?.answer}</p></section>:
+        <section className="player-input"><h2>{formatDelta(result.delta)}</h2>{result.timedOut&&<p>Время вышло</p>}<p>{state.revealed?.answer}</p></section>:
         <div className="buzzer-stage">
         <button className={`buzzer-button ${mode} ${depressed?'pressed':''}`} disabled={mode!=='ready'||pending}
           onPointerDown={e=>{if(e.button===0){e.preventDefault();void press();}}}

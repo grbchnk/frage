@@ -67,3 +67,25 @@
 .hint-button { display:block; margin:8px auto 0; }
 .hint-button:disabled { opacity:.55; }
 .display .shared-results { max-height:24vh; overflow:auto; }
+
+.estimate-clock {
+  width:min(100%,22rem);
+  margin:8px auto;
+  padding:5px 14px 9px;
+  border:1px solid #9b75e4;
+  border-radius:12px;
+  background:#231843;
+  color:#e1cdff;
+  box-shadow:0 4px 18px #11092570;
+}
+.estimate-clock-time { display:flex; align-items:baseline; justify-content:center; gap:6px; }
+.estimate-clock-time strong { font-size:clamp(26px,5vh,58px); line-height:1; font-variant-numeric:tabular-nums; }
+.estimate-clock-time span { font-size:.85rem; }
+.estimate-clock progress { display:block; appearance:none; width:100%; height:5px; margin-top:5px; border:0; border-radius:5px; background:#453360; overflow:hidden; }
+.estimate-clock progress::-webkit-progress-bar { background:#453360; }
+.estimate-clock progress::-webkit-progress-value { background:linear-gradient(90deg,#a473ef,#ebbcff); border-radius:5px; }
+.estimate-clock progress::-moz-progress-bar { background:linear-gradient(90deg,#a473ef,#ebbcff); border-radius:5px; }
+.estimate-clock.urgent { border-color:#f48f89; color:#ffd5c2; }
+.estimate-clock.urgent progress::-webkit-progress-value { background:#ff9b83; }
+.estimate-clock.urgent progress::-moz-progress-bar { background:#ff9b83; }
+.player-input .estimate-clock-time strong { font-size:32px; }

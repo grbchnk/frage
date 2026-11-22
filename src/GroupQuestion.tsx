@@ -1,3 +1,4 @@
+import {CountdownFace,useRemaining} from './EstimateClock';
 import {useEffect,useState} from 'react';
 import {readInputs,submitInput} from './connection';
 import {formatDelta} from './engine';
@@ -34,7 +35,7 @@ export function RoundResults({results,players}:{results:RoundResult[];players:Ga
       const result=results.find(item=>item.playerId===player.id);
       if(!result)return null;
       return <li key={player.id}>
-        <strong>{player.name}</strong><span>{result.input??'Без ответа'}</span>
+        <strong>{player.name}</strong><span>{result.input??(result.timedOut?'Не успел ответить':'Без ответа')}</span>
         {result.wager!==undefined&&<span>Ставка {result.wager}</span>}
         <b className={result.delta>0?'positive':result.delta<0?'negative':''}>{formatDelta(result.delta)}</b>
       </li>;
@@ -52,7 +53,9 @@ export function PlayerInput({round,playerId,prompt,unit,online,onAccept}:{
   const [error,setError]=useState('');
   const done=recorded||round.submitted.includes(playerId);
   const waiting=round.stage==='turns'&&round.queue?.[round.turn??0]!==playerId;
-  const disabled=pending||!online;
+  const remaining=useRemaining(round.deadline,round.closed);
+  const expired=remaining===0;
+  const disabled=pending||!online||expired;
   const numeric=round.stage==='estimate'||round.stage==='wager';
   const number=raw.trim()===''?NaN:Number(raw.trim().replace(',','.'));
   const max=round.limits?.[playerId]??0;
@@ -72,7 +75,8 @@ export function PlayerInput({round,playerId,prompt,unit,online,onAccept}:{
   return <section className="player-input">
     <span className="eyebrow">{stageLabel(round.stage)}</span>
     {prompt&&<h2>{prompt}</h2>}
-    {done?<p role="status">Ответ принят</p>:round.closed?<p role="status">Приём ответов завершён</p>:waiting?<p role="status">Ждите своей очереди</p>:
+    {remaining!==undefined&&!round.closed&&<CountdownFace remaining={remaining}/>}
+    {done?<p role="status">Ответ принят</p>:(round.closed||expired)?<p role="status">{expired?'Время вышло':'Приём ответов завершён'}</p>:waiting?<p role="status">Ждите своей очереди</p>:
       round.stage==='choice'||round.stage==='turns'?<div className="player-options">
         {round.options?.map(option=><button key={option.id} className="secondary" disabled={disabled||round.eliminated?.includes(option.id)} onClick={()=>void send(option.id)}>{option.label}</button>)}
       </div>:<form onSubmit={event=>{event.preventDefault();void send(input);}}>
@@ -101,7 +105,7 @@ export function GroupControls({round,players,busy,onReveal,displayOnly=false,act
   if(displayOnly)return <SharedProgress round={round} players={players}/>;
   return <section className="host-answer group-controls">
     <SharedProgress round={round} players={players}/>
-    {round.stage==='turns'?<p>После выбора ход проверяется автоматически.</p>:
+    {round.deadline!==undefined&&!round.closed?<p>Результаты откроются, когда все ответят или время выйдет.</p>:round.stage==='turns'?<p>После выбора ход проверяется автоматически.</p>:
       <><button className="primary" disabled={busy} onClick={()=>complete||confirm?onReveal():setConfirm(true)}>
         {confirm&&!complete?(round.stage==='wager'?'Открыть вопрос без остальных ставок':'Подтвердить завершение без остальных'):actionLabel}
       </button>

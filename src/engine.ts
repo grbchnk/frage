@@ -1,5 +1,5 @@
 import type { Answer, Game, Pack, Question, RoundInput, RoundResult } from './types';
-import {newInputRound,openInputRound,prices,publishedAnswer,scoreGroup,validateInput} from './rounds';
+import {ESTIMATE_SECONDS,allSubmitted,newInputRound,openInputRound,prices,publishedAnswer,scoreGroup,validateInput} from './rounds';
 export const initialGame = (): Game => ({phase:'lobby', players:[], turnIndex:0, roundIndex:0, completed:[], activeQuestionId:null, revealed:null, winnerId:null, event:0, questionsPerCategory:5, categoryIds:[], questionOpenedAt:null,activeQuestionValue:null,scoreChanges:{},feedback:null});
 export function findQuestion(pack:Pack,id:string|null):Question|undefined{
   if(id===null)return undefined;
@@ -43,7 +43,7 @@ export function available(pack: Pack, state: Game, id: string) {
   return !!cat && !state.completed.includes(id) && cat.questions.filter(q=>state.completed.includes(q.id)).length<state.questionsPerCategory;
 }
 export const BOARD_PAGE_SIZE=10;
-export type Action = {type:'boardPage';page:number}|{type:'start'; names:string[]; limit:number; participants?:{id:string;name:string}[]; categoryIds?:number[]; selectedQuestions?:string[]; final?:boolean}|{type:'open'; id:string; answer?:Answer; roundId?:string}|{type:'award';playerId:string}|{type:'correct';playerId:string;answer:Answer}|{type:'reveal';answer:Answer}|{type:'adjustScore';playerId:string;delta:number}|{type:'wrong';playerId:string}|{type:'continue'}|{type:'cancel'}|{type:'endRound'}|{type:'reset'}
+export type Action = {type:'boardPage';page:number}|{type:'start'; names:string[]; limit:number; participants?:{id:string;name:string}[]; categoryIds?:number[]; selectedQuestions?:string[]; final?:boolean; estimateTimer?:boolean}|{type:'open'; id:string; answer?:Answer; roundId?:string}|{type:'award';playerId:string}|{type:'correct';playerId:string;answer:Answer}|{type:'reveal';answer:Answer}|{type:'adjustScore';playerId:string;delta:number}|{type:'wrong';playerId:string}|{type:'continue'}|{type:'cancel'}|{type:'endRound'}|{type:'reset'}
   |{type:'closeInputs'; roundId:string}
   |{type:'scoreRound'; inputs:Record<string,RoundInput>; answer:Answer}
   |{type:'chooseFinal'; playerId:string; categoryId:string; roundId:string}
@@ -80,6 +80,7 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
       const ids=action.categoryIds||chooseCategories(pack);
       if(!ids.length||new Set(ids).size!==ids.length||ids.some(id=>!pack.categories.some(c=>c.id===id)))return fail();
       next.categoryIds=ids;
+      next.estimateTimer=action.estimateTimer??true;
       if(action.selectedQuestions){
         next.selectedQuestions=action.selectedQuestions;
         if(new Set(next.selectedQuestions).size!==ids.length*prices.length||
@@ -97,7 +98,9 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
       if(!available(pack,state,action.id)) return fail();
       const q=roundCategories(pack,state).flatMap(category=>category.questions).find(question=>question.id===action.id)!;
       next.phase='question';next.activeQuestionId=q.id;next.activeQuestionValue=q.value;next.questionOpenedAt=now;next.revealed=null;next.winnerId=null;next.scoreChanges={};next.feedback=null;next.hint=undefined;next.results=undefined;
-      next.inputRound=openInputRound(q,action.answer,state,action.roundId??`${q.id}-${state.event+1}`);break;
+      next.inputRound=openInputRound(q,action.answer,state,action.roundId??`${q.id}-${state.event+1}`);
+      if(next.inputRound?.stage==='estimate'&&state.estimateTimer)next.inputRound.deadline=now+ESTIMATE_SECONDS*1000;
+      break;
     }
     case 'wrong': {
       if(state.phase!=='question'||state.winnerId!==null||state.inputRound)return fail();
@@ -155,6 +158,7 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
     case 'closeInputs':
       if(!next.inputRound||next.inputRound.id!==action.roundId||next.inputRound.stage==='turns'||
         next.inputRound.stage==='wager'||!['question','final'].includes(state.phase))return fail();
+      if(next.inputRound.deadline!==undefined&&now<next.inputRound.deadline&&!allSubmitted(next.inputRound,state.players))return fail();
       next.inputRound.closed=true;break;
     case 'scoreRound': {
       const round=state.inputRound;
@@ -176,6 +180,12 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
       }else{
         if(!round.closed)return fail();
         const results=scoreGroup(round,inputs,action.answer,q.value);
+        if(round.stage==='estimate'&&round.deadline!==undefined){
+          for(const player of state.players){
+            if(!round.submitted.includes(player.id))results.push({playerId:player.id,delta:-q.value/2,timedOut:true});
+            else if(!Object.hasOwn(inputs,player.id))return fail();
+          }
+        }
         applyResults(results);
         const winners=results.filter(result=>result.delta===q.value);
         if(winners.length===1)next.winnerId=winners[0].playerId;

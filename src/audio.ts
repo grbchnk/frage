@@ -6,6 +6,7 @@ export class QuizAudio {
   private step=0;
   private phase='lobby';
   private noiseBuffer:AudioBuffer|null=null;
+  private lastCountdown:string|null=null;
   async enable(){
     const Audio=window.AudioContext||(window as unknown as {webkitAudioContext?:typeof AudioContext}).webkitAudioContext;
     if(!Audio)throw new Error('Звук не поддерживается этим браузером.');
@@ -59,6 +60,16 @@ export class QuizAudio {
       if(i%8===6)this.note(root*8,0,.65,.011);
     }
   },250);}
+  countdown(roundId:string,seconds:number){
+    const key=`${roundId}:${seconds}`;
+    if(this.lastCountdown===key)return;
+    this.lastCountdown=key;
+    if(seconds>0)this.note(seconds===1?784:659.25,0,.13,.13,'sine');
+    else{
+      this.note(523.25,0,.29,.14,'triangle');
+      this.note(349.23,.13,.46,.12,'triangle');
+    }
+  }
   effect(kind:string){
     const tune=kind==='wrong'?[293.66,220,146.83]:kind==='buzz'?[880,1174.66]:kind==='question'?[220,329.63,440]:kind==='answer'?[523.25,659.25,783.99,1046.5]:kind==='finished'?[392,523.25,659.25,783.99,659.25,1046.5]:kind==='break'?[440,329.63,261.63]:[];
     tune.forEach((f,i)=>this.note(f,i*.11,.6,.12,'triangle'));

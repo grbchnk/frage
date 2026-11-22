@@ -145,6 +145,18 @@ returns setof public.quiz_answers language sql stable security invoker set searc
   select * from quiz_private.host_answers()
 $$;
 
+-- Fetch one indexed answer for the host as a question opens.
+create or replace function quiz_private.selected_answer(requested_id text)
+returns setof public.quiz_answers language sql stable security definer set search_path='' as $$
+  select * from public.quiz_answers where question_id=requested_id
+$$;
+create or replace function public.quiz_selected_answer(requested_id text)
+returns setof public.quiz_answers language sql stable security invoker set search_path='' as $$
+  select * from quiz_private.selected_answer(requested_id)
+$$;
+revoke all on function quiz_private.selected_answer(text),public.quiz_selected_answer(text) from public;
+grant execute on function quiz_private.selected_answer(text),public.quiz_selected_answer(text) to anon,authenticated;
+
 -- Undo restores the prior game and buzzer together, with a fresh window token.
 create or replace function quiz_private.restore_game(expected_revision integer,desired_state jsonb,desired_buzzer jsonb)
 returns jsonb language plpgsql security definer set search_path='' as $$

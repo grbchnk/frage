@@ -1,18 +1,18 @@
 import {useEffect,useState} from 'react';
 import {formatDelta,rankPlayers} from './engine';
-import {questionType,questionTypes} from './rounds';
+import {questionFilter,questionTypes} from './rounds';
 import type {Category,Game} from './types';
 
 export const GAME_NAME='Кто первый?';
 
 export function VisualCategory({category}:{category:Category}){
   if(!category.questions.length)return null;
-  const type=questionType(category.questions[0]);
-  const uniform=category.questions.every(question=>questionType(question)===type);
+  const type=questionFilter(category.questions[0]);
+  const uniform=category.questions.every(question=>questionFilter(question)===type);
   const symbols={estimate:'≈',turns:'↻',choice:'☑',order:'⇅'};
   return <>
-    {uniform&&type!=='buzzer'&&<span className="category-type-icon" role="img" title={questionTypes[type]} aria-label={questionTypes[type]}>{symbols[type]}</span>}
-    {category.questions.every(question=>question.media)&&<svg className="visual-category" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="Категория с картинками"><title>Категория с картинками</title><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="9" r="1.3"/><path d="m4 17 4-4 3 3 4.5-5L21 16"/></svg>}
+    {uniform&&type!=='buzzer'&&type!=='buzzerMedia'&&<span className="category-type-icon" role="img" title={questionTypes[type]} aria-label={questionTypes[type]}>{symbols[type]}</span>}
+    {uniform&&type==='buzzerMedia'&&<svg className="visual-category" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label="Категория с картинками"><title>Категория с картинками</title><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="9" r="1.3"/><path d="m4 17 4-4 3 3 4.5-5L21 16"/></svg>}
   </>;
 }
 

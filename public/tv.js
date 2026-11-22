@@ -266,21 +266,22 @@
     var found = question(state.activeQuestionId);
     if (!found) { text(content, 'Вопрос не найден. Обновите страницу.'); return; }
     var q = found.question;
-    if (!questionView || questionView.id !== q.id) {
+    var value = state.activeQuestionValue == null ? q.value : state.activeQuestionValue;
+    if (!questionView || questionView.id !== q.id || questionView.value !== value) {
       text(content, '');
-      var section = el('div', 'tv-question tv-price-' + q.value, null, content);
+      var section = el('div', 'tv-question tv-price-' + value, null, content);
       var categoryNumber = roundIds.indexOf(found.category.id) + 1;
       var questionLabel = el('div', 'tv-question-label tv-category-' + ((categoryNumber - 1) % 5 + 1), null, section);
       if (categoryNumber > 0) el('span', 'tv-category-number', categoryNumber, questionLabel);
       el('strong', '', found.category.title, questionLabel);
-      el('span', 'tv-question-value', q.value, questionLabel);
+      el('span', 'tv-question-value', value, questionLabel);
       var prompt = el('h1', '', q.prompt, section);
       var answer = el('div', 'tv-question-answer', null, section);
       var media = q.media ? mediaView(q.media, section) : null;
       var response = el('p', 'tv-respondent', '', section);
       response.id = 'tv-respondent';
       var details = el('div', 'tv-shared-details', null, section);
-      questionView = { id: q.id, prompt: prompt, answer: answer, media: media, response: response, details: details };
+      questionView = { id: q.id, value: value, prompt: prompt, answer: answer, media: media, response: response, details: details };
       window.scrollTo(0, 0);
     }
     var view = questionView;
@@ -294,7 +295,7 @@
       el('h2', '', state.revealed.answer, view.answer);
       el('p', '', state.revealed.explanation, view.answer);
       var award = 'В этот раз без баллов';
-      for (var i = 0; i < state.players.length; i++) if (state.players[i].id === state.winnerId) award = '+' + q.value + ' · ' + state.players[i].name;
+      for (var i = 0; i < state.players.length; i++) if (state.players[i].id === state.winnerId) award = '+' + value + ' · ' + state.players[i].name;
       if (state.results) showResults(state, view.details);
       else el('p', 'tv-award', award, view.answer);
     } else if (state.inputRound) {
@@ -382,9 +383,18 @@
       for (i = 0; i < ids.length; i++) {
         var cat = category(ids[i]);
         if (!cat) continue;
-        var questions = state.selectedQuestions ? cat.questions.filter(function (q) {
-          return contains(state.selectedQuestions, q.id);
-        }).sort(function (a,b) { return a.value-b.value; }) : cat.questions;
+        var questions = [];
+        for (var slot = 0; slot < 5; slot++) {
+          var selectedId = state.selectedQuestions && state.selectedQuestions[(page * 10 + i) * 5 + slot];
+          var price = (slot + 1) * 100;
+          for (var candidate = 0; candidate < cat.questions.length; candidate++) {
+            var item = cat.questions[candidate];
+            if (state.selectedQuestions ? item.id === selectedId : item.value === price) {
+              questions.push({id:item.id,value:price});
+              break;
+            }
+          }
+        }
         var used = 0;
         var k;
         for (k = 0; k < questions.length; k++) if (contains(state.completed, questions[k].id)) used++;
@@ -393,9 +403,9 @@
         var title = el('th', 'tv-category-' + ((number - 1) % 5 + 1), null, row);
         el('span', 'tv-category-number', number, title);
         el('strong', '', cat.title, title);
-        if (questions.length && questions.every(function (item) { return !!item.media; })) photoIcon(title);
-        var kind = questions[0] && questions[0].type;
-        if (formatIcons[kind] && questions.every(function (item) { return item.type === kind; })) {
+        if (cat.questions.length && cat.questions.every(function (item) { return !item.type || item.type === 'buzzer'; }) && cat.questions.every(function (item) { return !!item.media; })) photoIcon(title);
+        var kind = cat.questions[0] && cat.questions[0].type;
+        if (formatIcons[kind] && cat.questions.every(function (item) { return item.type === kind; })) {
           var icon = el('span', 'tv-format-icon', formatIcons[kind], title);
           icon.title = formatLabels[kind];
         }

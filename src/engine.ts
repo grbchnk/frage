@@ -1,8 +1,37 @@
 import type { Answer, Game, Pack, Question, RoundInput, RoundResult } from './types';
 import {newInputRound,openInputRound,prices,publishedAnswer,scoreGroup,validateInput} from './rounds';
 export const initialGame = (): Game => ({phase:'lobby', players:[], turnIndex:0, roundIndex:0, completed:[], activeQuestionId:null, revealed:null, winnerId:null, event:0, questionsPerCategory:5, categoryIds:[], questionOpenedAt:null,activeQuestionValue:null,scoreChanges:{},feedback:null});
-export const findQuestion = (pack: Pack, id: string | null): Question | undefined => pack.categories.flatMap(c=>c.questions).find(q=>q.id===id);
-export const roundCategories = (pack: Pack, state: Game) => (state.categoryIds?.length ? state.categoryIds : pack.rounds[state.roundIndex]?.category_ids || []).map(id=>pack.categories.find(c=>c.id===id)!).filter(Boolean).map(category=>state.selectedQuestions?{...category,questions:prices.map(price=>category.questions.find(q=>q.value===price&&state.selectedQuestions!.includes(q.id))).filter((q):q is Question=>!!q)}:category);
+export function findQuestion(pack:Pack,id:string|null):Question|undefined{
+  if(id===null)return undefined;
+  for(const category of pack.categories){
+    const question=category.questions.find(item=>item.id===id);
+    if(question)return question;
+  }
+}
+export function roundCategories(pack:Pack,state:Game){
+  const ids=state.categoryIds?.length?state.categoryIds:pack.rounds[state.roundIndex]?.category_ids??[];
+  const byId=new Map(pack.categories.map(category=>[category.id,category]));
+  return ids.flatMap((id,index)=>{
+    const category=byId.get(id);
+    if(!category)return [];
+    if(!state.selectedQuestions){
+      return [{...category,questions:prices.flatMap(value=>{
+        const question=category.questions.find(q=>q.value===value);
+        return question?[question]:[];
+      })}];
+    }
+    const byQuestion=new Map(category.questions.map(question=>[question.id,question]));
+    const selected=state.selectedQuestions.slice(index*prices.length,(index+1)*prices.length);
+    return [{...category,questions:selected.flatMap((questionId,slot)=>{
+      const question=byQuestion.get(questionId);
+      return question?[{...question,value:prices[slot]}]:[];
+    })}];
+  });
+}
+export function activeQuestion(pack:Pack,state:Game):Question|undefined{
+  const question=findQuestion(pack,state.activeQuestionId);
+  return question&&state.activeQuestionValue!=null?{...question,value:state.activeQuestionValue}:question;
+}
 export function chooseCategories(pack:Pack, random=Math.random, count=10):number[]{
   const ids=pack.categories.map(c=>c.id);
   for(let i=ids.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[ids[i],ids[j]]=[ids[j],ids[i]];}
@@ -66,13 +95,13 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
       break;
     case 'open': {
       if(!available(pack,state,action.id)) return fail();
-      const q=findQuestion(pack,action.id)!;
+      const q=roundCategories(pack,state).flatMap(category=>category.questions).find(question=>question.id===action.id)!;
       next.phase='question';next.activeQuestionId=q.id;next.activeQuestionValue=q.value;next.questionOpenedAt=now;next.revealed=null;next.winnerId=null;next.scoreChanges={};next.feedback=null;next.hint=undefined;next.results=undefined;
       next.inputRound=openInputRound(q,action.answer,state,action.roundId??`${q.id}-${state.event+1}`);break;
     }
     case 'wrong': {
       if(state.phase!=='question'||state.winnerId!==null||state.inputRound)return fail();
-      const q=findQuestion(pack,state.activeQuestionId),player=next.players.find(p=>p.id===action.playerId);
+      const q=activeQuestion(pack,state),player=next.players.find(p=>p.id===action.playerId);
       if(!q||!player)return fail();
       const penalty=state.hint?q.value:q.value/2;
       if(!Number.isSafeInteger(player.score-penalty))return fail();
@@ -83,7 +112,7 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
     }
     case 'award': {
       if(state.phase!=='question'||state.winnerId!==null||state.inputRound)return fail();
-      const q=findQuestion(pack,state.activeQuestionId),player=next.players.find(p=>p.id===action.playerId);
+      const q=activeQuestion(pack,state),player=next.players.find(p=>p.id===action.playerId);
       if(!q||!player||!Number.isSafeInteger(player.score+q.value))return fail();
       player.score+=q.value;next.winnerId=player.id;next.scoreChanges={...state.scoreChanges,[player.id]:(state.scoreChanges?.[player.id]??0)+q.value};break;
     }
@@ -129,7 +158,7 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
       next.inputRound.closed=true;break;
     case 'scoreRound': {
       const round=state.inputRound;
-      const q=findQuestion(pack,state.activeQuestionId);
+      const q=activeQuestion(pack,state);
       if(state.phase!=='question'||!round||!q||!action.answer.answer||next.inputRound===undefined)return fail();
       const inputs=Object.fromEntries(Object.entries(action.inputs).filter(([id,input])=>
         round.submitted.includes(id)&&state.players.some(player=>player.id===id)&&validateInput(round,id,input)));

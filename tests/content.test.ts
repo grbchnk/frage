@@ -2,13 +2,14 @@ import {readFileSync,existsSync} from 'node:fs';
 import {it,expect} from 'vitest';
 import type {Pack} from '../src/types';
 const pack:Pack=JSON.parse(readFileSync('public/content/questions.json','utf8'));
-it('банк содержит 79 тем, запасные вопросы и отдельный финал',()=>{
-  expect(pack.categories).toHaveLength(79);
-  expect(pack.rounds.map(r=>r.category_ids.length)).toEqual([79]);
-  expect(new Set(pack.rounds.flatMap(r=>r.category_ids)).size).toBe(79);
+it('банк содержит 76 тем, запасные вопросы и отдельный финал',()=>{
+  expect(pack.categories).toHaveLength(76);
+  expect(pack.rounds.map(r=>r.category_ids.length)).toEqual([76]);
+  expect(new Set(pack.rounds.flatMap(r=>r.category_ids)).size).toBe(76);
   const questions=pack.categories.flatMap(c=>c.questions);
   expect(questions).toHaveLength(396);expect(new Set(questions.map(q=>q.id)).size).toBe(396);
-  for(const c of pack.categories)expect([...new Set(c.questions.map(q=>q.value))].sort((a,b)=>a-b)).toEqual([100,200,300,400,500]);
+  expect(pack.categories.every(category=>category.questions.length>=5)).toBe(true);
+  expect(pack.categories.find(category=>category.id===5)?.questions).toHaveLength(20);
   expect(pack.finals).toHaveLength(2);
   expect(pack.finals?.flatMap(category=>category.questions)).toHaveLength(4);
 });

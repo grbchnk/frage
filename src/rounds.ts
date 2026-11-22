@@ -6,20 +6,22 @@ export const questionTypes:Record<QuestionType,string>={
 export const prices=[100,200,300,400,500];
 export const questionType=(question:Question):QuestionType=>question.type??'buzzer';
 
-export function filterCategories(categories:Category[],types:QuestionType[]){
-  return categories.map(category=>({...category,questions:category.questions.filter(q=>types.includes(questionType(q)))}));
+export type QuestionFilter = QuestionType | 'buzzerMedia';
+export const questionFilters:Record<QuestionFilter,string> = {...questionTypes,buzzerMedia:'Кто первый? · с картинкой'};
+export function questionFilter(question:Question):QuestionFilter{
+  const type=questionType(question);
+  return type==='buzzer'&&question.media?'buzzerMedia':type;
 }
-export function missingPrices(category:Category){
-  return prices.filter(price=>!category.questions.some(q=>q.value===price));
+export function filterCategories(categories:Category[],types:QuestionFilter[]){
+  return categories.map(category=>({...category,questions:category.questions.filter(q=>types.includes(questionFilter(q)))}));
 }
+export const hasEnoughQuestions=(category:Category)=>category.questions.length>=prices.length;
 export function drawQuestions(categories:Category[],ids:number[],random=Math.random){
+  const byId=new Map(categories.map(category=>[category.id,category]));
   return ids.flatMap(id=>{
-    const category=categories.find(item=>item.id===id);
-    if(!category||missingPrices(category).length)throw new Error('В выбранной категории не хватает вопросов.');
-    return prices.map(price=>{
-      const options=category.questions.filter(q=>q.value===price);
-      return options[Math.floor(random()*options.length)].id;
-    });
+    const category=byId.get(id);
+    if(!category||!hasEnoughQuestions(category))throw new Error('В выбранной категории не хватает вопросов.');
+    return shuffled(category.questions,random).slice(0,prices.length).sort((a,b)=>a.value-b.value).map(q=>q.id);
   });
 }
 

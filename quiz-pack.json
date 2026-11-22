@@ -509,8 +509,8 @@
     },
     {
       "id": 5,
-      "title": "Серии вместо сна",
-      "description": "Знакомые сериалы в пересказе нетрезвого управляющего домом. Формулировки авторские.",
+      "title": "Ещё одну серию",
+      "description": "Сериалы разных лет: культовые истории, старые хиты и премьеры.",
       "default_mode": "open",
       "questions": [
         {
@@ -603,6 +603,295 @@
           "explanation": "Это авторский шуточный пересказ рамочной истории сериала.",
           "source_ids": [
             "himym"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q55-100",
+          "value": 100,
+          "prompt": "Леди Уистлдаун анонимно разносит сплетни, а лондонское высшее общество ищет пару. Какой сериал?",
+          "answer": "Бриджертоны",
+          "explanation": "История семьи Бриджертонов и брачного сезона.",
+          "accepted_answers": [
+            "Бриджертоны",
+            "Bridgerton"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q55-200",
+          "value": 200,
+          "prompt": "Монтерей, мамы первоклассников, тайны и расследование смерти на школьном вечере. Какой сериал?",
+          "answer": "Большая маленькая ложь",
+          "explanation": "Сериал по роману Лианы Мориарти.",
+          "accepted_answers": [
+            "Большая маленькая ложь",
+            "Big Little Lies"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q55-300",
+          "value": 300,
+          "prompt": "Три женщины, один дом и семейные проблемы в 1963, 1984 и 2019 годах. Как называется первый сезон этого сериала?",
+          "answer": "Почему женщины убивают",
+          "explanation": "В первом сезоне показаны три эпохи жизни одного особняка.",
+          "accepted_answers": [
+            "Почему женщины убивают",
+            "Why Women Kill"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q55-400",
+          "value": 400,
+          "prompt": "Анонимный блог следит за Сереной ван дер Вудсен и Блэр Уолдорф. Что за сериал?",
+          "answer": "Сплетница",
+          "explanation": "Речь об оригинальном сериале о подростках Верхнего Ист-Сайда.",
+          "accepted_answers": [
+            "Сплетница",
+            "Gossip Girl"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q55-500",
+          "value": 500,
+          "prompt": "Алисия Флоррик возвращается к работе адвокатом после скандала вокруг мужа-политика. Какой сериал?",
+          "answer": "Хорошая жена",
+          "explanation": "Главную роль исполнила Джулианна Маргулис.",
+          "accepted_answers": [
+            "Хорошая жена",
+            "The Good Wife"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q72-100",
+          "value": 100,
+          "prompt": "Самолёт Oceanic 815 терпит крушение на загадочном острове. Какой сериал стартовал в 2004 году?",
+          "answer": "Остаться в живых",
+          "explanation": "Оригинальное название — Lost.",
+          "accepted_answers": [
+            "Остаться в живых",
+            "Lost",
+            "Лост"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q72-200",
+          "value": 200,
+          "prompt": "Майкл Скофилд попадает в тюрьму, чтобы спасти брата. Как называется сериал 2005 года?",
+          "answer": "Побег",
+          "explanation": "Оригинальное название — Prison Break.",
+          "accepted_answers": [
+            "Побег",
+            "Prison Break"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q72-300",
+          "value": 300,
+          "prompt": "Как зовут врача с тростью, который не любит пациентов, но любит сложные диагнозы? Назовите сериал.",
+          "answer": "Доктор Хаус",
+          "explanation": "Грегори Хауса сыграл Хью Лори.",
+          "accepted_answers": [
+            "Доктор Хаус",
+            "Хаус",
+            "House"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q72-400",
+          "value": 400,
+          "prompt": "В каком сериале 2006 года слоган призывал спасти чирлидершу, чтобы спасти мир?",
+          "answer": "Герои",
+          "explanation": "Оригинальный слоган — Save the cheerleader, save the world.",
+          "accepted_answers": [
+            "Герои",
+            "Heroes"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q72-500",
+          "value": 500,
+          "prompt": "Джей Ди, Тёрк и доктор Кокс работают в больнице Sacred Heart. Что это за сериал?",
+          "answer": "Клиника",
+          "explanation": "Премьера Scrubs состоялась в 2001 году.",
+          "accepted_answers": [
+            "Клиника",
+            "Scrubs"
+          ],
+          "source_ids": [
+            "more-reference"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q73-100",
+          "value": 100,
+          "prompt": "Девочка из семьи Аддамс поступает в академию «Невермор». Назовите сериал.",
+          "answer": "Уэнсдей",
+          "explanation": "Главную роль играет Дженна Ортега.",
+          "accepted_answers": [
+            "Уэнсдей",
+            "Wednesday"
+          ],
+          "source_ids": [
+            "more-wednesday"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q73-200",
+          "value": 200,
+          "prompt": "Люди в долгах играют в смертельно опасные версии детских игр. Среди символов — круг, треугольник и квадрат. Какой сериал?",
+          "answer": "Игра в кальмара",
+          "explanation": "Корейский сериал Netflix.",
+          "accepted_answers": [
+            "Игра в кальмара",
+            "Squid Game"
+          ],
+          "source_ids": [
+            "more-squid"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q73-300",
+          "value": 300,
+          "prompt": "Работникам Lumon разделяют воспоминания о работе и о внешней жизни. Как называется сериал?",
+          "answer": "Разделение",
+          "explanation": "В оригинале — Severance.",
+          "accepted_answers": [
+            "Разделение",
+            "Severance"
+          ],
+          "source_ids": [
+            "more-severance"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q73-400",
+          "value": 400,
+          "prompt": "Какой медицинский сериал с Ноа Уайли показывает одну 15-часовую смену в отделении неотложной помощи Питтсбурга?",
+          "answer": "Больница Питт",
+          "explanation": "Оригинальное название — The Pitt; каждый эпизод соответствует примерно часу смены.",
+          "accepted_answers": [
+            "Больница Питт",
+            "The Pitt",
+            "Питт"
+          ],
+          "source_ids": [
+            "more-pitt"
+          ],
+          "time_seconds": 30,
+          "host_note": "",
+          "editorial_status": "ready_for_host_review",
+          "options": [],
+          "media": null
+        },
+        {
+          "id": "q73-500",
+          "value": 500,
+          "prompt": "В каком сериале Винса Гиллигана с Рэй Сихорн самой несчастной женщине на Земле приходится спасать мир от счастья?",
+          "answer": "Одна из многих",
+          "explanation": "Оригинальное название — Pluribus.",
+          "accepted_answers": [
+            "Одна из многих",
+            "Pluribus",
+            "Плюрибус"
+          ],
+          "source_ids": [
+            "more-pluribus"
           ],
           "time_seconds": 30,
           "host_note": "",
@@ -6482,109 +6771,6 @@
       ]
     },
     {
-      "id": 55,
-      "title": "Она смотрела, ты переживал",
-      "description": "Узнаём сериалы по сюжету, а не по стереотипам.",
-      "questions": [
-        {
-          "id": "q55-100",
-          "value": 100,
-          "prompt": "Леди Уистлдаун анонимно разносит сплетни, а лондонское высшее общество ищет пару. Какой сериал?",
-          "answer": "Бриджертоны",
-          "explanation": "История семьи Бриджертонов и брачного сезона.",
-          "accepted_answers": [
-            "Бриджертоны",
-            "Bridgerton"
-          ],
-          "source_ids": [
-            "more-reference"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        },
-        {
-          "id": "q55-200",
-          "value": 200,
-          "prompt": "Монтерей, мамы первоклассников, тайны и расследование смерти на школьном вечере. Какой сериал?",
-          "answer": "Большая маленькая ложь",
-          "explanation": "Сериал по роману Лианы Мориарти.",
-          "accepted_answers": [
-            "Большая маленькая ложь",
-            "Big Little Lies"
-          ],
-          "source_ids": [
-            "more-reference"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        },
-        {
-          "id": "q55-300",
-          "value": 300,
-          "prompt": "Три женщины, один дом и семейные проблемы в 1963, 1984 и 2019 годах. Как называется первый сезон этого сериала?",
-          "answer": "Почему женщины убивают",
-          "explanation": "В первом сезоне показаны три эпохи жизни одного особняка.",
-          "accepted_answers": [
-            "Почему женщины убивают",
-            "Why Women Kill"
-          ],
-          "source_ids": [
-            "more-reference"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        },
-        {
-          "id": "q55-400",
-          "value": 400,
-          "prompt": "Анонимный блог следит за Сереной ван дер Вудсен и Блэр Уолдорф. Что за сериал?",
-          "answer": "Сплетница",
-          "explanation": "Речь об оригинальном сериале о подростках Верхнего Ист-Сайда.",
-          "accepted_answers": [
-            "Сплетница",
-            "Gossip Girl"
-          ],
-          "source_ids": [
-            "more-reference"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        },
-        {
-          "id": "q55-500",
-          "value": 500,
-          "prompt": "Алисия Флоррик возвращается к работе адвокатом после скандала вокруг мужа-политика. Какой сериал?",
-          "answer": "Хорошая жена",
-          "explanation": "Главную роль исполнила Джулианна Маргулис.",
-          "accepted_answers": [
-            "Хорошая жена",
-            "The Good Wife"
-          ],
-          "source_ids": [
-            "more-reference"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        }
-      ],
-      "default_mode": "open"
-    },
-    {
       "id": 56,
       "title": "За этого я не голосовал",
       "description": "История президентов без угадывания сегодняшних должностей.",
@@ -8340,216 +8526,6 @@
           ],
           "source_ids": [
             "more-reference"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        }
-      ],
-      "default_mode": "open"
-    },
-    {
-      "id": 72,
-      "title": "Сериалы, когда интернет был по карточке",
-      "description": "Премьеры 2000-х, которые обсуждали задолго до TikTok.",
-      "questions": [
-        {
-          "id": "q72-100",
-          "value": 100,
-          "prompt": "Самолёт Oceanic 815 терпит крушение на загадочном острове. Какой сериал стартовал в 2004 году?",
-          "answer": "Остаться в живых",
-          "explanation": "Оригинальное название — Lost.",
-          "accepted_answers": [
-            "Остаться в живых",
-            "Lost",
-            "Лост"
-          ],
-          "source_ids": [
-            "more-reference"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        },
-        {
-          "id": "q72-200",
-          "value": 200,
-          "prompt": "Майкл Скофилд попадает в тюрьму, чтобы спасти брата. Как называется сериал 2005 года?",
-          "answer": "Побег",
-          "explanation": "Оригинальное название — Prison Break.",
-          "accepted_answers": [
-            "Побег",
-            "Prison Break"
-          ],
-          "source_ids": [
-            "more-reference"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        },
-        {
-          "id": "q72-300",
-          "value": 300,
-          "prompt": "Как зовут врача с тростью, который не любит пациентов, но любит сложные диагнозы? Назовите сериал.",
-          "answer": "Доктор Хаус",
-          "explanation": "Грегори Хауса сыграл Хью Лори.",
-          "accepted_answers": [
-            "Доктор Хаус",
-            "Хаус",
-            "House"
-          ],
-          "source_ids": [
-            "more-reference"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        },
-        {
-          "id": "q72-400",
-          "value": 400,
-          "prompt": "В каком сериале 2006 года слоган призывал спасти чирлидершу, чтобы спасти мир?",
-          "answer": "Герои",
-          "explanation": "Оригинальный слоган — Save the cheerleader, save the world.",
-          "accepted_answers": [
-            "Герои",
-            "Heroes"
-          ],
-          "source_ids": [
-            "more-reference"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        },
-        {
-          "id": "q72-500",
-          "value": 500,
-          "prompt": "Джей Ди, Тёрк и доктор Кокс работают в больнице Sacred Heart. Что это за сериал?",
-          "answer": "Клиника",
-          "explanation": "Премьера Scrubs состоялась в 2001 году.",
-          "accepted_answers": [
-            "Клиника",
-            "Scrubs"
-          ],
-          "source_ids": [
-            "more-reference"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        }
-      ],
-      "default_mode": "open"
-    },
-    {
-      "id": 73,
-      "title": "Новые сериалы, старый недосып",
-      "description": "Узнаваемые сериалы 2020-х по завязке, без спойлеров.",
-      "questions": [
-        {
-          "id": "q73-100",
-          "value": 100,
-          "prompt": "Девочка из семьи Аддамс поступает в академию «Невермор». Назовите сериал.",
-          "answer": "Уэнсдей",
-          "explanation": "Главную роль играет Дженна Ортега.",
-          "accepted_answers": [
-            "Уэнсдей",
-            "Wednesday"
-          ],
-          "source_ids": [
-            "more-wednesday"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        },
-        {
-          "id": "q73-200",
-          "value": 200,
-          "prompt": "Люди в долгах играют в смертельно опасные версии детских игр. Среди символов — круг, треугольник и квадрат. Какой сериал?",
-          "answer": "Игра в кальмара",
-          "explanation": "Корейский сериал Netflix.",
-          "accepted_answers": [
-            "Игра в кальмара",
-            "Squid Game"
-          ],
-          "source_ids": [
-            "more-squid"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        },
-        {
-          "id": "q73-300",
-          "value": 300,
-          "prompt": "Работникам Lumon разделяют воспоминания о работе и о внешней жизни. Как называется сериал?",
-          "answer": "Разделение",
-          "explanation": "В оригинале — Severance.",
-          "accepted_answers": [
-            "Разделение",
-            "Severance"
-          ],
-          "source_ids": [
-            "more-severance"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        },
-        {
-          "id": "q73-400",
-          "value": 400,
-          "prompt": "Какой медицинский сериал с Ноа Уайли показывает одну 15-часовую смену в отделении неотложной помощи Питтсбурга?",
-          "answer": "Больница Питт",
-          "explanation": "Оригинальное название — The Pitt; каждый эпизод соответствует примерно часу смены.",
-          "accepted_answers": [
-            "Больница Питт",
-            "The Pitt",
-            "Питт"
-          ],
-          "source_ids": [
-            "more-pitt"
-          ],
-          "time_seconds": 30,
-          "host_note": "",
-          "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
-        },
-        {
-          "id": "q73-500",
-          "value": 500,
-          "prompt": "В каком сериале Винса Гиллигана с Рэй Сихорн самой несчастной женщине на Земле приходится спасать мир от счастья?",
-          "answer": "Одна из многих",
-          "explanation": "Оригинальное название — Pluribus.",
-          "accepted_answers": [
-            "Одна из многих",
-            "Pluribus",
-            "Плюрибус"
-          ],
-          "source_ids": [
-            "more-pluribus"
           ],
           "time_seconds": 30,
           "host_note": "",
@@ -10345,7 +10321,6 @@
         52,
         53,
         54,
-        55,
         56,
         57,
         58,
@@ -10362,8 +10337,6 @@
         69,
         70,
         71,
-        72,
-        73,
         74,
         75,
         76,

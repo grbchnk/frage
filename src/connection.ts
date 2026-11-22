@@ -41,32 +41,19 @@ export function subscribeGame(receive:(s:Snapshot)=>void,status:(s:string)=>void
   const sub=supabase.channel('svoya-main').on('postgres_changes',{event:'UPDATE',schema:'public',table:'quiz_game',filter:'id=eq.main'},payload=>receive(payload.new as Snapshot)).subscribe(s=>status(s==='SUBSCRIBED'?'В эфире':s==='CHANNEL_ERROR'||s==='TIMED_OUT'?'Переподключение…':'Соединяем…'));
   return ()=>{void supabase.removeChannel(sub);};
 }
-export async function loadAnswers(revision:string,count:number):Promise<Record<string,Answer>>{
-  if(demo){const response=await fetch(`${import.meta.env.BASE_URL}__demo_answers`);if(!response.ok)throw new Error('Демо работает через npm run dev.');return response.json();}
-  if(!supabase)throw new Error('Не настроено подключение. См. README → Supabase.');
-  const {data,error}=await supabase.rpc('quiz_host_answers');
-  if(error||data?.length!==count)throw new Error(`Не удалось загрузить ${count} ответов. Выполните свежий supabase/setup.sql.`);
-  // The binary food round can use the previous answer bank until its SQL seed is refreshed.
-  const rows = data as {question_id: string; data: Answer & {pack_revision?: string}}[];
-  const legacyRevision = '228f1fc4407b7755';
-  const canUseLegacyAnswers = revision === 'd8e1bb6b11ec9fa5';
-  if(rows.some(({data}) => data?.pack_revision !== revision &&
-    !(canUseLegacyAnswers && data?.pack_revision === legacyRevision))){
-    throw new Error('Вопросы обновлены. Выполните свежий supabase/setup.sql и перезагрузите пульт.');
+export async function loadAnswer(revision:string,id:string):Promise<Answer>{
+  if(demo){
+    const response=await fetch(`${import.meta.env.BASE_URL}__demo_answers?id=${encodeURIComponent(id)}`);
+    if(!response.ok)throw new Error('Не удалось загрузить ответ в деморежиме.');
+    return response.json();
   }
-  return Object.fromEntries(rows.map(({question_id, data}) => {
-    if(data.pack_revision !== legacyRevision || !canUseLegacyAnswers || !question_id.startsWith('q58-')){
-      return [question_id, data];
-    }
-    const [yesOrNo] = data.answer.split(', ', 1);
-    const answer = yesOrNo === 'Да' ? 'Съедобно' : 'Несъедобно';
-    return [question_id, {
-      answer,
-      accepted_answers: [answer, yesOrNo],
-      explanation: `${data.answer}. ${data.explanation}`,
-      host_note: 'Достаточно сказать, съедобно это или нет.',
-    }];
-  }));
+  if(!supabase)throw new Error('Не настроено подключение. См. README → Supabase.');
+  const {data,error}=await supabase.rpc('quiz_selected_answer',{requested_id:id}).maybeSingle();
+  const row=data as {data:Answer & {pack_revision?:string}}|null;
+  if(error||!row||row.data?.pack_revision!==revision){
+    throw new Error('Не удалось загрузить ответ этой версии. Выполните свежий supabase/setup.sql и перезагрузите пульт.');
+  }
+  return row.data;
 }
 
 const rosterKey='quiz-roster-v2', buzzerKey='quiz-buzzer-v2', inputsKey='quiz-inputs';
@@ -192,13 +179,12 @@ export async function readInputs(roundId:string):Promise<Record<string,RoundInpu
 }
 export async function showHint(playerId:string,windowId:string):Promise<Snapshot>{
   if(!demo)return rpc('quiz_use_hint',{player_id:playerId,expected_window:windowId});
-  const answers=await loadAnswers('',0);
   return navigator.locks.request(localKey,async()=>{
     const current=readDemo(),state=current.state,buzzer=await readBuzzer();
     if(state.phase!=='question'||state.inputRound||state.winnerId||buzzer.window_id!==windowId||buzzer.claimant!==playerId)
       throw new Error('Подсказка сейчас недоступна.');
     if(state.hint)return current;
-    const hint=state.activeQuestionId&&answers[state.activeQuestionId]?.hint;
+    const hint=state.activeQuestionId&&(await loadAnswer('',state.activeQuestionId)).hint;
     if(!hint)throw new Error('У этого вопроса нет подсказки.');
     return saveDemoState(current,{...state,hint});
   });

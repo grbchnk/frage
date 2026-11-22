@@ -105,12 +105,13 @@ it('TV без современных API показывает все этапы 
 it('совместимый телевизор показывает пять выбранных ячеек, прогресс и финал',()=>{
   const app=tv();
   const players=[{id:'a',name:'Аня',score:300},{id:'b',name:'Ваня',score:100}];
-  app.update({phase:'board',players,categoryIds:[76],selectedQuestions:['q76-100','q76-200','q76-300-6','q76-400','q76-500']});
+  app.update({phase:'board',players,categoryIds:[76],selectedQuestions:['q76-200','q76-300','q76-300-6','q76-400','q76-500']});
   const content=app.get('tv-content');
-  expect(content.all().filter(node=>node.tag==='td')).toHaveLength(5);
+  expect(content.all().filter(node=>node.tag==='td').map(node=>node.text)).toEqual(['100','200','300','400','500']);
   expect(content.all().find(node=>node.className==='tv-format-icon')?.text).toBe('≈');
-  app.update({phase:'question',activeQuestionId:'q76-300-6',inputRound:{id:'estimate',stage:'estimate',submitted:['a']}});
+  app.update({phase:'question',activeQuestionId:'q76-300-6',activeQuestionValue:100,inputRound:{id:'estimate',stage:'estimate',submitted:['a']}});
   expect(content.text).toContain('✓ Аня');
+  expect(content.all().find(node=>node.className==='tv-question-value')?.text).toBe('100');
   expect(content.text).toContain('Кто ближе?');
   app.update({phase:'final',inputRound:{id:'w',stage:'wager',submitted:['b']},final:{enabled:true,stage:'wager',categoryId:'cinema'}});
   expect(content.text).toContain('Финальный вопрос');

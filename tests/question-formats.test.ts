@@ -2,7 +2,7 @@ import {expect,it} from 'vitest';
 import {readFileSync} from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
 import {available,initialGame,roundCategories,transition} from '../src/engine';
-import {drawQuestions,filterCategories,missingPrices,openInputRound,scoreGroup} from '../src/rounds';
+import {drawQuestions,filterCategories,hasEnoughQuestions,openInputRound,scoreGroup} from '../src/rounds';
 import type {Answer,Game,Pack} from '../src/types';
 
 const pack:Pack=JSON.parse(readFileSync('public/content/questions.json','utf8'));
@@ -10,15 +10,29 @@ const players=[{id:'a',name:'Аня',score:140},{id:'b',name:'Ваня',score:50
 const answer:Answer={answer:'50',explanation:'',accepted_answers:[],host_note:'',target:50};
 const base:Game={...initialGame(),phase:'board',players,turnIndex:1};
 
-it('отбирает вопросы после фильтра, по одному на цену, включая запасной',()=>{
+it('выбирает пять вопросов после фильтра, назначает стоимость слота и сохраняет порядок',()=>{
   const filtered=filterCategories(pack.categories,['estimate']);
-  expect(filtered.filter(category=>!missingPrices(category).length).map(category=>category.id)).toEqual([43,76]);
-  const ids=drawQuestions(filtered,[76],()=>.99);
-  expect(ids[2]).toBe('q76-300-6');
+  expect(filtered.filter(hasEnoughQuestions).map(category=>category.id)).toEqual([43,76]);
+  const category=filtered.find(item=>item.id===76)!;
+  const pool={...category,questions:category.questions.filter(q=>q.value!==100)};
+  const ids=drawQuestions([pool],[76],()=>.99);
+  expect(ids).toHaveLength(5);
+  expect(new Set(ids).size).toBe(5);
+  expect(ids.map(id=>category.questions.find(q=>q.id===id)?.value)).toEqual([200,300,300,400,500]);
   const state=transition(initialGame(),{type:'start',names:['Аня','Ваня'],limit:5,categoryIds:[76],selectedQuestions:ids},pack);
-  expect(roundCategories(pack,state)[0].questions).toHaveLength(5);
-  expect(available(pack,state,'q76-300')).toBe(false);
-  expect(available(pack,state,ids[2])).toBe(true);
+  const board=roundCategories(pack,JSON.parse(JSON.stringify(state)))[0];
+  expect(board.questions.map(q=>q.id)).toEqual(ids);
+  expect(board.questions.map(q=>q.value)).toEqual([100,200,300,400,500]);
+  expect(available(pack,state,'q76-100')).toBe(false);
+  const opened=transition(state,{type:'open',id:ids[0],answer},pack);
+  expect(opened.activeQuestionValue).toBe(100);
+  const scored=transition({...opened,inputRound:{...opened.inputRound!,closed:true,submitted:['p1','p2']}},
+    {type:'scoreRound',inputs:{p1:50,p2:90},answer},pack);
+  expect(scored.scoreChanges).toEqual({p1:100,p2:-50});
+  const photo=filterCategories(pack.categories,['buzzerMedia']).flatMap(item=>item.questions);
+  expect(photo.length).toBeGreaterThan(0);
+  expect(photo.every(q=>q.media&&(!q.type||q.type==='buzzer'))).toBe(true);
+  expect(filterCategories(pack.categories,['buzzer']).flatMap(item=>item.questions).every(q=>!q.media)).toBe(true);
 });
 
 it('в очереди первым отвечает выбиравший, остальные по счёту, у последнего остаются два варианта',()=>{

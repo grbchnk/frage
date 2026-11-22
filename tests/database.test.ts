@@ -20,6 +20,10 @@ it('SQL запускается повторно; зритель, посторо�
     expect((await db.query('select * from public.quiz_game')).rows).toHaveLength(1);
     await expect(db.query('select * from public.quiz_answers')).rejects.toThrow();
     expect((await db.query('select * from public.quiz_host_answers()')).rows).toHaveLength(400);
+    const picked=await db.query<{question_id:string}>("select question_id from public.quiz_selected_answer('q05-100')");
+    expect(picked.rows).toEqual([{question_id:'q05-100'}]);
+    expect((await db.query("select * from public.quiz_selected_answer('unknown')")).rows).toEqual([]);
+
     await expect(db.query(`update public.quiz_game set revision=1`)).rejects.toThrow();
     await db.exec(`reset role;set role authenticated;set request.jwt.claim.sub='00000000-0000-0000-0000-000000000002';`);
     expect((await db.query('select * from public.quiz_answers')).rows).toHaveLength(0);

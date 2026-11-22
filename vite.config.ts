@@ -17,9 +17,13 @@ return { plugins: [react(), {
       const pack=JSON.parse(readFileSync('quiz-pack.json','utf8'));
       const ownAnswer=(q:any)=>[q.id,{answer:q.answer,explanation:q.explanation??'',accepted_answers:q.accepted_answers??[],host_note:q.host_note??'',
         hint:q.hint,correctOption:q.correctOption,target:q.target,correctOrder:q.correctOrder}];
-      const data=Object.fromEntries([...pack.categories.flatMap((c:any)=>c.questions.map(ownAnswer)),
-        ...(pack.finals??[]).flatMap((c:any)=>c.questions.map((q:any)=>[q.id,{...ownAnswer(q)[1] as object,finalPrompt:q.prompt}]))]);
-      res.setHeader('Content-Type','application/json');res.setHeader('Cache-Control','no-store');res.end(JSON.stringify(data));
+      const id=new URL(req.url,'http://localhost').searchParams.get('id');
+      const regular=pack.categories.flatMap((category:any)=>category.questions).find((q:any)=>q.id===id);
+      const final=regular?null:(pack.finals??[]).flatMap((category:any)=>category.questions).find((q:any)=>q.id===id);
+      const question=regular??final;
+      res.setHeader('Content-Type','application/json');res.setHeader('Cache-Control','no-store');
+      if(!question){res.statusCode=404;res.end('{}');return;}
+      res.end(JSON.stringify({...ownAnswer(question)[1] as object,...(final?{finalPrompt:final.prompt}:{})}));
     }else next();
   });}
 }], base: './', build:{rollupOptions:{input:{main:'index.html',tv:'tv.html'}}} };

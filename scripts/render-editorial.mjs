@@ -30,16 +30,34 @@ export async function renderEditorial(pack,credits){
           for(const [x,y,w,h] of m.question_masks_normalized||[])html.push(`<span class="mask" style="left:${x*100}%;top:${y*100}%;width:${w*100}%;height:${h*100}%">?</span>`);
           html.push('</div>');
         }
-        md.push(`**Ответ:** ${q.answer}`,'',`**Зачёт:** ${q.accepted_answers.join('; ')}`,'',q.explanation,'');
-        html.push(`<details><summary>Ответ и пояснение</summary><h3>${esc(q.answer)}</h3><p>${esc(q.explanation)}</p><p>Зачёт: ${esc(q.accepted_answers.join('; '))}</p>`);
+        md.push(`**Ответ:** ${q.answer}`,'',`**Зачёт:** ${(q.accepted_answers??[]).join('; ')}`.trimEnd(),'',q.explanation,'');
+        html.push(`<details><summary>Ответ и пояснение</summary><h3>${esc(q.answer)}</h3><p>${esc(q.explanation)}</p><p>Зачёт: ${esc((q.accepted_answers??[]).join('; '))}</p>`);
+        if(q.hint){md.push(`Подсказка: ${q.hint}`,'');html.push(`<p>Подсказка: ${esc(q.hint)}</p>`);}
+        if(q.options?.length){md.push(`Карточки / варианты: ${q.options.join(' · ')}`,'');html.push(`<p>Карточки / варианты: ${esc(q.options.join(' · '))}</p>`);}
+        if(q.source_url){
+          md.push(`[Источник](${q.source_url})`,'');
+          html.push(`<p><a href="${esc(q.source_url)}">Источник</a></p>`);
+        }
         if(q.host_note){md.push(`Ведущему: ${q.host_note}`,'');html.push(`<p>${esc(q.host_note)}</p>`);}
         if(m?.question_masks_normalized)html.push(`<div class="image"><img loading="lazy" src="${esc(m.path)}" alt="Полный кадр"></div>`);
-        for(const sid of q.source_ids){
+        for(const sid of q.source_ids??[]){
           const s=pack.sources[sid];if(!s)continue;
           md.push(s.url?`Источник: [${s.title}](${s.url})`:`Источник: ${s.title}`,'');
           html.push(s.url?`<p><a href="${esc(s.url)}" target="_blank" rel="noreferrer">${esc(s.title)}</a></p>`:`<p>${esc(s.title)}</p>`);
         }
         html.push('</details></article>');
+      }
+    }
+  }
+  if(pack.finals?.length){
+    md.push('## Финальные вопросы','');
+    html.push('<h2>Финальные вопросы</h2>');
+    for(const topic of pack.finals){
+      md.push(`### ${topic.title}`,'');
+      html.push(`<h3>${esc(topic.title)}</h3>`);
+      for(const q of topic.questions){
+        md.push(`#### ${q.id}`,'',q.prompt,'',`**Ответ:** ${q.answer}`,'',q.explanation,'');
+        html.push(`<article><h3>${esc(q.prompt)}</h3><details><summary>Ответ и пояснение</summary><h3>${esc(q.answer)}</h3><p>${esc(q.explanation)}</p></details></article>`);
       }
     }
   }

@@ -2,19 +2,22 @@ import {readFileSync,existsSync} from 'node:fs';
 import {it,expect} from 'vitest';
 import type {Pack} from '../src/types';
 const pack:Pack=JSON.parse(readFileSync('public/content/questions.json','utf8'));
-it('75 тем и 375 уникальных вопросов в одном банке',()=>{
-  expect(pack.categories).toHaveLength(75);
-  expect(pack.rounds.map(r=>r.category_ids.length)).toEqual([75]);
-  expect(new Set(pack.rounds.flatMap(r=>r.category_ids)).size).toBe(75);
+it('банк содержит 79 тем, запасные вопросы и отдельный финал',()=>{
+  expect(pack.categories).toHaveLength(79);
+  expect(pack.rounds.map(r=>r.category_ids.length)).toEqual([79]);
+  expect(new Set(pack.rounds.flatMap(r=>r.category_ids)).size).toBe(79);
   const questions=pack.categories.flatMap(c=>c.questions);
-  expect(questions).toHaveLength(375);expect(new Set(questions.map(q=>q.id)).size).toBe(375);
-  for(const c of pack.categories)expect(c.questions.map(q=>q.value)).toEqual([100,200,300,400,500]);
+  expect(questions).toHaveLength(396);expect(new Set(questions.map(q=>q.id)).size).toBe(396);
+  for(const c of pack.categories)expect([...new Set(c.questions.map(q=>q.value))].sort((a,b)=>a-b)).toEqual([100,200,300,400,500]);
+  expect(pack.finals).toHaveLength(2);
+  expect(pack.finals?.flatMap(category=>category.questions)).toHaveLength(4);
 });
 it('публичный пакет не содержит правильных ответов или заметок ведущего',()=>{
   for(const q of pack.categories.flatMap(c=>c.questions)){
     expect(q).not.toHaveProperty('answer');expect(q).not.toHaveProperty('explanation');expect(q).not.toHaveProperty('host_note');expect(q).not.toHaveProperty('accepted_answers');
-    expect(q).not.toHaveProperty('time_seconds');
+    for(const field of ['time_seconds','correctOption','correctOrder','target','hint'])expect(q).not.toHaveProperty(field);
   }
+  for(const q of pack.finals?.flatMap(category=>category.questions)??[])expect(Object.keys(q)).toEqual(['id']);
 });
 it('все фото существуют; плашки находятся в пределах изображения',()=>{
   let count=0;
@@ -32,7 +35,7 @@ it('новые рубрики, отсутствие вариантов и фот
   const original=JSON.parse(readFileSync('quiz-pack.json','utf8'));
   const qs=original.categories.flatMap((c:any)=>c.questions);
   expect(original.categories.find((c:any)=>c.id===3).title).toBe('Съедобное / несъедобное');
-  expect(qs.filter((q:any)=>q.options?.length)).toHaveLength(0);
+  expect(qs.filter((q:any)=>!q.type&&q.options?.length)).toHaveLength(0);
   expect(qs.filter((q:any)=>Number(q.id.slice(1,3))<=20&&!q.id.startsWith('q03-')&&q.prompt.includes(' или '))).toHaveLength(0);
   expect(qs.find((q:any)=>q.id==='q11-200').accepted_answers).toContain('Боровик');
   expect(qs.filter((q:any)=>q.media?.kind==='photo_rebus')).toHaveLength(7);

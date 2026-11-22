@@ -116,3 +116,9 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
   .tv-category-phase #tv-content { padding:4px 0; }
   .tv-category-phase .tv-board-dense { border-spacing:3px; }
 }
+.tv-shared { padding:0; margin:6px 0; list-style:none; text-align:center; }
+.tv-shared li { display:inline-block; margin:3px; padding:4px 8px; border:1px solid #9568c1; border-radius:6px; background:#261a45; }
+.tv-shared .tv-eliminated { color:#bcacc9; text-decoration:line-through; }
+.tv-shared .tv-submitted { color:#bdffd4; border-color:#7dd7a5; }
+.tv-progress { text-align:center; }
+.tv-format-icon { margin-left:8px; color:#ddbafd; }

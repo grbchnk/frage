@@ -15,7 +15,10 @@ return { plugins: [react(), {
   configureServer(server){ server.middlewares.use((req,res,next)=>{
     if(req.url?.split('?')[0].endsWith('/__demo_answers')){
       const pack=JSON.parse(readFileSync('quiz-pack.json','utf8'));
-      const data=Object.fromEntries(pack.categories.flatMap((c:any)=>c.questions.map((q:any)=>[q.id,{answer:q.answer,explanation:q.explanation,accepted_answers:q.accepted_answers,host_note:q.host_note}])));
+      const ownAnswer=(q:any)=>[q.id,{answer:q.answer,explanation:q.explanation??'',accepted_answers:q.accepted_answers??[],host_note:q.host_note??'',
+        hint:q.hint,correctOption:q.correctOption,target:q.target,correctOrder:q.correctOrder}];
+      const data=Object.fromEntries([...pack.categories.flatMap((c:any)=>c.questions.map(ownAnswer)),
+        ...(pack.finals??[]).flatMap((c:any)=>c.questions.map((q:any)=>[q.id,{...ownAnswer(q)[1] as object,finalPrompt:q.prompt}]))]);
       res.setHeader('Content-Type','application/json');res.setHeader('Cache-Control','no-store');res.end(JSON.stringify(data));
     }else next();
   });}

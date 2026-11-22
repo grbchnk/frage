@@ -1,14 +1,16 @@
 import React, {useCallback,useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {BOARD_PAGE_SIZE,available,chooseCategories,findQuestion,initialGame,rankPlayers,roundCategories,transition,type Action} from './engine';
-import {demo,loadAnswers,readGame,saveGame,subscribeGame,readParticipants,readBuzzer,subscribeParticipants,emptyBuzzer,rearm,restoreGame,resetGame} from './connection';
-import type {Answer,Game,Pack,Snapshot,Participant,Buzzer} from './types';
+import {demo,loadAnswers,readGame,saveGame,subscribeGame,readParticipants,readBuzzer,subscribeParticipants,emptyBuzzer,rearm,restoreGame,resetGame,readInputs} from './connection';
+import type {Answer,Game,Pack,Snapshot,Participant,Buzzer,QuestionType} from './types';
 import {QuizAudio} from './audio';
 import './style.css';
 import './board.css';
 import './theme.css';
 import {useScreenWakeLock} from './use-screen-wake-lock';
 import {JoinLink,LobbyRoster,ParticipantScreen} from './Participant';
+import {allSubmitted,drawQuestions,filterCategories,missingPrices,questionTypes} from './rounds';
+import {FinalReview,GroupControls,RoundResults,SharedOptions,SharedProgress,stageLabel} from './GroupQuestion';
 import {AnswerFlash,BoardCrown,Finale,GAME_NAME,ScoreDelta,VisualCategory,useAnswerFeedback} from './GameViews';
 
 const params=new URLSearchParams(location.search);
@@ -30,6 +32,11 @@ function App(){
   const [help,setHelp]=useState(false);const [credits,setCredits]=useState(false);
   const [audioOn,setAudioOn]=useState(false);const [volume,setVolume]=useState(.35);const audio=useRef<QuizAudio|null>(null);const lastEvent=useRef<number|null>(null);
   const state=snapshot.state;
+  const inputRound=state.inputRound;
+  const q=pack?findQuestion(pack,state.activeQuestionId):undefined;
+  const privateAnswer=q?answers[q.id]:undefined;
+  const finalAnswer=state.final?.questionId?answers[state.final.questionId]:undefined;
+  const processedTurn=useRef('');
   useScreenWakeLock(role==='display'&&state.phase!=='finished');
   useEffect(()=>{if(state.phase==='lobby'||!host)setScoresOpen(false);},[state.phase,host]);
   const [roster,setRoster]=useState<Participant[]>([]),[buzzer,setBuzzer]=useState<Buzzer>(emptyBuzzer),[buttonsOnline,setButtonsOnline]=useState(false);
@@ -67,7 +74,7 @@ function App(){
     if(!host||!pack){setAnswersReady(false);return;}
     let alive=true;
     setAnswersLoading(true);
-    void loadAnswers(pack.revision,pack.categories.reduce((n,c)=>n+c.questions.length,0))
+    void loadAnswers(pack.revision,pack.categories.reduce((n,c)=>n+c.questions.length,0)+(pack.finals??[]).reduce((n,c)=>n+c.questions.length,0))
       .then(result=>{if(alive){setAnswers(result);setAnswersReady(true);setError('');}})
       .catch(e=>{if(alive){setAnswersReady(false);setError((e as Error).message);}})
       .finally(()=>{if(alive)setAnswersLoading(false);});
@@ -89,11 +96,11 @@ function App(){
   function openScoreAdjustment(){setError('');setScoresOpen(true);}
   function switchRole(){const next=host?'display':'host';setRole(next);const url=new URL(location.href);url.searchParams.set('mode',next);historyWindow(url);}
   async function sound(){try{if(!audio.current){audio.current=new QuizAudio();await audio.current.enable();audio.current.setPhase(state.phase);}const value=!audioOn;audio.current.volume(value?volume:0);setAudioOn(value);}catch{setError('Нажмите ещё раз, чтобы браузер включил звук.');}}
-  async function act(action:Action){
+  async function act(action:Action,revision?:number){
     if(!pack||!answersReady||writing.current)return false;
     writing.current=true;setBusy(true);setError('');
     const before=current.current;
-    try{const next=transition(before.state,action,pack);const saved=await saveGame(before,next,action.type==='correct'?buzzer.window_id:undefined);accept(saved);history.current.push({state:before.state,after:saved.revision,buzzer:structuredClone(buzzer)});if(history.current.length>30)history.current.shift();setUndoCount(history.current.length);return true;}
+    try{if(revision!==undefined&&before.revision!==revision)throw new Error('Поступили новые ответы. Повторите действие.');const next=transition(before.state,action,pack);const saved=await saveGame(before,next,action.type==='correct'?buzzer.window_id:undefined);accept(saved);history.current.push({state:before.state,after:saved.revision,buzzer:structuredClone(buzzer)});if(history.current.length>30)history.current.shift();setUndoCount(history.current.length);return true;}
     catch(e){setError((e as Error).message);await refresh().catch(()=>{});return false;}
     finally{writing.current=false;setBusy(false);}
   }
@@ -112,10 +119,30 @@ function App(){
     catch(e){setError((e as Error).message);await refresh().catch(()=>{});}finally{writing.current=false;setBusy(false);}
   }
   async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{setError('Полный экран недоступен в этом браузере. Можно скрыть панели браузера вручную.');}}
-  if(role==='player')return <ParticipantScreen state={state} roster={roster} buzzer={buzzer} online={buttonsOnline&&snapshot.revision>=0} onUpdate={syncButtons}/>;
-  const q=pack?findQuestion(pack,state.activeQuestionId):undefined;
-
-  const privateAnswer=q?answers[q.id]:null;
+  async function scoreRound(){
+    let before=current.current;
+    let round=before.state.inputRound;
+    if(!round||!privateAnswer||busy)return;
+    try{
+      if(round.stage!=='turns'&&!round.closed){
+        if(!await act({type:'closeInputs',roundId:round.id},before.revision))return;
+        before=current.current;
+        round=before.state.inputRound;
+        if(!round)return;
+      }
+      const inputs=await readInputs(round.id);
+      if(before.state.activeQuestionId!==q?.id||round.id!==current.current.state.inputRound?.id)return;
+      await act({type:'scoreRound',inputs,answer:privateAnswer},before.revision);
+    }catch(e){setError((e as Error).message);}
+  }
+  useEffect(()=>{
+    if(!host||!privateAnswer||busy||state.phase!=='question'||inputRound?.stage!=='turns'||!allSubmitted(inputRound,state.players))return;
+    const key=`${inputRound.id}:${inputRound.turn}:${snapshot.revision}`;
+    if(processedTurn.current===key)return;
+    processedTurn.current=key;
+    void scoreRound();
+  },[host,privateAnswer,busy,state.phase,inputRound,state.players,snapshot.revision]);
+  if(role==='player')return <ParticipantScreen state={state} pack={pack} roster={roster} buzzer={buzzer} online={buttonsOnline&&snapshot.revision>=0} onUpdate={syncButtons} onAccept={accept}/>;
   const ranked=rankPlayers(state.players);
   const choosingId=state.players[state.turnIndex]?.id;
   const categories=pack?roundCategories(pack,state):[];
@@ -124,7 +151,7 @@ function App(){
   const isRound=state.phase==='board'||state.phase==='question'||state.phase==='answer';
   const inGame=state.phase!=='lobby';
   const legacy=inGame&&!state.categoryIds?.length;
-  const respondent=state.phase==='question'&&buzzer.question_id===state.activeQuestionId?state.players.find(p=>p.id===buzzer.claimant):undefined;
+  const respondent=state.phase==='question'&&!inputRound&&buzzer.question_id===state.activeQuestionId?state.players.find(p=>p.id===buzzer.claimant):undefined;
   async function reopenBuzzer(penalize:boolean){
     if(writing.current||!pack||!answersReady||!respondent)return;writing.current=true;setBusy(true);
     const before=current.current,beforeBuzzer=structuredClone(buzzer);
@@ -149,7 +176,7 @@ function App(){
         </div>)}
       </section>}
       {state.phase==='lobby'&&(host?
-        <Setup pack={pack} categories={pack.categories} busy={busy} roster={roster} online={buttonsOnline} start={(names,limit,categoryIds)=>void act({type:'start',names,limit,participants:roster,categoryIds})}/>:
+        <Setup pack={pack} categories={pack.categories} busy={busy} roster={roster} online={buttonsOnline} start={(names,limit,categoryIds,selectedQuestions,final)=>void act({type:'start',names,limit,participants:roster,categoryIds,selectedQuestions,final})}/>:
         <main className="display-lobby">
           <JoinLink/>
           <div className="lobby-room">
@@ -158,7 +185,7 @@ function App(){
           </div>
         </main>
       )}
-      {state.phase==='board'&&<Board categories={categories} state={state} pack={pack} host={host} busy={busy} open={id=>void act({type:'open',id})} openPage={page=>void act({type:'boardPage',page})}/>}
+      {state.phase==='board'&&<Board categories={categories} state={state} pack={pack} host={host} busy={busy} open={id=>void act({type:'open',id,answer:answers[id],roundId:crypto.randomUUID()})} openPage={page=>void act({type:'boardPage',page})}/>}
       {(state.phase==='question'||state.phase==='answer')&&q&&<main className={`question-main ${q.media?'with-media':''} ${state.phase==='answer'?'revealed':''}`} key={q.id}><div className="question-meta">
         {category&&<span className="question-category" data-accent={categoryAccent(categoryIndex+1)}>
           <span className="category-number" aria-label={`Категория ${categoryIndex+1}`}>{categoryIndex+1}</span>
@@ -170,7 +197,7 @@ function App(){
           {state.phase==='answer'&&state.revealed?<FittedCopy contentKey={`${q.id}-answer-${role}`} kind="answer">
             <div className="answer-copy">
               <h2>{state.revealed.answer}</h2><p>{state.revealed.explanation}</p>
-              <span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span>
+              {!state.results&&<span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span>}
             </div>
           </FittedCopy>:<FittedCopy contentKey={`${q.id}-prompt-${role}`} kind="prompt">
             <h1><TypedQuestion text={q.prompt} openedAt={state.questionOpenedAt} instant={host}/></h1>
@@ -178,32 +205,72 @@ function App(){
         </div>
         {q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}
       </div>
-        {!host&&<div className={`respondent ${respondent?'has-respondent':''}${state.phase==='answer'?' respondent-closed':''}`} role="status">{state.phase==='question'&&(respondent?`Отвечает ${respondent.name}`:'Кто первый?')}</div>}
-        {host&&state.phase==='question'&&<section className="host-answer">
+        {state.phase==='question'&&state.hint&&<p className="question-hint"><strong>Подсказка · </strong>{state.hint}</p>}
+        {state.phase==='question'&&inputRound&&<>
+          <p className="shared-progress">{stageLabel(inputRound.stage)}</p>
+          <SharedOptions round={inputRound}/>
+          {host?<GroupControls key={inputRound.id} round={inputRound} players={state.players} busy={busy} onReveal={()=>void scoreRound()}/>
+            :<SharedProgress round={inputRound} players={state.players}/>}
+          {host&&error&&inputRound.stage==='turns'&&allSubmitted(inputRound,state.players)&&<button className="secondary" disabled={busy} onClick={()=>void scoreRound()}>Повторить проверку ответа</button>}
+        </>}
+        {state.phase==='answer'&&state.results&&<RoundResults results={state.results} players={state.players}/>}
+        {!host&&!inputRound&&<div className={`respondent ${respondent?'has-respondent':''}${state.phase==='answer'?' respondent-closed':''}`} role="status">{state.phase==='question'&&(respondent?`Отвечает ${respondent.name}`:'Кто первый?')}</div>}
+        {host&&state.phase==='question'&&!inputRound&&<section className="host-answer">
           <div className="private-answer"><span className="eyebrow">Ответ для ведущего</span><h2>{privateAnswer?.answer||'Ответ ещё не загружен'}</h2>{privateAnswer&&privateAnswer.accepted_answers?.length>0&&<p className="accepted-answers">Принимаем: {privateAnswer.accepted_answers.join(' · ')}</p>}
           {(privateAnswer?.explanation||privateAnswer?.host_note)&&<details className="answer-notes"><summary>Пояснение и заметки</summary><p>{privateAnswer.explanation}</p>{privateAnswer.host_note&&<p className="host-note">{privateAnswer.host_note}</p>}</details>}</div>
-          {respondent&&state.winnerId===null?<div className="judgement-panel"><h3>Отвечает {respondent.name}</h3><div className="judgement-buttons"><button className="judge-correct" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'correct',playerId:respondent.id,answer:privateAnswer})}><span>Правильно</span><strong>+{q.value}</strong></button><button className="judge-wrong" disabled={busy} onClick={()=>void reopenBuzzer(true)}><span>Неправильно</span><strong>−{q.value/2}</strong></button></div><button className="secondary release-buzzer" disabled={busy} onClick={()=>void reopenBuzzer(false)}>Снять нажатие без штрафа</button></div>:
+          {respondent&&state.winnerId===null?<div className="judgement-panel"><h3>Отвечает {respondent.name}</h3><div className="judgement-buttons"><button className="judge-correct" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'correct',playerId:respondent.id,answer:privateAnswer})}><span>Правильно</span><strong>+{q.value}</strong></button><button className="judge-wrong" disabled={busy} onClick={()=>void reopenBuzzer(true)}><span>Неправильно</span><strong>−{state.hint?q.value:q.value/2}</strong></button></div><button className="secondary release-buzzer" disabled={busy} onClick={()=>void reopenBuzzer(false)}>Снять нажатие без штрафа</button></div>:
           state.winnerId!==null?<button className="primary" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'reveal',answer:privateAnswer})}>Показать правильный ответ</button>:<div className="awaiting-response"><p>Ждём нажатия</p><button className="secondary" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'reveal',answer:privateAnswer})}>Никто не ответил · раскрыть ответ</button></div>}
           <button className="secondary score-adjustment" disabled={busy} onClick={openScoreAdjustment}>± Баллы</button>
         </section>}
         {host&&state.phase==='answer'&&<button className="primary continue" disabled={busy} onClick={()=>void act({type:'continue'})}>Продолжить игру <span>→</span></button>}
       </main>}
 
+      {state.phase==='final'&&state.final&&<main className="final-round">
+        <h1>Финальный вопрос</h1>
+        {state.final.stage==='category'&&<><p>Категорию выбирает <strong>{state.players.find(player=>player.id===state.final?.chooser)?.name}</strong></p>
+          <div className="final-category-buttons">{pack.finals?.map(topic=><span className="secondary" key={topic.id}>{topic.title}</span>)}</div>
+        </>}
+        {state.final.stage!=='category'&&<h2>{pack.finals?.find(topic=>topic.id===state.final?.categoryId)?.title}</h2>}
+        {state.final.stage==='wager'&&inputRound&&<GroupControls key={inputRound.id} round={inputRound} players={state.players}
+          busy={busy||!host} onReveal={()=>{
+            const questions=pack.finals?.find(topic=>topic.id===state.final?.categoryId)?.questions??[];
+            const picked=questions[Math.floor(Math.random()*questions.length)];
+            if(picked&&answers[picked.id]?.finalPrompt)
+              void act({type:'openFinal',questionId:picked.id,prompt:answers[picked.id].finalPrompt!,roundId:crypto.randomUUID()});
+          }} displayOnly={!host} actionLabel="Открыть вопрос"/>}
+        {state.final.stage==='written'&&inputRound&&<>
+          <h2>{state.final.prompt}</h2>
+          {host&&finalAnswer&&state.finalWagerId?<FinalReview key={inputRound.id} round={inputRound}
+            wagerId={state.finalWagerId} answer={finalAnswer} players={state.players} busy={busy}
+            onReview={()=>void act({type:'closeInputs',roundId:inputRound.id},snapshot.revision)}
+            onScore={(inputs,wagers,correct)=>{
+              if(inputRound.submitted.some(id=>typeof inputs[id]!=='string')){
+                setError('Поступили новые ответы. Отметьте их перед подсчётом.');return;
+              }
+              void act({type:'scoreFinal',inputs,wagers,correct,answer:finalAnswer},snapshot.revision);
+            }}/>:<SharedProgress round={inputRound} players={state.players}/>}
+        </>}
+        {state.final.stage==='result'&&state.revealed&&<>
+          <h2>{state.revealed.answer}</h2><p>{state.revealed.explanation}</p>
+          <RoundResults results={state.results??[]} players={state.players}/>
+          {host&&<button className="primary" disabled={busy} onClick={()=>void act({type:'finishFinal'})}>Показать победителей</button>}
+        </>}
+      </main>}
       {state.phase==='finished'&&<Finale players={state.players} reset={host?()=>setConfirm('reset'):undefined}/>}
       {host&&inGame&&<nav className="host-toolbar" aria-label="Управление игрой">
         <button disabled={busy||!undoCount} onClick={()=>void undo()}>↶ Отменить</button>
-        {state.phase!=='question'&&<button disabled={busy} onClick={openScoreAdjustment}>± Баллы</button>}
-        {state.phase==='question'&&state.winnerId===null&&<button disabled={busy} onClick={()=>void act({type:'cancel'})}>Вернуть вопрос</button>}
-        {state.phase==='board'&&<button disabled={busy} onClick={()=>setConfirm('endRound')}>Закончить игру</button>}
+        {state.phase!=='question'&&state.phase!=='final'&&<button disabled={busy} onClick={openScoreAdjustment}>± Баллы</button>}
+        {state.phase==='question'&&state.winnerId===null&&<button disabled={busy||!!inputRound?.submitted.length} onClick={()=>void act({type:'cancel'})}>Вернуть вопрос</button>}
+        {state.phase==='board'&&<button disabled={busy} onClick={()=>setConfirm('endRound')}>{state.final?.enabled?'Перейти к финалу':'Закончить игру'}</button>}
         {state.phase!=='finished'&&<button disabled={busy} onClick={()=>setConfirm('reset')}>Новая игра</button>}
         {busy&&<span role="status">Сохраняем…</span>}
       </nav>}
 
     </>}
     <footer className="site-footer"><button onClick={()=>setCredits(true)}>Фото и авторы ↗</button>{!host&&audioOn&&<label className="volume">♫ <input type="range" min="0" max="0.8" step=".02" aria-label="Громкость" value={volume} onChange={e=>{const v=Number(e.target.value);setVolume(v);audio.current?.volume(v);}}/></label>}</footer>
-    {confirm&&<div className="modal-backdrop"><section className="modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title"><span className="eyebrow">РЕШЕНИЕ ВЕДУЩЕГО</span><h2 id="confirm-title">{confirm==='reset'?'Начать с чистого счёта?':'Завершить игру?'}</h2><p>{confirm==='reset'?'Имена, очки и сыгранные вопросы будут сброшены.':'Оставшиеся вопросы пропустим. Очки сохранятся.'}</p><button className="primary" disabled={busy} onClick={()=>{if(confirm==='reset')void newGame();else void act({type:'endRound'}).then(saved=>{if(saved)setConfirm(null);});}}>{confirm==='reset'?'Да, новая игра':'Завершить игру'} →</button><button className="secondary" onClick={()=>setConfirm(null)}>Вернуться</button></section></div>}
+    {confirm&&<div className="modal-backdrop"><section className="modal" role="dialog" aria-modal="true" aria-labelledby="confirm-title"><span className="eyebrow">РЕШЕНИЕ ВЕДУЩЕГО</span><h2 id="confirm-title">{confirm==='reset'?'Начать с чистого счёта?':state.final?.enabled?'Перейти к финалу?':'Завершить игру?'}</h2><p>{confirm==='reset'?'Имена, очки и сыгранные вопросы будут сброшены.':'Оставшиеся вопросы пропустим. Очки сохранятся.'}</p><button className="primary" disabled={busy} onClick={()=>{if(confirm==='reset')void newGame();else void act({type:'endRound'}).then(saved=>{if(saved)setConfirm(null);});}}>{confirm==='reset'?'Да, новая игра':state.final?.enabled?'Перейти к финалу':'Завершить игру'} →</button><button className="secondary" onClick={()=>setConfirm(null)}>Вернуться</button></section></div>}
     {host&&answersReady&&inGame&&scoresOpen&&<ScoreAdjustment players={ranked} busy={busy} error={error} close={()=>{setScoresOpen(false);setError('');}} apply={(playerId,delta)=>act({type:'adjustScore',playerId,delta})}/>}
-    {help&&<div className="modal-backdrop"><section className="modal help" role="dialog" aria-modal="true" aria-labelledby="help-title"><button className="close" onClick={()=>setHelp(false)} aria-label="Закрыть">×</button><h2 id="help-title">Правила игры</h2><ol><li>Следующую тему и стоимость выбирает тот, кто ответил правильно. Если никто не угадал, выбирает прежний игрок.</li><li>Ответить может любой. Право ответа получает тот, чьё нажатие первым приняла база.</li><li>За верный ответ — стоимость вопроса. За неверный — минус половина стоимости и можно снова нажать на том же вопросе.</li><li>У ведущего две кнопки: «Правильно» начисляет баллы и сразу показывает ответ; «Неправильно» открывает кнопки всем. Случайное нажатие можно снять без штрафа.</li><li>Ведущий задаёт число случайных тем или выбирает их вручную. После последнего вопроса — победитель.</li></ol><p>Телефон — пульт, телевизор — экран. Можно переключить режим кнопкой вверху. Звук включается на телевизоре отдельным нажатием.</p><button className="primary" onClick={()=>setHelp(false)}>Всё понятно, поехали →</button></section></div>}
+    {help&&<div className="modal-backdrop"><section className="modal help" role="dialog" aria-modal="true" aria-labelledby="help-title"><button className="close" onClick={()=>setHelp(false)} aria-label="Закрыть">×</button><h2 id="help-title">Правила игры</h2><ol><li>Следующую тему и стоимость выбирает тот, кто ответил правильно. Если никто не угадал, выбирает прежний игрок.</li><li>Ответить может любой. Право ответа получает тот, чьё нажатие первым приняла база.</li><li>За верный ответ — стоимость вопроса. За неверный — минус половина стоимости и можно снова нажать на том же вопросе.</li><li>У ведущего две кнопки: «Правильно» начисляет баллы и сразу показывает ответ; «Неправильно» открывает кнопки всем. Случайное нажатие можно снять без штрафа.</li><li>В общих вопросах следуйте инструкции на телефоне. В финале игроки делают ставки и отправляют письменные ответы.</li></ol><p>Телефон — пульт, телевизор — экран. Можно переключить режим кнопкой вверху. Звук включается на телевизоре отдельным нажатием.</p><button className="primary" onClick={()=>setHelp(false)}>Всё понятно, поехали →</button></section></div>}
     {credits&&<Credits close={()=>setCredits(false)}/>}
   </div>;
 }
@@ -306,17 +373,29 @@ function FittedCopy({contentKey,kind,children}:{contentKey:string;kind:'prompt'|
   },[contentKey]);
   return <div className={`question-text question-${kind}`} ref={frame}><div className="question-copy" ref={copy}>{children}</div></div>;
 }
-function Setup({busy,roster,online,start,categories,pack}:{categories:Pack['categories'];pack:Pack;busy:boolean;roster:Participant[];online:boolean;start:(names:string[],limit:number,categoryIds:number[])=>void}){
+function Setup({busy,roster,online,start,categories,pack}:{
+  categories:Pack['categories'];pack:Pack;busy:boolean;roster:Participant[];online:boolean;
+  start:(names:string[],limit:number,categoryIds:number[],selectedQuestions:string[],final:boolean)=>void;
+}){
   const [limit,setLimit]=useState(5);
   const [selection,setSelection]=useState<'random'|'manual'>('random');
   const [randomCount,setRandomCount]=useState('10');
   const [selected,setSelected]=useState<number[]>([]);
-  const count=selection==='random'?Number(randomCount):selected.length;
-  const valid=Number.isInteger(count)&&count>=1&&count<=categories.length;
+  const [types,setTypes]=useState(()=>Object.keys(questionTypes) as QuestionType[]);
+  const [final,setFinal]=useState(false);
+  const [search,setSearch]=useState('');
+  const [sort,setSort]=useState<'bank'|'name'>('bank');
+  const filtered=filterCategories(categories,types);
+  const eligible=filtered.filter(category=>!missingPrices(category).length);
+  const manual=eligible.filter(category=>selected.includes(category.id));
+  const count=selection==='random'?Number(randomCount):manual.length;
+  const valid=Number.isInteger(count)&&count>=1&&count<=eligible.length;
+  const matches=filtered.filter(category=>category.title.toLocaleLowerCase('ru').includes(search.trim().toLocaleLowerCase('ru')));
+  if(sort==='name')matches.sort((a,b)=>a.title.localeCompare(b.title,'ru'));
   function launch(){
     if(!valid)return;
-    const ids=selection==='manual'?categories.filter(c=>selected.includes(c.id)).map(c=>c.id):chooseCategories(pack,Math.random,count);
-    start(roster.map(p=>p.name),limit,ids);
+    const ids=selection==='manual'?manual.map(c=>c.id):chooseCategories({...pack,categories:eligible},Math.random,count);
+    start(roster.map(p=>p.name),limit,ids,drawQuestions(eligible,ids),final);
   }
   return <main className="setup host-setup">
     <section className="setup-players">
@@ -324,17 +403,36 @@ function Setup({busy,roster,online,start,categories,pack}:{categories:Pack['cate
       <div className="host-lobby-connect"><JoinLink/><LobbyRoster roster={roster}/></div>
     </section>
     <section className="setup-rules">
+      <fieldset className="question-type-filters"><legend>Типы вопросов</legend>
+        {(Object.keys(questionTypes) as QuestionType[]).map(type=><label key={type}>
+          <input type="checkbox" checked={types.includes(type)} onChange={e=>setTypes(previous=>e.target.checked?[...previous,type]:previous.filter(item=>item!==type))}/>
+          {questionTypes[type]}
+        </label>)}
+      </fieldset>
       <fieldset className="category-mode"><legend>Категории</legend>
         <label><input type="radio" name="category-mode" checked={selection==='random'} onChange={()=>setSelection('random')}/>Случайные</label>
         <label><input type="radio" name="category-mode" checked={selection==='manual'} onChange={()=>setSelection('manual')}/>Выбрать вручную</label>
       </fieldset>
-      {selection==='random'?<label className="category-count">Количество тем <input type="number" inputMode="numeric" min="1" max={categories.length} value={randomCount} onChange={e=>setRandomCount(e.target.value)}/><span>из {categories.length}</span></label>:
-        <section className="category-picker"><div className="category-picker-heading"><strong aria-live="polite">Выбрано {selected.length}</strong><button type="button" disabled={busy||!selected.length} onClick={()=>setSelected([])}>Снять все</button></div>
-          <div className="category-checklist">{categories.map(c=><label key={c.id} className={selected.includes(c.id)?'checked':''}>
-            <input type="checkbox" checked={selected.includes(c.id)} disabled={busy} onChange={e=>setSelected(ids=>e.target.checked?[...ids,c.id]:ids.filter(id=>id!==c.id))}/><span>{c.title}</span><VisualCategory category={c}/>
-          </label>)}</div>
+      {selection==='random'?<label className="category-count">Количество тем <input type="number" inputMode="numeric" min="1" max={eligible.length} value={randomCount} onChange={e=>setRandomCount(e.target.value)}/><span>из {eligible.length}</span></label>:
+        <section className="category-picker">
+          <div className="category-picker-heading"><strong aria-live="polite">Выбрано {manual.length}</strong><button type="button" disabled={busy||!selected.length} onClick={()=>setSelected([])}>Снять все</button></div>
+          <div className="category-search"><input type="search" placeholder="Найти категорию" aria-label="Найти категорию" value={search} onChange={e=>setSearch(e.target.value)}/>
+            <select aria-label="Порядок категорий" value={sort} onChange={e=>setSort(e.target.value==='name'?'name':'bank')}>
+              <option value="bank">Как в банке</option><option value="name">По алфавиту</option>
+            </select>
+          </div>
+          <div className="category-checklist">{matches.map(c=>{
+            const missing=missingPrices(c);
+            return <label key={c.id} className={selected.includes(c.id)&&!missing.length?'checked':''}>
+              <input type="checkbox" checked={selected.includes(c.id)&&!missing.length} disabled={busy||!!missing.length} onChange={e=>setSelected(ids=>e.target.checked?[...ids,c.id]:ids.filter(id=>id!==c.id))}/>
+              <span>{c.title}{!!missing.length&&<small className="category-missing">Нет вопросов за {missing.join(', ')}</small>}</span><VisualCategory category={c}/>
+            </label>;
+          })}</div>
         </section>}
+      {selection==='manual'&&selected.length>manual.length&&<p className="setup-status">Выбрано {manual.length} доступных тем. Остальные не подходят под текущие фильтры.</p>}
+      {!eligible.length&&<p className="setup-status">С этими фильтрами ни одна категория не набирает все пять стоимостей.</p>}
       <fieldset className="game-length"><legend>Вопросов в каждой теме</legend>{[3,5].map(value=><label key={value} className={limit===value?'active':''}><input type="radio" name="limit" checked={limit===value} onChange={()=>setLimit(value)}/><strong>{value}</strong></label>)}</fieldset>
+      {!!pack.finals?.length&&<label className="final-toggle"><input type="checkbox" checked={final} onChange={e=>setFinal(e.target.checked)}/>Финальный вопрос со ставкой</label>}
       <button className="primary" disabled={busy||!online||roster.length<2||!valid} onClick={launch}>Начать игру {valid&&<span>{count*limit} вопросов</span>}</button>
       {!online?<p className="setup-status">Подключаем кнопки…</p>:roster.length<2&&<p className="setup-status">Для старта нужны два игрока</p>}
     </section>

@@ -102,6 +102,24 @@ it('TV без современных API показывает все этапы 
     if(request.url.includes('/rest/'))expect(request.headers.apikey).toBe('public-test-key');
   }
 });
+it('совместимый телевизор показывает пять выбранных ячеек, прогресс и финал',()=>{
+  const app=tv();
+  const players=[{id:'a',name:'Аня',score:300},{id:'b',name:'Ваня',score:100}];
+  app.update({phase:'board',players,categoryIds:[76],selectedQuestions:['q76-100','q76-200','q76-300-6','q76-400','q76-500']});
+  const content=app.get('tv-content');
+  expect(content.all().filter(node=>node.tag==='td')).toHaveLength(5);
+  expect(content.all().find(node=>node.className==='tv-format-icon')?.text).toBe('≈');
+  app.update({phase:'question',activeQuestionId:'q76-300-6',inputRound:{id:'estimate',stage:'estimate',submitted:['a']}});
+  expect(content.text).toContain('✓ Аня');
+  expect(content.text).toContain('Кто ближе?');
+  app.update({phase:'final',inputRound:{id:'w',stage:'wager',submitted:['b']},final:{enabled:true,stage:'wager',categoryId:'cinema'}});
+  expect(content.text).toContain('Финальный вопрос');
+  expect(content.text).toContain('✓ Ваня');
+  expect(content.text).not.toContain('Том Хэнкс');
+  app.update({phase:'final',inputRound:undefined,final:{enabled:true,stage:'result'},
+    revealed:{answer:'Тест',explanation:'',accepted_answers:[],host_note:''},results:[{playerId:'a',delta:25,wager:25,input:'Тест'}]});
+  expect(content.text).toContain('ставка 25 · +25');
+});
 it('экран телевизора и выбор режима используют синтаксис ES5',()=>{
   expect(()=>parse(boot,{ecmaVersion:5})).not.toThrow();
   expect(()=>parse(readFileSync('public/tv.js','utf8'),{ecmaVersion:5})).not.toThrow();

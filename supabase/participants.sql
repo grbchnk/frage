@@ -58,7 +58,7 @@ declare b public.quiz_buzzer; g jsonb;
 begin
   -- Always lock game before buzzer, also used by the host trigger and rearm.
   select state into g from public.quiz_game where id='main' for share;
-  if g->>'phase'<>'question' or g->>'winnerId' is not null or not exists(select 1 from jsonb_array_elements(g->'players') p where p->>'id'=player_id) then
+  if g->>'phase'<>'question' or g->>'winnerId' is not null or g->>'inputRound' is not null or not exists(select 1 from jsonb_array_elements(g->'players') p where p->>'id'=player_id) then
     raise exception 'Сейчас нажать нельзя.';
   end if;
   update public.quiz_buzzer set claimant=player_id,accepting=false
@@ -75,20 +75,21 @@ drop function if exists public.quiz_rearm(uuid);
 drop function if exists quiz_private.rearm(uuid);
 create or replace function quiz_private.rearm(expected_window uuid,expected_revision integer,penalize boolean)
 returns jsonb language plpgsql security definer set search_path='' as $$
-declare b public.quiz_buzzer; g jsonb; rev integer; points integer; players jsonb; saved jsonb;
+declare b public.quiz_buzzer; g jsonb; rev integer; points integer; penalty integer; players jsonb; saved jsonb;
 begin
   select state,revision into g,rev from public.quiz_game where id='main' for update;
-  if g->>'phase'<>'question' or g->>'winnerId' is not null or rev is distinct from expected_revision then raise exception 'Игра уже изменилась. Обновите пульт.'; end if;
+  if g->>'phase'<>'question' or g->>'winnerId' is not null or g->>'inputRound' is not null or rev is distinct from expected_revision then raise exception 'Игра уже изменилась. Обновите пульт.'; end if;
   select * into b from public.quiz_buzzer where id='main' and window_id=expected_window and claimant is not null for update;
   if b.id is null then raise exception 'Нажатие уже обработано. Обновите пульт.'; end if;
   if penalize then
     points:=(g->>'activeQuestionValue')::integer;
     if points is null or points not in (100,200,300,400,500) then raise exception 'Стоимость вопроса не задана. Откройте вопрос заново.'; end if;
-    select jsonb_agg(case when p->>'id'=b.claimant then jsonb_set(p,'{score}',to_jsonb((p->>'score')::bigint-points/2)) else p end order by ord)
+    penalty:=case when g->>'hint' is null then points/2 else points end;
+    select jsonb_agg(case when p->>'id'=b.claimant then jsonb_set(p,'{score}',to_jsonb((p->>'score')::bigint-penalty)) else p end order by ord)
       into players from jsonb_array_elements(g->'players') with ordinality as t(p,ord);
     g:=g||jsonb_build_object(
         'players',players,
-        'scoreChanges',coalesce(g->'scoreChanges','{}'::jsonb)||jsonb_build_object(b.claimant,coalesce((g->'scoreChanges'->>b.claimant)::bigint,0)-points/2),
+        'scoreChanges',coalesce(g->'scoreChanges','{}'::jsonb)||jsonb_build_object(b.claimant,coalesce((g->'scoreChanges'->>b.claimant)::bigint,0)-penalty),
         'event',(g->>'event')::integer+1,
         'feedback',jsonb_build_object('kind','wrong','playerId',b.claimant,'event',(g->>'event')::integer+1,'at',floor(extract(epoch from clock_timestamp())*1000))
       );
@@ -171,10 +172,10 @@ begin
   end if;
   if new.state->>'phase'='question' and
      (old.state->>'phase' is distinct from 'question' or new.state->>'activeQuestionId' is distinct from old.state->>'activeQuestionId' or new.state->>'questionOpenedAt' is distinct from old.state->>'questionOpenedAt') then
-    update public.quiz_buzzer set question_id=new.state->>'activeQuestionId',window_id=gen_random_uuid(),claimant=null,accepting=true,excluded='{}' where id='main';
+    update public.quiz_buzzer set question_id=new.state->>'activeQuestionId',window_id=gen_random_uuid(),claimant=null,accepting=(new.state->>'inputRound' is null),excluded='{}' where id='main';
   elsif new.state->>'phase'='question' and new.state->>'winnerId' is not null then
     update public.quiz_buzzer set accepting=false where id='main';
-  elsif new.state->>'phase'<>'question' then
+  elsif old.state->>'phase'='question' and new.state->>'phase'<>'question' then
     update public.quiz_buzzer set accepting=false,claimant=null,question_id=null,window_id=gen_random_uuid(),excluded='{}' where id='main';
   end if;
   return new;

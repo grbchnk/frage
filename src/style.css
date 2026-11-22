@@ -299,7 +299,14 @@
 }
 
 /* Cinema-room palette and the one-button participant remote. */
-.untyped { visibility: hidden; }
+/* All graphemes stay in the text flow while their paint is revealed. */
+.typed-glyph { position:relative; }
+.typed-glyph[data-hidden] { visibility:hidden; }
+.typed-glyph[data-caret]::after {
+  content:''; position:absolute; left:100%; top:.14em; height:.82em;
+  border-left:.045em solid var(--lime); pointer-events:none;
+  animation:cursor-blink .7s steps(1) infinite;
+}
 .join-link { display:flex; align-items:center; gap:20px; padding:20px; margin:18px 0; background:var(--panel); border:1px solid var(--line); border-radius:14px; max-width:660px; z-index:2; }
 .join-link img { width:130px; height:130px; border-radius:8px; flex-shrink:0; }
 .join-link strong { font-size:19px; }
@@ -342,8 +349,6 @@
 .buzzer-button.ready::before,.buzzer-button.ready::after { content:''; position:absolute; inset:-17px; border:2px solid #ed77513d; border-radius:50%; animation:buzzer-ring 2.4s ease-out infinite; pointer-events:none; }
 .buzzer-button.ready::after { animation-delay:1.2s; }
 .buzzer-button.won { animation:win-glow 1.4s ease-in-out infinite alternate; }
-.typing-cursor { display:inline-block; width:0; height:.85em; border-left:.045em solid var(--lime); animation:cursor-blink .7s steps(1) infinite; }
-.typing-cursor.done { display:none; }
 @keyframes row-in { from { opacity:0;transform:translateY(16px); } to { opacity:1;transform:translateY(0); } }
 @keyframes score-pop { from { opacity:0;transform:translateY(12px) scale(.65); } to { opacity:1;transform:translateY(0) scale(1); } }
 @keyframes cinema-glow { to { transform:translate(3%,-3%) scale(1.05);opacity:.5; } }

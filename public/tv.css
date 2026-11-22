@@ -30,11 +30,11 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
 .tv-round .tv-player strong { color:#fcf7ff; display:block; margin:4px 0 0; font-size:24px; }
 .tv-round .tv-choosing { border-color:#e693ff; box-shadow:0 0 11px #c859f7; }
 .tv-board-crown { display:inline-block; font-size:20px; line-height:1; }
-.tv-round .tv-delta { position:static; min-height:15px; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#e0d0fa; border-radius:14px; padding:0 6px; font-size:11px; }
+.tv-round .tv-delta { position:static; min-height:15px; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#e0d0fa; border-radius:14px; padding:0 2px; font-size:11px; }
 .tv-round .tv-many-players .tv-board-crown { font-size:15px; }
 .tv-round .tv-score-row { display:table; table-layout:fixed; width:100%; }
-.tv-round .tv-crown-slot,.tv-round .tv-score-body { display:table-cell; vertical-align:middle; }
-.tv-round .tv-crown-slot { width:21%; text-align:center; }
+.tv-round .tv-crown-slot,.tv-round .tv-score-body,.tv-round .tv-delta-slot { display:table-cell; vertical-align:middle; }
+.tv-round .tv-crown-slot,.tv-round .tv-delta-slot { width:24%; text-align:center; }
 .tv-round .tv-score-body span,.tv-round .tv-score-body strong { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .tv-round .tv-positive { color:#b6ffd0; background:#24513c; }
 .tv-round .tv-negative { color:#ffaac1; background:#602745; }
@@ -45,22 +45,23 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
 .tv-board-frame { padding:8px; border:1px solid #9256ce; border-radius:20px; background:#120d2e; }
 .tv-category-phase .tv-board { border-spacing:6px; }
 .tv-category-phase .tv-board th,.tv-category-phase .tv-board td { border-radius:9px; height:auto; padding:1px 6px; }
-.tv-category-phase .tv-board th { width:33%; background:#211b44; border-color:#674197; font-size:20px; text-transform:uppercase; }
+.tv-category-phase .tv-board th { width:42%; background:#211b44; border-color:#674197; font-size:20px; text-transform:uppercase; }
 .tv-category-number { display:inline-block; padding:3px 7px; min-width:24px; margin-right:8px; border:1px solid #a77ee7; border-radius:5px; background:#522b97; color:white; font-weight:bold; text-align:center; }
 .tv-category-2 .tv-category-number { background:#244c9e; border-color:#71a4ff; }
 .tv-category-3 .tv-category-number { background:#216e73; border-color:#71d4d1; }
 .tv-category-4 .tv-category-number { background:#8a552f; border-color:#e5ae68; }
 .tv-category-5 .tv-category-number { background:#82305f; border-color:#f084bc; }
 .tv-category-phase .tv-board td { color:#fcf7ff; border-color:#8d52c7; font-weight:bold; }
-.tv-category-phase .tv-price-100 { background:#3e218e; background:linear-gradient(104deg,#301575,#5828bb 52%,#692dbd); }
-.tv-category-phase .tv-price-200 { background:#4f2291; background:linear-gradient(104deg,#612bbc,#7130c3 52%,#812cb9); }
-.tv-category-phase .tv-price-300 { background:#652586; background:linear-gradient(104deg,#792dc0,#872bb0 52%,#97228d); }
-.tv-category-phase .tv-price-400 { background:#7c256b; background:linear-gradient(104deg,#8e27a0,#a62681 52%,#b93c76); }
-.tv-category-phase .tv-board .tv-price-500 { background:#b64c40; background:linear-gradient(104deg,#bd4170,#e46c3e 52%,#fd8b4e); border-color:#ffab70; }
+.tv-round .tv-price-100 { background:#3e218e; background:linear-gradient(104deg,#301575,#5828bb 52%,#692dbd); }
+.tv-round .tv-price-200 { background:#4f2291; background:linear-gradient(104deg,#612bbc,#7130c3 52%,#812cb9); }
+.tv-round .tv-price-300 { background:#652586; background:linear-gradient(104deg,#792dc0,#872bb0 52%,#97228d); }
+.tv-round .tv-price-400 { background:#7c256b; background:linear-gradient(104deg,#8e27a0,#a62681 52%,#b93c76); }
+.tv-round .tv-price-500 { background:#b64c40; background:linear-gradient(104deg,#bd4170,#e46c3e 52%,#fd8b4e); border-color:#ffab70; }
 .tv-category-phase .tv-board .tv-used { background:#211f3a; border-color:#3c3457; }
 .tv-category-phase .tv-board-dense { border-spacing:4px; }
 .tv-category-phase .tv-board-dense th,.tv-category-phase .tv-board-dense td { padding:0 5px; font-size:16px; }
-.tv-category-phase .tv-board th { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.tv-category-phase .tv-board th { overflow:hidden; }
+.tv-category-phase .tv-board th strong { line-height:1.05; overflow-wrap:break-word; }
 .tv-category-phase .tv-board-dense .tv-category-number { padding:1px 4px; min-width:18px; }
 .tv-category-phase .tv-board-dense .tv-photo-icon { width:14px; height:14px; }
 
@@ -71,7 +72,7 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
 .tv-stage:not(.tv-category-phase) .tv-meta,.tv-stage:not(.tv-category-phase) .tv-question h2 { color:#f0d5ff; }
 .tv-stage:not(.tv-category-phase) #tv-retry { background:#523386; color:#fff1ff; }
 .tv-round .tv-player.tv-scored { border-color:#84e2ad; }
-.tv-stage .tv-question { padding:6px 14px; }
+.tv-stage .tv-question { padding:10px 14px; border-radius:10px; }
 .tv-stage .tv-question-answer h2 { color:#fff; }
 .tv-question-label { color:#d8aef9; font-size:23px; margin:0 auto 14px; text-align:center; text-transform:uppercase; }
 .tv-question-label.tv-category-2 { color:#9dc1ff; }

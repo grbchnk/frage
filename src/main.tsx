@@ -8,7 +8,6 @@ import './style.css';
 import './board.css';
 import './theme.css';
 import {useScreenWakeLock} from './use-screen-wake-lock';
-import {CellExpansion} from './CellExpansion';
 import {JoinLink,LobbyRoster,ParticipantScreen} from './Participant';
 import {AnswerFlash,BoardCrown,Finale,GAME_NAME,ScoreDelta,VisualCategory,useAnswerFeedback} from './GameViews';
 
@@ -133,39 +132,6 @@ function App(){
     catch(e){setError((e as Error).message);await Promise.all([syncButtons().catch(()=>{}),refresh().catch(()=>{})]);}
     finally{writing.current=false;setBusy(false);}
   }
-  const QuestionTag=host?'main':'section';
-  const renderQuestion=(typingStart:number|null)=>q&&(
-    <QuestionTag className={`question-main ${q.media?'with-media':''} ${state.phase==='answer'?'revealed':''}`} key={q.id}><div className="question-meta">
-        {category&&<span className="question-category" data-accent={categoryAccent(categoryIndex+1)}>
-          <span className="category-number" aria-label={`Категория ${categoryIndex+1}`}>{categoryIndex+1}</span>
-          <strong>{category.title}</strong>
-        </span>}
-        <span className="question-value" data-value={q.value} aria-label={`${q.value} баллов`}>{q.value}</span>
-      </div><div className="question-content">
-        <div className="question-words">
-          <FittedCopy contentKey={`${q.id}-prompt-${role}`} kind="prompt" hidden={state.phase==='answer'}>
-            <h1><TypedQuestion text={q.prompt} openedAt={typingStart} instant={host} stopped={state.phase==='answer'}/></h1>
-          </FittedCopy>
-          {state.phase==='answer'&&state.revealed&&<FittedCopy contentKey={`${q.id}-answer-${role}`} kind="answer">
-            <div className="answer-copy">
-              <h2>{state.revealed.answer}</h2><p>{state.revealed.explanation}</p>
-              <span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span>
-            </div>
-          </FittedCopy>}
-        </div>
-        {q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}
-      </div>
-        {!host&&<div className={`respondent ${respondent?'has-respondent':''}${state.phase==='answer'?' respondent-closed':''}`} role="status">{state.phase==='question'&&(respondent?`Отвечает ${respondent.name}`:'Кто первый нажмёт?')}</div>}
-        {host&&state.phase==='question'&&<section className="host-answer">
-          <div className="private-answer"><span className="eyebrow">Ответ для ведущего</span><h2>{privateAnswer?.answer||'Ответ ещё не загружен'}</h2>{privateAnswer&&privateAnswer.accepted_answers?.length>0&&<p className="accepted-answers">Принимаем: {privateAnswer.accepted_answers.join(' · ')}</p>}
-          {(privateAnswer?.explanation||privateAnswer?.host_note)&&<details className="answer-notes"><summary>Пояснение и заметки</summary><p>{privateAnswer.explanation}</p>{privateAnswer.host_note&&<p className="host-note">{privateAnswer.host_note}</p>}</details>}</div>
-          {respondent&&state.winnerId===null?<div className="judgement-panel"><h3>Отвечает {respondent.name}</h3><div className="judgement-buttons"><button className="judge-correct" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'correct',playerId:respondent.id,answer:privateAnswer})}><span>Правильно</span><strong>+{q.value}</strong></button><button className="judge-wrong" disabled={busy} onClick={()=>void reopenBuzzer(true)}><span>Неправильно</span><strong>−{q.value/2}</strong></button></div><button className="secondary release-buzzer" disabled={busy} onClick={()=>void reopenBuzzer(false)}>Снять нажатие без штрафа</button></div>:
-          state.winnerId!==null?<button className="primary" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'reveal',answer:privateAnswer})}>Показать правильный ответ</button>:<div className="awaiting-response"><p>Ждём нажатия</p><button className="secondary" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'reveal',answer:privateAnswer})}>Никто не ответил · раскрыть ответ</button></div>}
-          <button className="secondary score-adjustment" disabled={busy} onClick={openScoreAdjustment}>± Баллы</button>
-        </section>}
-        {host&&state.phase==='answer'&&<button className="primary continue" disabled={busy} onClick={()=>void act({type:'continue'})}>Продолжить игру <span>→</span></button>}
-      </QuestionTag>
-  );
   return <div className={`app ${host?'host':'display'} phase-${state.phase} ${isRound?'quiz-round':''}`}>
     {!host&&feedback&&<AnswerFlash key={feedback.event} kind={feedback.kind}/>}
 
@@ -192,10 +158,36 @@ function App(){
           </div>
         </main>
       )}
-      {(state.phase==='board'||(!host&&isRound))&&<Board categories={categories} state={state} pack={pack} host={host} busy={busy}
-        open={id=>void act({type:'open',id})} openPage={page=>void act({type:'boardPage',page})}
-        question={q&&state.activeQuestionId?{id:q.id,value:q.value,openedAt:state.questionOpenedAt}:null} renderQuestion={renderQuestion}/> }
-      {host&&(state.phase==='question'||state.phase==='answer')&&renderQuestion(state.questionOpenedAt)}
+      {state.phase==='board'&&<Board categories={categories} state={state} pack={pack} host={host} busy={busy} open={id=>void act({type:'open',id})} openPage={page=>void act({type:'boardPage',page})}/>}
+      {(state.phase==='question'||state.phase==='answer')&&q&&<main className={`question-main ${q.media?'with-media':''} ${state.phase==='answer'?'revealed':''}`} key={q.id}><div className="question-meta">
+        {category&&<span className="question-category" data-accent={categoryAccent(categoryIndex+1)}>
+          <span className="category-number" aria-label={`Категория ${categoryIndex+1}`}>{categoryIndex+1}</span>
+          <strong>{category.title}</strong>
+        </span>}
+        <span className="question-value" data-value={q.value} aria-label={`${q.value} баллов`}>{q.value}</span>
+      </div><div className="question-content">
+        <div className="question-words">
+          {state.phase==='answer'&&state.revealed?<FittedCopy contentKey={`${q.id}-answer-${role}`} kind="answer">
+            <div className="answer-copy">
+              <h2>{state.revealed.answer}</h2><p>{state.revealed.explanation}</p>
+              <span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span>
+            </div>
+          </FittedCopy>:<FittedCopy contentKey={`${q.id}-prompt-${role}`} kind="prompt">
+            <h1><TypedQuestion text={q.prompt} openedAt={state.questionOpenedAt} instant={host}/></h1>
+          </FittedCopy>}
+        </div>
+        {q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}
+      </div>
+        {!host&&<div className={`respondent ${respondent?'has-respondent':''}${state.phase==='answer'?' respondent-closed':''}`} role="status">{state.phase==='question'&&(respondent?`Отвечает ${respondent.name}`:'Кто первый нажмёт?')}</div>}
+        {host&&state.phase==='question'&&<section className="host-answer">
+          <div className="private-answer"><span className="eyebrow">Ответ для ведущего</span><h2>{privateAnswer?.answer||'Ответ ещё не загружен'}</h2>{privateAnswer&&privateAnswer.accepted_answers?.length>0&&<p className="accepted-answers">Принимаем: {privateAnswer.accepted_answers.join(' · ')}</p>}
+          {(privateAnswer?.explanation||privateAnswer?.host_note)&&<details className="answer-notes"><summary>Пояснение и заметки</summary><p>{privateAnswer.explanation}</p>{privateAnswer.host_note&&<p className="host-note">{privateAnswer.host_note}</p>}</details>}</div>
+          {respondent&&state.winnerId===null?<div className="judgement-panel"><h3>Отвечает {respondent.name}</h3><div className="judgement-buttons"><button className="judge-correct" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'correct',playerId:respondent.id,answer:privateAnswer})}><span>Правильно</span><strong>+{q.value}</strong></button><button className="judge-wrong" disabled={busy} onClick={()=>void reopenBuzzer(true)}><span>Неправильно</span><strong>−{q.value/2}</strong></button></div><button className="secondary release-buzzer" disabled={busy} onClick={()=>void reopenBuzzer(false)}>Снять нажатие без штрафа</button></div>:
+          state.winnerId!==null?<button className="primary" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'reveal',answer:privateAnswer})}>Показать правильный ответ</button>:<div className="awaiting-response"><p>Ждём нажатия</p><button className="secondary" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'reveal',answer:privateAnswer})}>Никто не ответил · раскрыть ответ</button></div>}
+          <button className="secondary score-adjustment" disabled={busy} onClick={openScoreAdjustment}>± Баллы</button>
+        </section>}
+        {host&&state.phase==='answer'&&<button className="primary continue" disabled={busy} onClick={()=>void act({type:'continue'})}>Продолжить игру <span>→</span></button>}
+      </main>}
 
       {state.phase==='finished'&&<Finale players={state.players} reset={host?()=>setConfirm('reset'):undefined}/>}
       {host&&inGame&&<nav className="host-toolbar" aria-label="Управление игрой">
@@ -250,18 +242,22 @@ function ScoreAdjustment({players,busy,error,close,apply}:{players:Game['players
 
 const categoryAccent=(number:number)=>((number-1)%5)+1;
 
-function Board({categories,state,pack,host,busy,open,openPage,question,renderQuestion}:{
-  categories:Pack['categories'];state:Game;pack:Pack;host:boolean;busy:boolean;
-  open:(id:string)=>void;openPage:(page:number)=>void;
-  question:{id:string;value:number;openedAt:number|null}|null;
-  renderQuestion:(openedAt:number|null)=>React.ReactNode;
-}){
+function Board({categories,state,pack,host,busy,open,openPage}:{categories:Pack['categories'];state:Game;pack:Pack;host:boolean;busy:boolean;open:(id:string)=>void;openPage:(page:number)=>void}){
   const pages=Math.ceil(categories.length/BOARD_PAGE_SIZE);
   const page=Math.min(pages-1,Math.max(0,state.boardPage??0));
   const visible=categories.slice(page*BOARD_PAGE_SIZE,(page+1)*BOARD_PAGE_SIZE);
   const chooser=state.players[state.turnIndex];
   const used=categories.reduce((sum,c)=>sum+c.questions.filter(item=>state.completed.includes(item.id)).length,0);
-  const grid=<div className={`board ${visible.length>6?'board-dense':''}`} aria-label="Категории и вопросы" aria-hidden={!!question||undefined} style={{'--board-rows':visible.length} as React.CSSProperties}>
+  return <main className="board-main">
+    <div className="board-chooser">
+      <h1><span>Выбирает</span> <strong>{chooser?.name}</strong></h1>
+    </div>
+    {pages>1&&<nav className="board-pages" aria-label="Страницы категорий">
+      {host&&<button disabled={busy||page===0} onClick={()=>openPage(page-1)}>← Предыдущие</button>}
+      <span>Страница {page+1} из {pages}</span>
+      {host&&<button disabled={busy||page===pages-1} onClick={()=>openPage(page+1)}>Следующие →</button>}
+    </nav>}
+    <div className={`board ${visible.length>6?'board-dense':''}`} aria-label="Категории и вопросы" style={{'--board-rows':visible.length} as React.CSSProperties}>
       {visible.map((c,row)=>{
         const played=c.questions.filter(item=>state.completed.includes(item.id)).length;
         const complete=played>=state.questionsPerCategory;
@@ -275,28 +271,15 @@ function Board({categories,state,pack,host,busy,open,openPage,question,renderQue
           {c.questions.map(item=>{
             const wasPlayed=state.completed.includes(item.id);
             const blank=wasPlayed||complete;
-            return <button className={`price tile-palette ${blank?'played':''}`} data-question-id={item.id} data-value={item.value} key={item.id} disabled={blank||!host||busy||!available(pack,state,item.id)} onClick={()=>open(item.id)} aria-label={`${c.title}, ${item.value}${wasPlayed?', сыграно':complete?', категория закрыта':''}`}>{!blank&&item.value}</button>;
+            return <button className={`price ${blank?'played':''}`} data-question-id={item.id} data-value={item.value} key={item.id} disabled={blank||!host||busy||!available(pack,state,item.id)} onClick={()=>open(item.id)} aria-label={`${c.title}, ${item.value}${wasPlayed?', сыграно':complete?', категория закрыта':''}`}>{!blank&&item.value}</button>;
           })}
         </div>;
       })}
-    </div>;
-  return <main className="board-main">
-    <div className="board-chooser" aria-hidden={!!question||undefined}>
-      <h1><span>Выбирает</span> <strong>{chooser?.name}</strong></h1>
     </div>
-    {pages>1&&<nav className="board-pages" aria-label="Страницы категорий">
-      {host&&<button disabled={busy||page===0} onClick={()=>openPage(page-1)}>← Предыдущие</button>}
-      <span>Страница {page+1} из {pages}</span>
-      {host&&<button disabled={busy||page===pages-1} onClick={()=>openPage(page+1)}>Следующие →</button>}
-    </nav>}
-    {host?grid:<div className="board-stage">
-      {grid}
-      <CellExpansion question={question} render={renderQuestion}/>
-    </div>}
     {host&&<p className="board-progress">{used} / {state.questionsPerCategory*categories.length} сыграно</p>}
   </main>;
 }
-function FittedCopy({contentKey,kind,hidden=false,children}:{contentKey:string;kind:'prompt'|'answer';hidden?:boolean;children:React.ReactNode}){
+function FittedCopy({contentKey,kind,children}:{contentKey:string;kind:'prompt'|'answer';children:React.ReactNode}){
   const frame=useRef<HTMLDivElement>(null),copy=useRef<HTMLDivElement>(null);
   useLayoutEffect(()=>{
     const box=frame.current,text=copy.current;
@@ -321,7 +304,7 @@ function FittedCopy({contentKey,kind,hidden=false,children}:{contentKey:string;k
     void document.fonts.ready.then(schedule);fit();
     return ()=>{alive=false;observer.disconnect();cancelAnimationFrame(raf);window.removeEventListener('resize',schedule);};
   },[contentKey]);
-  return <div className={`question-text question-${kind}`} aria-hidden={hidden||undefined} ref={frame}><div className="question-copy" ref={copy}>{children}</div></div>;
+  return <div className={`question-text question-${kind}`} ref={frame}><div className="question-copy" ref={copy}>{children}</div></div>;
 }
 function Setup({busy,roster,online,start,categories,pack}:{categories:Pack['categories'];pack:Pack;busy:boolean;roster:Participant[];online:boolean;start:(names:string[],limit:number,categoryIds:number[])=>void}){
   const [limit,setLimit]=useState(5);
@@ -358,7 +341,7 @@ function Setup({busy,roster,online,start,categories,pack}:{categories:Pack['cate
   </main>;
 }
 const TYPEWRITER_INTERVAL=75;
-function TypedQuestion({text,openedAt,instant,stopped}:{text:string;openedAt:number|null;instant:boolean;stopped:boolean}){
+function TypedQuestion({text,openedAt,instant}:{text:string;openedAt:number|null;instant:boolean}){
   const glyphs=useMemo(()=>{
     if(typeof Intl.Segmenter!=='function')return Array.from(text);
     return Array.from(new Intl.Segmenter('ru').segment(text),part=>part.segment);
@@ -367,7 +350,6 @@ function TypedQuestion({text,openedAt,instant,stopped}:{text:string;openedAt:num
   const length=()=>immediate?glyphs.length:Math.min(glyphs.length,Math.max(0,Math.floor((Date.now()-openedAt!)/TYPEWRITER_INTERVAL)));
   const [count,setCount]=useState(length);
   useEffect(()=>{
-    if(stopped){if(immediate)setCount(glyphs.length);return;}
     const current=length();
     setCount(current);
     if(current>=glyphs.length)return;
@@ -377,9 +359,9 @@ function TypedQuestion({text,openedAt,instant,stopped}:{text:string;openedAt:num
       if(next>=glyphs.length)window.clearInterval(timer);
     },TYPEWRITER_INTERVAL);
     return ()=>window.clearInterval(timer);
-  },[glyphs,openedAt,immediate,stopped]);
+  },[glyphs,openedAt,immediate]);
 
-  const cursor=!stopped&&count<glyphs.length?count-1:-1;
+  const cursor=count<glyphs.length?count-1:-1;
   return <span className="typed-question" aria-label={text}>
     <span aria-hidden="true">{glyphs.map((glyph,index)=>
       <span className="typed-glyph" key={index} data-hidden={index>=count||undefined} data-caret={index===cursor&&!/^\s+$/.test(glyph)||undefined}>{glyph}</span>

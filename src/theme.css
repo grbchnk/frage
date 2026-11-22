@@ -240,7 +240,6 @@
 
 
 .quiz-round::before { content:none; }
-.quiz-round .question-main,.quiz-round .answer-copy { animation:none; }
 .host.quiz-round .question-meta { padding:4px 0; }
 .host.quiz-round .question-category { font-size:clamp(12px,1.9vh,17px); }
 .host.quiz-round .question-value { font-size:clamp(13px,2.05vh,19px); }
@@ -248,27 +247,18 @@
 /* Keep the picture, text area and footer in place as the answer replaces the prompt. */
 .question-words { flex:1; min-width:0; min-height:0; display:grid; grid-template-columns:minmax(0,1fr); align-items:stretch; }
 .question-words .question-text { grid-area:1 / 1; }
-.question-main.revealed .question-prompt { visibility:hidden; opacity:0; }
 .question-main .respondent-closed { visibility:hidden; }
-.display .question-main.revealed .question-copy h1 { font-size:1em; line-height:1.12; color:inherit; margin:0; }
 .display .question-main.with-media:has(.photo-rebus) .question-content { flex-direction:column; }
 .display .question-content:has(.photo-rebus) .question-words { flex:0 0 25%; }
 .display .question-main .question-image.photo-rebus { flex:1; width:100%; }
 @media (min-width:761px) {
   .display .question-content:has(.photo-rebus) .question-text { align-self:stretch; }
 }
-@media (prefers-reduced-motion:no-preference) {
-  .display .question-prompt { transition:opacity 210ms ease-out,visibility 0s; }
-  .display .revealed .question-prompt { transition:opacity 210ms ease-out,visibility 0s 210ms; }
-  .display .question-answer { animation:question-answer-in 240ms ease-out 160ms both; }
-}
-@keyframes question-answer-in { from { opacity:0; } to { opacity:1; } }
-
 /* TV viewport space belongs to the categories, including all ten compact rows. */
-.display.quiz-round .board-main { padding-bottom:5px; }
-.display.quiz-round .board-chooser { padding-block:clamp(6px,1.2vh,14px); }
-.display.quiz-round .board { border:0; border-radius:0; padding:0; background:none; box-shadow:none; }
-.display.quiz-round .board.board-dense { grid-template-rows:repeat(var(--board-rows),minmax(20px,1fr)); }
+.display.phase-board .board-main { padding-bottom:5px; }
+.display.phase-board .board-chooser { padding-block:clamp(6px,1.2vh,14px); }
+.display.phase-board .board { border:0; border-radius:0; padding:0; background:none; box-shadow:none; }
+.display.phase-board .board.board-dense { grid-template-rows:repeat(var(--board-rows),minmax(20px,1fr)); }
 .quiz-round .player { --score-side:clamp(23px,4.4vw,65px); }
 .quiz-round .many-players .player { --score-side:clamp(21px,3.3vw,53px); }
 .quiz-round .player .score-delta-slot { grid-area:1 / 3 / span 2; place-self:center stretch; min-width:0; text-align:center; }
@@ -278,25 +268,5 @@
   .display.quiz-round .player { height:clamp(49px,11vh,69px); }
   .display.quiz-round .player .player-name { font-size:clamp(11px,2.5vh,17px); }
   .display.quiz-round .player > strong { font-size:clamp(15px,3.6vh,23px); }
-  .display.quiz-round .board-row .category-title strong { font-size:clamp(11px,2.1vh,15px); }
-}
-
-
-/* The board and the question share the same bounded stage. */
-.display .board-stage { position:relative; isolation:isolate; flex:1; min-height:0; display:flex; }
-.display .board-stage .board { min-width:0; }
-.display .cell-surface,.display .cell-question { position:absolute; inset:0; }
-.display .cell-surface {
-  z-index:1; transform-origin:top left; border-radius:clamp(7px,1.8vh,22px);
-  background:var(--tile-background); pointer-events:none; overflow:hidden;
-}
-.cell-neutral { position:absolute; inset:0; opacity:0; background:linear-gradient(155deg,#242342,#1b1a35); }
-.display .cell-question { z-index:2; display:flex; padding:0 clamp(8px,1.7vw,27px); min-width:0; min-height:0; }
-.display .cell-question[data-waiting="true"] { display:none; }
-.display .cell-question .question-main { min-width:0; padding-top:4px; }
-.display .cell-question .question-content { padding-block:1vh; }
-.display .cell-question .image-stage { max-height:43vh; width:min(100%,calc(43vh * var(--image-ratio,1.6))); }
-.display .cell-question .question-meta { padding-block:5px; }
-@media(max-height:640px) {
-  .display .cell-question .respondent { padding:4px 8px; font-size:14px; }
+  .display.phase-board .board-row .category-title strong { font-size:clamp(11px,2.1vh,15px); }
 }

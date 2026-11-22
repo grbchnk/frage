@@ -522,8 +522,9 @@
   .host .category-title strong { font-size:clamp(11px,2.05vh,23px); }
   .host .price { font-size:clamp(15px,3.25vh,34px); }
   .host .price:not(:disabled):hover { transform:none; }
-  .host .question-main { display:grid; grid-template-columns:minmax(0,1.8fr) minmax(0,1fr); grid-template-rows:auto minmax(0,1fr); gap:8px clamp(14px,2vw,36px); min-height:0; padding-top:9px; }
-  .host .question-main.revealed { grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr) auto; }
+  .host .question-main { display:grid; grid-template-columns:minmax(0,1fr); gap:8px; min-height:0; padding-top:9px; }
+  .host.phase-question .question-main { align-content:start; overflow-y:auto; scrollbar-width:thin; }
+  .host .question-main.revealed { grid-template-rows:auto minmax(0,1fr) auto; }
   .host .question-meta { grid-column:1/-1; min-height:0; padding-bottom:8px; }
   .host .question-value { font-size:clamp(20px,4vh,35px); padding:4px 10px; }
   .host .question-category { font-size:clamp(14px,2.6vh,23px); padding:6px 10px; }
@@ -532,7 +533,7 @@
   .host .question-image { max-width:100%; }
   .host .image-stage { max-height:35vh; width:min(100%,calc(35vh * var(--image-ratio,1.6))); }
   .host .rebus-panel img { height:22vh; }
-  .host .host-answer { align-self:stretch; min-height:0; overflow:auto; margin:4px 0 0; scrollbar-width:thin; }
+  .host .host-answer { margin:4px 0 0; }
   .host .judgement-buttons button { min-height:clamp(48px,13vh,112px); }
   .host .continue { margin:0 auto 5px; padding-block:10px; }
   .host .host-setup { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:center; gap:clamp(16px,5vw,96px); width:min(100%,1260px); margin:auto; padding:16px 0; min-height:0; overflow:auto; scrollbar-width:thin; }
@@ -556,13 +557,10 @@
   .host .player>strong { font-size:clamp(16px,4.65vw,24px); }
   .host .score-delta-slot { height:auto; }
   .host .choosing .score-delta-slot { flex-wrap:wrap; }
-  .host .question-main .host-answer { order:1; margin-top:8px; }
-  .host .question-main .question-content { order:2; }
-  .host .question-main .continue { order:3; }
   .host .topbar { height:51px; }
   .host .question-main { padding-top:9px; }
   .host .question-meta { gap:6px; min-height:0; padding-bottom:8px; }
-  .host .host-answer { padding:10px; }
+  .host .host-answer { margin-top:8px; padding:10px; }
   .host .answer-notes { margin:4px 0; }
   .host .answer-notes summary { min-height:0; padding:3px 0; }
   .host .judgement-panel h3 { margin:5px 0 8px; }

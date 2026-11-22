@@ -1,10 +1,11 @@
 import {describe,it,expect} from 'vitest';
 import {readFileSync} from 'node:fs';
 import {available,chooseCategories,initialGame,rankPlayers,roundCategories,transition} from '../src/engine';
+import {questionType} from '../src/rounds';
 import type {Pack,Answer} from '../src/types';
 const pack:Pack=JSON.parse(readFileSync('quiz-pack.json','utf8'));
 const answer:Answer={answer:'Верно',explanation:'Почему верно',accepted_answers:['вариант'],host_note:'Секретная заметка'};
-const start=(limit=5)=>transition(initialGame(),{type:'start',names:['Антон','Оля'],limit,categoryIds:pack.categories.slice(0,10).map(c=>c.id)},pack,0);
+const start=(limit=5)=>transition(initialGame(),{type:'start',names:['Антон','Оля'],limit,categoryIds:pack.categories.filter(c=>c.questions.every(q=>questionType(q)==='buzzer')).slice(0,10).map(c=>c.id)},pack,0);
 describe('Один вечер в кинокомнате',()=>{
  it.each([5,3])('%i вопросов на тему: 10 тем, один раунд, без перерыва',limit=>{
   let state=start(limit);

@@ -12,7 +12,7 @@ const base:Game={...initialGame(),phase:'board',players,turnIndex:1};
 
 it('отбирает вопросы после фильтра, по одному на цену, включая запасной',()=>{
   const filtered=filterCategories(pack.categories,['estimate']);
-  expect(filtered.filter(category=>!missingPrices(category).length).map(category=>category.id)).toEqual([76]);
+  expect(filtered.filter(category=>!missingPrices(category).length).map(category=>category.id)).toEqual([43,76]);
   const ids=drawQuestions(filtered,[76],()=>.99);
   expect(ids[2]).toBe('q76-300-6');
   const state=transition(initialGame(),{type:'start',names:['Аня','Ваня'],limit:5,categoryIds:[76],selectedQuestions:ids},pack);

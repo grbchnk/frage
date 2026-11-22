@@ -239,7 +239,7 @@
         {
           "id": "q03-100",
           "value": 100,
-          "prompt": "Съедобное или несъедобное?",
+          "prompt": "Съедобно или нет?",
           "answer": "Съедобное",
           "accepted_answers": [
             "Съедобное"
@@ -251,7 +251,10 @@
           "time_seconds": 10,
           "host_note": "Нужно выбрать только «съедобное» или «несъедобное». Название предмета не требуется.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Съедобно",
+            "Несъедобно"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/edible-romanesco.jpg",
@@ -259,12 +262,14 @@
             "question_alt": "Изображение к вопросу q03-100",
             "question_crop_normalized": null,
             "reveal": "full_original"
-          }
+          },
+          "type": "choice",
+          "correctOption": 1
         },
         {
           "id": "q03-200",
           "value": 200,
-          "prompt": "Съедобное или несъедобное?",
+          "prompt": "Съедобно или нет?",
           "answer": "Несъедобное",
           "accepted_answers": [
             "Несъедобное"
@@ -276,7 +281,10 @@
           "time_seconds": 10,
           "host_note": "Нужно выбрать только «съедобное» или «несъедобное». Название предмета не требуется.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Съедобно",
+            "Несъедобно"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/edible-soap.jpg",
@@ -284,12 +292,14 @@
             "question_alt": "Изображение к вопросу q03-200",
             "question_crop_normalized": null,
             "reveal": "full_original"
-          }
+          },
+          "type": "choice",
+          "correctOption": 1
         },
         {
           "id": "q03-300",
           "value": 300,
-          "prompt": "Съедобное или несъедобное?",
+          "prompt": "Съедобно или нет?",
           "answer": "Съедобное",
           "accepted_answers": [
             "Съедобное"
@@ -301,7 +311,10 @@
           "time_seconds": 10,
           "host_note": "Нужно выбрать только «съедобное» или «несъедобное». Название предмета не требуется.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Съедобно",
+            "Несъедобно"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/edible-pitaya.jpg",
@@ -309,12 +322,14 @@
             "question_alt": "Изображение к вопросу q03-300",
             "question_crop_normalized": null,
             "reveal": "full_original"
-          }
+          },
+          "type": "choice",
+          "correctOption": 1
         },
         {
           "id": "q03-400",
           "value": 400,
-          "prompt": "Съедобное или несъедобное?",
+          "prompt": "Съедобно или нет?",
           "answer": "Несъедобное",
           "accepted_answers": [
             "Несъедобное"
@@ -326,7 +341,10 @@
           "time_seconds": 10,
           "host_note": "Нужно выбрать только «съедобное» или «несъедобное». Название предмета не требуется.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Съедобно",
+            "Несъедобно"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/edible-silica.jpg",
@@ -334,12 +352,14 @@
             "question_alt": "Изображение к вопросу q03-400",
             "question_crop_normalized": null,
             "reveal": "full_original"
-          }
+          },
+          "type": "choice",
+          "correctOption": 1
         },
         {
           "id": "q03-500",
           "value": 500,
-          "prompt": "Съедобное или несъедобное?",
+          "prompt": "Съедобно или нет?",
           "answer": "Несъедобное",
           "accepted_answers": [
             "Несъедобное"
@@ -351,7 +371,10 @@
           "time_seconds": 10,
           "host_note": "Нужно выбрать только «съедобное» или «несъедобное». Название предмета не требуется.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Съедобно",
+            "Несъедобно"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/edible-model.jpg",
@@ -359,7 +382,9 @@
             "question_alt": "Изображение к вопросу q03-500",
             "question_crop_normalized": null,
             "reveal": "full_original"
-          }
+          },
+          "type": "choice",
+          "correctOption": 1
         }
       ]
     },
@@ -1717,22 +1742,34 @@
         {
           "id": "q14-300",
           "value": 300,
-          "prompt": "Машина приехала из будущего, чтобы сорвать женщине планы на материнство. В ответ ей отправили мужчину, который эти планы как раз обеспечил.",
-          "answer": "Терминатор",
-          "accepted_answers": [
-            "Терминатор",
-            "The Terminator"
-          ],
-          "explanation": "Пересказ фильма 1984 года.",
+          "prompt": "Расставьте фильмы по году выхода, от раннего к позднему.",
+          "answer": "Терминатор → Титаник → Бойцовский клуб → Мальчишник в Вегасе",
+          "accepted_answers": [],
+          "explanation": "1984, 1997, 1999, 2009 — в таком порядке фильмы вышли.",
           "source_ids": [
-            "terminator"
+            "afi-terminator",
+            "afi-titanic",
+            "afi-fight-club",
+            "legendary-hangover"
           ],
           "time_seconds": 10,
           "host_note": "",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Бойцовский клуб",
+            "Титаник",
+            "Мальчишник в Вегасе",
+            "Терминатор"
+          ],
           "media": null,
-          "difficulty": "easy_speed"
+          "difficulty": "easy_speed",
+          "type": "order",
+          "correctOrder": [
+            3,
+            1,
+            0,
+            2
+          ]
         },
         {
           "id": "q14-400",
@@ -2190,7 +2227,10 @@
             "reveal": "full_original",
             "crop_implementation": "display-only viewport; original file retained"
           },
-          "difficulty": "very_easy_speed"
+          "difficulty": "very_easy_speed",
+          "type": "estimate",
+          "target": 5,
+          "unit": "кружков"
         },
         {
           "id": "q18-400",
@@ -2798,7 +2838,10 @@
           "host_note": "",
           "editorial_status": "ready_for_host_review",
           "options": [],
-          "media": null
+          "media": null,
+          "type": "estimate",
+          "target": 120,
+          "unit": "ккал"
         }
       ]
     },
@@ -3669,8 +3712,22 @@
           "time_seconds": 30,
           "host_note": "",
           "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
+          "options": [
+            "Серебро",
+            "Медь",
+            "Алюминий",
+            "Золото",
+            "Платина",
+            "Железо",
+            "Магний",
+            "Цинк",
+            "Свинец",
+            "Олово",
+            "Никель"
+          ],
+          "media": null,
+          "type": "turns",
+          "correctOption": 3
         },
         {
           "id": "q31-300",
@@ -3689,7 +3746,10 @@
           "host_note": "",
           "editorial_status": "ready_for_host_review",
           "options": [],
-          "media": null
+          "media": null,
+          "type": "estimate",
+          "target": 180,
+          "unit": "градусов"
         },
         {
           "id": "q31-400",
@@ -5087,7 +5147,10 @@
             "path": "assets/images/pasha-house-a.jpg",
             "source_id": "pasha-house-a",
             "question_alt": "Фотография для вопроса"
-          }
+          },
+          "type": "estimate",
+          "target": 3,
+          "unit": "этажей"
         },
         {
           "id": "q43-200",
@@ -5112,7 +5175,10 @@
             "path": "assets/images/pasha-house-b.jpg",
             "source_id": "pasha-house-b",
             "question_alt": "Фотография для вопроса"
-          }
+          },
+          "type": "estimate",
+          "target": 5,
+          "unit": "этажей"
         },
         {
           "id": "q43-300",
@@ -5137,7 +5203,10 @@
             "path": "assets/images/pasha-house-c.jpg",
             "source_id": "pasha-house-c",
             "question_alt": "Фотография для вопроса"
-          }
+          },
+          "type": "estimate",
+          "target": 7,
+          "unit": "этажей"
         },
         {
           "id": "q43-400",
@@ -5162,7 +5231,10 @@
             "path": "assets/images/pasha-house-d.png",
             "source_id": "pasha-house-d",
             "question_alt": "Фотография для вопроса"
-          }
+          },
+          "type": "estimate",
+          "target": 9,
+          "unit": "этажей"
         },
         {
           "id": "q43-500",
@@ -5187,7 +5259,10 @@
             "path": "assets/images/pasha-house-e.jpg",
             "source_id": "pasha-house-e",
             "question_alt": "Фотография для вопроса"
-          }
+          },
+          "type": "estimate",
+          "target": 18,
+          "unit": "этажей"
         }
       ]
     },
@@ -5233,7 +5308,10 @@
           "host_note": "",
           "editorial_status": "ready_for_host_review",
           "options": [],
-          "media": null
+          "media": null,
+          "type": "estimate",
+          "target": 9,
+          "unit": "ккал"
         },
         {
           "id": "q44-300",
@@ -5253,7 +5331,10 @@
           "host_note": "",
           "editorial_status": "ready_for_host_review",
           "options": [],
-          "media": null
+          "media": null,
+          "type": "estimate",
+          "target": 10,
+          "unit": "г"
         },
         {
           "id": "q44-400",
@@ -5272,7 +5353,10 @@
           "host_note": "",
           "editorial_status": "ready_for_host_review",
           "options": [],
-          "media": null
+          "media": null,
+          "type": "estimate",
+          "target": 164,
+          "unit": "ккал"
         },
         {
           "id": "q44-500",
@@ -5291,7 +5375,10 @@
           "host_note": "",
           "editorial_status": "ready_for_host_review",
           "options": [],
-          "media": null
+          "media": null,
+          "type": "estimate",
+          "target": 150,
+          "unit": "ккал"
         }
       ],
       "default_mode": "open"
@@ -5445,7 +5532,7 @@
         {
           "id": "q46-300",
           "value": 300,
-          "prompt": "Облако из вейпа — просто водяной пар или аэрозоль?",
+          "prompt": "Что представляет собой облако, которое образует вейп?",
           "answer": "Аэрозоль",
           "explanation": "В воздухе находятся мелкие частицы и капли. Это не просто водяной пар.",
           "accepted_answers": [
@@ -5458,8 +5545,13 @@
           "time_seconds": 30,
           "host_note": "",
           "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
+          "options": [
+            "Водяной пар",
+            "Аэрозоль"
+          ],
+          "media": null,
+          "type": "choice",
+          "correctOption": 1
         },
         {
           "id": "q46-400",
@@ -5772,7 +5864,7 @@
         {
           "id": "q49-300",
           "value": 300,
-          "prompt": "На коробке написано «медицинский силикон». О каком классе материалов идёт речь: металл, полимер или стекло?",
+          "prompt": "На коробке написано «медицинский силикон». К какому классу материалов он относится?",
           "answer": "Полимер",
           "explanation": "Силиконы относятся к полимерным материалам.",
           "accepted_answers": [
@@ -5784,8 +5876,14 @@
           "time_seconds": 30,
           "host_note": "",
           "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
+          "options": [
+            "Металл",
+            "Полимер",
+            "Стекло"
+          ],
+          "media": null,
+          "type": "choice",
+          "correctOption": 1
         },
         {
           "id": "q49-400",
@@ -5934,7 +6032,7 @@
         {
           "id": "q51-100",
           "value": 100,
-          "prompt": "Кто обычно кричит «кукареку»: гусь, петух или индюк?",
+          "prompt": "Какая птица обычно кричит «кукареку»?",
           "answer": "Петух",
           "explanation": "Деревенская подписка на будильник.",
           "accepted_answers": [
@@ -5946,8 +6044,14 @@
           "time_seconds": 30,
           "host_note": "",
           "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
+          "options": [
+            "Гусь",
+            "Петух",
+            "Индюк"
+          ],
+          "media": null,
+          "type": "choice",
+          "correctOption": 1
         },
         {
           "id": "q51-200",
@@ -6070,7 +6174,7 @@
         {
           "id": "q52-300",
           "value": 300,
-          "prompt": "Что Honda начала выпускать раньше: мотоциклы или автомобили?",
+          "prompt": "Что Honda начала выпускать раньше?",
           "answer": "Мотоциклы",
           "explanation": "Серийные автомобили Honda появились в 1963 году, позднее мотоциклов.",
           "accepted_answers": [
@@ -6082,8 +6186,13 @@
           "time_seconds": 30,
           "host_note": "",
           "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
+          "options": [
+            "Мотоциклы",
+            "Автомобили"
+          ],
+          "media": null,
+          "type": "choice",
+          "correctOption": 0
         },
         {
           "id": "q52-400",
@@ -6101,8 +6210,22 @@
           "time_seconds": 30,
           "host_note": "",
           "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
+          "options": [
+            "Saab",
+            "Audi",
+            "Renault",
+            "Volvo",
+            "Opel",
+            "Fiat",
+            "Škoda",
+            "Citroën",
+            "Peugeot",
+            "Lancia",
+            "Dacia"
+          ],
+          "media": null,
+          "type": "turns",
+          "correctOption": 3
         },
         {
           "id": "q52-500",
@@ -6685,13 +6808,18 @@
           "time_seconds": 25,
           "host_note": "Достаточно сказать, съедобно это или нет.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Съедобно",
+            "Несъедобно"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/more-edible-a.jpg",
             "source_id": "more-edible-a",
             "question_alt": "Изображение к вопросу"
-          }
+          },
+          "type": "choice",
+          "correctOption": 0
         },
         {
           "id": "q58-200",
@@ -6709,13 +6837,18 @@
           "time_seconds": 25,
           "host_note": "Достаточно сказать, съедобно это или нет.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Съедобно",
+            "Несъедобно"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/more-edible-b.jpg",
             "source_id": "more-edible-b",
             "question_alt": "Изображение к вопросу"
-          }
+          },
+          "type": "choice",
+          "correctOption": 1
         },
         {
           "id": "q58-300",
@@ -6733,13 +6866,18 @@
           "time_seconds": 25,
           "host_note": "Достаточно сказать, съедобно это или нет.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Съедобно",
+            "Несъедобно"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/more-edible-c.jpg",
             "source_id": "more-edible-c",
             "question_alt": "Изображение к вопросу"
-          }
+          },
+          "type": "choice",
+          "correctOption": 0
         },
         {
           "id": "q58-400",
@@ -6757,13 +6895,18 @@
           "time_seconds": 25,
           "host_note": "Достаточно сказать, съедобно это или нет.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Съедобно",
+            "Несъедобно"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/more-edible-d.jpg",
             "source_id": "more-edible-d",
             "question_alt": "Изображение к вопросу"
-          }
+          },
+          "type": "choice",
+          "correctOption": 1
         },
         {
           "id": "q58-500",
@@ -6781,13 +6924,18 @@
           "time_seconds": 25,
           "host_note": "Достаточно сказать, съедобно это или нет.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Съедобно",
+            "Несъедобно"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/more-edible-e.jpg",
             "source_id": "more-edible-e",
             "question_alt": "Изображение к вопросу"
-          }
+          },
+          "type": "choice",
+          "correctOption": 0
         }
       ]
     },
@@ -7106,7 +7254,7 @@
         {
           "id": "q62-100",
           "value": 100,
-          "prompt": "Был ли этот человек осуждён за убийство? Ответьте «да» или «нет».",
+          "prompt": "Был ли этот человек осуждён за убийство?",
           "answer": "Нет — Чарли Чаплин",
           "explanation": "Это актёр и режиссёр Чарли Чаплин, а не осуждённый за убийство.",
           "accepted_answers": [
@@ -7119,18 +7267,23 @@
           "time_seconds": 25,
           "host_note": "Оцениваем документированный приговор, а не внешность. После ответа назвать человека и пояснить биографию.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Да",
+            "Нет"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/more-history-a.jpg",
             "source_id": "more-history-a",
             "question_alt": "Изображение к вопросу"
-          }
+          },
+          "type": "choice",
+          "correctOption": 1
         },
         {
           "id": "q62-200",
           "value": 200,
-          "prompt": "Был ли этот человек осуждён за убийство? Ответьте «да» или «нет».",
+          "prompt": "Был ли этот человек осуждён за убийство?",
           "answer": "Да — Тед Банди",
           "explanation": "Банди был осуждён за убийства; казнён в 1989 году.",
           "accepted_answers": [
@@ -7144,18 +7297,23 @@
           "time_seconds": 25,
           "host_note": "Оцениваем документированный приговор, а не внешность. После ответа назвать человека и пояснить биографию.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Да",
+            "Нет"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/more-history-b.jpg",
             "source_id": "more-history-b",
             "question_alt": "Изображение к вопросу"
-          }
+          },
+          "type": "choice",
+          "correctOption": 0
         },
         {
           "id": "q62-300",
           "value": 300,
-          "prompt": "Был ли этот человек осуждён за убийство? Ответьте «да» или «нет».",
+          "prompt": "Был ли этот человек осуждён за убийство?",
           "answer": "Нет — Юрий Гагарин",
           "explanation": "Это первый человек в космосе Юрий Гагарин.",
           "accepted_answers": [
@@ -7168,18 +7326,23 @@
           "time_seconds": 25,
           "host_note": "Оцениваем документированный приговор, а не внешность. После ответа назвать человека и пояснить биографию.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Да",
+            "Нет"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/more-history-c.jpg",
             "source_id": "more-history-c",
             "question_alt": "Изображение к вопросу"
-          }
+          },
+          "type": "choice",
+          "correctOption": 1
         },
         {
           "id": "q62-400",
           "value": 400,
-          "prompt": "Был ли этот человек осуждён за убийство? Ответьте «да» или «нет».",
+          "prompt": "Был ли этот человек осуждён за убийство?",
           "answer": "Да — Джон Уэйн Гейси",
           "explanation": "В 1980 году его признали виновным в 33 убийствах.",
           "accepted_answers": [
@@ -7193,18 +7356,23 @@
           "time_seconds": 25,
           "host_note": "Оцениваем документированный приговор, а не внешность. После ответа назвать человека и пояснить биографию.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Да",
+            "Нет"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/more-history-d.jpg",
             "source_id": "more-history-d",
             "question_alt": "Изображение к вопросу"
-          }
+          },
+          "type": "choice",
+          "correctOption": 0
         },
         {
           "id": "q62-500",
           "value": 500,
-          "prompt": "Был ли этот человек осуждён за убийство? Ответьте «да» или «нет».",
+          "prompt": "Был ли этот человек осуждён за убийство?",
           "answer": "Да — Чарльз Мэнсон",
           "explanation": "В 1971 году осуждён за убийства и сговор; речь о судебной ответственности, а не утверждении, что он лично совершил каждое убийство.",
           "accepted_answers": [
@@ -7218,13 +7386,18 @@
           "time_seconds": 25,
           "host_note": "Оцениваем документированный приговор, а не внешность. После ответа назвать человека и пояснить биографию.",
           "editorial_status": "ready_for_host_review",
-          "options": [],
+          "options": [
+            "Да",
+            "Нет"
+          ],
           "media": {
             "kind": "image",
             "path": "assets/images/more-history-e.jpg",
             "source_id": "more-history-e",
             "question_alt": "Изображение к вопросу"
-          }
+          },
+          "type": "choice",
+          "correctOption": 0
         }
       ]
     },
@@ -7667,7 +7840,7 @@
         {
           "id": "q67-100",
           "value": 100,
-          "prompt": "Кто появился раньше: тираннозавр или человек разумный?",
+          "prompt": "Кто появился раньше?",
           "answer": "Тираннозавр",
           "explanation": "Тираннозавры жили в конце мелового периода, задолго до Homo sapiens.",
           "accepted_answers": [
@@ -7680,8 +7853,13 @@
           "time_seconds": 30,
           "host_note": "",
           "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
+          "options": [
+            "Тираннозавр",
+            "Человек разумный"
+          ],
+          "media": null,
+          "type": "choice",
+          "correctOption": 0
         },
         {
           "id": "q67-200",
@@ -8091,7 +8269,7 @@
         {
           "id": "q71-200",
           "value": 200,
-          "prompt": "Какой металл из трёх обычно притягивает магнит: железо, медь или алюминий?",
+          "prompt": "Какой из этих металлов обычно притягивает магнит?",
           "answer": "Железо",
           "explanation": "Обычный железный предмет проявляет ферромагнитные свойства.",
           "accepted_answers": [
@@ -8103,8 +8281,14 @@
           "time_seconds": 30,
           "host_note": "",
           "editorial_status": "ready_for_host_review",
-          "options": [],
-          "media": null
+          "options": [
+            "Железо",
+            "Медь",
+            "Алюминий"
+          ],
+          "media": null,
+          "type": "choice",
+          "correctOption": 0
         },
         {
           "id": "q71-300",
@@ -10085,6 +10269,22 @@
     "more-scientist-e": {
       "title": "File:Charles Darwin seated crop.jpg",
       "url": "https://commons.wikimedia.org/wiki/File:Charles_Darwin_seated_crop.jpg"
+    },
+    "afi-terminator": {
+      "title": "AFI Catalog — The Terminator",
+      "url": "https://catalog.afi.com/Film/57224-THE-TERMINATOR"
+    },
+    "afi-titanic": {
+      "title": "AFI Catalog — Titanic",
+      "url": "https://catalog.afi.com/Catalog/MovieDetails/55202"
+    },
+    "afi-fight-club": {
+      "title": "AFI Catalog — Fight Club",
+      "url": "https://catalog.afi.com/Catalog/moviedetails/61148"
+    },
+    "legendary-hangover": {
+      "title": "Legendary — The Hangover",
+      "url": "https://www.legendary.com/film/the-hangover/"
     }
   },
   "rounds": [

@@ -6,7 +6,9 @@
   var snapshot = null;
   var pending = false;
   var revision = -1;
-  var lastFeedback = -1;
+  var questionView = null;
+  var wakeLock = null;
+  var wakePending = false;
   var buzzer = null;
   var responseRequest = false;
   var lobbyRoster = [];
@@ -92,7 +94,7 @@
     img.src = './' + path.replace(/\.webp$/, '.jpg');
     return img;
   }
-  function mediaView(media, revealed, parent) {
+  function mediaView(media, parent) {
     var box = el('div', 'tv-media', null, parent);
     var width = document.documentElement.clientWidth || 1280;
     var height = window.innerHeight || document.documentElement.clientHeight || 720;
@@ -114,7 +116,7 @@
           el('span', 'tv-trim', trim, panel);
         }
       }
-      return;
+      return null;
     }
     var frame = el('div', 'tv-picture', null, box);
     frame.style.width = Math.min(680, width * 0.7) + 'px';
@@ -123,7 +125,8 @@
         frame.style.width = Math.min(680, width * 0.7, maxHeight * this.naturalWidth / this.naturalHeight) + 'px';
       }
     });
-    var masks = revealed ? [] : (media.question_masks_normalized || []);
+    var masks = media.question_masks_normalized || [];
+    var cover = [];
     for (i = 0; i < masks.length; i++) {
       var mask = el('span', 'tv-mask', null, frame);
       mask.style.left = masks[i][0] * 100 + '%';
@@ -131,7 +134,9 @@
       mask.style.width = masks[i][2] * 100 + '%';
       mask.style.height = masks[i][3] * 100 + '%';
       el('b', '', '?', mask);
+      cover.push(mask);
     }
+    return { frame: frame, cover: cover, visible: true };
   }
   function signed(value) {
     return value > 0 ? '+' + value : value < 0 ? '−' + Math.abs(value) : '0';
@@ -174,16 +179,73 @@
     text(label, name ? 'Отвечает ' + name : 'Кто первый нажмёт?');
     label.className = name ? 'tv-respondent active' : 'tv-respondent';
   }
-  function flash(feedback) {
-    if (!feedback || feedback.event === lastFeedback) return;
-    lastFeedback = feedback.event;
-    if (new Date().getTime() - feedback.at > 2800) return;
-    var overlay = document.getElementById('tv-flash');
-    if (!overlay) return;
-    overlay.className = feedback.kind === 'correct' ? 'tv-flash-correct' : 'tv-flash-wrong';
-    window.setTimeout(function () {
-      if (lastFeedback === feedback.event) overlay.className = '';
-    }, 1300);
+  function syncWakeLock() {
+    if (typeof navigator === 'undefined' || !navigator.wakeLock) return;
+    if (!snapshot || snapshot.state.phase === 'finished' || document.hidden) {
+      if (wakeLock && !wakeLock.released) wakeLock.release().then(function () {}, function () {});
+      wakeLock = null;
+      return;
+    }
+    if (wakePending || (wakeLock && !wakeLock.released)) return;
+    wakePending = true;
+    navigator.wakeLock.request('screen').then(function (lock) {
+      wakePending = false;
+      wakeLock = lock;
+      if (snapshot.state.phase === 'finished' || document.hidden) syncWakeLock();
+    }, function () { wakePending = false; });
+  }
+  function fitBoard() {
+    var table = document.getElementById('tv-category-table');
+    var footer = document.getElementById('tv-footer');
+    if (!table || !table.getBoundingClientRect || !footer) return;
+    var top = table.getBoundingClientRect().top;
+    var available = (window.innerHeight || document.documentElement.clientHeight) - top - footer.offsetHeight - 27;
+    table.style.height = Math.max(0, Math.min(available, table.rows.length * 72)) + 'px';
+  }
+  function renderQuestion(state, roundIds) {
+    var found = question(state.activeQuestionId);
+    if (!found) { text(content, 'Вопрос не найден. Обновите страницу.'); return; }
+    var q = found.question;
+    if (!questionView || questionView.id !== q.id) {
+      text(content, '');
+      var section = el('div', 'tv-question', null, content);
+      var categoryNumber = roundIds.indexOf(found.category.id) + 1;
+      var questionLabel = el('div', 'tv-question-label tv-category-' + ((categoryNumber - 1) % 5 + 1), null, section);
+      if (categoryNumber > 0) el('span', 'tv-category-number', categoryNumber, questionLabel);
+      el('strong', '', found.category.title, questionLabel);
+      el('span', 'tv-question-value', q.value, questionLabel);
+      var prompt = el('h1', '', q.prompt, section);
+      var answer = el('div', 'tv-question-answer', null, section);
+      var media = q.media ? mediaView(q.media, section) : null;
+      var response = el('p', 'tv-respondent', '', section);
+      response.id = 'tv-respondent';
+      questionView = { id: q.id, prompt: prompt, answer: answer, media: media, response: response };
+      window.scrollTo(0, 0);
+    }
+    var view = questionView;
+    var show = state.phase === 'answer' && state.revealed;
+    view.prompt.style.display = show ? 'none' : '';
+    view.answer.style.display = show ? '' : 'none';
+    view.response.style.display = show ? 'none' : '';
+    if (show) {
+      text(view.answer, '');
+      el('h2', '', state.revealed.answer, view.answer);
+      el('p', '', state.revealed.explanation, view.answer);
+      var award = 'В этот раз без баллов';
+      for (var i = 0; i < state.players.length; i++) if (state.players[i].id === state.winnerId) award = '+' + q.value + ' · ' + state.players[i].name;
+      el('p', 'tv-award', award, view.answer);
+    } else {
+      showRespondent();
+    }
+    if (view.media && view.media.visible === !!show) {
+      var cover = view.media.cover;
+      var frame = view.media.frame;
+      for (var j = 0; j < cover.length; j++) {
+        if (show) frame.removeChild(cover[j]);
+        else frame.appendChild(cover[j]);
+      }
+      view.media.visible = !show;
+    }
   }
   function render() {
     if (!pack || !snapshot) return;
@@ -202,17 +264,22 @@
         var player = ranked[i].player;
         var choosing = boardPhase && chooser && chooser.id === player.id;
         var cell = el('div', 'tv-player' + (choosing ? ' tv-choosing' : '') + (player.id === state.winnerId ? ' tv-scored' : ''), null, players);
-        if (roundPhase) {
-          if (ranked[i].rank <= 3) el('b', 'tv-board-crown ' + ranks[ranked[i].rank], '♛', cell);
-        } else {
-          el('b', 'tv-place ' + (ranks[ranked[i].rank] || ''), ranked[i].rank, cell);
-        }
-        el('span', '', player.name, cell);
-        el('strong', '', player.score, cell);
+        var row = el('div', 'tv-score-row', null, cell);
+        var badge = el('div', 'tv-crown-slot', null, row);
+        if (ranked[i].rank <= 3) el('b', 'tv-board-crown ' + ranks[ranked[i].rank], '♛', badge);
+        var scores = el('div', 'tv-score-body', null, row);
+        el('span', '', player.name, scores);
+        el('strong', '', player.score, scores);
+        el('div', 'tv-crown-slot', null, row);
         var change = state.scoreChanges && state.scoreChanges[player.id];
-        if (typeof change === 'number') el('small', 'tv-delta' + (change > 0 ? ' tv-positive' : change < 0 ? ' tv-negative' : ''), signed(change), cell);
+        el('small', 'tv-delta' + (change > 0 ? ' tv-positive' : change < 0 ? ' tv-negative' : ''), typeof change === 'number' ? signed(change) : '', cell);
       }
     }
+    if (state.phase === 'question' || state.phase === 'answer') {
+      renderQuestion(state, roundIds);
+      return;
+    }
+    questionView = null;
     text(content, '');
     if (state.phase === 'lobby') {
       var lobby = el('div', 'tv-lobby', null, content);
@@ -243,8 +310,8 @@
       el('strong', '', chooser ? chooser.name : '', heading);
       if (pageCount > 1) el('p', 'tv-meta', 'Страница ' + (page + 1) + ' из ' + pageCount, content);
       ids = ids.slice(page * 10, (page + 1) * 10);
-      var frame = el('div', 'tv-board-frame', null, content);
-      var table = el('table', 'tv-board' + (ids.length > 6 ? ' tv-board-dense' : ''), null, frame);
+      var table = el('table', 'tv-board' + (ids.length > 6 ? ' tv-board-dense' : ''), null, content);
+      table.id = 'tv-category-table';
       var body = el('tbody', '', null, table);
       for (i = 0; i < ids.length; i++) {
         var cat = category(ids[i]);
@@ -263,28 +330,7 @@
           el('td', blank ? 'tv-used' : 'tv-price-' + cat.questions[k].value, blank ? '' : cat.questions[k].value, row);
         }
       }
-    } else if (state.phase === 'question' || state.phase === 'answer') {
-      var found = question(state.activeQuestionId);
-      if (!found) { el('p', '', 'Вопрос не найден. Обновите страницу.', content); return; }
-      var q = found.question;
-      var section = el('div', 'tv-question', null, content);
-      var categoryNumber = roundIds.indexOf(found.category.id) + 1;
-      var questionLabel = el('div', 'tv-question-label tv-category-' + ((categoryNumber - 1) % 5 + 1), null, section);
-      if (categoryNumber > 0) el('span', 'tv-category-number', categoryNumber, questionLabel);
-      el('strong', '', found.category.title, questionLabel);
-      el('span', 'tv-question-value', q.value, questionLabel);
-      el('h1', '', q.prompt, section);
-      if (state.phase === 'answer' && state.revealed) {
-        el('h2', '', state.revealed.answer, section);
-        el('p', '', state.revealed.explanation, section);
-        var award = 'В этот раз без баллов';
-        for (i = 0; i < state.players.length; i++) if (state.players[i].id === state.winnerId) award = '+' + q.value + ' · ' + state.players[i].name;
-        el('p', 'tv-award', award, section);
-      }
-      if (q.media) mediaView(q.media, state.phase === 'answer', section);
-      if (state.phase === 'question') el('p', 'tv-respondent', '', section).id = 'tv-respondent';
-      showRespondent();
-      flash(state.feedback);
+      fitBoard();
     } else if (state.phase === 'break') {
       var pause = el('div', 'tv-center', null, content);
       el('p', '', 'Первый раунд завершён', pause);
@@ -332,7 +378,7 @@
       var incoming = rows[0];
       if (incoming.revision >= revision) {
         snapshot = incoming;
-        if (incoming.revision !== revision && pack) render();
+        if (incoming.revision !== revision && pack) { render(); syncWakeLock(); }
         revision = incoming.revision;
       }
       text(status, 'В эфире');
@@ -370,9 +416,15 @@
       if (!data || !data.categories || !data.rounds) { showError('Не удалось прочитать пакет вопросов.'); return; }
       pack = data;
       render();
+      syncWakeLock();
     });
   }
   document.getElementById('tv-retry').onclick = function () { loadPack(); revision = -1; refresh(); };
+  if (document.addEventListener) {
+    document.addEventListener('visibilitychange', syncWakeLock);
+    document.addEventListener('click', syncWakeLock);
+  }
+  if (window.addEventListener) window.addEventListener('resize', fitBoard);
   loadPack();
   refresh();
   window.setInterval(function () { loadPack(); refresh(); }, 2000);

@@ -33,7 +33,12 @@ describe('Один вечер в кинокомнате',()=>{
   let state=start();const q=roundCategories(pack,state)[0].questions[0];
   const cancelled=transition(transition(state,{type:'open',id:q.id},pack),{type:'cancel'},pack);
   expect(cancelled.completed).toEqual([]);expect(available(pack,cancelled,q.id)).toBe(true);
-  state=transition(state,{type:'open',id:q.id},pack);state=transition(state,{type:'reveal',answer},pack);state=transition(state,{type:'continue'},pack);
+  state=transition(state,{type:'open',id:q.id},pack);
+  state=transition(state,{type:'reveal',answer},pack);
+  expect(state.phase).toBe('answer');expect(state.completed).toEqual([q.id]);expect(state.winnerId).toBeNull();
+  expect(()=>transition(state,{type:'wrong',playerId:'p1'},pack)).toThrow();
+  state=transition(state,{type:'continue'},pack);
+  expect(state.completed).toEqual([q.id]);
   expect(state.turnIndex).toBe(0);expect(available(pack,state,q.id)).toBe(false);
   expect(transition(state,{type:'endRound'},pack).phase).toBe('finished');
   expect(transition(state,{type:'reset'},pack).categoryIds).toEqual([]);

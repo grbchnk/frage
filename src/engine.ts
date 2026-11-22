@@ -59,8 +59,9 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
         event:state.event+1,feedback:{kind:'correct',playerId:action.playerId,event:state.event+1,at:now}};
     }
     case 'reveal': {
-      if(state.phase!=='question'||!action.answer?.answer)return fail();
+      if(state.phase!=='question'||!state.activeQuestionId||!action.answer?.answer)return fail();
       if(state.winnerId&&state.feedback?.kind!=='correct')next.feedback={kind:'correct',playerId:state.winnerId,event:state.event+1,at:now};
+      if(!next.completed.includes(state.activeQuestionId))next.completed.push(state.activeQuestionId);
       next.revealed={answer:action.answer.answer,explanation:action.answer.explanation,accepted_answers:[],host_note:''};next.phase='answer';break;
     }
     case 'adjustScore': {
@@ -70,7 +71,8 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
     }
     case 'continue': {
       if(state.phase!=='answer'||!state.activeQuestionId) return fail();
-      next.completed.push(state.activeQuestionId);
+      // Games already showing an answer from an older build may not have recorded it yet.
+      if(!next.completed.includes(state.activeQuestionId))next.completed.push(state.activeQuestionId);
       // The last correct respondent chooses next. With no winner, keep the chooser.
       if(state.winnerId!==null){
         const winnerIndex=state.players.findIndex(p=>p.id===state.winnerId);

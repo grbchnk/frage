@@ -380,6 +380,7 @@
 .judgement-buttons button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:112px;border:1px solid;border-radius:12px;padding:16px 5px;font-size:clamp(16px,4.5vw,22px);font-weight:750;touch-action:manipulation}
 .judgement-buttons strong{font-size:29px;font-variant-numeric:tabular-nums}
 .judge-correct{background:#42613a;border-color:#85b469!important;color:#efffdc}
+.host-answer .release-buzzer { margin:8px 0 0; padding-block:8px; min-height:38px; color:var(--cream); }
 .judge-wrong{background:#7d352b;border-color:#d67e65!important;color:#fff0df}
 .judgement-buttons button:disabled{opacity:.45}
 .awaiting-response>p{font-size:15px!important;text-align:center;margin:16px 0!important}

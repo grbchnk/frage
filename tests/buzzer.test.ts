@@ -50,6 +50,15 @@ it('гости входят по имени; только одно нажати�
   const next=result.buzzer;
   const other=first===a.id?b.id:a.id;
   expect((await db.query<Buzzer>('select * from public.quiz_buzz($1,$2::uuid)',[other,window])).rows[0].claimant).toBeNull();
+  await db.query('select public.quiz_buzz($1,$2::uuid)',[first,next.window_id]);
+  const released=(await db.query<{result:{buzzer:Buzzer;snapshot:Snapshot}}>(
+   'select public.quiz_release($1::uuid,$2) as result',[next.window_id,result.snapshot.revision])).rows[0].result;
+  expect(released.snapshot.state).toEqual(result.snapshot.state);
+  expect(released.snapshot.revision).toBe(result.snapshot.revision+1);
+  expect(released.buzzer).toMatchObject({accepting:true,claimant:null,question_id:q.id});
+  expect(released.buzzer.window_id).not.toBe(next.window_id);
+  await expect(db.query('select public.quiz_release($1::uuid,$2)',[next.window_id,released.snapshot.revision])).rejects.toThrow();
+  result=released;
   for(let i=0;i<2;i++){
    const id=result.buzzer.window_id;
    expect((await db.query<Buzzer>('select * from public.quiz_buzz($1,$2::uuid)',[first,id])).rows[0].claimant).toBe(first);

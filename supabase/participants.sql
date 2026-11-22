@@ -73,7 +73,7 @@ returns public.quiz_buzzer language sql security invoker set search_path='' as $
 -- Remove the previous signature when upgrading the pre-penalty schema.
 drop function if exists public.quiz_rearm(uuid);
 drop function if exists quiz_private.rearm(uuid);
-create or replace function quiz_private.rearm(expected_window uuid,expected_revision integer)
+create or replace function quiz_private.rearm(expected_window uuid,expected_revision integer,penalize boolean)
 returns jsonb language plpgsql security definer set search_path='' as $$
 declare b public.quiz_buzzer; g jsonb; rev integer; points integer; players jsonb; saved jsonb;
 begin
@@ -81,23 +81,35 @@ begin
   if g->>'phase'<>'question' or g->>'winnerId' is not null or rev is distinct from expected_revision then raise exception 'Игра уже изменилась. Обновите пульт.'; end if;
   select * into b from public.quiz_buzzer where id='main' and window_id=expected_window and claimant is not null for update;
   if b.id is null then raise exception 'Нажатие уже обработано. Обновите пульт.'; end if;
-  points:=(g->>'activeQuestionValue')::integer;
-  if points is null or points not in (100,200,300,400,500) then raise exception 'Стоимость вопроса не задана. Откройте вопрос заново.'; end if;
-  select jsonb_agg(case when p->>'id'=b.claimant then jsonb_set(p,'{score}',to_jsonb((p->>'score')::bigint-points/2)) else p end order by ord)
-    into players from jsonb_array_elements(g->'players') with ordinality as t(p,ord);
-  update public.quiz_game set state=g||jsonb_build_object(
-      'players',players,
-      'scoreChanges',coalesce(g->'scoreChanges','{}'::jsonb)||jsonb_build_object(b.claimant,coalesce((g->'scoreChanges'->>b.claimant)::bigint,0)-points/2),
-      'event',(g->>'event')::integer+1,
-      'feedback',jsonb_build_object('kind','wrong','playerId',b.claimant,'event',(g->>'event')::integer+1,'at',floor(extract(epoch from clock_timestamp())*1000))
-    ),revision=revision+1,updated_at=now()
+  if penalize then
+    points:=(g->>'activeQuestionValue')::integer;
+    if points is null or points not in (100,200,300,400,500) then raise exception 'Стоимость вопроса не задана. Откройте вопрос заново.'; end if;
+    select jsonb_agg(case when p->>'id'=b.claimant then jsonb_set(p,'{score}',to_jsonb((p->>'score')::bigint-points/2)) else p end order by ord)
+      into players from jsonb_array_elements(g->'players') with ordinality as t(p,ord);
+    g:=g||jsonb_build_object(
+        'players',players,
+        'scoreChanges',coalesce(g->'scoreChanges','{}'::jsonb)||jsonb_build_object(b.claimant,coalesce((g->'scoreChanges'->>b.claimant)::bigint,0)-points/2),
+        'event',(g->>'event')::integer+1,
+        'feedback',jsonb_build_object('kind','wrong','playerId',b.claimant,'event',(g->>'event')::integer+1,'at',floor(extract(epoch from clock_timestamp())*1000))
+      );
+  end if;
+  update public.quiz_game set state=g,revision=revision+1,updated_at=now()
     where id='main' returning jsonb_build_object('id',id,'state',state,'revision',revision) into saved;
   update public.quiz_buzzer set excluded='{}',claimant=null,accepting=true,window_id=gen_random_uuid()
     where id='main' returning * into b;
   return jsonb_build_object('buzzer',to_jsonb(b),'snapshot',saved);
 end $$;
+create or replace function quiz_private.rearm(expected_window uuid,expected_revision integer)
+returns jsonb language sql security invoker set search_path='' as $$
+  select quiz_private.rearm(expected_window,expected_revision,true)
+$$;
 create or replace function public.quiz_rearm(expected_window uuid,expected_revision integer)
 returns jsonb language sql security invoker set search_path='' as $$select quiz_private.rearm(expected_window,expected_revision)$$;
+
+create or replace function public.quiz_release(expected_window uuid,expected_revision integer)
+returns jsonb language sql security invoker set search_path='' as $$
+  select quiz_private.rearm(expected_window,expected_revision,false)
+$$;
 
 -- The public host panel writes via this revision-checked RPC. For a judgement,
 -- lock the same game row as buzz/rearm and verify the claim before awarding.
@@ -170,9 +182,9 @@ end $$;
 drop trigger if exists quiz_sync_buzzer on public.quiz_game;
 create trigger quiz_sync_buzzer after update on public.quiz_game for each row execute function quiz_private.sync_buzzer();
 revoke all on all functions in schema quiz_private from public;
-revoke all on function public.quiz_join(text), public.quiz_buzz(text,uuid), public.quiz_rearm(uuid,integer), public.quiz_restore(integer,jsonb,jsonb), public.quiz_save(integer,jsonb,uuid), public.quiz_host_answers() from public;
+revoke all on function public.quiz_join(text), public.quiz_buzz(text,uuid), public.quiz_rearm(uuid,integer), public.quiz_release(uuid,integer), public.quiz_restore(integer,jsonb,jsonb), public.quiz_save(integer,jsonb,uuid), public.quiz_host_answers() from public;
 grant execute on function quiz_private.join_game(text),quiz_private.buzz(text,uuid),public.quiz_join(text),public.quiz_buzz(text,uuid) to anon,authenticated;
-grant execute on function quiz_private.rearm(uuid,integer),public.quiz_rearm(uuid,integer),quiz_private.restore_game(integer,jsonb,jsonb),public.quiz_restore(integer,jsonb,jsonb) to anon,authenticated;
+grant execute on function quiz_private.rearm(uuid,integer),quiz_private.rearm(uuid,integer,boolean),public.quiz_rearm(uuid,integer),public.quiz_release(uuid,integer),quiz_private.restore_game(integer,jsonb,jsonb),public.quiz_restore(integer,jsonb,jsonb) to anon,authenticated;
 grant execute on function quiz_private.save_game(integer,jsonb,uuid),public.quiz_save(integer,jsonb,uuid),quiz_private.host_answers(),public.quiz_host_answers() to anon,authenticated;
 do $$ declare t text; begin
   foreach t in array array['quiz_participants','quiz_buzzer'] loop

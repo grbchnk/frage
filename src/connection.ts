@@ -96,12 +96,12 @@ export async function buzz(playerId:string,windowId:string):Promise<Buzzer>{
     return b;
   });
 }
-export async function rearm(windowId:string,previous:Snapshot,pack:Pack):Promise<{buzzer:Buzzer;snapshot:Snapshot}>{
-  if(!demo)return rpc('quiz_rearm',{expected_window:windowId,expected_revision:previous.revision});
+export async function rearm(windowId:string,previous:Snapshot,pack:Pack,penalize:boolean):Promise<{buzzer:Buzzer;snapshot:Snapshot}>{
+  if(!demo)return rpc(penalize?'quiz_rearm':'quiz_release',{expected_window:windowId,expected_revision:previous.revision});
   return navigator.locks.request(localKey,async()=>{
     const b=await readBuzzer(),current=readDemo();
     if(current.revision!==previous.revision||current.state.phase!=='question'||current.state.winnerId!==null||b.window_id!==windowId||!b.claimant)throw new Error('Нажатие уже обработано.');
-    const snapshot={id:'main',revision:current.revision+1,state:transition(current.state,{type:'wrong',playerId:b.claimant},pack)};
+    const snapshot={id:'main',revision:current.revision+1,state:penalize?transition(current.state,{type:'wrong',playerId:b.claimant},pack):current.state};
     b.excluded=[];b.claimant=null;b.accepting=true;b.window_id=crypto.randomUUID();
     localStorage.setItem(buzzerKey,JSON.stringify(b));localStorage.setItem(localKey,JSON.stringify(snapshot));channel!.postMessage(snapshot);channel!.postMessage({aux:true});return {buzzer:b,snapshot};
   });

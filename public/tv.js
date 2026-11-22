@@ -176,7 +176,7 @@
         if (state.players[i].id === buzzer.claimant) name = state.players[i].name;
       }
     }
-    text(label, name ? 'Отвечает ' + name : 'Кто первый нажмёт?');
+    text(label, name ? 'Отвечает ' + name : 'Кто первый?');
     label.className = name ? 'tv-respondent active' : 'tv-respondent';
   }
   function syncWakeLock() {

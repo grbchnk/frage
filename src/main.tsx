@@ -1,6 +1,5 @@
 import React, {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {createRoot} from 'react-dom/client';
-import {flushSync} from 'react-dom';
 import {BOARD_PAGE_SIZE,available,chooseCategories,findQuestion,initialGame,rankPlayers,roundCategories,transition,type Action} from './engine';
 import {demo,loadAnswers,readGame,saveGame,subscribeGame,readParticipants,readBuzzer,subscribeParticipants,emptyBuzzer,rearm,restoreGame,resetGame} from './connection';
 import type {Answer,Game,Pack,Snapshot,Participant,Buzzer} from './types';
@@ -8,30 +7,18 @@ import {QuizAudio} from './audio';
 import './style.css';
 import './board.css';
 import './theme.css';
-import {playQuestionMotion,type QuestionMotion} from './question-motion';
+import {useScreenWakeLock} from './use-screen-wake-lock';
 import {JoinLink,LobbyRoster,ParticipantScreen} from './Participant';
 import {AnswerFlash,BoardCrown,Finale,GAME_NAME,ScoreDelta,VisualCategory,useAnswerFeedback} from './GameViews';
 
 const params=new URLSearchParams(location.search);
 const initialRole=params.get('mode')||(matchMedia('(max-width: 760px) and (pointer: coarse)').matches?'player':'display');
-function AnimatedScore({value}:{value:number}){
-  const [shown,setShown]=useState(value),from=useRef(value);
-  useEffect(()=>{
-    if(matchMedia('(prefers-reduced-motion:reduce)').matches){setShown(value);from.current=value;return;}
-    const initial=from.current,start=performance.now();let frame=0;
-    const tick=(now:number)=>{const t=Math.min(1,(now-start)/650),v=Math.round(initial+(value-initial)*(1-Math.pow(1-t,3)));setShown(v);from.current=v;if(t<1)frame=requestAnimationFrame(tick);};
-    frame=requestAnimationFrame(tick);return ()=>cancelAnimationFrame(frame);
-  },[value]);
-  return <span aria-label={String(value)}>{shown.toLocaleString('ru-RU')}</span>;
-}
 function App(){
   const [role,setRole]=useState(initialRole);
   const host=role==='host';
   const [pack,setPack]=useState<Pack|null>(null);
   const [snapshot,setSnapshot]=useState<Snapshot>({id:'main',revision:-1,state:initialGame()});
   const current=useRef(snapshot);
-  const motion=useRef<QuestionMotion|null>(null);
-  useEffect(()=>()=>{motion.current?.transition.skipTransition();motion.current?.clear();},[]);
   const [connection,setConnection]=useState('Соединяем…');
   const [error,setError]=useState('');const [busy,setBusy]=useState(false);const writing=useRef(false);
   const [answers,setAnswers]=useState<Record<string,Answer>>({});const [answersReady,setAnswersReady]=useState(demo);
@@ -43,6 +30,7 @@ function App(){
   const [help,setHelp]=useState(false);const [credits,setCredits]=useState(false);
   const [audioOn,setAudioOn]=useState(false);const [volume,setVolume]=useState(.35);const audio=useRef<QuizAudio|null>(null);const lastEvent=useRef<number|null>(null);
   const state=snapshot.state;
+  useScreenWakeLock(role==='display'&&state.phase!=='finished');
   useEffect(()=>{if(state.phase==='lobby'||!host)setScoresOpen(false);},[state.phase,host]);
   const [roster,setRoster]=useState<Participant[]>([]),[buzzer,setBuzzer]=useState<Buzzer>(emptyBuzzer),[buttonsOnline,setButtonsOnline]=useState(false);
   const lastButtonRead=useRef(0);
@@ -62,16 +50,8 @@ function App(){
   useLayoutEffect(()=>{window.scrollTo(0,0);},[state.phase,state.activeQuestionId]);
   const accept=useCallback((incoming:Snapshot)=>{
     if(incoming.revision<=current.current.revision)return;
-    const before=current.current.state;
     current.current=incoming;
-    motion.current?.transition.skipTransition();
-    motion.current?.clear();
-    motion.current=playQuestionMotion(before,incoming.state,()=>{
-      if(current.current.revision!==incoming.revision)return false;
-      flushSync(()=>setSnapshot(incoming));
-      return true;
-    });
-    if(!motion.current)setSnapshot(incoming);
+    setSnapshot(incoming);
   },[]);
   const refresh=useCallback(async()=>{try{accept(await readGame());setConnection(demo?'Демо · один браузер':'В эфире');}catch(e){setConnection((e as {code?:string}).code==='PGRST205'?'Нужна настройка':'Нет связи');throw e;}},[accept]);
   useEffect(()=>{
@@ -107,7 +87,7 @@ function App(){
     previousClaim.current=key;
   },[buzzer.claimant,buzzer.window_id]);
   function openScoreAdjustment(){setError('');setScoresOpen(true);}
-  function switchRole(){motion.current?.transition.skipTransition();motion.current?.clear();setSnapshot(current.current);const next=host?'display':'host';setRole(next);const url=new URL(location.href);url.searchParams.set('mode',next);historyWindow(url);}
+  function switchRole(){const next=host?'display':'host';setRole(next);const url=new URL(location.href);url.searchParams.set('mode',next);historyWindow(url);}
   async function sound(){try{if(!audio.current){audio.current=new QuizAudio();await audio.current.enable();audio.current.setPhase(state.phase);}const value=!audioOn;audio.current.volume(value?volume:0);setAudioOn(value);}catch{setError('Нажмите ещё раз, чтобы браузер включил звук.');}}
   async function act(action:Action){
     if(!pack||!answersReady||writing.current)return false;
@@ -164,7 +144,7 @@ function App(){
         {ranked.map(p=><div className={`player ${state.phase==='board'&&p.id===choosingId?'choosing':''} ${state.winnerId===p.id?'scored':''}`} key={p.id}>
           {p.rank<=3&&<BoardCrown rank={p.rank}/>}
           <div className="player-name"><span title={p.name}>{p.name}</span></div>
-          <strong>{host?p.score.toLocaleString('ru-RU'):<AnimatedScore value={p.score}/>}</strong>
+          <strong>{p.score.toLocaleString('ru-RU')}</strong>
           <div className="score-delta-slot">{state.scoreChanges?.[p.id]!==undefined&&<ScoreDelta delta={state.scoreChanges[p.id]}/>}</div>
         </div>)}
       </section>}
@@ -185,8 +165,21 @@ function App(){
           <strong>{category.title}</strong>
         </span>}
         <span className="question-value" data-value={q.value} aria-label={`${q.value} баллов`}>{q.value}</span>
-      </div><div className="question-content"><FittedCopy contentKey={`${q.id}-${state.phase}-${role}`}><h1><TypedQuestion text={q.prompt} openedAt={state.questionOpenedAt} reveal={host||state.phase==='answer'}/></h1>{state.phase==='answer'&&state.revealed&&<div className="answer-copy"><h2>{state.revealed.answer}</h2><p>{state.revealed.explanation}</p><span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span></div>}</FittedCopy>{q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}</div>
-        {state.phase==='question'&&!host&&<div className={`respondent ${respondent?'has-respondent':''}`} role="status">{respondent?`Отвечает ${respondent.name}`:'Кто первый нажмёт?'}</div>}
+      </div><div className="question-content">
+        <div className="question-words">
+          <FittedCopy contentKey={`${q.id}-prompt-${role}`} kind="prompt" hidden={state.phase==='answer'}>
+            <h1><TypedQuestion text={q.prompt} openedAt={state.questionOpenedAt} instant={host} stopped={state.phase==='answer'}/></h1>
+          </FittedCopy>
+          {state.phase==='answer'&&state.revealed&&<FittedCopy contentKey={`${q.id}-answer-${role}`} kind="answer">
+            <div className="answer-copy">
+              <h2>{state.revealed.answer}</h2><p>{state.revealed.explanation}</p>
+              <span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span>
+            </div>
+          </FittedCopy>}
+        </div>
+        {q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}
+      </div>
+        {!host&&<div className={`respondent ${respondent?'has-respondent':''}${state.phase==='answer'?' respondent-closed':''}`} role="status">{state.phase==='question'&&(respondent?`Отвечает ${respondent.name}`:'Кто первый нажмёт?')}</div>}
         {host&&state.phase==='question'&&<section className="host-answer">
           <div className="private-answer"><span className="eyebrow">Ответ для ведущего</span><h2>{privateAnswer?.answer||'Ответ ещё не загружен'}</h2>{privateAnswer&&privateAnswer.accepted_answers?.length>0&&<p className="accepted-answers">Принимаем: {privateAnswer.accepted_answers.join(' · ')}</p>}
           {(privateAnswer?.explanation||privateAnswer?.host_note)&&<details className="answer-notes"><summary>Пояснение и заметки</summary><p>{privateAnswer.explanation}</p>{privateAnswer.host_note&&<p className="host-note">{privateAnswer.host_note}</p>}</details>}</div>
@@ -287,7 +280,7 @@ function Board({categories,state,pack,host,busy,open,openPage}:{categories:Pack[
     {host&&<p className="board-progress">{used} / {state.questionsPerCategory*categories.length} сыграно</p>}
   </main>;
 }
-function FittedCopy({contentKey,children}:{contentKey:string;children:React.ReactNode}){
+function FittedCopy({contentKey,kind,hidden=false,children}:{contentKey:string;kind:'prompt'|'answer';hidden?:boolean;children:React.ReactNode}){
   const frame=useRef<HTMLDivElement>(null),copy=useRef<HTMLDivElement>(null);
   useLayoutEffect(()=>{
     const box=frame.current,text=copy.current;
@@ -312,7 +305,7 @@ function FittedCopy({contentKey,children}:{contentKey:string;children:React.Reac
     void document.fonts.ready.then(schedule);fit();
     return ()=>{alive=false;observer.disconnect();cancelAnimationFrame(raf);window.removeEventListener('resize',schedule);};
   },[contentKey]);
-  return <div className="question-text" ref={frame}><div className="question-copy" ref={copy}>{children}</div></div>;
+  return <div className={`question-text question-${kind}`} aria-hidden={hidden||undefined} ref={frame}><div className="question-copy" ref={copy}>{children}</div></div>;
 }
 function Setup({busy,roster,online,start,categories,pack}:{categories:Pack['categories'];pack:Pack;busy:boolean;roster:Participant[];online:boolean;start:(names:string[],limit:number,categoryIds:number[])=>void}){
   const [limit,setLimit]=useState(5);
@@ -348,12 +341,24 @@ function Setup({busy,roster,online,start,categories,pack}:{categories:Pack['cate
     </section>
   </main>;
 }
-function TypedQuestion({text,openedAt,reveal}:{text:string;openedAt:number|null;reveal:boolean}){
-  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const length=()=>reveal||reduced||openedAt===null?text.length:Math.min(text.length,Math.max(0,Math.floor((Date.now()-openedAt)/42)));
+const TYPEWRITER_INTERVAL=75;
+function TypedQuestion({text,openedAt,instant,stopped}:{text:string;openedAt:number|null;instant:boolean;stopped:boolean}){
+  const immediate=instant||openedAt===null||matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const length=()=>immediate?text.length:Math.min(text.length,Math.max(0,Math.floor((Date.now()-openedAt!)/TYPEWRITER_INTERVAL)));
   const [count,setCount]=useState(length);
-  useEffect(()=>{setCount(length());if(reveal||reduced||openedAt===null)return;const timer=setInterval(()=>setCount(length()),42);return ()=>clearInterval(timer);},[text,openedAt,reveal,reduced]);
-  return <span className="typed-question" aria-label={text}><span aria-hidden="true">{text.slice(0,count)}<i className={`typing-cursor ${count>=text.length?'done':''}`}/><span className="untyped">{text.slice(count)}</span></span></span>;
+  useEffect(()=>{
+    if(stopped){if(immediate)setCount(text.length);return;}
+    const current=length();
+    setCount(current);
+    if(current>=text.length)return;
+    const timer=window.setInterval(()=>{
+      const next=length();
+      setCount(next);
+      if(next>=text.length)window.clearInterval(timer);
+    },TYPEWRITER_INTERVAL);
+    return ()=>window.clearInterval(timer);
+  },[text,openedAt,immediate,stopped]);
+  return <span className="typed-question" aria-label={text}><span aria-hidden="true">{text.slice(0,count)}<i className={`typing-cursor ${stopped||count>=text.length?'done':''}`}/><span className="untyped">{text.slice(count)}</span></span></span>;
 }
 function QuestionImage({question,reveal}:{question:NonNullable<ReturnType<typeof findQuestion>>;reveal:boolean}){
   const [ratio,setRatio]=useState<number|null>(null);const [broken,setBroken]=useState(false);const media=question.media!;

@@ -13,7 +13,6 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
 .tv-place{display:inline-block;min-width:20px;border-radius:100px;margin-right:5px;background:#3b3027;font-size:13px;padding:2px 5px}.tv-place.tv-gold{color:#251a11;background:#f5c75e}.tv-place.tv-silver{color:#251a11;background:#c9dbec}.tv-place.tv-bronze{color:#251a11;background:#dc9a72}.tv-gold{color:#f5c75e}.tv-silver{color:#c9dbec}.tv-bronze{color:#dc9a72}.tv-chooser,.tv-delta{display:inline-block;padding:3px 4px;color:#edc588;font-size:13px}
 .tv-respondent{text-align:center;margin:12px auto 0;padding:8px;border:1px solid #4b3d30;border-radius:8px;color:#b8a58e}.tv-respondent.active{color:#191612;background:#f4bd62;font-weight:bold}
 .tv-winner{text-align:center;padding:18px 8px;border:1px solid #8a612d;border-radius:14px;background:#3a2b1c;margin:4px auto 14px}.tv-winner h1{font-size:22px;color:#f4bd62}.tv-winner h2{font-size:47px;word-wrap:break-word}.tv-winner p{margin:0;color:#edd4ac}.tv-standings td{padding:6px 10px;font-size:21px}
-#tv-flash{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:10}#tv-flash.tv-flash-correct{background:#35ee8c;opacity:.2;animation:tv-flash 1.3s ease-out}#tv-flash.tv-flash-wrong{background:#ff4247;opacity:.2;animation:tv-flash 1.3s ease-out}@keyframes tv-flash{from{opacity:.26}to{opacity:0}}
 
 /* Category board for TV browsers without Grid or CSS variables. */
 .tv-category-phase,.tv-category-phase body { background:#1b1542; color:#fcf7ff; }
@@ -30,10 +29,13 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
 .tv-round .tv-player span { display:block; font-size:19px; font-weight:bold; }
 .tv-round .tv-player strong { color:#fcf7ff; display:block; margin:4px 0 0; font-size:24px; }
 .tv-round .tv-choosing { border-color:#e693ff; box-shadow:0 0 11px #c859f7; }
-.tv-board-crown { position:absolute; top:50%; left:7%; margin-top:-12px; font-size:23px; line-height:1; }
-.tv-round .tv-delta { position:absolute; right:6%; bottom:8px; color:#e0d0fa; background:#3c285b; border-radius:14px; padding:3px 6px; }
-.tv-round .tv-many-players .tv-board-crown { left:3%; font-size:15px; }
-.tv-round .tv-many-players .tv-delta { position:static; margin-top:4px; }
+.tv-board-crown { display:inline-block; font-size:20px; line-height:1; }
+.tv-round .tv-delta { position:static; min-height:15px; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#e0d0fa; border-radius:14px; padding:0 6px; font-size:11px; }
+.tv-round .tv-many-players .tv-board-crown { font-size:15px; }
+.tv-round .tv-score-row { display:table; table-layout:fixed; width:100%; }
+.tv-round .tv-crown-slot,.tv-round .tv-score-body { display:table-cell; vertical-align:middle; }
+.tv-round .tv-crown-slot { width:21%; text-align:center; }
+.tv-round .tv-score-body span,.tv-round .tv-score-body strong { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .tv-round .tv-positive { color:#b6ffd0; background:#24513c; }
 .tv-round .tv-negative { color:#ffaac1; background:#602745; }
 .tv-category-phase #tv-content { min-height:0; padding:8px 0; }
@@ -42,7 +44,7 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
 .tv-board-chooser strong { color:#fcf7ff; font-size:30px; }
 .tv-board-frame { padding:8px; border:1px solid #9256ce; border-radius:20px; background:#120d2e; }
 .tv-category-phase .tv-board { border-spacing:6px; }
-.tv-category-phase .tv-board th,.tv-category-phase .tv-board td { border-radius:9px; height:57px; }
+.tv-category-phase .tv-board th,.tv-category-phase .tv-board td { border-radius:9px; height:auto; padding:1px 6px; }
 .tv-category-phase .tv-board th { width:33%; background:#211b44; border-color:#674197; font-size:20px; text-transform:uppercase; }
 .tv-category-number { display:inline-block; padding:3px 7px; min-width:24px; margin-right:8px; border:1px solid #a77ee7; border-radius:5px; background:#522b97; color:white; font-weight:bold; text-align:center; }
 .tv-category-2 .tv-category-number { background:#244c9e; border-color:#71a4ff; }
@@ -57,7 +59,10 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
 .tv-category-phase .tv-board .tv-price-500 { background:#b64c40; background:linear-gradient(104deg,#bd4170,#e46c3e 52%,#fd8b4e); border-color:#ffab70; }
 .tv-category-phase .tv-board .tv-used { background:#211f3a; border-color:#3c3457; }
 .tv-category-phase .tv-board-dense { border-spacing:4px; }
-.tv-category-phase .tv-board-dense th,.tv-category-phase .tv-board-dense td { height:35px; padding:2px 5px; font-size:17px; }
+.tv-category-phase .tv-board-dense th,.tv-category-phase .tv-board-dense td { padding:0 5px; font-size:16px; }
+.tv-category-phase .tv-board th { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.tv-category-phase .tv-board-dense .tv-category-number { padding:1px 4px; min-width:18px; }
+.tv-category-phase .tv-board-dense .tv-photo-icon { width:14px; height:14px; }
 
 
 .tv-stage:not(.tv-category-phase),.tv-stage:not(.tv-category-phase) body { background:#1a153d; color:#fcf7ff; }
@@ -67,6 +72,7 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
 .tv-stage:not(.tv-category-phase) #tv-retry { background:#523386; color:#fff1ff; }
 .tv-round .tv-player.tv-scored { border-color:#84e2ad; }
 .tv-stage .tv-question { padding:6px 14px; }
+.tv-stage .tv-question-answer h2 { color:#fff; }
 .tv-question-label { color:#d8aef9; font-size:23px; margin:0 auto 14px; text-align:center; text-transform:uppercase; }
 .tv-question-label.tv-category-2 { color:#9dc1ff; }
 .tv-question-label.tv-category-3 { color:#8ddfdb; }
@@ -95,3 +101,17 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
 .tv-podium-1 h2 { color:#ffe2a1; }
 .tv-podium-2 { background:#293453; border-color:#a9c4eb; }
 .tv-podium-3 { background:#4c2d47; border-color:#d9967c; }
+
+@media(max-height:640px) {
+  .tv-category-phase body { padding-top:6px; }
+  .tv-category-phase #tv-header { padding-bottom:4px; }
+  .tv-category-phase #tv-footer { margin-top:5px; padding-top:3px; }
+  .tv-category-phase #tv-players { border-spacing:6px 3px; }
+  .tv-category-phase .tv-player { padding:4px 6px; }
+  .tv-category-phase .tv-player span { font-size:15px; }
+  .tv-category-phase .tv-player strong { font-size:19px; margin-top:2px; }
+  .tv-board-chooser h1 { font-size:15px; margin-bottom:4px; }
+  .tv-board-chooser strong { font-size:22px; }
+  .tv-category-phase #tv-content { padding:4px 0; }
+  .tv-category-phase .tv-board-dense { border-spacing:3px; }
+}

@@ -9,20 +9,6 @@
   background: var(--stage-background);
 }
 
-/* Single animated layer behind the UI, with the static background as its fallback. */
-.app.phase-board::before {
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 24% 37%, #732bd766, transparent 57%),
-    radial-gradient(ellipse at 84% 60%, #4d30ff6b, transparent 58%);
-  opacity: .25;
-  animation: board-aurora 24s ease-in-out infinite alternate;
-}
-@keyframes board-aurora {
-  from { transform: translate3d(-8%, -5%, 0) scale(.84); opacity: .25; }
-  to { transform: translate3d(8%, 5%, 0) scale(.84); opacity: .65; }
-}
 .quiz-round .topbar, .quiz-round .site-footer { border-color: #9e72d82b; }
 .quiz-round .topbar { height: clamp(32px, 4.8vh, 58px); }
 .quiz-round .brand-title { font-size: clamp(13px, 1.85vh, 24px); }
@@ -184,7 +170,7 @@
   margin: 0;
   padding: 0;
   border: 0;
-  animation-delay: calc(var(--row) * 18ms);
+  animation:none;
   --category-light: var(--row-light, #7630d5);
   --category-dark: var(--row-dark, #382070);
   --category-stroke: var(--row-stroke, #a87ce7);
@@ -269,26 +255,6 @@
 .phase-board .price[data-value="400"] { --price-left: #8e27a0; --price-center: #a62681; --price-right: #b93c76; --price-line: #d356b2; }
 .phase-board .price[data-value="500"] { --price-left: #bd4170; --price-center: #e46c3e; --price-right: #fd8b4e; --price-line: #ffab70; --price-glint: #ffe1aa50; }
 
-/* The whole grid shares one pass of light, keeping individual tiles static. */
-.phase-board .board::after {
-  content: "";
-  position: absolute;
-  inset: 1px 25%;
-  z-index: 1;
-  pointer-events: none;
-  border-radius: inherit;
-  background: linear-gradient(110deg, transparent 18%, #d49aff21 35%, #f4b8ff15 42%, transparent 62%);
-  opacity: 0;
-  animation: board-shimmer 15s ease-in-out infinite;
-}
-@keyframes board-shimmer {
-  0%, 10% { transform: translate3d(-49%, 0, 0); opacity: 0; }
-  35%, 65% { opacity: .8; }
-  90%, 100% { transform: translate3d(49%, 0, 0); opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .app.phase-board::before, .phase-board .board::after { animation: none; }
-}
 .phase-board .board-dense .price { font-size: clamp(15px, 3.15vh, 41px); }
 .phase-board .board .price.played {
   background: linear-gradient(155deg, #242342, #1b1a35);

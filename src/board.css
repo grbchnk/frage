@@ -212,7 +212,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-  font-size: clamp(13px, min(3.4vh, 2.1vw), 44px);
+  font-size: clamp(14px, min(3.65vh, 2.25vw), 47px);
   line-height: 1.08;
   font-weight: 740;
   overflow-wrap: anywhere;
@@ -223,7 +223,8 @@
   color: #d5b7ff;
   opacity: .85;
 }
-.phase-board .board-dense .category-title strong, .phase-board .board-dense .category-number { font-size: clamp(11px, min(2.15vh, 1.55vw), 30px); }
+.phase-board .board-dense .category-title strong { font-size: clamp(12px, min(2.32vh, 1.68vw), 32px); }
+.phase-board .board-dense .category-number { font-size: clamp(11px, min(2.15vh, 1.55vw), 30px); }
 
 .phase-board .board .price {
   --price-left: #301575;
@@ -305,7 +306,7 @@
     .phase-board .board { max-height: none; flex: 1; gap: 8px; grid-template-rows: none; grid-auto-rows: max-content; padding: 8px; }
   .phase-board .board-row { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
   .phase-board .category-title { grid-column: 1/-1; min-height: 31px; }
-  .phase-board .category-title strong, .phase-board .board-dense .category-title strong { font-size: 15px; }
+  .phase-board .category-title strong, .phase-board .board-dense .category-title strong { font-size: 16px; }
   .phase-board .category-number, .phase-board .board-dense .category-number { font-size: 13px; }
   .phase-board .board .price { min-height: 40px; font-size: 19px; }
 }

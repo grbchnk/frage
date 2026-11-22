@@ -178,7 +178,7 @@ function App(){
         </div>
         {q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}
       </div>
-        {!host&&<div className={`respondent ${respondent?'has-respondent':''}${state.phase==='answer'?' respondent-closed':''}`} role="status">{state.phase==='question'&&(respondent?`Отвечает ${respondent.name}`:'Кто первый нажмёт?')}</div>}
+        {!host&&<div className={`respondent ${respondent?'has-respondent':''}${state.phase==='answer'?' respondent-closed':''}`} role="status">{state.phase==='question'&&(respondent?`Отвечает ${respondent.name}`:'Кто первый?')}</div>}
         {host&&state.phase==='question'&&<section className="host-answer">
           <div className="private-answer"><span className="eyebrow">Ответ для ведущего</span><h2>{privateAnswer?.answer||'Ответ ещё не загружен'}</h2>{privateAnswer&&privateAnswer.accepted_answers?.length>0&&<p className="accepted-answers">Принимаем: {privateAnswer.accepted_answers.join(' · ')}</p>}
           {(privateAnswer?.explanation||privateAnswer?.host_note)&&<details className="answer-notes"><summary>Пояснение и заметки</summary><p>{privateAnswer.explanation}</p>{privateAnswer.host_note&&<p className="host-note">{privateAnswer.host_note}</p>}</details>}</div>

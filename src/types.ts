@@ -14,8 +14,10 @@ export interface Game {
   questionEndsAt: number | null; breakEndsAt: number | null; event: number;
   questionsPerCategory: number;
   categoryIds: number[];
+  boardPage?: number;
   questionOpenedAt: number | null;
   activeQuestionValue: number | null;
   scoreChanges: Record<string,number>;
+  feedback?: {kind:'correct'|'wrong'; playerId:string; event:number; at:number} | null;
 }
 export interface Snapshot { id: string; state: Game; revision: number; }

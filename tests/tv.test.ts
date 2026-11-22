@@ -26,6 +26,7 @@ function tv(){
   const timers=new Map<number,()=>void>();
   let current={id:'main',revision:1,state:initialGame()};
   let code=200;
+  let buzzer={question_id:'',claimant:''};
   const requests:{url:string;method:string;headers:Record<string,string>;body:unknown}[]=[];
   class XHR {
     readyState=0;status=0;responseText='';url='';method='';headers:Record<string,string>={};
@@ -36,7 +37,7 @@ function tv(){
     send(body:unknown){
       requests.push({url:this.url,method:this.method,headers:this.headers,body});
       this.status=this.url.includes('/rest/')?code:200;
-      this.responseText=JSON.stringify(this.url.includes('/rest/')?[current]:pack);
+      this.responseText=JSON.stringify(this.url.includes('/quiz_buzzer?')?[buzzer]:this.url.includes('/rest/')?[current]:pack);
       this.readyState=4;this.onreadystatechange();
     }
   }
@@ -45,7 +46,7 @@ function tv(){
     document:{documentElement:{clientWidth:1280,clientHeight:720},getElementById:get,createElement:(tag:string)=>new Node(tag),createTextNode:(value:string)=>{const n=new Node('#text');n.value=value;return n;}},
     XMLHttpRequest:XHR,
   });
-  return {pack,root,get,requests,update:(patch:Partial<ReturnType<typeof initialGame>>)=>{current={...current,revision:current.revision+1,state:{...current.state,...patch}};timers.get(2000)!();},fail:()=>{code=503;timers.get(2000)!();},recover:()=>{code=200;timers.get(2000)!();}};
+  return {pack,root,get,requests,buzz:(question_id:string,claimant:string)=>{buzzer={question_id,claimant};timers.get(2000)!();},update:(patch:Partial<ReturnType<typeof initialGame>>)=>{current={...current,revision:current.revision+1,state:{...current.state,...patch}};timers.get(2000)!();},fail:()=>{code=503;timers.get(2000)!();},recover:()=>{code=200;timers.get(2000)!();}};
 }
 it('TV без современных API показывает все этапы и не запрашивает частные ответы',()=>{
   const app=tv();
@@ -58,6 +59,8 @@ it('TV без современных API показывает все этапы 
   const question=app.pack.categories.flatMap((c:any)=>c.questions).find((q:any)=>q.media?.question_masks_normalized?.length);
   app.update({phase:'question',activeQuestionId:question.id,questionEndsAt:Date.now()+60000});
   expect(app.get('tv-content').text).toContain(question.prompt);
+  app.buzz(question.id,'p2');
+  expect(app.get('tv-respondent').text).toBe('Отвечает Алина');
   expect(app.get('tv-clock').text).toMatch(/^00:(59|60)|01:00$/);
   expect(app.get('tv-content').all().filter(n=>n.className==='tv-mask')).toHaveLength(question.media.question_masks_normalized.length);
   expect(app.get('tv-content').all().find(n=>n.tag==='img')?.src).toMatch(/\.jpg$/);
@@ -79,7 +82,7 @@ it('TV без современных API показывает все этапы 
   for(const request of app.requests){
     expect(request.method).toBe('GET');
     expect(request.body).toBe(null);
-    expect(request.url).toMatch(/content\/questions\.json|\/rest\/v1\/quiz_game\?/);
+    expect(request.url).toMatch(/content\/questions\.json|\/rest\/v1\/quiz_(game|buzzer)\?/);
     if(request.url.includes('/rest/'))expect(request.headers.apikey).toBe('public-test-key');
   }
 });

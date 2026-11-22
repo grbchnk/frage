@@ -24,9 +24,8 @@ it('гости входят по имени; только одно нажати�
   const pack:Pack=JSON.parse(readFileSync('quiz-pack.json','utf8'));
   let state=transition(initialGame(),{type:'start',names:[a.name,b.name],participants:[a,b],limit:5},pack);
   const save=async()=>{
-   await db.exec(`reset role;set role authenticated;set request.jwt.claim.sub='00000000-0000-0000-0000-000000000001';`);
-   await db.query(`update public.quiz_game set state=$1::jsonb,revision=revision+1 where id='main'`,[JSON.stringify(state)]);
-   await db.exec('reset role;set role anon;');
+   const rev=(await db.query<{revision:number}>('select revision from public.quiz_game')).rows[0].revision;
+   return db.query('select * from public.quiz_save($1,$2::jsonb,null)',[rev,JSON.stringify(state)]);
   };
   await save();
   expect((await db.query<Participant>(`select * from public.quiz_join('Антон')`)).rows[0].id).toBe(a.id);
@@ -40,23 +39,32 @@ it('гости входят по имени; только одно нажати�
   await expect(db.query(`select * from public.quiz_buzz('outsider',$1::uuid)`,[window])).rejects.toThrow();
   const rev=(await db.query<{revision:number}>(`select revision from public.quiz_game`)).rows[0].revision;
   const beforeWrong=structuredClone(state),beforeBuzzer=(await db.query<Buzzer>(`select * from public.quiz_buzzer`)).rows[0];
-  await db.exec(`reset role;set role authenticated;set request.jwt.claim.sub='';`);
-  await expect(db.query(`select * from public.quiz_rearm($1::uuid,$2)`,[window,rev])).rejects.toThrow();
-  await db.exec(`set request.jwt.claim.sub='00000000-0000-0000-0000-000000000001';`);
-  const result=(await db.query<{result:{buzzer:Buzzer;snapshot:Snapshot}}>(`select public.quiz_rearm($1::uuid,$2) as result`,[window,rev])).rows[0].result;
-  const next=result.buzzer;state=result.snapshot.state;
-  expect(state.players.find(p=>p.id===first)!.score).toBe(-q.value/2);expect(state.scoreChanges[first]).toBe(-q.value/2);
+  const penalize=async(windowId:string,revision:number)=>
+   (await db.query<{result:{buzzer:Buzzer;snapshot:Snapshot}}>('select public.quiz_rearm($1::uuid,$2) as result',[windowId,revision])).rows[0].result;
+  let result=await penalize(window,rev);
+  expect(result.snapshot.state.players.find(p=>p.id===first)!.score).toBe(-q.value/2);
+  expect(result.snapshot.state.feedback).toMatchObject({kind:'wrong',playerId:first});
   expect(result.snapshot.revision).toBe(rev+1);
-  expect(next.window_id).not.toBe(window);expect(next.excluded).toEqual([first]);
-  await expect(db.query(`select * from public.quiz_rearm($1::uuid,$2)`,[window,rev])).rejects.toThrow();
-  await db.exec(`reset role;set role anon;`);
-  expect((await db.query<Buzzer>(`select * from public.quiz_buzz($1,$2::uuid)`,[first,next.window_id])).rows[0].claimant).toBeNull();
+  expect(result.buzzer.window_id).not.toBe(window);expect(result.buzzer.excluded).toEqual([]);
+  await expect(penalize(window,rev)).rejects.toThrow();
+  const next=result.buzzer;
   const other=first===a.id?b.id:a.id;
-  expect((await db.query<Buzzer>(`select * from public.quiz_buzz($1,$2::uuid)`,[other,window])).rows[0].claimant).toBeNull();
-  expect((await db.query<Buzzer>(`select * from public.quiz_buzz($1,$2::uuid)`,[other,next.window_id])).rows[0].claimant).toBe(other);
-  await expect(db.query(`select public.quiz_restore($1,$2::jsonb,$3::jsonb)`,[rev+1,JSON.stringify(beforeWrong),JSON.stringify(beforeBuzzer)])).rejects.toThrow();
-  await db.exec(`reset role;set role authenticated;set request.jwt.claim.sub='00000000-0000-0000-0000-000000000001';`);
-  await db.query(`select public.quiz_restore($1,$2::jsonb,$3::jsonb)`,[rev+1,JSON.stringify({...beforeWrong,event:state.event+1}),JSON.stringify(beforeBuzzer)]);
+  expect((await db.query<Buzzer>('select * from public.quiz_buzz($1,$2::uuid)',[other,window])).rows[0].claimant).toBeNull();
+  for(let i=0;i<2;i++){
+   const id=result.buzzer.window_id;
+   expect((await db.query<Buzzer>('select * from public.quiz_buzz($1,$2::uuid)',[first,id])).rows[0].claimant).toBe(first);
+   result=await penalize(id,result.snapshot.revision);
+  }
+  const finalWindow=result.buzzer.window_id;
+  state=result.snapshot.state;
+  expect(state.scoreChanges[first]).toBe(-q.value*1.5);
+  await db.query('select * from public.quiz_buzz($1,$2::uuid)',[first,finalWindow]);
+  const judged=transition(state,{type:'correct',playerId:first,answer:{answer:'Верно',explanation:'',accepted_answers:[],host_note:''}},pack);
+  await expect(db.query('select public.quiz_save($1,$2::jsonb,$3::uuid)',[result.snapshot.revision,JSON.stringify(judged),window])).rejects.toThrow();
+  const settled=(await db.query<Snapshot>('select * from public.quiz_save($1,$2::jsonb,$3::uuid)',[result.snapshot.revision,JSON.stringify(judged),finalWindow])).rows[0];
+  expect(settled.state.scoreChanges[first]).toBe(-q.value/2);
+  expect(settled.state.players.find(p=>p.id===first)!.score).toBe(-q.value/2);
+  await db.query('select public.quiz_restore($1,$2::jsonb,$3::jsonb)',[settled.revision,JSON.stringify({...beforeWrong,event:settled.state.event+1}),JSON.stringify(beforeBuzzer)]);
   const restored=(await db.query<Buzzer>(`select * from public.quiz_buzzer`)).rows[0];
   expect(restored.claimant).toBe(first);expect(restored.excluded).toEqual([]);expect(restored.accepting).toBe(false);expect(restored.window_id).not.toBe(window);
   expect((await db.query<{state:typeof state}>(`select state from public.quiz_game`)).rows[0].state.players.find(p=>p.id===first)!.score).toBe(0);

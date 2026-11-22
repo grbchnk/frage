@@ -19,6 +19,7 @@ it('SQL запускается повторно; зритель, посторо�
     await db.exec(`insert into public.quiz_hosts values('00000000-0000-0000-0000-000000000001');set role anon;`);
     expect((await db.query('select * from public.quiz_game')).rows).toHaveLength(1);
     await expect(db.query('select * from public.quiz_answers')).rejects.toThrow();
+    expect((await db.query('select * from public.quiz_host_answers()')).rows).toHaveLength(375);
     await expect(db.query(`update public.quiz_game set revision=1`)).rejects.toThrow();
     await db.exec(`reset role;set role authenticated;set request.jwt.claim.sub='00000000-0000-0000-0000-000000000002';`);
     expect((await db.query('select * from public.quiz_answers')).rows).toHaveLength(0);

@@ -1,5 +1,6 @@
 import React, {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {createRoot} from 'react-dom/client';
+import {flushSync} from 'react-dom';
 import {BOARD_PAGE_SIZE,available,chooseCategories,findQuestion,initialGame,rankPlayers,roundCategories,transition,type Action} from './engine';
 import {demo,loadAnswers,readGame,saveGame,subscribeGame,readParticipants,readBuzzer,subscribeParticipants,emptyBuzzer,rearm,restoreGame,resetGame} from './connection';
 import type {Answer,Game,Pack,Snapshot,Participant,Buzzer} from './types';
@@ -7,8 +8,9 @@ import {QuizAudio} from './audio';
 import './style.css';
 import './board.css';
 import './theme.css';
+import {playQuestionMotion,type QuestionMotion} from './question-motion';
 import {JoinLink,LobbyRoster,ParticipantScreen} from './Participant';
-import {AnswerFlash,BoardCrown,Finale,GAME_NAME,Place,ScoreDelta,VisualCategory,useAnswerFeedback} from './GameViews';
+import {AnswerFlash,BoardCrown,Finale,GAME_NAME,ScoreDelta,VisualCategory,useAnswerFeedback} from './GameViews';
 
 const params=new URLSearchParams(location.search);
 const initialRole=params.get('mode')||(matchMedia('(max-width: 760px) and (pointer: coarse)').matches?'player':'display');
@@ -28,6 +30,8 @@ function App(){
   const [pack,setPack]=useState<Pack|null>(null);
   const [snapshot,setSnapshot]=useState<Snapshot>({id:'main',revision:-1,state:initialGame()});
   const current=useRef(snapshot);
+  const motion=useRef<QuestionMotion|null>(null);
+  useEffect(()=>()=>{motion.current?.transition.skipTransition();motion.current?.clear();},[]);
   const [connection,setConnection]=useState('Соединяем…');
   const [error,setError]=useState('');const [busy,setBusy]=useState(false);const writing=useRef(false);
   const [answers,setAnswers]=useState<Record<string,Answer>>({});const [answersReady,setAnswersReady]=useState(demo);
@@ -55,9 +59,19 @@ function App(){
   },[]);
   useEffect(()=>{const sync=()=>{void syncButtons().catch(()=>{});};sync();const stop=subscribeParticipants(sync);const timer=setInterval(sync,3000);window.addEventListener('focus',sync);window.addEventListener('online',sync);return ()=>{stop();clearInterval(timer);window.removeEventListener('focus',sync);window.removeEventListener('online',sync);};},[syncButtons]);
   useEffect(()=>{void syncButtons().catch(()=>{});},[snapshot.revision,syncButtons]);
-  useEffect(()=>{window.scrollTo(0,0);},[state.phase,state.activeQuestionId]);
+  useLayoutEffect(()=>{window.scrollTo(0,0);},[state.phase,state.activeQuestionId]);
   const accept=useCallback((incoming:Snapshot)=>{
-    if(incoming.revision>=current.current.revision){current.current=incoming;setSnapshot(incoming);}
+    if(incoming.revision<=current.current.revision)return;
+    const before=current.current.state;
+    current.current=incoming;
+    motion.current?.transition.skipTransition();
+    motion.current?.clear();
+    motion.current=playQuestionMotion(before,incoming.state,()=>{
+      if(current.current.revision!==incoming.revision)return false;
+      flushSync(()=>setSnapshot(incoming));
+      return true;
+    });
+    if(!motion.current)setSnapshot(incoming);
   },[]);
   const refresh=useCallback(async()=>{try{accept(await readGame());setConnection(demo?'Демо · один браузер':'В эфире');}catch(e){setConnection((e as {code?:string}).code==='PGRST205'?'Нужна настройка':'Нет связи');throw e;}},[accept]);
   useEffect(()=>{
@@ -93,7 +107,7 @@ function App(){
     previousClaim.current=key;
   },[buzzer.claimant,buzzer.window_id]);
   function openScoreAdjustment(){setError('');setScoresOpen(true);}
-  function switchRole(){const next=host?'display':'host';setRole(next);const url=new URL(location.href);url.searchParams.set('mode',next);historyWindow(url);}
+  function switchRole(){motion.current?.transition.skipTransition();motion.current?.clear();setSnapshot(current.current);const next=host?'display':'host';setRole(next);const url=new URL(location.href);url.searchParams.set('mode',next);historyWindow(url);}
   async function sound(){try{if(!audio.current){audio.current=new QuizAudio();await audio.current.enable();audio.current.setPhase(state.phase);}const value=!audioOn;audio.current.volume(value?volume:0);setAudioOn(value);}catch{setError('Нажмите ещё раз, чтобы браузер включил звук.');}}
   async function act(action:Action){
     if(!pack||!answersReady||writing.current)return false;
@@ -120,11 +134,14 @@ function App(){
   async function fullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{setError('Полный экран недоступен в этом браузере. Можно скрыть панели браузера вручную.');}}
   if(role==='player')return <ParticipantScreen state={state} roster={roster} buzzer={buzzer} online={buttonsOnline&&snapshot.revision>=0} onUpdate={syncButtons}/>;
   const q=pack?findQuestion(pack,state.activeQuestionId):undefined;
-  const category=pack?.categories.find(c=>c.questions.some(item=>item.id===q?.id));
+
   const privateAnswer=q?answers[q.id]:null;
   const ranked=rankPlayers(state.players);
   const choosingId=state.players[state.turnIndex]?.id;
   const categories=pack?roundCategories(pack,state):[];
+  const categoryIndex=categories.findIndex(c=>c.questions.some(item=>item.id===q?.id));
+  const category=categories[categoryIndex];
+  const isRound=state.phase==='board'||state.phase==='question'||state.phase==='answer';
   const inGame=state.phase!=='lobby';
   const legacy=inGame&&!state.categoryIds?.length;
   const respondent=state.phase==='question'&&buzzer.question_id===state.activeQuestionId?state.players.find(p=>p.id===buzzer.claimant):undefined;
@@ -135,7 +152,7 @@ function App(){
     catch(e){setError((e as Error).message);await Promise.all([syncButtons().catch(()=>{}),refresh().catch(()=>{})]);}
     finally{writing.current=false;setBusy(false);}
   }
-  return <div className={`app ${host?'host':'display'} phase-${state.phase}`}>
+  return <div className={`app ${host?'host':'display'} phase-${state.phase} ${isRound?'quiz-round':''}`}>
     {!host&&feedback&&<AnswerFlash key={feedback.event} kind={feedback.kind}/>}
 
     <header className="topbar"><a className="brand" href={location.pathname+location.search} aria-label={GAME_NAME}><span className="brand-title">{GAME_NAME}</span></a>
@@ -145,8 +162,8 @@ function App(){
     {snapshot.revision<0||!pack||(host&&!answersReady)?<main className="waiting"><span className="eyebrow">{GAME_NAME}</span><h1>Собираем игру<span className="accent">.</span></h1><p>Подключаем экран к общему столу.</p><button disabled={host&&answersLoading} onClick={()=>{setError('');if(host)setAnswerRetry(value=>value+1);void refresh().catch(e=>setError(e.message));}}>Повторить подключение</button>{import.meta.env.DEV&&!demo&&<a className="text-link" href="?mode=host&demo=1">Локальная репетиция без базы ↗</a>}</main>:legacy?<main className="waiting"><h1>Новая игра</h1><p>Обновились правила и банк вопросов. Ведущий может начать новую партию с кнопками участников.</p>{host&&<button onClick={()=>setConfirm('reset')}>Начать новую игру</button>}</main>:<>
       {inGame&&state.phase!=='finished'&&<section className={`scoreboard ${ranked.length>4?'many-players':''}`} aria-label="Очки игроков" style={{'--player-count':ranked.length,'--mobile-columns':ranked.length<=4?2:ranked.length<=6?3:ranked.length<=8?4:5} as React.CSSProperties}>
         {ranked.map(p=><div className={`player ${state.phase==='board'&&p.id===choosingId?'choosing':''} ${state.winnerId===p.id?'scored':''}`} key={p.id}>
-          {state.phase==='board'&&p.rank<=3&&<BoardCrown rank={p.rank}/>}
-          <div className="player-name">{state.phase!=='board'&&<Place rank={p.rank}/>}<span title={p.name}>{p.name}</span></div>
+          {p.rank<=3&&<BoardCrown rank={p.rank}/>}
+          <div className="player-name"><span title={p.name}>{p.name}</span></div>
           <strong>{host?p.score.toLocaleString('ru-RU'):<AnimatedScore value={p.score}/>}</strong>
           <div className="score-delta-slot">{state.scoreChanges?.[p.id]!==undefined&&<ScoreDelta delta={state.scoreChanges[p.id]}/>}</div>
         </div>)}
@@ -162,7 +179,13 @@ function App(){
         </main>
       )}
       {state.phase==='board'&&<Board categories={categories} state={state} pack={pack} host={host} busy={busy} open={id=>void act({type:'open',id})} openPage={page=>void act({type:'boardPage',page})}/>}
-      {(state.phase==='question'||state.phase==='answer')&&q&&<main className={`question-main ${q.media?'with-media':''} ${state.phase==='answer'?'revealed':''}`} key={q.id}><div className="question-meta"><span className="question-category">{category?.title}</span><span className="question-value" data-value={q.value}>{q.value} <small>БАЛЛОВ</small></span></div><div className="question-content"><FittedCopy contentKey={`${q.id}-${state.phase}-${role}`}><h1><TypedQuestion text={q.prompt} openedAt={state.questionOpenedAt} reveal={host||state.phase==='answer'}/></h1>{state.phase==='answer'&&state.revealed&&<div className="answer-copy"><h2>{state.revealed.answer}</h2><p>{state.revealed.explanation}</p><span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span></div>}</FittedCopy>{q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}</div>
+      {(state.phase==='question'||state.phase==='answer')&&q&&<main className={`question-main ${q.media?'with-media':''} ${state.phase==='answer'?'revealed':''}`} key={q.id}><div className="question-meta">
+        {category&&<span className="question-category" data-accent={categoryAccent(categoryIndex+1)}>
+          <span className="category-number" aria-label={`Категория ${categoryIndex+1}`}>{categoryIndex+1}</span>
+          <strong>{category.title}</strong>
+        </span>}
+        <span className="question-value" data-value={q.value} aria-label={`${q.value} баллов`}>{q.value}</span>
+      </div><div className="question-content"><FittedCopy contentKey={`${q.id}-${state.phase}-${role}`}><h1><TypedQuestion text={q.prompt} openedAt={state.questionOpenedAt} reveal={host||state.phase==='answer'}/></h1>{state.phase==='answer'&&state.revealed&&<div className="answer-copy"><h2>{state.revealed.answer}</h2><p>{state.revealed.explanation}</p><span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span></div>}</FittedCopy>{q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}</div>
         {state.phase==='question'&&!host&&<div className={`respondent ${respondent?'has-respondent':''}`} role="status">{respondent?`Отвечает ${respondent.name}`:'Кто первый нажмёт?'}</div>}
         {host&&state.phase==='question'&&<section className="host-answer">
           <div className="private-answer"><span className="eyebrow">Ответ для ведущего</span><h2>{privateAnswer?.answer||'Ответ ещё не загружен'}</h2>{privateAnswer&&privateAnswer.accepted_answers?.length>0&&<p className="accepted-answers">Принимаем: {privateAnswer.accepted_answers.join(' · ')}</p>}
@@ -225,6 +248,8 @@ function ScoreAdjustment({players,busy,error,close,apply}:{players:Game['players
   </section></div>;
 }
 
+const categoryAccent=(number:number)=>((number-1)%5)+1;
+
 function Board({categories,state,pack,host,busy,open,openPage}:{categories:Pack['categories'];state:Game;pack:Pack;host:boolean;busy:boolean;open:(id:string)=>void;openPage:(page:number)=>void}){
   const pages=Math.ceil(categories.length/BOARD_PAGE_SIZE);
   const page=Math.min(pages-1,Math.max(0,state.boardPage??0));
@@ -245,7 +270,7 @@ function Board({categories,state,pack,host,busy,open,openPage}:{categories:Pack[
         const played=c.questions.filter(item=>state.completed.includes(item.id)).length;
         const complete=played>=state.questionsPerCategory;
         const number=page*BOARD_PAGE_SIZE+row+1;
-        return <div className="board-row" data-accent={((number-1)%5)+1} style={{'--row':row} as React.CSSProperties} key={c.id}>
+        return <div className="board-row" data-accent={categoryAccent(number)} style={{'--row':row} as React.CSSProperties} key={c.id}>
           <div className="category-title">
             <span className="category-number" aria-hidden="true">{number}</span>
             <strong title={c.title}>{c.title}</strong>
@@ -254,7 +279,7 @@ function Board({categories,state,pack,host,busy,open,openPage}:{categories:Pack[
           {c.questions.map(item=>{
             const wasPlayed=state.completed.includes(item.id);
             const blank=wasPlayed||complete;
-            return <button className={`price ${blank?'played':''}`} data-value={item.value} key={item.id} disabled={blank||!host||busy||!available(pack,state,item.id)} onClick={()=>open(item.id)} aria-label={`${c.title}, ${item.value}${wasPlayed?', сыграно':complete?', категория закрыта':''}`}>{!blank&&item.value}</button>;
+            return <button className={`price ${blank?'played':''}`} data-question-id={item.id} data-value={item.value} key={item.id} disabled={blank||!host||busy||!available(pack,state,item.id)} onClick={()=>open(item.id)} aria-label={`${c.title}, ${item.value}${wasPlayed?', сыграно':complete?', категория закрыта':''}`}>{!blank&&item.value}</button>;
           })}
         </div>;
       })}

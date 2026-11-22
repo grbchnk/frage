@@ -64,7 +64,12 @@ it('TV без современных API показывает все этапы 
   expect(app.get('tv-players').text).toContain('Стас <img src=x>');
   expect(app.get('tv-players').all().some(n=>n.tag==='img')).toBe(false);
   const question=app.pack.categories.flatMap((c:any)=>c.questions).find((q:any)=>q.media?.question_masks_normalized?.length);
-  app.update({phase:'question',activeQuestionId:question.id});
+  const questionCategory=app.pack.categories.find((c:any)=>c.questions.includes(question));
+  app.update({phase:'question',activeQuestionId:question.id,categoryIds:[app.pack.categories[0].id,questionCategory.id]});
+  const label=app.get('tv-content').all().find(n=>n.className.startsWith('tv-question-label'));
+  expect(label?.text).toContain(questionCategory.title);
+  expect(label?.all().find(n=>n.className==='tv-category-number')?.text).toBe(questionCategory===app.pack.categories[0]?'1':'2');
+  expect(app.get('tv-players').all().filter(n=>n.className.startsWith('tv-board-crown')).map(n=>n.className)).toEqual(['tv-board-crown tv-gold','tv-board-crown tv-silver']);
   expect(app.get('tv-content').text).toContain(question.prompt);
   app.buzz(question.id,'p2');
   expect(app.get('tv-respondent').text).toBe('Отвечает Алина');

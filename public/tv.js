@@ -189,18 +189,20 @@
     if (!pack || !snapshot) return;
     var state = snapshot.state;
     var boardPhase = state.phase === 'board';
-    document.documentElement.className = 'tv-stage tv-phase-' + state.phase + (boardPhase ? ' tv-category-phase' : '');
+    var roundPhase = boardPhase || state.phase === 'question' || state.phase === 'answer';
+    document.documentElement.className = 'tv-stage tv-phase-' + state.phase + (roundPhase ? ' tv-round' : '') + (boardPhase ? ' tv-category-phase' : '');
+    var roundIds = state.categoryIds && state.categoryIds.length ? state.categoryIds : pack.rounds[0].category_ids.slice(0,10);
     var ranked = rankPlayers(state.players);
     var chooser = state.players[state.turnIndex];
     var i;
-    players.className = boardPhase && ranked.length > 4 ? 'tv-many-players' : '';
+    players.className = roundPhase && ranked.length > 4 ? 'tv-many-players' : '';
     text(players, '');
     if (state.phase !== 'lobby' && state.phase !== 'finished') {
       for (i = 0; i < ranked.length; i++) {
         var player = ranked[i].player;
         var choosing = boardPhase && chooser && chooser.id === player.id;
         var cell = el('div', 'tv-player' + (choosing ? ' tv-choosing' : '') + (player.id === state.winnerId ? ' tv-scored' : ''), null, players);
-        if (boardPhase) {
+        if (roundPhase) {
           if (ranked[i].rank <= 3) el('b', 'tv-board-crown ' + ranks[ranked[i].rank], '♛', cell);
         } else {
           el('b', 'tv-place ' + (ranks[ranked[i].rank] || ''), ranked[i].rank, cell);
@@ -232,7 +234,7 @@
       if (!lobbyRoster.length) el('p', '', 'Ждём игроков…', rosterBox);
       for (i = 0; i < lobbyRoster.length; i++) el('strong', '', lobbyRoster[i].name, rosterBox);
     } else if (state.phase === 'board') {
-      var ids = state.categoryIds && state.categoryIds.length ? state.categoryIds : pack.rounds[0].category_ids.slice(0,10);
+      var ids = roundIds;
       var pageCount = Math.ceil(ids.length / 10);
       var page = Math.max(0, Math.min(pageCount - 1, state.boardPage || 0));
       var selection = el('div', 'tv-board-chooser', null, content);
@@ -266,7 +268,11 @@
       if (!found) { el('p', '', 'Вопрос не найден. Обновите страницу.', content); return; }
       var q = found.question;
       var section = el('div', 'tv-question', null, content);
-      el('div', 'tv-meta', found.category.title + ' · ' + q.value + ' баллов', section);
+      var categoryNumber = roundIds.indexOf(found.category.id) + 1;
+      var questionLabel = el('div', 'tv-question-label tv-category-' + ((categoryNumber - 1) % 5 + 1), null, section);
+      if (categoryNumber > 0) el('span', 'tv-category-number', categoryNumber, questionLabel);
+      el('strong', '', found.category.title, questionLabel);
+      el('span', 'tv-question-value', q.value, questionLabel);
       el('h1', '', q.prompt, section);
       if (state.phase === 'answer' && state.revealed) {
         el('h2', '', state.revealed.answer, section);

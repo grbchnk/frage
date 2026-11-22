@@ -25,17 +25,17 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
 .tv-category-phase #tv-header { font-size:15px; padding-bottom:8px; }
 .tv-category-phase #tv-footer { margin-top:10px; padding-top:6px; }
 .tv-category-phase #tv-retry { background:#28184c; border:1px solid #7852ab; color:#fcf7ff; font-size:12px; padding:5px 8px; }
-.tv-category-phase #tv-players { border-spacing:9px 6px; }
-.tv-category-phase .tv-player { position:relative; text-align:center; padding:8px 10px; background:#1b153b; border:1px solid #7544aa; border-radius:12px; }
-.tv-category-phase .tv-player span { display:block; font-size:19px; font-weight:bold; }
-.tv-category-phase .tv-player strong { color:#fcf7ff; display:block; margin:4px 0 0; font-size:24px; }
-.tv-category-phase .tv-choosing { border-color:#e693ff; box-shadow:0 0 11px #c859f7; }
+.tv-round #tv-players { border-spacing:9px 6px; }
+.tv-round .tv-player { position:relative; text-align:center; padding:8px 10px; background:#1b153b; border:1px solid #7544aa; border-radius:12px; }
+.tv-round .tv-player span { display:block; font-size:19px; font-weight:bold; }
+.tv-round .tv-player strong { color:#fcf7ff; display:block; margin:4px 0 0; font-size:24px; }
+.tv-round .tv-choosing { border-color:#e693ff; box-shadow:0 0 11px #c859f7; }
 .tv-board-crown { position:absolute; top:50%; left:7%; margin-top:-12px; font-size:23px; line-height:1; }
-.tv-category-phase .tv-delta { position:absolute; right:6%; bottom:8px; color:#e0d0fa; background:#3c285b; border-radius:14px; padding:3px 6px; }
-.tv-category-phase .tv-many-players .tv-board-crown { left:3%; font-size:15px; }
-.tv-category-phase .tv-many-players .tv-delta { position:static; margin-top:4px; }
-.tv-category-phase .tv-positive { color:#b6ffd0; background:#24513c; }
-.tv-category-phase .tv-negative { color:#ffaac1; background:#602745; }
+.tv-round .tv-delta { position:absolute; right:6%; bottom:8px; color:#e0d0fa; background:#3c285b; border-radius:14px; padding:3px 6px; }
+.tv-round .tv-many-players .tv-board-crown { left:3%; font-size:15px; }
+.tv-round .tv-many-players .tv-delta { position:static; margin-top:4px; }
+.tv-round .tv-positive { color:#b6ffd0; background:#24513c; }
+.tv-round .tv-negative { color:#ffaac1; background:#602745; }
 .tv-category-phase #tv-content { min-height:0; padding:8px 0; }
 .tv-board-chooser { text-align:center; }
 .tv-board-chooser h1 { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:20px; letter-spacing:2px; text-transform:uppercase; color:#dfd3f3; margin:0 0 12px; }
@@ -63,10 +63,16 @@ html,body{margin:0;padding:0;background:#191612;color:#fff4df;font-family:Arial,
 .tv-stage:not(.tv-category-phase),.tv-stage:not(.tv-category-phase) body { background:#1a153d; color:#fcf7ff; }
 .tv-stage:not(.tv-category-phase) body { background:radial-gradient(ellipse at 10% 30%,#512390,transparent 65%),radial-gradient(ellipse at 95% 90%,#44239b,transparent 65%),#191438; }
 .tv-stage:not(.tv-category-phase) #tv-header,.tv-stage:not(.tv-category-phase) #tv-footer { border-color:#734d9d; }
-.tv-stage:not(.tv-category-phase) .tv-player { background:#231948; border-color:#8659b6; }
-.tv-stage:not(.tv-category-phase) .tv-player strong,.tv-stage:not(.tv-category-phase) .tv-meta,.tv-stage:not(.tv-category-phase) .tv-question h2 { color:#f0d5ff; }
+.tv-stage:not(.tv-category-phase) .tv-meta,.tv-stage:not(.tv-category-phase) .tv-question h2 { color:#f0d5ff; }
 .tv-stage:not(.tv-category-phase) #tv-retry { background:#523386; color:#fff1ff; }
-.tv-stage .tv-question { padding:15px; border:1px solid #9a70c0; border-radius:14px; background:#221643; }
+.tv-round .tv-player.tv-scored { border-color:#84e2ad; }
+.tv-stage .tv-question { padding:6px 14px; }
+.tv-question-label { color:#d8aef9; font-size:23px; margin:0 auto 14px; text-align:center; text-transform:uppercase; }
+.tv-question-label.tv-category-2 { color:#9dc1ff; }
+.tv-question-label.tv-category-3 { color:#8ddfdb; }
+.tv-question-label.tv-category-4 { color:#ecc084; }
+.tv-question-label.tv-category-5 { color:#f2a4d0; }
+.tv-question-value { color:#f2dcff; margin-left:12px; padding-left:12px; border-left:1px solid #966db9; }
 .tv-stage .tv-respondent { color:#f6e7ff; border-color:#9665b8; }
 .tv-stage .tv-respondent.active { background:#6a39a6; }
 .tv-lobby { display:table; width:88%; margin:24px auto; border-spacing:18px 0; }

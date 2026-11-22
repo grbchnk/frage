@@ -45,8 +45,27 @@ export async function loadAnswers(revision:string,count:number):Promise<Record<s
   if(!supabase)throw new Error('Не настроено подключение. См. README → Supabase.');
   const {data,error}=await supabase.rpc('quiz_host_answers');
   if(error||data?.length!==count)throw new Error(`Не удалось загрузить ${count} ответов. Выполните свежий supabase/setup.sql.`);
-  if(data.some((row:{data:{pack_revision?:string}})=>row.data?.pack_revision!==revision))throw new Error('Вопросы обновлены. Выполните свежий supabase/setup.sql и перезагрузите пульт.');
-  return Object.fromEntries(data.map((row:{question_id:string;data:Answer})=>[row.question_id,row.data]));
+  // The binary food round can use the previous answer bank until its SQL seed is refreshed.
+  const rows = data as {question_id: string; data: Answer & {pack_revision?: string}}[];
+  const legacyRevision = '228f1fc4407b7755';
+  const canUseLegacyAnswers = revision === 'd8e1bb6b11ec9fa5';
+  if(rows.some(({data}) => data?.pack_revision !== revision &&
+    !(canUseLegacyAnswers && data?.pack_revision === legacyRevision))){
+    throw new Error('Вопросы обновлены. Выполните свежий supabase/setup.sql и перезагрузите пульт.');
+  }
+  return Object.fromEntries(rows.map(({question_id, data}) => {
+    if(data.pack_revision !== legacyRevision || !canUseLegacyAnswers || !question_id.startsWith('q58-')){
+      return [question_id, data];
+    }
+    const [yesOrNo] = data.answer.split(', ', 1);
+    const answer = yesOrNo === 'Да' ? 'Съедобно' : 'Несъедобно';
+    return [question_id, {
+      answer,
+      accepted_answers: [answer, yesOrNo],
+      explanation: `${data.answer}. ${data.explanation}`,
+      host_note: 'Достаточно сказать, съедобно это или нет.',
+    }];
+  }));
 }
 
 const rosterKey='quiz-roster-v2', buzzerKey='quiz-buzzer-v2';

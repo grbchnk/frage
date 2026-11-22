@@ -2,7 +2,7 @@ import {useLayoutEffect,useRef,useState,type ReactNode} from 'react';
 
 type OpenQuestion={id:string;value:number;openedAt:number|null};
 const DURATION=420;
-const EASING='cubic-bezier(.25,.72,.24,1)';
+const EASING='ease-in-out';
 
 export function CellExpansion({question,render}:{question:OpenQuestion|null;render:(openedAt:number|null)=>ReactNode}){
   const surface=useRef<HTMLDivElement>(null);

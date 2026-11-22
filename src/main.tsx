@@ -1,4 +1,4 @@
-import React, {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'react';
+import React, {useCallback,useEffect,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {BOARD_PAGE_SIZE,available,chooseCategories,findQuestion,initialGame,rankPlayers,roundCategories,transition,type Action} from './engine';
 import {demo,loadAnswers,readGame,saveGame,subscribeGame,readParticipants,readBuzzer,subscribeParticipants,emptyBuzzer,rearm,restoreGame,resetGame} from './connection';
@@ -359,22 +359,32 @@ function Setup({busy,roster,online,start,categories,pack}:{categories:Pack['cate
 }
 const TYPEWRITER_INTERVAL=75;
 function TypedQuestion({text,openedAt,instant,stopped}:{text:string;openedAt:number|null;instant:boolean;stopped:boolean}){
+  const glyphs=useMemo(()=>{
+    if(typeof Intl.Segmenter!=='function')return Array.from(text);
+    return Array.from(new Intl.Segmenter('ru').segment(text),part=>part.segment);
+  },[text]);
   const immediate=instant||openedAt===null||matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const length=()=>immediate?text.length:Math.min(text.length,Math.max(0,Math.floor((Date.now()-openedAt!)/TYPEWRITER_INTERVAL)));
+  const length=()=>immediate?glyphs.length:Math.min(glyphs.length,Math.max(0,Math.floor((Date.now()-openedAt!)/TYPEWRITER_INTERVAL)));
   const [count,setCount]=useState(length);
   useEffect(()=>{
-    if(stopped){if(immediate)setCount(text.length);return;}
+    if(stopped){if(immediate)setCount(glyphs.length);return;}
     const current=length();
     setCount(current);
-    if(current>=text.length)return;
+    if(current>=glyphs.length)return;
     const timer=window.setInterval(()=>{
       const next=length();
       setCount(next);
-      if(next>=text.length)window.clearInterval(timer);
+      if(next>=glyphs.length)window.clearInterval(timer);
     },TYPEWRITER_INTERVAL);
     return ()=>window.clearInterval(timer);
-  },[text,openedAt,immediate,stopped]);
-  return <span className="typed-question" aria-label={text}><span aria-hidden="true">{text.slice(0,count)}<i className={`typing-cursor ${stopped||count>=text.length?'done':''}`}/><span className="untyped">{text.slice(count)}</span></span></span>;
+  },[glyphs,openedAt,immediate,stopped]);
+
+  const cursor=!stopped&&count<glyphs.length?count-1:-1;
+  return <span className="typed-question" aria-label={text}>
+    <span aria-hidden="true">{glyphs.map((glyph,index)=>
+      <span className="typed-glyph" key={index} data-hidden={index>=count||undefined} data-caret={index===cursor&&!/^\s+$/.test(glyph)||undefined}>{glyph}</span>
+    )}</span>
+  </span>;
 }
 function QuestionImage({question,reveal}:{question:NonNullable<ReturnType<typeof findQuestion>>;reveal:boolean}){
   const [ratio,setRatio]=useState<number|null>(null);const [broken,setBroken]=useState(false);const media=question.media!;

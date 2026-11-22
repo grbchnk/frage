@@ -12,7 +12,7 @@ create or replace function quiz_private.clear_submissions()
 returns trigger language plpgsql security definer set search_path='' as $$
 begin
   if new.state->>'phase'='lobby' then
-    delete from quiz_private.submissions;
+    delete from quiz_private.submissions where round_id is not null;
   end if;
   return new;
 end $$;

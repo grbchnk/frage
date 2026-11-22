@@ -19,7 +19,7 @@ describe('Один вечер в кинокомнате',()=>{
    state=transition(state,{type:'reveal',answer},pack);expect(state.revealed?.host_note).toBe('');
    state=transition(state,{type:'continue'},pack);expect(state.turnIndex).toBe(1);expect(state.scoreChanges.p2).toBe(q.value);
   }
-  expect(state.phase).toBe('finished');expect(state.completed).toHaveLength(10*limit);expect(state.breakEndsAt).toBeNull();
+  expect(state.phase).toBe('finished');expect(state.completed).toHaveLength(10*limit);
  });
  it('сохраняет случайные темы и идентификаторы подключившихся участников',()=>{
   for(let i=0;i<20;i++){const ids=chooseCategories(pack);expect(ids).toHaveLength(10);expect(new Set(ids).size).toBe(10);expect(ids.every(id=>pack.categories.some(c=>c.id===id))).toBe(true);}

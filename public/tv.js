@@ -237,8 +237,7 @@
       if (!found) { el('p', '', 'Вопрос не найден. Обновите страницу.', content); return; }
       var q = found.question;
       var section = el('div', 'tv-question', null, content);
-      var meta = el('div', 'tv-meta', found.category.title + ' · ' + q.value + ' баллов', section);
-      if (state.phase === 'question') el('span', 'tv-clock', '', meta).id = 'tv-clock';
+      el('div', 'tv-meta', found.category.title + ' · ' + q.value + ' баллов', section);
       el('h1', '', q.prompt, section);
       if (state.phase === 'answer' && state.revealed) {
         el('h2', '', state.revealed.answer, section);
@@ -255,7 +254,6 @@
       var pause = el('div', 'tv-center', null, content);
       el('p', '', 'Первый раунд завершён', pause);
       el('h1', '', 'Перерыв', pause);
-      el('span', 'tv-clock-large', '', pause).id = 'tv-clock';
     } else if (state.phase === 'finished') {
       var names = [];
       for (i = 0; i < ranked.length && ranked[i].rank === 1; i++) names.push(ranked[i].player.name);
@@ -271,18 +269,7 @@
         el('td', 'tv-score', ranked[i].player.score, standing);
       }
     }
-    tick();
     window.scrollTo(0, 0);
-  }
-  function tick() {
-    var clock = document.getElementById('tv-clock');
-    if (!clock || !snapshot) return;
-    var state = snapshot.state;
-    var end = state.phase === 'break' ? state.breakEndsAt : state.questionEndsAt;
-    var seconds = end ? Math.max(0, Math.ceil((end - new Date().getTime()) / 1000)) : 0;
-    var minutes = Math.floor(seconds / 60);
-    var remainder = seconds % 60;
-    text(clock, (minutes < 10 ? '0' : '') + minutes + ':' + (remainder < 10 ? '0' : '') + remainder);
   }
   function refresh() {
     if (pending) return;
@@ -331,5 +318,4 @@
   loadPack();
   refresh();
   window.setInterval(function () { loadPack(); refresh(); }, 2000);
-  window.setInterval(tick, 250);
 }());

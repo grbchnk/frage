@@ -10,7 +10,6 @@ import {AnswerFlash,Finale,GAME_NAME,Place,ScoreDelta,VisualCategory,useAnswerFe
 
 const params=new URLSearchParams(location.search);
 const initialRole=params.get('mode')||(matchMedia('(max-width: 760px) and (pointer: coarse)').matches?'player':'display');
-const fmt=(seconds:number)=>`${Math.floor(seconds/60).toString().padStart(2,'0')}:${(seconds%60).toString().padStart(2,'0')}`;
 function AnimatedScore({value}:{value:number}){
   const [shown,setShown]=useState(value),from=useRef(value);
   useEffect(()=>{
@@ -20,11 +19,6 @@ function AnimatedScore({value}:{value:number}){
     frame=requestAnimationFrame(tick);return ()=>cancelAnimationFrame(frame);
   },[value]);
   return <span aria-label={String(value)}>{shown.toLocaleString('ru-RU')}</span>;
-}
-function Clock({endsAt,large=false}:{endsAt:number|null;large?:boolean}){
-  const [now,setNow]=useState(Date.now());useEffect(()=>{const timer=setInterval(()=>setNow(Date.now()),250);return ()=>clearInterval(timer);},[]);
-  const left=endsAt?Math.max(0,Math.ceil((endsAt-now)/1000)):0;
-  return <span className={`clock ${large?'large':''} ${left===0?'expired':''}`} aria-label={`Осталось ${left} секунд`}>{fmt(left)}</span>;
 }
 function App(){
   const [role,setRole]=useState(initialRole);
@@ -96,6 +90,7 @@ function App(){
     if(key&&key!==previousClaim.current)audio.current?.effect('buzz');
     previousClaim.current=key;
   },[buzzer.claimant,buzzer.window_id]);
+  function openScoreAdjustment(){setError('');setScoresOpen(true);}
   function switchRole(){const next=host?'display':'host';setRole(next);const url=new URL(location.href);url.searchParams.set('mode',next);historyWindow(url);}
   async function sound(){try{if(!audio.current){audio.current=new QuizAudio();await audio.current.enable();audio.current.setPhase(state.phase);}const value=!audioOn;audio.current.volume(value?volume:0);setAudioOn(value);}catch{setError('Нажмите ещё раз, чтобы браузер включил звук.');}}
   async function act(action:Action){
@@ -148,20 +143,21 @@ function App(){
     {snapshot.revision<0||!pack||(host&&!answersReady)?<main className="waiting"><span className="eyebrow">{GAME_NAME}</span><h1>Собираем игру<span className="accent">.</span></h1><p>Подключаем экран к общему столу.</p><button disabled={host&&answersLoading} onClick={()=>{setError('');if(host)setAnswerRetry(value=>value+1);void refresh().catch(e=>setError(e.message));}}>Повторить подключение</button>{import.meta.env.DEV&&!demo&&<a className="text-link" href="?mode=host&demo=1">Локальная репетиция без базы ↗</a>}</main>:legacy?<main className="waiting"><h1>Новая игра</h1><p>Обновились правила и банк вопросов. Ведущий может начать новую партию с кнопками участников.</p>{host&&<button onClick={()=>setConfirm('reset')}>Начать новую игру</button>}</main>:<>
       {inGame&&state.phase!=='finished'&&<section className="scoreboard" aria-label="Очки игроков" style={{'--player-count':ranked.length,'--mobile-columns':ranked.length<=4?2:ranked.length<=6?3:ranked.length<=8?4:5} as React.CSSProperties}>
         {ranked.map(p=><div className={`player ${state.phase==='board'&&p.id===choosingId?'choosing':''} ${state.winnerId===p.id?'scored':''}`} key={p.id}>
-          <div className="player-name"><Place rank={p.rank}/><span>{p.name}</span></div>
+          <div className="player-name"><Place rank={p.rank}/><span title={p.name}>{p.name}</span></div>
           <strong>{host?p.score.toLocaleString('ru-RU'):<AnimatedScore value={p.score}/>}</strong>
           <div className="score-delta-slot">{state.phase==='board'&&p.id===choosingId&&<span className="chooser-label">Выбирает</span>}{state.scoreChanges?.[p.id]!==undefined&&<ScoreDelta delta={state.scoreChanges[p.id]}/>}</div>
         </div>)}
       </section>}
       {state.phase==='lobby'&&(host?<Setup pack={pack} categories={pack.categories} busy={busy} roster={roster} online={buttonsOnline} start={(names,limit,categoryIds)=>void act({type:'start',names,limit,participants:roster,categoryIds})}/>:<main className="lobby"><div className="lobby-copy"><h1>Кто <em>первый?</em></h1><div className="lobby-pills"><span>{pack.categories.length} темы в банке</span><span>1 раунд</span></div></div><div className="lobby-art" aria-hidden="true"><div className="orbit"/><div className="art-tile a">100</div><div className="art-tile b">?</div><div className="art-tile c">500</div><span className="spark">✳</span></div><JoinLink/><div className="waiting-host"><span className="pulse"/> Ожидаем ведущего · подключились: {roster.map(p=>p.name).join(", ")||"пока никого"}</div>{!audioOn&&<button className="sound-start" onClick={()=>void sound()}>♫ Включить звук</button>}</main>)}
       {state.phase==='board'&&<Board categories={categories} state={state} pack={pack} host={host} busy={busy} open={id=>void act({type:'open',id})} openPage={page=>void act({type:'boardPage',page})}/>}
-      {(state.phase==='question'||state.phase==='answer')&&q&&<main className={`question-main ${q.media?'with-media':''} ${state.phase==='answer'?'revealed':''}`} key={q.id}><div className="question-meta"><span className="question-category">{category?.title}</span><span className="question-value">{q.value} <small>БАЛЛОВ</small></span>{state.phase==='question'&&<Clock endsAt={state.questionEndsAt}/>}</div><div className="question-content"><FittedCopy contentKey={`${q.id}-${state.phase}-${role}`}><h1><TypedQuestion text={q.prompt} openedAt={state.questionOpenedAt??(state.questionEndsAt!-q.time_seconds*1000)} reveal={host||state.phase==='answer'}/></h1>{state.phase==='answer'&&state.revealed&&<div className="answer-copy"><h2>{state.revealed.answer}</h2><p>{state.revealed.explanation}</p><span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span></div>}</FittedCopy>{q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}</div>
+      {(state.phase==='question'||state.phase==='answer')&&q&&<main className={`question-main ${q.media?'with-media':''} ${state.phase==='answer'?'revealed':''}`} key={q.id}><div className="question-meta"><span className="question-category">{category?.title}</span><span className="question-value">{q.value} <small>БАЛЛОВ</small></span></div><div className="question-content"><FittedCopy contentKey={`${q.id}-${state.phase}-${role}`}><h1><TypedQuestion text={q.prompt} openedAt={state.questionOpenedAt} reveal={host||state.phase==='answer'}/></h1>{state.phase==='answer'&&state.revealed&&<div className="answer-copy"><h2>{state.revealed.answer}</h2><p>{state.revealed.explanation}</p><span className="award-label">{state.winnerId?`+${q.value} · ${state.players.find(p=>p.id===state.winnerId)?.name}`:'Без верного ответа'}</span></div>}</FittedCopy>{q.media&&<QuestionImage question={q} reveal={host||state.phase==='answer'}/>}</div>
         {state.phase==='question'&&!host&&<div className={`respondent ${respondent?'has-respondent':''}`} role="status">{respondent?`Отвечает ${respondent.name}`:'Кто первый нажмёт?'}</div>}
         {host&&state.phase==='question'&&<section className="host-answer">
           <div className="private-answer"><span className="eyebrow">Ответ для ведущего</span><h2>{privateAnswer?.answer||'Ответ ещё не загружен'}</h2>{privateAnswer&&privateAnswer.accepted_answers?.length>0&&<p className="accepted-answers">Принимаем: {privateAnswer.accepted_answers.join(' · ')}</p>}
           {(privateAnswer?.explanation||privateAnswer?.host_note)&&<details className="answer-notes"><summary>Пояснение и заметки</summary><p>{privateAnswer.explanation}</p>{privateAnswer.host_note&&<p className="host-note">{privateAnswer.host_note}</p>}</details>}</div>
           {respondent&&state.winnerId===null?<div className="judgement-panel"><h3>Отвечает {respondent.name}</h3><div className="judgement-buttons"><button className="judge-correct" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'correct',playerId:respondent.id,answer:privateAnswer})}><span>Правильно</span><strong>+{q.value}</strong></button><button className="judge-wrong" disabled={busy} onClick={()=>void reopenBuzzer(true)}><span>Неправильно</span><strong>−{q.value/2}</strong></button></div><button className="secondary release-buzzer" disabled={busy} onClick={()=>void reopenBuzzer(false)}>Снять нажатие без штрафа</button></div>:
           state.winnerId!==null?<button className="primary" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'reveal',answer:privateAnswer})}>Показать правильный ответ</button>:<div className="awaiting-response"><p>Ждём нажатия</p><button className="secondary" disabled={busy||!privateAnswer} onClick={()=>privateAnswer&&void act({type:'reveal',answer:privateAnswer})}>Никто не ответил · раскрыть ответ</button></div>}
+          <button className="secondary score-adjustment" disabled={busy} onClick={openScoreAdjustment}>± Баллы</button>
         </section>}
         {host&&state.phase==='answer'&&<button className="primary continue" disabled={busy} onClick={()=>void act({type:'continue'})}>Продолжить игру <span>→</span></button>}
       </main>}
@@ -169,7 +165,7 @@ function App(){
       {state.phase==='finished'&&<Finale players={state.players} reset={host?()=>setConfirm('reset'):undefined}/>}
       {host&&inGame&&<nav className="host-toolbar" aria-label="Управление игрой">
         <button disabled={busy||!undoCount} onClick={()=>void undo()}>↶ Отменить</button>
-        <button disabled={busy} onClick={()=>{setError('');setScoresOpen(true);}}>± Баллы</button>
+        {state.phase!=='question'&&<button disabled={busy} onClick={openScoreAdjustment}>± Баллы</button>}
         {state.phase==='question'&&state.winnerId===null&&<button disabled={busy} onClick={()=>void act({type:'cancel'})}>Вернуть вопрос</button>}
         {state.phase==='board'&&<button disabled={busy} onClick={()=>setConfirm('endRound')}>Закончить игру</button>}
         {state.phase!=='finished'&&<button disabled={busy} onClick={()=>setConfirm('reset')}>Новая игра</button>}
@@ -305,11 +301,11 @@ function Setup({busy,roster,online,start,categories,pack}:{categories:Pack['cate
     </section>
   </main>;
 }
-function TypedQuestion({text,openedAt,reveal}:{text:string;openedAt:number;reveal:boolean}){
+function TypedQuestion({text,openedAt,reveal}:{text:string;openedAt:number|null;reveal:boolean}){
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const length=()=>reveal||reduced?text.length:Math.min(text.length,Math.max(0,Math.floor((Date.now()-openedAt)/42)));
+  const length=()=>reveal||reduced||openedAt===null?text.length:Math.min(text.length,Math.max(0,Math.floor((Date.now()-openedAt)/42)));
   const [count,setCount]=useState(length);
-  useEffect(()=>{setCount(length());if(reveal||reduced)return;const timer=setInterval(()=>setCount(length()),42);return ()=>clearInterval(timer);},[text,openedAt,reveal,reduced]);
+  useEffect(()=>{setCount(length());if(reveal||reduced||openedAt===null)return;const timer=setInterval(()=>setCount(length()),42);return ()=>clearInterval(timer);},[text,openedAt,reveal,reduced]);
   return <span className="typed-question" aria-label={text}><span aria-hidden="true">{text.slice(0,count)}<i className={`typing-cursor ${count>=text.length?'done':''}`}/><span className="untyped">{text.slice(count)}</span></span></span>;
 }
 function QuestionImage({question,reveal}:{question:NonNullable<ReturnType<typeof findQuestion>>;reveal:boolean}){

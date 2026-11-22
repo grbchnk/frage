@@ -35,7 +35,7 @@ for(const c of pack.categories){
         media={kind:'photo_rebus',panels,tokens:q.media.tokens,joiner:q.media.joiner,question_alt:q.media.question_alt};
       }else media={kind:'image',path:await webImage(q.media.path),question_alt:q.media.question_alt,question_masks_normalized:q.media.question_masks_normalized};
     }
-    questions.push({id:q.id,value:q.value,prompt:q.prompt,time_seconds:q.time_seconds,media});
+    questions.push({id:q.id,value:q.value,prompt:q.prompt,media});
   }
   categories.push({id:c.id,title:c.title,description:c.description,questions});
 }

@@ -57,11 +57,11 @@ it('TV без современных API показывает все этапы 
   expect(app.get('tv-players').text).toContain('Стас <img src=x>');
   expect(app.get('tv-players').all().some(n=>n.tag==='img')).toBe(false);
   const question=app.pack.categories.flatMap((c:any)=>c.questions).find((q:any)=>q.media?.question_masks_normalized?.length);
-  app.update({phase:'question',activeQuestionId:question.id,questionEndsAt:Date.now()+60000});
+  app.update({phase:'question',activeQuestionId:question.id});
   expect(app.get('tv-content').text).toContain(question.prompt);
   app.buzz(question.id,'p2');
   expect(app.get('tv-respondent').text).toBe('Отвечает Алина');
-  expect(app.get('tv-clock').text).toMatch(/^00:(59|60)|01:00$/);
+  expect(app.get('tv-clock')).toBeUndefined();
   expect(app.get('tv-content').all().filter(n=>n.className==='tv-mask')).toHaveLength(question.media.question_masks_normalized.length);
   expect(app.get('tv-content').all().find(n=>n.tag==='img')?.src).toMatch(/\.jpg$/);
   app.update({phase:'answer',revealed:{answer:'Тестовый ответ',explanation:'Объяснение',accepted_answers:[],host_note:''},winnerId:'p1'});
@@ -70,7 +70,7 @@ it('TV без современных API показывает все этапы 
   const rebus=app.pack.categories.flatMap((c:any)=>c.questions).find((q:any)=>q.media?.kind==='photo_rebus');
   app.update({phase:'question',activeQuestionId:rebus.id});
   expect(app.get('tv-content').all().filter(n=>n.className==='tv-rebus-panel')).toHaveLength(rebus.media.panels.length);
-  app.update({phase:'break',breakEndsAt:Date.now()+600000});
+  app.update({phase:'break'});
   expect(app.get('tv-content').text).toContain('Перерыв');
   app.update({phase:'finished'});
   expect(app.get('tv-content').text).toContain('Победитель');

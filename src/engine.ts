@@ -1,5 +1,5 @@
 import type { Answer, Game, Pack, Question } from './types';
-export const initialGame = (): Game => ({phase:'lobby', players:[], turnIndex:0, roundIndex:0, completed:[], activeQuestionId:null, revealed:null, winnerId:null, questionEndsAt:null, breakEndsAt:null, event:0, questionsPerCategory:5, categoryIds:[], questionOpenedAt:null,activeQuestionValue:null,scoreChanges:{},feedback:null});
+export const initialGame = (): Game => ({phase:'lobby', players:[], turnIndex:0, roundIndex:0, completed:[], activeQuestionId:null, revealed:null, winnerId:null, event:0, questionsPerCategory:5, categoryIds:[], questionOpenedAt:null,activeQuestionValue:null,scoreChanges:{},feedback:null});
 export const findQuestion = (pack: Pack, id: string | null): Question | undefined => pack.categories.flatMap(c=>c.questions).find(q=>q.id===id);
 export const roundCategories = (pack: Pack, state: Game) => (state.categoryIds?.length ? state.categoryIds : pack.rounds[state.roundIndex]?.category_ids || []).map(id=>pack.categories.find(c=>c.id===id)!).filter(Boolean);
 export function chooseCategories(pack:Pack, random=Math.random, count=10):number[]{
@@ -35,7 +35,7 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
     case 'open': {
       if(!available(pack,state,action.id)) return fail();
       const q=findQuestion(pack,action.id)!;
-      next.phase='question';next.activeQuestionId=q.id;next.activeQuestionValue=q.value;next.questionOpenedAt=now;next.questionEndsAt=now+q.time_seconds*1000;next.revealed=null;next.winnerId=null;next.scoreChanges={};next.feedback=null;break;
+      next.phase='question';next.activeQuestionId=q.id;next.activeQuestionValue=q.value;next.questionOpenedAt=now;next.revealed=null;next.winnerId=null;next.scoreChanges={};next.feedback=null;break;
     }
     case 'wrong': {
       if(state.phase!=='question'||state.winnerId!==null)return fail();
@@ -76,12 +76,12 @@ export function transition(state:Game, action:Action, pack:Pack, now=Date.now())
         const winnerIndex=state.players.findIndex(p=>p.id===state.winnerId);
         if(winnerIndex>=0)next.turnIndex=winnerIndex;
       }
-      next.activeQuestionId=null;next.revealed=null;next.winnerId=null;next.questionEndsAt=null;next.feedback=null;
+      next.activeQuestionId=null;next.revealed=null;next.winnerId=null;next.feedback=null;
       const done=roundCategories(pack,next).every(c=>c.questions.filter(q=>next.completed.includes(q.id)).length>=next.questionsPerCategory);
       next.phase=done?'finished':'board';
       break;
     }
-    case 'cancel': if(state.phase!=='question'||state.winnerId!==null)return fail();next.phase='board';next.activeQuestionId=null;next.questionEndsAt=null;next.feedback=null;break;
+    case 'cancel': if(state.phase!=='question'||state.winnerId!==null)return fail();next.phase='board';next.activeQuestionId=null;next.feedback=null;break;
     case 'endRound': if(state.phase!=='board')return fail();next.phase='finished';break;
     case 'reset': return {...initialGame(),event:state.event+1};
   }

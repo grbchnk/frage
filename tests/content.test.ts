@@ -13,7 +13,7 @@ it('75 тем и 375 уникальных вопросов в одном бан�
 it('публичный пакет не содержит правильных ответов или заметок ведущего',()=>{
   for(const q of pack.categories.flatMap(c=>c.questions)){
     expect(q).not.toHaveProperty('answer');expect(q).not.toHaveProperty('explanation');expect(q).not.toHaveProperty('host_note');expect(q).not.toHaveProperty('accepted_answers');
-    expect(q.time_seconds).toBeGreaterThan(0);
+    expect(q).not.toHaveProperty('time_seconds');
   }
 });
 it('все фото существуют; плашки находятся в пределах изображения',()=>{

@@ -208,7 +208,7 @@
     var q = found.question;
     if (!questionView || questionView.id !== q.id) {
       text(content, '');
-      var section = el('div', 'tv-question', null, content);
+      var section = el('div', 'tv-question tv-price-' + q.value, null, content);
       var categoryNumber = roundIds.indexOf(found.category.id) + 1;
       var questionLabel = el('div', 'tv-question-label tv-category-' + ((categoryNumber - 1) % 5 + 1), null, section);
       if (categoryNumber > 0) el('span', 'tv-category-number', categoryNumber, questionLabel);
@@ -270,9 +270,9 @@
         var scores = el('div', 'tv-score-body', null, row);
         el('span', '', player.name, scores);
         el('strong', '', player.score, scores);
-        el('div', 'tv-crown-slot', null, row);
+        var deltaSlot = el('div', 'tv-delta-slot', null, row);
         var change = state.scoreChanges && state.scoreChanges[player.id];
-        el('small', 'tv-delta' + (change > 0 ? ' tv-positive' : change < 0 ? ' tv-negative' : ''), typeof change === 'number' ? signed(change) : '', cell);
+        if (typeof change === 'number') el('small', 'tv-delta' + (change > 0 ? ' tv-positive' : change < 0 ? ' tv-negative' : ''), signed(change), deltaSlot);
       }
     }
     if (state.phase === 'question' || state.phase === 'answer') {
